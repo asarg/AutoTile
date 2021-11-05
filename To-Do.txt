@@ -1,0 +1,13 @@
+Armando:
+Features to add to the simulator:
+	1. Allow for custom temperatures.
+	2. Allow for time control:
+		A. Step Back
+		B. Step Forward
+		C. Fast Forward
+		D. (Complete) Rewind
+		E. Play + Pause (?)
+	3. Display possible moves in an assembly.
+---------
+Current Priority: #2 -> A and B (and maybe E).
+~~~~~~~~~~~~~~~~~~~~~~

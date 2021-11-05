@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='utf-8'?>
+<System Temp="1">
+    <AllStates>
+        <State Label="X" Color="DFE0E2" />
+        <State Label="c" Color="C2DCFE" />
+        <State Label="b" Color="3f88c5" />
+        <State Label="4" Color="ff0000" />
+        <State Label="3" Color="0ead69" />
+        <State Label="2" Color="f39237" />
+        <State Label="1" Color="9EA9A4" />
+        <State Label="0" Color="DFE0E2" />
+        <State Label="4a" Color="00ff00" />
+        <State Label="4b" Color="00ff00" />
+        <State Label="4c" Color="00ff00" />
+        <State Label="-" Color="ffffff" />
+    </AllStates>
+    <InitialStates>
+        <State Label="4b" Color="00ff00" />
+        <State Label="4c" Color="00ff00" />
+        <State Label="-" Color="ffffff" />
+    </InitialStates>
+    <SeedStates>
+        <State Label="4a" Color="00ff00" />
+    </SeedStates>
+    <VerticalTransitions />
+    <HorizontalTransitions>
+        <!--Initial States Copies-->
+        
+        <Rule Label1="4c" Label2="-" Label1Final="c" Label2Final="3" />
+        <Rule Label1="4b" Label2="c" Label1Final="c" Label2Final="4" />
+        
+        <Rule Label1="4a" Label2="c" Label1Final="X" Label2Final="4" />
+        <!--Copies-->
+        <Rule Label1="4" Label2="c" Label1Final="c" Label2Final="4" />
+        <Rule Label1="3" Label2="c" Label1Final="c" Label2Final="3" />
+        <Rule Label1="2" Label2="c" Label1Final="c" Label2Final="2" />
+        <Rule Label1="1" Label2="c" Label1Final="c" Label2Final="1" />
+        <Rule Label1="0" Label2="c" Label1Final="c" Label2Final="0" />
+        <!--Decrements-->
+        <Rule Label1="4" Label2="-" Label1Final="c" Label2Final="4" />
+        <Rule Label1="3" Label2="-" Label1Final="c" Label2Final="2" />
+        <Rule Label1="2" Label2="-" Label1Final="c" Label2Final="1" />
+        <Rule Label1="1" Label2="-" Label1Final="c" Label2Final="0" />
+        <Rule Label1="0" Label2="-" Label1Final="c" Label2Final="b" />
+        <!--Barrows-->
+        <Rule Label1="4" Label2="b" Label1Final="3" Label2Final="4" />
+        <Rule Label1="3" Label2="b" Label1Final="2" Label2Final="4" />
+        <Rule Label1="2" Label2="b" Label1Final="1" Label2Final="4" />
+        <Rule Label1="1" Label2="b" Label1Final="0" Label2Final="4" />
+        <Rule Label1="0" Label2="b" Label1Final="b" Label2Final="b" />
+         <!--X states-->
+        <Rule Label1="X" Label2="c" Label1Final="X" Label2Final="X" />
+        <Rule Label1="X" Label2="b" Label1Final="X" Label2Final="X" />
+    </HorizontalTransitions>
+    <VerticalAffinities />
+    <HorizontalAffinities>
+        <!--Initial Affinities-->
+        <Rule Label1="4a" Label2="4b" Strength="1" />
+        <Rule Label1="4b" Label2="4c" Strength="1" />
+        <Rule Label1="4c" Label2="-" Strength="1" />
+        
+        <!--Initial States Copies-->
+        <Rule Label1="4a" Label2="c" Strength="1" />
+        <Rule Label1="4b" Label2="c" Strength="1" />
+        
+        <!--Nums Copies-->
+        <Rule Label1="4" Label2="c" Strength="1" />
+        <Rule Label1="3" Label2="c" Strength="1" />
+        <Rule Label1="2" Label2="c" Strength="1" />
+        <Rule Label1="1" Label2="c" Strength="1" />
+        <Rule Label1="0" Label2="c" Strength="1" />
+        <!--Reverse Nums Copies-->
+        <Rule Label1="c" Label2="4" Strength="1" />
+        <Rule Label1="c" Label2="3" Strength="1" />
+        <Rule Label1="c" Label2="2" Strength="1" />
+        <Rule Label1="c" Label2="1" Strength="1" />
+        <Rule Label1="c" Label2="0" Strength="1" />
+        <!--Nums Self-->
+        <Rule Label1="4" Label2="4" Strength="1" />
+        <Rule Label1="3" Label2="3" Strength="1" />
+        <Rule Label1="2" Label2="2" Strength="1" />
+        <Rule Label1="1" Label2="1" Strength="1" />
+        <Rule Label1="0" Label2="0" Strength="1" />
+        <!--Nums-->
+        <!--4s Nums-->
+        <Rule Label1="4" Label2="3" Strength="1" />
+        <Rule Label1="4" Label2="2" Strength="1" />
+        <Rule Label1="4" Label2="1" Strength="1" />
+        <Rule Label1="4" Label2="0" Strength="1" />
+        <!--3s Nums-->
+        <Rule Label1="3" Label2="4" Strength="1" />
+        <Rule Label1="3" Label2="2" Strength="1" />
+        <Rule Label1="3" Label2="1" Strength="1" />
+        <Rule Label1="3" Label2="0" Strength="1" />
+        <!--2s Nums-->
+        <Rule Label1="2" Label2="4" Strength="1" />
+        <Rule Label1="2" Label2="3" Strength="1" />
+        <Rule Label1="2" Label2="1" Strength="1" />
+        <Rule Label1="2" Label2="0" Strength="1" />
+        <!--1s Nums-->
+        <Rule Label1="1" Label2="4" Strength="1" />
+        <Rule Label1="1" Label2="3" Strength="1" />
+        <Rule Label1="1" Label2="2" Strength="1" />
+        <Rule Label1="1" Label2="0" Strength="1" />
+        <!--0s Nums-->
+        <Rule Label1="0" Label2="4" Strength="1" />
+        <Rule Label1="0" Label2="3" Strength="1" />
+        <Rule Label1="0" Label2="2" Strength="1" />
+        <Rule Label1="0" Label2="1" Strength="1" />
+
+        
+        <!--Decrements-->
+        <Rule Label1="4" Label2="-" Strength="1" />
+        <Rule Label1="3" Label2="-" Strength="1" />
+        <Rule Label1="2" Label2="-" Strength="1" />
+        <Rule Label1="1" Label2="-" Strength="1" />
+        <Rule Label1="0" Label2="-" Strength="1" />
+        <!--Barrows-->
+        <Rule Label1="4" Label2="b" Strength="1" />
+        <Rule Label1="3" Label2="b" Strength="1" />
+        <Rule Label1="2" Label2="b" Strength="1" />
+        <Rule Label1="1" Label2="b" Strength="1" />
+        <Rule Label1="0" Label2="b" Strength="1" />
+        <Rule Label1="b" Label2="b" Strength="1" />
+        <!--Xs-->
+        <Rule Label1="X" Label2="4" Strength="1" />
+        <Rule Label1="X" Label2="3" Strength="1" />
+        <Rule Label1="X" Label2="2" Strength="1" />
+        <Rule Label1="X" Label2="1" Strength="1" />
+        
+        <Rule Label1="X" Label2="c" Strength="1" />
+        <Rule Label1="X" Label2="b" Strength="1" />
+        <Rule Label1="X" Label2="X" Strength="1" />       
+    </HorizontalAffinities>
+</System>

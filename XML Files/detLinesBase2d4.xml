@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<System Temp="1">
+    <AllStates>
+        <State Label="X" Color="ffffff" />
+        <State Label="c" Color="3f88c5" />
+        <State Label="b" Color="3f88c5" />
+        <State Label="1" Color="ff0000" />
+        <State Label="0" Color="f39237" />
+        <State Label="1a" Color="00ff00" />
+        <State Label="1b" Color="00ff00" />
+        <State Label="1c" Color="00ff00" />
+        <State Label="1d" Color="00ff00" />
+        <State Label="-" Color="ffffff" />
+    </AllStates>
+    <InitialStates>
+        <State Label="1b" Color="00ff00" />
+        <State Label="1c" Color="00ff00" />
+        <State Label="1d" Color="00ff00" />
+        <State Label="-" Color="ffffff" />
+    </InitialStates>
+    <SeedStates>
+        <State Label="1a" Color="00ff00" />
+    </SeedStates>
+    <VerticalTransitions />
+    <HorizontalTransitions>
+        <Rule Label1="1d" Label2="-" Label1Final="c" Label2Final="0" />
+        <Rule Label1="1c" Label2="c" Label1Final="c" Label2Final="1" />
+        <Rule Label1="1b" Label2="c" Label1Final="c" Label2Final="1" />
+        <Rule Label1="1a" Label2="c" Label1Final="X" Label2Final="1" />
+        <Rule Label1="1" Label2="c" Label1Final="c" Label2Final="1" />
+        <Rule Label1="0" Label2="c" Label1Final="c" Label2Final="0" />
+        <Rule Label1="1" Label2="-" Label1Final="c" Label2Final="0" />
+        <Rule Label1="0" Label2="-" Label1Final="b" Label2Final="b" />
+        <Rule Label1="1" Label2="b" Label1Final="0" Label2Final="1" />
+        <Rule Label1="0" Label2="b" Label1Final="b" Label2Final="b" />
+        <Rule Label1="X" Label2="c" Label1Final="X" Label2Final="X" />
+        <Rule Label1="X" Label2="b" Label1Final="X" Label2Final="X" />
+    </HorizontalTransitions>
+    <VerticalAffinities />
+    <HorizontalAffinities>
+        <Rule Label1="1a" Label2="1b" Strength="1" />
+        <Rule Label1="1b" Label2="1c" Strength="1" />
+        <Rule Label1="1c" Label2="1d" Strength="1" />
+        <Rule Label1="1d" Label2="-" Strength="1" />
+
+        <Rule Label1="1" Label2="0" Strength="1" />
+        <Rule Label1="0" Label2="1" Strength="1" />
+        <Rule Label1="1" Label2="1" Strength="1" />
+        
+        <Rule Label1="1" Label2="-" Strength="1" />
+
+        <Rule Label1="0" Label2="-" Strength="1" />
+        <Rule Label1="X" Label2="X" Strength="1" />       
+    </HorizontalAffinities>
+</System>

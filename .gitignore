@@ -1,0 +1,7 @@
+# ignore .history files
+.history
+__pycache__
+__pycache__/
+__pycache__/*
+__pycache__/LoadFile.cpython-39.pyc
+__pycache__/TAMainWindow.cpython-39.pyc
