@@ -1,3 +1,5 @@
+![alt text](https://github.com/asarg/AutoTile/Icons/Logo.png?raw=true)
+
 # AutoTile
 Version 1.0
 # Author: [Algorithmic Self-Assembly Research Group](https://asarg.hackresearch.com/main/) 
