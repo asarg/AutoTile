@@ -1,4 +1,5 @@
-![alt text](https://github.com/asarg/AutoTile/Icons/Logo.png?raw=true)
+
+<img src="Icons/Logo.png" alt="logo" width="150"/>
 
 # AutoTile
 Version 1.0
