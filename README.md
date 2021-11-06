@@ -19,15 +19,13 @@ Section 1 - Application
 
 ## 1.1 Requirements
   Required:
-    -Python 3+
-    -PyQt5 (install using pip)
-	-networkx (install using pip)
-  Optional:
-
+    <br> -Python 3+
+    <br> -PyQt5 (install using pip)
+    <br> -networkx (install using pip)
 
 ## 1.2 Usage
   Running:
-    >python3 AutoTile.py
+    python3 AutoTile.py
 
 ## 1.3 Menu Overview
 Main Menu
