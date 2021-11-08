@@ -3,9 +3,9 @@
 
 # AutoTile
 Version 1.0
-# Author: [Algorithmic Self-Assembly Research Group](https://asarg.hackresearch.com/main/) 
+## Author: [Algorithmic Self-Assembly Research Group](https://asarg.hackresearch.com/main/) 
 Description: Implements the tile automata model as designed by Chalk et al.
-# AutoTile Manual
+### AutoTile Manual
 
 Table of Contents
 Sections
