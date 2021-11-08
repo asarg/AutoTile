@@ -9,21 +9,21 @@ Description: Implements the tile automata model as designed by Chalk et al.
 
 Table of Contents
 Sections
-# 1 - Application
-# 2 - Models Overview
-# 3 - File I/O
-# 4 - Feature Map
-# 5 - Change Log
+## 1 - Application
+## 2 - Models Overview
+## 3 - File I/O
+## 4 - Feature Map
+## 5 - Change Log
 
-# Section 1 - Application
+## Section 1 - Application
 
-# 1.1 Requirements
+### 1.1 Requirements
   Required:
     <br> -Python 3+
     <br> -PyQt5 (install using pip)
     <br> -networkx (install using pip)
 
-# 1.2 Usage
+### 1.2 Usage
   Running:
     python3 AutoTile.py
 
