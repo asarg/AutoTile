@@ -9,11 +9,11 @@ Description: Implements the tile automata model as designed by Chalk et al.
 
 Table of Contents
 Sections
-## 1 - Application
-## 2 - Models Overview
-## 3 - File I/O
-## 4 - Feature Map
-## 5 - Change Log
+### 1 - Application
+### 2 - Models Overview
+### 3 - File I/O
+### 4 - Feature Map
+### 5 - Change Log
 
 ## Section 1 - Application
 
@@ -27,7 +27,7 @@ Sections
   Running:
     python3 AutoTile.py
 
-## 1.3 Menu Overview
+### 1.3 Menu Overview
 Main Menu
  + File
     - New 
@@ -52,7 +52,7 @@ Main Menu
 	- Model
 	- Input
     
-## 1.4 Menu Functions
+### 1.4 Menu Functions
 1.4.1 File Menu
 1.4.1.1 New
   This menu option opens the editor so you may begin making a new system.
@@ -144,7 +144,7 @@ Windows users, we are aware of a bug that does not let you interact with the sim
   -L -Next 
   -; -Last
 
-## 1.6 Editor Menu
+### 1.6 Editor Menu
 1.6.1 General Settings
 1.6.1.1 System Temperature
 Set the system temperature here.
