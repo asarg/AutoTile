@@ -25,34 +25,43 @@ def genTripleIndexStates(vLen):
 
     cbrtLen = math.ceil(vLen**(1.0/3.0))
 
+    # Get starting points
+    offset = cbrtLen**3 - vLen
+
+    startC = offset % cbrtLen
+    tempOffset = math.floor(offset / cbrtLen)
+    startB = tempOffset % cbrtLen
+    tempOffset = math.floor(tempOffset / cbrtLen)
+    startA = tempOffset % cbrtLen
+
 
     for i in range(cbrtLen):
         # Big A states
-        bigAState = uc.State(str(i) + "A", red)
+        bigAState = uc.State(str(i) + "An", red)
         genSys.add_State(bigAState)
         # Base A states
-        southAState = uc.State(str(i) + "As", red)
+        southAState = uc.State(str(i) + "A", red)
         genSys.add_State(southAState)
         # A' (prime) states
-        bigAPrime = uc.State(str(i) + "A'", red)
+        bigAPrime = uc.State(str(i) + "An'", red)
         genSys.add_State(bigAPrime)
         # Big B states
-        bigBState = uc.State(str(i) + "B", blue)
+        bigBState = uc.State(str(i) + "Bn", blue)
         genSys.add_State(bigBState)
         # Base B states
-        southBState = uc.State(str(i) + "Bs", blue)
+        southBState = uc.State(str(i) + "B", blue)
         genSys.add_State(southBState)
         # B prime states
-        Bprime = uc.State(str(i) + "B'", blue)
+        Bprime = uc.State(str(i) + "Bn'", blue)
         genSys.add_State(Bprime)
-        Bprime2 = uc.State(str(i) + "B''", blue)
+        Bprime2 = uc.State(str(i) + "Bn''", blue)
         genSys.add_State(Bprime2)
         # C states (Initial States)
-        cState = uc.State(str(i) + "C", orange)
+        cState = uc.State(str(i) + "Cn", orange)
         genSys.add_State(cState)
         genSys.add_Initial_State(cState)
         # Base C states
-        southCState = uc.State(str(i) + "Cs", orange)
+        southCState = uc.State(str(i) + "C", orange)
         genSys.add_State(southCState)
         genSys.add_Initial_State(southCState)
 
@@ -75,9 +84,9 @@ def genTripleIndexStates(vLen):
 
 
     # C prime states 
-    Cprime = uc.State(str(cbrtLen - 1) + "C'", orange)
+    Cprime = uc.State(str(cbrtLen - 1) + "Cn'", orange)
     genSys.add_State(Cprime)
-    Cprime2 = uc.State(str(cbrtLen - 1) + "C''", orange)
+    Cprime2 = uc.State(str(cbrtLen - 1) + "Cn''", orange)
     genSys.add_State(Cprime2)
 
     # Seed States
@@ -91,12 +100,20 @@ def genTripleIndexStates(vLen):
     genSys.add_Initial_State(seedC)
     genSys.add_State(seedC)
 
-
+    northA = uc.State("NA", black)
+    genSys.add_State(northA)
+    genSys.add_Initial_State(northA)
+    northB = uc.State("NB", black)
+    genSys.add_State(northB)
+    genSys.add_Initial_State(northB)
+    northC = uc.State("NC", black)
+    genSys.add_State(northC)
+    genSys.add_Initial_State(northC)
  
 
     # Adding Affinity Rules
     #       Seed Affinities to start building
-    affinityB0 = uc.AffinityRule("0Cs", "SC", "v", 1)
+    affinityB0 = uc.AffinityRule(str(startC) + "C", "SC", "v", 1)
     genSys.add_affinity(affinityB0)
     affinitySeed = uc.AffinityRule("SA", "SB", "h", 1)
     genSys.add_affinity(affinitySeed)
@@ -105,36 +122,41 @@ def genTripleIndexStates(vLen):
 
 
     for i in range(cbrtLen - 1):
-        affC = uc.AffinityRule(str(i) + "C", str(i) + "Cs", "v", 1)
+        affC = uc.AffinityRule(str(i) + "Cn", str(i) + "C", "v", 1)
         genSys.add_affinity(affC)
-        affC = uc.AffinityRule(str(i + 1) + "Cs", str(i) + "C", "v", 1)
+        affC = uc.AffinityRule(str(i + 1) + "C", str(i) + "Cn", "v", 1)
         genSys.add_affinity(affC)
 
 
 
     # Last C state affinity
-    affLC = uc.AffinityRule(str(cbrtLen - 1) + "C",
-                            str(cbrtLen - 1) + "Cs", "v", 1)
+    affLC = uc.AffinityRule(str(cbrtLen - 1) + "Cn",
+                            str(cbrtLen - 1) + "C", "v", 1)
     genSys.add_affinity(affLC)
-    affGrowC = uc.AffinityRule("0Cs", str(cbrtLen - 1) + "C'", "v", 1)
+    affGrowC = uc.AffinityRule("0C", str(cbrtLen - 1) + "Cn'", "v", 1)
     genSys.add_affinity(affGrowC)
 
 
-
+    northAaff = uc.AffinityRule("NA", str(cbrtLen - 1) + "An'", "v")
+    genSys.add_affinity(northAaff)
+    northBaff = uc.AffinityRule("NA", "NB", "h")
+    genSys.add_affinity(northBaff)
+    northCaff = uc.AffinityRule("NB", "NC", "h")
+    genSys.add_affinity(northCaff)
  
 
 
     # Rule for when A/B state reaches seed or last B' and marked as 0As/0Bs
-    trAseed = uc.TransitionRule("A", "SA", "0As", "SA", "v")
+    trAseed = uc.TransitionRule("A", "SA", str(startA) + "A", "SA", "v")
     genSys.add_transition_rule(trAseed)
-    trBseed = uc.TransitionRule("B", "SB", "0Bs", "SB", "v")
+    trBseed = uc.TransitionRule("B", "SB", str(startB) + "B", "SB", "v")
     genSys.add_transition_rule(trBseed)
-    trBreset = uc.TransitionRule("B", str(cbrtLen - 1) + "B''", "0Bs", str(cbrtLen - 1) + "B''", "v")
+    trBreset = uc.TransitionRule("B", str(cbrtLen - 1) + "Bn''", "0B", str(cbrtLen - 1) + "Bn''", "v")
     genSys.add_transition_rule(trBreset)
 
 
     # The last state of the C column allows for B' to attach to the left 
-    affLC = uc.AffinityRule("B'", str(cbrtLen - 1) + "C", "h", 1)
+    affLC = uc.AffinityRule("B'", str(cbrtLen - 1) + "Cn", "h", 1)
     genSys.add_affinity(affLC)
     # B prime allows for the B states to attach below
     affBPrime = uc.AffinityRule("B'", "B", "v", 1)
@@ -143,7 +165,7 @@ def genTripleIndexStates(vLen):
     genSys.add_affinity(affBDown)
 
     # The last state of the B column allows for A' to attach to the left 
-    affLB = uc.AffinityRule("A'", str(cbrtLen - 1) + "B'", "h", 1)
+    affLB = uc.AffinityRule("A'", str(cbrtLen - 1) + "Bn'", "h", 1)
     genSys.add_affinity(affLB)
     # B prime allows for the B states to attach below
     affAPrime = uc.AffinityRule("A'", "A", "v", 1)
@@ -159,45 +181,42 @@ def genTripleIndexStates(vLen):
         # Rule for A state reaches bottom of the column to increment
         if i < cbrtLen - 1:
             trIncA = uc.TransitionRule(
-                "A", str(i) + "A'", str(i + 1) + "As", str(i) + "A'", "v")
+                "A", str(i) + "An'", str(i + 1) + "A", str(i) + "An'", "v")
             genSys.add_transition_rule(trIncA)
             trIncB = uc.TransitionRule(
-                "B", str(i) + "B'", str(i + 1) + "Bs", str(i) + "B'", "v")
+                "B", str(i) + "Bn'", str(i + 1) + "B", str(i) + "Bn'", "v")
             genSys.add_transition_rule(trIncB)
             # Rule allowing B column to start the next section
-            trGrowA = uc.TransitionRule(str((2 * cbrtLen) - 1) + "a", str(i) + "B'", str((2 * cbrtLen) - 1) + "a'", str(i) + "B'", "h")
-            genSys.add_transition_rule(trGrowA)
-            # Rule allowing B column to start the next section
-            trGrowC = uc.TransitionRule(str(i) + "B'", str(cbrtLen - 1) + "C", str(i) + "B'", str(cbrtLen - 1) + "C'", "h")
+            trGrowC = uc.TransitionRule(str(i) + "Bn'", str(cbrtLen - 1) + "Cn", str(i) + "Bn'", str(cbrtLen - 1) + "Cn'", "h")
             genSys.add_transition_rule(trGrowC)
             # Rule allowing B to start next section after A increments
-            trGrowB = uc.TransitionRule(str(i) + "A'", str(cbrtLen - 1) + "B'", str(i) + "A'", str(cbrtLen - 1) + "B''", "h")
+            trGrowB = uc.TransitionRule(str(i) + "An'", str(cbrtLen - 1) + "Bn'", str(i) + "An'", str(cbrtLen - 1) + "Bn''", "h")
             genSys.add_transition_rule(trGrowB)
 
 
         # Rules for propagating the A index upward
         propUpA = uc.TransitionRule(
-            "A", str(i) + "A", str(i) + "As", str(i) + "A", "v")
+            "A", str(i) + "An", str(i) + "A", str(i) + "An", "v")
         genSys.add_transition_rule(propUpA)
         propUpAs = uc.TransitionRule(
-            "A", str(i) + "As", str(i) + "A", str(i) + "As", "v")
+            "A", str(i) + "A", str(i) + "An", str(i) + "A", "v")
         genSys.add_transition_rule(propUpAs)
         propUpPrimeA = uc.TransitionRule(
-            "A'", str(i) + "As", str(i) + "A'", str(i) + "As", "v")
+            "A'", str(i) + "A", str(i) + "An'", str(i) + "A", "v")
         genSys.add_transition_rule(propUpPrimeA)
 
         propUpB = uc.TransitionRule(
-            "B", str(i) + "B", str(i) + "Bs", str(i) + "B", "v")
+            "B", str(i) + "Bn", str(i) + "B", str(i) + "Bn", "v")
         genSys.add_transition_rule(propUpB)
         propUpAs = uc.TransitionRule(
-            "B", str(i) + "Bs", str(i) + "B", str(i) + "Bs", "v")
+            "B", str(i) + "B", str(i) + "Bn", str(i) + "B", "v")
         genSys.add_transition_rule(propUpAs)
         propUpPrimeB = uc.TransitionRule(
-            "B'", str(i) + "Bs", str(i) + "B'", str(i) + "Bs", "v")
+            "B'", str(i) + "B", str(i) + "Bn'", str(i) + "B", "v")
         genSys.add_transition_rule(propUpPrimeB)
 
         # Rule allowing B to start next section after A increments
-        trGrowC = uc.TransitionRule(str(cbrtLen - 1) + "B''", str(cbrtLen - 1) + "C", str(cbrtLen - 1) + "B''", str(cbrtLen - 1) + "C'", "h")
+        trGrowC = uc.TransitionRule(str(cbrtLen - 1) + "Bn''", str(cbrtLen - 1) + "Cn", str(cbrtLen - 1) + "Bn''", str(cbrtLen - 1) + "Cn'", "h")
         genSys.add_transition_rule(trGrowC)
 
 
@@ -219,6 +238,7 @@ def cbrtBinString(value):
 
     cbrtLen = math.ceil(vLen**(1.0/3.0))
 
+    offset = cbrtLen**3 - vLen
 
     # We must add TRs to reset the special cases
     #trGrowC = uc.TransitionRule(str(cbrtLen - 1) + "B''", str(cbrtLen - 1) + "C", str(cbrtLen - 1) + "B''", str(cbrtLen - 1) + "C'", "h")
@@ -247,10 +267,10 @@ def cbrtBinString(value):
     # Transitions
     # STEP 1: ND select a value using A and B 
     for i in range(cbrtLen):
-        labelA = str(i) + "As"
+        labelA = str(i) + "A"
 
         for j in range(cbrtLen):
-            labelB = str(j) + "Bs"
+            labelB = str(j) + "B"
         
             for k in range(cbrtLen):
                 # Get the index of the current bit
@@ -258,11 +278,11 @@ def cbrtBinString(value):
                 bitIndex += j * cbrtLen
                 bitIndex += k
 
+                if bitIndex < offset:
+                    continue
+
                 # Get the current bit
-                if bitIndex < len(value):
-                    bit = revValue[bitIndex]
-                else:
-                    bit = "1"
+                bit = revValue[bitIndex - offset]
 
                 # The current bit and the k index are used to indicate the final state
                 labelTempC = str(k) + "C" + bit
@@ -283,7 +303,7 @@ def cbrtBinString(value):
         labelC1 = str(i) + "C1"
 
         for j in range(cbrtLen):
-            labelC = str(j) + "Cs"
+            labelC = str(j) + "C"
 
             # If the index matches we grabbed the right value 
             if i == j:
@@ -300,19 +320,23 @@ def cbrtBinString(value):
 
     ##### TRs to reset the B tile
     for i in range(cbrtLen):
-        labelB = str(i) + "B"
-        labelBprime = str(i) + "B'"
-        labelBs = str(i) + "Bs"
+        labelB = str(i) + "Bn"
+        labelBprime = str(i) + "Bn'"
+        labelBs = str(i) + "B"
         resetBtr = uc.TransitionRule(labelB, "Bx", labelB, labelBs, "v")
         genSys.add_transition_rule(resetBtr)
         resetBtrPrime = uc.TransitionRule(labelBprime, "Bx", labelBprime, labelBs, "v")
         genSys.add_transition_rule(resetBtrPrime)
     
     # add final reset Bx rule for the double prime
-    labelBprime2 = str(cbrtLen - 1) + "B''"
-    labelBs = str(cbrtLen - 1) + "Bs"
+    labelBprime2 = str(cbrtLen - 1) + "Bn''"
+    labelBs = str(cbrtLen - 1) + "B"
     resetBtrPrime2 = uc.TransitionRule(labelBprime2, "Bx", labelBprime2, labelBs, "v")
     genSys.add_transition_rule(resetBtrPrime2)
+
+    # Transition to north wall
+    northTR = uc.TransitionRule("NC", "nc", "NC", "N", "h")
+    genSys.add_transition_rule(northTR)
 
     return genSys
 
@@ -385,12 +409,6 @@ def cbrtBinCount(value):
     northWall = uc.State("N", black)
     genSys.add_State(northWall)
     genSys.add_Initial_State(northWall)
-    northWall = uc.State("N1", black)
-    genSys.add_State(northWall)
-    genSys.add_Initial_State(northWall)
-    northWall = uc.State("N2", black)
-    genSys.add_State(northWall)
-    genSys.add_Initial_State(northWall)
 
     # Other States
 
@@ -429,13 +447,6 @@ def cbrtBinCount(value):
     north0carry = uc.AffinityRule("0cn", "0c", "v")
     genSys.add_affinity(north0carry)
 
-    # Affinity to attach north bit state
-    nWall1 = uc.AffinityRule("N1", str(cbrtLen - 1) + "A'", "v")
-    genSys.add_affinity(nWall1)
-    nWall2 = uc.AffinityRule("N1", "N2", "h")
-    genSys.add_affinity(nWall2)
-    nWall3 = uc.AffinityRule("N2", "N", "h")
-    genSys.add_affinity(nWall3)
 
     ###### Transitions
     ### Carry state transitions

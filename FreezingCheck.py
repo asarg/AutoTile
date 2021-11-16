@@ -46,13 +46,18 @@ def main(system):
     # Now, check if the graph is acyclic.
     # If the check fails, the system is non-freezing; if the check passes, then it's freezing.
     is_system_freezing = nx.is_directed_acyclic_graph(system_graph)
-    # Testing for Freezing Check
-    if(is_system_freezing):
-        print("The current system is freezing.")
-    else:
-        print("The current system is non-freezing.")
 
     # Draw and save graph
     nx.draw_shell(system_graph, with_labels=True)
     plt.savefig("freezing_check.svg")
-    return is_system_freezing
+
+    # Testing for Freezing Check
+    if(is_system_freezing):
+        #print("The current system is freezing.")
+        result = "System is Freezing."
+        
+    else:
+        #print("The current system is non-freezing.")
+        result = "System is Non-Freezing."
+    return result
+    

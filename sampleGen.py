@@ -21,28 +21,31 @@ def generator(shape, value, model):
     if model == "Deterministic":
         if shape == "Strings":
             return detGen.genString(value)
-        if shape == "Thin Rectangle":
+        if shape == "Rectangle":
             value = int(value)
             return detGen.genRect(value - 1)
 
 
-    if model == "One-Sided":
+    if model == "Single-Transition":
         if shape == "Strings":
             return oneSidedGen.genString(value)
-        if shape == "Thin Rectangle":
+        if shape == "Rectangle":
             value = int(value)
             return oneSidedGen.genRect(value - 1)   
 
     if model == "Non-Deterministic":
         if shape == "Strings":
             return nonDetGen.genString(value)
-        if shape == "Thin Rectangle":
+        if shape == "Rectangle":
             value = int(value)
             return nonDetGen.genRect(value - 1)    
 
     if shape == "Squares":
         value = int(value)
         return squareGen.genSquare(value, model)
+
+    if shape == "Lines":
+        return detGen.genNFLine(value)
 
 
 

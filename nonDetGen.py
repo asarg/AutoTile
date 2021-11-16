@@ -18,6 +18,19 @@ def genQuadIndexStates(vLen):
     seedA = uc.State("SA", black)
     genSys = uc.System(1, [], [], [seedA], [], [], [], [])
 
+    # Get starting points
+    offset = rt4Len**4 - vLen
+
+    startD = offset % rt4Len
+    tempOffset = math.floor(offset / rt4Len)
+    startC = tempOffset % rt4Len
+    tempOffset = math.floor(tempOffset / rt4Len)
+    startB = tempOffset % rt4Len
+    tempOffset = math.floor(tempOffset / rt4Len)
+    startA = tempOffset % rt4Len
+    
+    
+
     # Seed States
     genSys.add_State(seedA)
     #     seedB is an Initial State
@@ -32,6 +45,23 @@ def genQuadIndexStates(vLen):
     seedD = uc.State("SD", black)
     genSys.add_Initial_State(seedD)
     genSys.add_State(seedD)
+
+    #     seedA is an Initial State
+    northA = uc.State("NA", black)
+    genSys.add_State(northA)
+    genSys.add_Initial_State(northA)
+    #     seedB is an Initial State
+    northB = uc.State("NB", black)
+    genSys.add_Initial_State(northB)
+    genSys.add_State(northB)
+    #     seedC is an Initial State
+    northC = uc.State("NC", black)
+    genSys.add_Initial_State(northC)
+    genSys.add_State(northC)
+    #     seedD is an Initial State
+    northD = uc.State("ND", black)
+    genSys.add_Initial_State(northD)
+    genSys.add_State(northD)
 
     # Blank A and A' states
     singleA = uc.State("A", red)
@@ -107,7 +137,7 @@ def genQuadIndexStates(vLen):
 
     ### Affinity Rules
     #       Seed Affinities to start building seed row and attach first tile of D column
-    affinityD0 = uc.AffinityRule("0D", "SD", "v", 1)
+    affinityD0 = uc.AffinityRule(str(startD) + "D", "SD", "v", 1)
     genSys.add_affinity(affinityD0)
     affinitySeed = uc.AffinityRule("SA", "SB", "h", 1)
     genSys.add_affinity(affinitySeed)
@@ -157,13 +187,22 @@ def genQuadIndexStates(vLen):
     affDgrow = uc.AffinityRule("0D", str(rt4Len - 1) + "Dn'", "v", 1)
     genSys.add_affinity(affDgrow)
 
+    northAaff = uc.AffinityRule("NA", str(rt4Len - 1) + "An'", "v")
+    genSys.add_affinity(northAaff)
+    northBaff = uc.AffinityRule("NA", "NB", "h")
+    genSys.add_affinity(northBaff)
+    northCaff = uc.AffinityRule("NB", "NC", "h")
+    genSys.add_affinity(northCaff)
+    northCaff = uc.AffinityRule("NC", "ND", "h")
+    genSys.add_affinity(northCaff)
+
     ### Transitions
     # Rule for when A/B/C state reaches seed and marked as 0As/0Bs
-    trAseed = uc.TransitionRule("A", "SA", "0A", "SA", "v")
+    trAseed = uc.TransitionRule("A", "SA", str(startA) + "A", "SA", "v")
     genSys.add_transition_rule(trAseed)
-    trBseed = uc.TransitionRule("B", "SB", "0B", "SB", "v")
+    trBseed = uc.TransitionRule("B", "SB", str(startB) + "B", "SB", "v")
     genSys.add_transition_rule(trBseed)
-    trCseed = uc.TransitionRule("C", "SC", "0C", "SC", "v")
+    trCseed = uc.TransitionRule("C", "SC", str(startC) + "C", "SC", "v")
     genSys.add_transition_rule(trCseed)
 
     for i in range(rt4Len):
@@ -254,6 +293,8 @@ def genQuadBinString(value):
 
     rt4Len = math.ceil(vLen**(1.0/4.0))
 
+    offset = rt4Len**4 - vLen
+
     # Add Binary Symbol states
     state0 = uc.State("0i", black)
     state1 = uc.State("1i", white)
@@ -318,11 +359,11 @@ def genQuadBinString(value):
                     bitI += c * rt4Len
                     bitI += d
 
+                    if bitI < offset:
+                        continue
+
                     # Get the current bit
-                    if bitI < vLen:
-                        bit = revValue[bitI]
-                    else:
-                        bit = "1"
+                    bit = revValue[bitI - offset]
 
                     # The B and C state are the first pair in the rule
                     bB = str(b) + "B'"
@@ -490,15 +531,6 @@ def quadBinCount(value):
     genSys.add_State(northWall)
     genSys.add_Initial_State(northWall)
 
-    northWall = uc.State("N1", black)
-    genSys.add_State(northWall)
-    genSys.add_Initial_State(northWall)
-    northWall = uc.State("N2", black)
-    genSys.add_State(northWall)
-    genSys.add_Initial_State(northWall)
-    northWall = uc.State("N3", black)
-    genSys.add_State(northWall)
-    genSys.add_Initial_State(northWall)
 
     # Other States
 
@@ -584,6 +616,8 @@ def quadBinCount(value):
     CarryReset = uc.TransitionRule("0n", "0c", "0n", "0", "v")
     genSys.add_transition_rule(CarryReset)  
 
+    nPropD = uc.TransitionRule("ND", "nc", "ND", "N", "h")
+    genSys.add_transition_rule(nPropD)  
     nProp1 = uc.TransitionRule("N", "nc", "N", "N", "h")
     genSys.add_transition_rule(nProp1)  
 

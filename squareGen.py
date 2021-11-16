@@ -23,7 +23,7 @@ def genSquare(value, model):
     if model == "Deterministic":
         rectSys = detGen.genRect(value)
 
-    if model == "One-Sided":
+    if model == "Single-Transition":
         rectSys = oneSidedGen.genRect(value)
 
     if model == "Non-Deterministic":

@@ -563,7 +563,7 @@ class System:
     # Temp int
     # Initial List of States
     # Seed Assembly Object
-    def __init__(self, temp, states, initial_states, seed_states=None, vertical_affinities_list=None, horizontal_affinities_list=None, vertical_transitions_list=None, horizontal_transitions_list=None, tile_vertical_transitions=None, tile_horizontal_transitions=None, empty=False):
+    def __init__(self, temp, states, initial_states, seed_states=None, vertical_affinities_list=[], horizontal_affinities_list=[], vertical_transitions_list=[], horizontal_transitions_list=[], tile_vertical_transitions=[], tile_horizontal_transitions=[], empty=False):
         self.temp = temp
         self.states = states
         self.initial_states = initial_states
