@@ -68,12 +68,20 @@ class Ui_EditorWindow(object):
         self.pushButton_12.setObjectName("pushButton_12")
         self.toolBox.addItem(self.page, "")
 
-        # Page 2 of editor; Add State
+        # Page 2 of editor; Seed Assembly 
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setGeometry(QtCore.QRect(0, 0, 765, 340))
         self.page_2.setObjectName("page_2")
+        self.toolBox.addItem(self.page_2, "")
+
+
+
+        # Page 3 of editor; Add State
+        self.page_3 = QtWidgets.QWidget()
+        self.page_3.setGeometry(QtCore.QRect(0, 0, 765, 340))
+        self.page_3.setObjectName("page_3")
         # table for states
-        self.tableWidget = QtWidgets.QTableWidget(self.page_2)
+        self.tableWidget = QtWidgets.QTableWidget(self.page_3)
         self.tableWidget.setGeometry(QtCore.QRect(0, 20, 600, 261))
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(4)
@@ -89,29 +97,29 @@ class Ui_EditorWindow(object):
 
         # add row for state table
         # after clicking add row; scroll down table to see it and edit boxes
-        self.pushButton_3 = QtWidgets.QPushButton(self.page_2)
+        self.pushButton_3 = QtWidgets.QPushButton(self.page_3)
         self.pushButton_3.setGeometry(QtCore.QRect(615, 40, 141, 32))
         self.pushButton_3.setObjectName("pushButton_3")
-        # self.toolBox.addItem(self.page_2, "")
+      
 
         # duplicate row for state table
         # user can select one or multiple rows (use command) and hit duplicate row
         # user can then edit columns of duplicated row if needed.
-        self.pushButton_6 = QtWidgets.QPushButton(self.page_2)
+        self.pushButton_6 = QtWidgets.QPushButton(self.page_3)
         self.pushButton_6.setGeometry(QtCore.QRect(615, 90, 141, 32))
         self.pushButton_6.setObjectName("pushButton_6")
         # delete row
-        self.pushButton_11 = QtWidgets.QPushButton(self.page_2)
+        self.pushButton_11 = QtWidgets.QPushButton(self.page_3)
         self.pushButton_11.setGeometry(QtCore.QRect(615, 140, 141, 32))
         self.pushButton_11.setObjectName("pushButton_11")
-        self.toolBox.addItem(self.page_2, "")
+        self.toolBox.addItem(self.page_3, "")
 
-        # Page 3; Affinity Rules
-        self.page_3 = QtWidgets.QWidget()
-        self.page_3.setGeometry(QtCore.QRect(0, 0, 765, 340))
-        self.page_3.setObjectName("page_3")
+        # Page 4; Affinity Rules
+        self.page_4 = QtWidgets.QWidget()
+        self.page_4.setGeometry(QtCore.QRect(0, 0, 765, 340))
+        self.page_4.setObjectName("page_4")
 
-        self.tableWidget_2 = QtWidgets.QTableWidget(self.page_3)
+        self.tableWidget_2 = QtWidgets.QTableWidget(self.page_4)
         self.tableWidget_2.setGeometry(QtCore.QRect(0, 20, 600, 261))
         self.tableWidget_2.setObjectName("tableWidget_2")
 
@@ -126,26 +134,26 @@ class Ui_EditorWindow(object):
         self.tableWidget_2.setRowHeight(0, 40)
         self.tableWidget_2.setRowHeight(1, 40)
         # Add row button for affinity rules
-        self.pushButton_4 = QtWidgets.QPushButton(self.page_3)
+        self.pushButton_4 = QtWidgets.QPushButton(self.page_4)
         self.pushButton_4.setGeometry(QtCore.QRect(615, 40, 141, 32))
         self.pushButton_4.setObjectName("pushButton_4")
 
         # duplicate row button for aff rules
-        self.pushButton_7 = QtWidgets.QPushButton(self.page_3)
+        self.pushButton_7 = QtWidgets.QPushButton(self.page_4)
         self.pushButton_7.setGeometry(QtCore.QRect(615, 90, 141, 32))
         self.pushButton_7.setObjectName("pushButton_7")
         # delete row
-        self.pushButton_10 = QtWidgets.QPushButton(self.page_3)
+        self.pushButton_10 = QtWidgets.QPushButton(self.page_4)
         self.pushButton_10.setGeometry(QtCore.QRect(615, 140, 141, 32))
         self.pushButton_10.setObjectName("pushButton_10")
-        self.toolBox.addItem(self.page_3, "")
+        self.toolBox.addItem(self.page_4, "")
 
-       # Page 4; Transition Rules
-        self.page_4 = QtWidgets.QWidget()
-        self.page_4.setGeometry(QtCore.QRect(0, 0, 765, 340))
-        self.page_4.setObjectName("page_4")
+       # Page 5; Transition Rules
+        self.page_5 = QtWidgets.QWidget()
+        self.page_5.setGeometry(QtCore.QRect(0, 0, 765, 340))
+        self.page_5.setObjectName("page_5")
 
-        self.tableWidget_3 = QtWidgets.QTableWidget(self.page_4)
+        self.tableWidget_3 = QtWidgets.QTableWidget(self.page_5)
         self.tableWidget_3.setGeometry(QtCore.QRect(0, 20, 600, 261))
         self.tableWidget_3.setObjectName("tableWidget_3")
         self.tableWidget_3.setColumnCount(6)
@@ -162,18 +170,18 @@ class Ui_EditorWindow(object):
         self.tableWidget_3.setRowHeight(0, 40)
         self.tableWidget_3.setRowHeight(1, 40)
         # Add row button
-        self.pushButton_5 = QtWidgets.QPushButton(self.page_4)
+        self.pushButton_5 = QtWidgets.QPushButton(self.page_5)
         self.pushButton_5.setGeometry(QtCore.QRect(615, 40, 141, 32))
         self.pushButton_5.setObjectName("pushButton_5")
         # duplicate row
-        self.pushButton_8 = QtWidgets.QPushButton(self.page_4)
+        self.pushButton_8 = QtWidgets.QPushButton(self.page_5)
         self.pushButton_8.setGeometry(QtCore.QRect(615, 90, 141, 32))
         self.pushButton_8.setObjectName("pushButton_8")
         # delete row
-        self.pushButton_9 = QtWidgets.QPushButton(self.page_4)
+        self.pushButton_9 = QtWidgets.QPushButton(self.page_5)
         self.pushButton_9.setGeometry(QtCore.QRect(615, 140, 141, 32))
         self.pushButton_9.setObjectName("pushButton_9")
-        self.toolBox.addItem(self.page_4, "")
+        self.toolBox.addItem(self.page_5, "")
 
         self.verticalLayout_2.addWidget(self.toolBox)
         self.verticalLayout.addWidget(self.editFrame)
@@ -222,11 +230,13 @@ class Ui_EditorWindow(object):
         self.toolBox.setItemText(self.toolBox.indexOf(
             self.page), _translate("EditorWindow", "General Settings"))
         self.toolBox.setItemText(self.toolBox.indexOf(
-            self.page_2), _translate("EditorWindow", "Add State"))
+            self.page_2), _translate("EditorWindow", "Seed Assembly"))
         self.toolBox.setItemText(self.toolBox.indexOf(
-            self.page_3), _translate("EditorWindow", "Add Affinity Rule"))
+            self.page_3), _translate("EditorWindow", "Add State"))
         self.toolBox.setItemText(self.toolBox.indexOf(
-            self.page_4), _translate("EditorWindow", "Add Transition Rule"))
+            self.page_4), _translate("EditorWindow", "Add Affinity Rule"))
+        self.toolBox.setItemText(self.toolBox.indexOf(
+            self.page_5), _translate("EditorWindow", "Add Transition Rule"))
         self.pushButton.setText(_translate("EditorWindow", "Apply"))
         self.pushButton_2.setText(_translate("EditorWindow", "Save as"))
         self.pushButton_3.setText(_translate("EditorWindow", "Add Row"))
