@@ -9,6 +9,11 @@
 
 import FreezingCheck
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QGraphicsScene, QGraphicsView, QGraphicsItem, QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox
+from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont
+from PyQt5.QtCore import QObject, QThread, pyqtSignal
+
+from PyQt5.QtCore import Qt
 # import general_TA_simulator
 
 is_system_freezing = 'N/A'
@@ -72,6 +77,20 @@ class Ui_EditorWindow(object):
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setGeometry(QtCore.QRect(0, 0, 765, 340))
         self.page_2.setObjectName("page_2")
+        self.graphicsView = QtWidgets.QGraphicsView(self.page_2)
+        self.graphicsView.setGeometry(QtCore.QRect(230, 0, 511, 291))
+        self.graphicsView.setObjectName("graphicsView")
+
+        self.scene = QtWidgets.QGraphicsScene()
+        self.greenBrush = QBrush(Qt.green)
+        self.pen = QPen(Qt.red)
+
+        self.graphicsView_2 = QtWidgets.QGraphicsView(self.scene, self.page_2)
+        self.graphicsView_2.setGeometry(QtCore.QRect(0, 0, 211, 291))
+
+        self.shapesTest()
+
+        self.graphicsView_2.setObjectName("graphicsView_2")
         self.toolBox.addItem(self.page_2, "")
 
 
@@ -218,6 +237,13 @@ class Ui_EditorWindow(object):
         self.retranslateUi(EditorWindow)
         self.toolBox.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(EditorWindow)
+
+
+
+    def shapesTest(self):
+        ellipse = self.scene.addEllipse(20, 20, 100, 100, self.pen, self.greenBrush)
+        ellipse.setFlag(QGraphicsItem.ItemIsMovable)
+
 
     def Click_FreezingCheck(self):
         pass

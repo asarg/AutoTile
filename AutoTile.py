@@ -1126,6 +1126,10 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow):
         # connect the color change
         self.tableWidget.cellChanged.connect(self.cellchanged)
 
+        # 
+
+
+
         # filling in table 2 with vertical affinities
         r = 0
         for af in self.system.vertical_affinities_list:
@@ -1278,7 +1282,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow):
 
         self.pushButton_12.clicked.connect(self.Click_freezingCheck)
 
-    # just need to fix this function
+
 
     def Click_freezingCheck(self):
         global currentSystem
@@ -1395,8 +1399,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow):
             self.tableWidget_3.removeRow(
                 self.tableWidget_3.selectedIndexes()[0].row())
 
-    # new_w is not copying checked state if w is checked
-    # new_w not aligned in cells
+
 
     def copy_widget(self, w):
         if isinstance(w, QtWidgets.QWidget):
