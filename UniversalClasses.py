@@ -1,4 +1,5 @@
 from random import randrange
+import random
 # These classes are used for Loading and Saving Files and Communicating with general_TA_simulator.
 
 
@@ -569,6 +570,10 @@ class System:
         self.initial_states = initial_states
         self.seed_states = seed_states
 
+        seedState = random.choice(self.returnSeedStates())
+        seed = Tile(seedState, 0, 0)
+        self.seedAssembly = Assembly()
+        self.seedAssembly.set_tiles([seed])
         # List versions of rules
         # Takes 2 tiles [N][S] and returns the glue strength between them as an int
         self.vertical_affinities_list = vertical_affinities_list
@@ -780,7 +785,7 @@ class System:
     def add_Initial_State(self, state):
         self.initial_states.append(state)
 
-    # idk if this will work
+   
     def add_Seed_State(self, state):
         self.seed_states.append(state)
 

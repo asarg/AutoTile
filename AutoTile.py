@@ -552,6 +552,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         self.update()
 
+
+
+
+
     def draw_assembly(self, assembly):
         painter = QPainter(self.label.pixmap())
         pen = QtGui.QPen()
@@ -577,7 +581,9 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         pen.setColor(QtGui.QColor("black"))
         painter.setPen(pen)
+        #checking for duplicate tiles
         for tile in assembly.tiles:
+        #if there is a tile on screen at this location
             if self.onScreen_check(tile.x, tile.y) == 1:
                 continue
 
@@ -1119,110 +1125,48 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow):
         print(len(self.system.vertical_transitions_list) +
               len(self.system.horizontal_transitions_list))
 
-        # set tempurature
+        # set tempurature in General Settings Page 1
         self.spinBox.setMinimum(1)
         self.spinBox.setValue(self.system.returnTemp())
 
         # connect the color change
         self.tableWidget.cellChanged.connect(self.cellchanged)
+        
+        
+        #self.shapesTest(Ui_EditorWindow.system.seedAssembly)
 
-        # 
+     
+        # drawing in seed 
+        # do i need to have a grid layout for the seeds? 
+        # 1) need to draw first seed 
+        # goal- get a seed tile 
+        # draw it on the first section
+    
+#     def drawSeeds(self, assembly):
+# # you can call qgraphicsview here wooo 
+# # make a qgraphicsitem of the seed?
 
+#         pen = QtGui.QPen()
+#         brush = QtGui.QBrush()
+#         font = QtGui.QFont()
 
+#         pen.setWidth(3)
+#         brush.setStyle(Qt.SolidPattern)
+        
+#         for seed in self.system.seedAssembly:
+#             #seed1 = self.scene.seedOGItem()
 
-        # filling in table 2 with vertical affinities
-        r = 0
-        for af in self.system.vertical_affinities_list:
-            label1 = QTableWidgetItem()
-            label1.setText(af.returnLabel1())
-            label1.setTextAlignment(Qt.AlignCenter)
-            label2 = QTableWidgetItem()
-            label2.setText(af.returnLabel2())
-            label2.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_2.setItem(r, 0, label1)
-            self.tableWidget_2.setItem(r, 1, label2)
+# #ellipse = self.scene.addEllipse(20, 20, 100, 100, self.pen, self.greenBrush)
+# #ellipse.setFlag(QGraphicsItem.ItemIsMovable)
 
-            direc = QTableWidgetItem()
-            direc.setText(af.returnDir())
-            direc.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_2.setItem(r, 2, direc)
-            glue = QTableWidgetItem()
+# # make qgraphicitem for seed?
+# class seedQGItem(QGraphicsItem):
 
-            glue.setText(str(af.returnStr()))
-            glue.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_2.setItem(r, 3, glue)
-            r += 1
+            
 
-        # filling in table 2 with horizontal affinities
-        for afH in self.system.horizontal_affinities_list:
-            label1HR = QTableWidgetItem()
-            label1HR.setText(afH.returnLabel1())
-            label1HR.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_2.setItem(r, 0, label1HR)
-            label2HR = QTableWidgetItem()
-            label2HR.setText(afH.returnLabel2())
-            label2HR.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_2.setItem(r, 1, label2HR)
-            direcHR = QTableWidgetItem()
-            direcHR.setText(afH.returnDir())
-            direcHR.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_2.setItem(r, 2, direcHR)
-            glueHR = QTableWidgetItem()
-            glueHR.setText(str(afH.returnStr()))
-            glueHR.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_2.setItem(r, 3, glueHR)
-            r += 1
+# make a draw to scene or view function 
+# maybe add grid layout there 
 
-        # filling in table 3 with vertical transitions
-        r = 0
-        for trV in self.system.vertical_transitions_list:
-            stateVT1 = QTableWidgetItem()
-            stateVT1.setText(trV.returnLabel1())
-            stateVT1.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 0, stateVT1)
-            stateVT2 = QTableWidgetItem()
-            stateVT2.setText(trV.returnLabel2())
-            stateVT2.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 1, stateVT2)
-            finalVT1 = QTableWidgetItem()
-            finalVT1.setText(trV.returnLabel1Final())
-            finalVT1.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 3, finalVT1)
-            finalVT2 = QTableWidgetItem()
-            finalVT2.setText(trV.returnLabel2Final())
-            finalVT2.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 4, finalVT2)
-            direcVT = QTableWidgetItem()
-            direcVT.setText(trV.returnDir())
-            direcVT.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 5, direcVT)
-            r += 1
-
-        # filling in table 3 with horizontal transitions
-        for trH in self.system.horizontal_transitions_list:
-            stateHT1 = QTableWidgetItem()
-            stateHT1.setText(trH.returnLabel1())
-            stateHT1.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 0, stateHT1)
-            stateHT2 = QTableWidgetItem()
-            stateHT2.setText(trH.returnLabel2())
-            stateHT2.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 1, stateHT2)
-            finalHT1 = QTableWidgetItem()
-            finalHT1.setText(trH.returnLabel1Final())
-            finalHT1.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 3, finalHT1)
-            finalHT2 = QTableWidgetItem()
-            finalHT2.setText(trH.returnLabel2Final())
-            finalHT2.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 4, finalHT2)
-            direcHT = QTableWidgetItem()
-            direcHT.setText(trH.returnDir())
-            direcHT.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 5, direcHT)
-            r += 1
-
-        # filling in table 1 with states
         r = 0
         for s in self.system.states:
             color_cell = QTableWidgetItem()
@@ -1260,6 +1204,101 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow):
                     initialCheckbox.setChecked(True)
 
             r += 1
+
+
+        # filling in Page 4, table 2 with vertical affinities
+        r = 0
+        for af in self.system.vertical_affinities_list:
+            label1 = QTableWidgetItem()
+            label1.setText(af.returnLabel1())
+            label1.setTextAlignment(Qt.AlignCenter)
+            label2 = QTableWidgetItem()
+            label2.setText(af.returnLabel2())
+            label2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_2.setItem(r, 0, label1)
+            self.tableWidget_2.setItem(r, 1, label2)
+
+            direc = QTableWidgetItem()
+            direc.setText(af.returnDir())
+            direc.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_2.setItem(r, 2, direc)
+            glue = QTableWidgetItem()
+
+            glue.setText(str(af.returnStr()))
+            glue.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_2.setItem(r, 3, glue)
+            r += 1
+
+        # filling in Page 4, table 2 with horizontal affinities
+        for afH in self.system.horizontal_affinities_list:
+            label1HR = QTableWidgetItem()
+            label1HR.setText(afH.returnLabel1())
+            label1HR.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_2.setItem(r, 0, label1HR)
+            label2HR = QTableWidgetItem()
+            label2HR.setText(afH.returnLabel2())
+            label2HR.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_2.setItem(r, 1, label2HR)
+            direcHR = QTableWidgetItem()
+            direcHR.setText(afH.returnDir())
+            direcHR.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_2.setItem(r, 2, direcHR)
+            glueHR = QTableWidgetItem()
+            glueHR.setText(str(afH.returnStr()))
+            glueHR.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_2.setItem(r, 3, glueHR)
+            r += 1
+
+        # filling in Page 5, table 3 with vertical transitions
+        r = 0
+        for trV in self.system.vertical_transitions_list:
+            stateVT1 = QTableWidgetItem()
+            stateVT1.setText(trV.returnLabel1())
+            stateVT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 0, stateVT1)
+            stateVT2 = QTableWidgetItem()
+            stateVT2.setText(trV.returnLabel2())
+            stateVT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 1, stateVT2)
+            finalVT1 = QTableWidgetItem()
+            finalVT1.setText(trV.returnLabel1Final())
+            finalVT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 3, finalVT1)
+            finalVT2 = QTableWidgetItem()
+            finalVT2.setText(trV.returnLabel2Final())
+            finalVT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 4, finalVT2)
+            direcVT = QTableWidgetItem()
+            direcVT.setText(trV.returnDir())
+            direcVT.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 5, direcVT)
+            r += 1
+
+        # filling in table 5 with horizontal transitions
+        for trH in self.system.horizontal_transitions_list:
+            stateHT1 = QTableWidgetItem()
+            stateHT1.setText(trH.returnLabel1())
+            stateHT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 0, stateHT1)
+            stateHT2 = QTableWidgetItem()
+            stateHT2.setText(trH.returnLabel2())
+            stateHT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 1, stateHT2)
+            finalHT1 = QTableWidgetItem()
+            finalHT1.setText(trH.returnLabel1Final())
+            finalHT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 3, finalHT1)
+            finalHT2 = QTableWidgetItem()
+            finalHT2.setText(trH.returnLabel2Final())
+            finalHT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 4, finalHT2)
+            direcHT = QTableWidgetItem()
+            direcHT.setText(trH.returnDir())
+            direcHT.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 5, direcHT)
+            r += 1
+
+       
 
      # action for 'apply' the changes made to the side edit window to the view states side
         self.pushButton.clicked.connect(self.Click_EditApply)

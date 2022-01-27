@@ -28,10 +28,9 @@ class Engine:
         # Get seed
         print(self.system.returnSeedStates())
 
-        seedState = random.choice(self.system.returnSeedStates())
-        seed = UniversalClasses.Tile(seedState, 0, 0)
-        self.seedAssembly = UniversalClasses.Assembly()
-        self.seedAssembly.set_tiles([seed])
+        self.seedAssembly = self.system.seedAssembly
+
+        
         # Changed from adding to list to setting it as the current assembly
         # self.assemblyList.append(seedAssembly)
         # self.currentAssembly = self.seedAssembly
