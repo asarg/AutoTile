@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox, QMessageBox
 from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
 
@@ -1543,6 +1543,16 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         # Check here to see if states used in transitions exist
         if self.StatesUsed_Exist():
             print("states exist")
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("Message box pop up window")
+            msgBox.setWindowTitle("QMessageBox Example")
+            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            msgBox.buttonClicked.connect(self.msgButtonClick)
+
+            returnValue = msgBox.exec()
+            if returnValue == QMessageBox.Ok:
+                print('OK clicked')
 
         # update the engine, and update the main GUI
         self.Engine.reset_engine(self.system)
@@ -1563,6 +1573,9 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
 
     def StatesUsed_Exist(self):
         return True
+
+    def msgButtonClick(self, i):
+        print("Button clicked is:",i.text())
 
 
 class Move(QWidget):
