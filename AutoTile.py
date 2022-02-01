@@ -1540,6 +1540,10 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
 
             self.system.add_transition_rule(trRule)
 
+        # Check here to see if states used in transitions exist
+        if self.StatesUsed_Exist():
+            print("states exist")
+
         # update the engine, and update the main GUI
         self.Engine.reset_engine(self.system)
 
@@ -1556,6 +1560,9 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
 
         if(fileName[0] != ''):
             SaveFile.main(currentSystem, fileName)
+
+    def StatesUsed_Exist(self):
+        return True
 
 
 class Move(QWidget):
