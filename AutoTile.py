@@ -1092,7 +1092,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 # engine has the system
 
 
-class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow):
+class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor window class
     def __init__(self, engine, mainGUI):
         super().__init__()
         self.setupUi(self)
