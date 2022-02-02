@@ -1481,6 +1481,9 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
 
         newsys = System(newtemp, [], [], [], [], [], [], [], [], [], True)
 
+        available_states = []
+        states_used = []
+
         self.system = newsys
 
         # go through new rows, create states, add states to system
@@ -1499,6 +1502,8 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             s = State(label, color)
 
             self.system.add_State(s)
+
+            available_states.append(s)
 
             if initial:
                 self.system.add_Initial_State(s)
@@ -1536,12 +1541,15 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             tFin2 = tFinal2.text()
             tDir = tDirec.text()
 
+            states_used.append(tFin1)
+            states_used.append(tFin2)
+
             trRule = TransitionRule(tLab1, tLab2, tFin1, tFin2, tDir)
 
             self.system.add_transition_rule(trRule)
 
         # Check here to see if states used in transitions exist
-        if self.StatesUsed_Exist():
+        if self.StatesUsed_Exist(available_states, states_used):
             print("states exist")
             msgBox = QMessageBox()
             msgBox.setIcon(QMessageBox.Information)
@@ -1571,7 +1579,12 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         if(fileName[0] != ''):
             SaveFile.main(currentSystem, fileName)
 
-    def StatesUsed_Exist(self):
+    def StatesUsed_Exist(self, available_states, states_used):
+        for item in available_states:
+            print(item.get_label())
+        for state in states_used:
+            print(state)
+
         return True
 
     def msgButtonClick(self, i):
