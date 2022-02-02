@@ -1559,7 +1559,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
 
             msgBox = QMessageBox()
             msgBox.setIcon(QMessageBox.Information)
-            msgBox.setText("Some states dont exist: /n" + error_states)
+            msgBox.setText("Some states dont exist: \n" + error_states)
             msgBox.setWindowTitle("Missing states")
             msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             msgBox.buttonClicked.connect(self.msgButtonClick)
@@ -1567,6 +1567,9 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             returnValue = msgBox.exec()
             if returnValue == QMessageBox.Ok:
                 print('OK clicked')
+
+            if returnValue == QMessageBox.Cancel:
+                return
 
         # update the engine, and update the main GUI
         self.Engine.reset_engine(self.system)
