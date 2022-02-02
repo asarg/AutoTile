@@ -1549,8 +1549,9 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             self.system.add_transition_rule(trRule)
 
         # Check here to see if states used in transitions exist
-        if self.StatesUsed_Exist(available_states, states_used):
-            print("states exist")
+        states_not_used = self.StatesUsed_Exist(available_states, states_used)
+        if len(states_not_used) != 0:
+            print("state doesn't exist")
             msgBox = QMessageBox()
             msgBox.setIcon(QMessageBox.Information)
             msgBox.setText("Message box pop up window")
@@ -1580,12 +1581,17 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             SaveFile.main(currentSystem, fileName)
 
     def StatesUsed_Exist(self, available_states, states_used):
-        for item in available_states:
-            print(item.get_label())
+        states_not_used = []
         for state in states_used:
-            print(state)
+            flag = 0
+            for item in available_states:
+                if state == item.get_label():
+                    flag = 1
+                    
+            if flag != 1:
+                states_not_used.append(state)
 
-        return True
+        return states_not_used
 
     def msgButtonClick(self, i):
         print("Button clicked is:",i.text())
