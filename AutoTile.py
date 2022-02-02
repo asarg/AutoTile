@@ -1552,10 +1552,15 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         states_not_used = self.StatesUsed_Exist(available_states, states_used)
         if len(states_not_used) != 0:
             print("state doesn't exist")
+            error_states = ""
+            for state in states_not_used:
+                error_states += state
+                error_states += " "
+
             msgBox = QMessageBox()
             msgBox.setIcon(QMessageBox.Information)
-            msgBox.setText("Message box pop up window")
-            msgBox.setWindowTitle("QMessageBox Example")
+            msgBox.setText("Some states dont exist: /n" + error_states)
+            msgBox.setWindowTitle("Missing states")
             msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             msgBox.buttonClicked.connect(self.msgButtonClick)
 
