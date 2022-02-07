@@ -176,6 +176,26 @@ class Engine:
                 self.removeMoves(hOldMoves)
 
         elif move["type"] == "t":
+            #quick check to see if states exist
+            errorFlag = 0
+            errorState = ""
+            if self.system.get_state(move["state1Final"].get_label()) == None:
+                errorFlag = 1
+                errorState += move["state1Final"].get_label() 
+                errorState += " "
+                print(move["state1Final"].get_label() + " does not exist")
+            if self.system.get_state(move["state2Final"].get_label()) == None:
+                errorFlag = 1
+                errorState += move["state2Final"].get_label() 
+                print(move["state2Final"].get_label() + " does not exist")
+
+            if errorFlag == 1:
+                print(errorState + " does not exist")
+                self.validMoves = 0 
+                return -1
+            
+            
+
             # Removing Moves
             # remove other move for self
             trOldMoves = self.currentAssembly.getTRat(
