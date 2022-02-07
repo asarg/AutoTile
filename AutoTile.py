@@ -1551,7 +1551,6 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         # Check here to see if states used in transitions exist
         states_not_used = self.StatesUsed_Exist(available_states, states_used)
         if len(states_not_used) != 0:
-            print("state doesn't exist")
             error_states = ""
             for state in states_not_used:
                 error_states += state
@@ -1559,14 +1558,14 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
 
             msgBox = QMessageBox()
             msgBox.setIcon(QMessageBox.Information)
-            msgBox.setText("Some states dont exist: \n" + error_states)
+            msgBox.setText("The following states dont exist: \n" + error_states + "\n Click Cancel to go back or Ok to apply anyway")
             msgBox.setWindowTitle("Missing states")
             msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
             msgBox.buttonClicked.connect(self.msgButtonClick)
 
             returnValue = msgBox.exec()
             if returnValue == QMessageBox.Ok:
-                print('OK clicked')
+               # print('OK clicked')
 
             if returnValue == QMessageBox.Cancel:
                 return
@@ -1588,13 +1587,20 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         if(fileName[0] != ''):
             SaveFile.main(currentSystem, fileName)
 
+    #function to see if the states the user uses exist
     def StatesUsed_Exist(self, available_states, states_used):
         states_not_used = []
         for state in states_used:
             flag = 0
             for item in available_states:
                 if state == item.get_label():
+                    flag = 1                     #flag means the state exist
+                    break
+
+            for item in states_not_used:     #if state has already been added we dont need to add it again
+                if item == state:
                     flag = 1
+                    break
                     
             if flag != 1:
                 states_not_used.append(state)
