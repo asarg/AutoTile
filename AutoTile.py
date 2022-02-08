@@ -1561,7 +1561,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             msgBox.setText("The following states dont exist: \n" + error_states + "\n Click Cancel to go back or Ok to apply anyway")
             msgBox.setWindowTitle("Missing states")
             msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-            msgBox.buttonClicked.connect(self.msgButtonClick)
+            #msgBox.buttonClicked.connect(self.msgButtonClick)
 
             returnValue = msgBox.exec()
             if returnValue == QMessageBox.Ok:

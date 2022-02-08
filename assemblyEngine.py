@@ -1,7 +1,7 @@
 import random
 import UniversalClasses
 import copy
-
+from PyQt5.QtWidgets import QMessageBox
 
 # Debugging Functions
 def printMove(move):
@@ -194,7 +194,17 @@ class Engine:
 
             if errorFlag == 1:
                 print(errorState + " does not exist")
-               # self.validMoves = 0 
+               #self.validMoves = 0 
+                msgBox = QMessageBox()
+                msgBox.setIcon(QMessageBox.Information)
+                msgBox.setText("State doesn't exist")
+                msgBox.setWindowTitle("Missing states")
+                msgBox.setStandardButtons(QMessageBox.Ok)
+
+                returnValue = msgBox.exec()
+                if returnValue == QMessageBox.Ok:
+                    print('OK clicked')
+
                 return -1
             
             print(move["state2Final"].get_label())
