@@ -1564,8 +1564,6 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             #msgBox.buttonClicked.connect(self.msgButtonClick)
 
             returnValue = msgBox.exec()
-            if returnValue == QMessageBox.Ok:
-                print('OK clicked')
 
             if returnValue == QMessageBox.Cancel:
                 return

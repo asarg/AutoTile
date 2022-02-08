@@ -180,20 +180,11 @@ class Engine:
             #quick check to see if states exist
             errorFlag = 0
             errorState = ""
-            if move["state1Final"] == None:
-                
+            if move["state1Final"] == None or move["state2Final"] == None:
+                print(move["state2Final"])
                 errorFlag = 1
-                #errorState += move["state1Final"].get_label() 
-                #errorState += " "
-                #print(move["state1Final"].get_label() + " does not exist")
-            if move["state2Final"] == None:
-                
-                errorFlag = 1
-                #errorState += move["state2Final"].get_label() 
-                #print(move["state2Final"].get_label() + " does not exist")
 
             if errorFlag == 1:
-                print(errorState + " does not exist")
                #self.validMoves = 0 
                 msgBox = QMessageBox()
                 msgBox.setIcon(QMessageBox.Information)
@@ -202,15 +193,9 @@ class Engine:
                 msgBox.setStandardButtons(QMessageBox.Ok)
 
                 returnValue = msgBox.exec()
-                if returnValue == QMessageBox.Ok:
-                    print('OK clicked')
 
                 return -1
             
-            print(move["state2Final"].get_label())
-            print(self.system.get_state(move["state2Final"].get_label()))
-            if self.system.get_state(move["state2Final"].get_label()) == None:
-                print(move["state2Final"].get_label())
 
             # Removing Moves
             # remove other move for self
