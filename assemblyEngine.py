@@ -178,17 +178,18 @@ class Engine:
 
         elif move["type"] == "t":
             #quick check to see if states exist
-            errorFlag = 0
             errorState = ""
-            if move["state1Final"] == None or move["state2Final"] == None:
-                print(move["state2Final"])
-                errorFlag = 1
+            if move["state1Final"] == None:
+                errorState += self.findProblemTile(move["state1"], move["state2"], move["dir"], 1)
 
-            if errorFlag == 1:
+            if move["state2Final"] == None:
+                errorState += self.findProblemTile(move["state1"], move["state2"], move["dir"], 2)
+
+            if errorState != "":
                #self.validMoves = 0 
                 msgBox = QMessageBox()
                 msgBox.setIcon(QMessageBox.Information)
-                msgBox.setText("State doesn't exist")
+                msgBox.setText("The following states dont exist: \n" + errorState)
                 msgBox.setWindowTitle("Missing states")
                 msgBox.setStandardButtons(QMessageBox.Ok)
 
@@ -446,3 +447,28 @@ class Engine:
             return 1 / self.TimeTaken[self.currentIndex - 1]
         else:
             return 0
+
+    def findProblemTile(self, tile1, tile2, dir, problem):
+        errorTile = ""
+        sys_h_tr = self.system.returnHorizontalTransitionDict()
+        sys_v_tr = self.system.returnVerticalTransitionDict()
+
+        if dir == "v":
+            rules = sys_v_tr.get((tile1.get_label(), tile2.get_label()))
+                  
+        if dir == "h":
+            rules = sys_h_tr.get((tile1.get_label(), tile2.get_label()))
+            
+        if rules != None:
+            for i in range(0, len(rules), 2):
+                if problem == 1:
+                    if self.system.get_state(rules[i]) == None:
+                        errorTile += rules[i]
+                        errorTile += " "
+                elif problem == 2:
+                    if self.system.get_state(rules[i+1]) == None:
+                        errorTile += rules[i + 1]
+                        errorTile += " "
+
+        return errorTile
+
