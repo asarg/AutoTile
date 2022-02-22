@@ -708,11 +708,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         painter.drawRect(int((x * self.tileSize) + self.seedX),
                          int((y * -self.tileSize) + self.seedY), self.tileSize, self.tileSize)
         if len(label) > 4:
-            painter.drawText(int(x * self.tileSize) + self.textX,
-                             int(y * -self.tileSize) + self.textY, label[0:3])
+            
+            painter.drawText(int(x * self.tileSize) + int(self.textX), int(y * -self.tileSize) + int(self.textY), label[0:3])
         else:
-            painter.drawText(int((x * self.tileSize) + self.textX),
-                             int((y * -self.tileSize) + self.textY), label)
+            painter.drawText(int((x * self.tileSize) + int(self.textX)), int((y * -self.tileSize) + int(self.textY)), label)
 
     def transition_draw_function(self, move, state1, state2, painter, brush):
         horizontal = 0
