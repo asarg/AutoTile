@@ -195,7 +195,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.moveWidgets.append(mGUI)
             self.movesLayout.addWidget(mGUI)
 
-        paper_options = ["SAND"]
+        paper_options = ["SAND22"]
         self.GenPaper_Box.addItems(paper_options)
 
         shape_options = ["Strings", "Rectangle", "Squares"]
