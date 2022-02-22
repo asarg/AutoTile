@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox, QMessageBox
 from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
 
@@ -194,6 +194,9 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             mGUI.setFixedHeight(40)
             self.moveWidgets.append(mGUI)
             self.movesLayout.addWidget(mGUI)
+
+        paper_options = ["SAND22"]
+        self.GenPaper_Box.addItems(paper_options)
 
         shape_options = ["Strings", "Rectangle", "Squares"]
         self.GenShape_Box.addItems(shape_options)
@@ -1092,7 +1095,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 # engine has the system
 
 
-class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow):
+class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor window class
     def __init__(self, engine, mainGUI):
         super().__init__()
         self.setupUi(self)
@@ -1481,6 +1484,9 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow):
 
         newsys = System(newtemp, [], [], [], [], [], [], [], [], [], True)
 
+        available_states = []
+        states_used = []
+
         self.system = newsys
 
         # go through new rows, create states, add states to system
@@ -1499,6 +1505,8 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow):
             s = State(label, color)
 
             self.system.add_State(s)
+
+            available_states.append(s)
 
             if initial:
                 self.system.add_Initial_State(s)
@@ -1536,9 +1544,32 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow):
             tFin2 = tFinal2.text()
             tDir = tDirec.text()
 
+            states_used.append(tFin1)
+            states_used.append(tFin2)
+
             trRule = TransitionRule(tLab1, tLab2, tFin1, tFin2, tDir)
 
             self.system.add_transition_rule(trRule)
+
+        # Check here to see if states used in transitions exist
+        states_not_used = self.StatesUsed_Exist(available_states, states_used)
+        if len(states_not_used) != 0:
+            error_states = ""
+            for state in states_not_used:
+                error_states += state
+                error_states += " "
+
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("The following states dont exist: \n" + error_states + "\n Click Cancel to go back or Ok to apply anyway")
+            msgBox.setWindowTitle("Missing states")
+            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            #msgBox.buttonClicked.connect(self.msgButtonClick)
+
+            returnValue = msgBox.exec()
+
+            if returnValue == QMessageBox.Cancel:
+                return
 
         # update the engine, and update the main GUI
         self.Engine.reset_engine(self.system)
@@ -1556,6 +1587,29 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow):
 
         if(fileName[0] != ''):
             SaveFile.main(currentSystem, fileName)
+
+    #function to see if the states the user uses exist
+    def StatesUsed_Exist(self, available_states, states_used):
+        states_not_used = []
+        for state in states_used:
+            flag = 0
+            for item in available_states:
+                if state == item.get_label():
+                    flag = 1                     #flag means the state exist
+                    break
+
+            for item in states_not_used:     #if state has already been added we dont need to add it again
+                if item == state:
+                    flag = 1
+                    break
+                    
+            if flag != 1:
+                states_not_used.append(state)
+
+        return states_not_used
+
+    def msgButtonClick(self, i):
+        print("Button clicked is:",i.text())
 
 
 class Move(QWidget):
@@ -1585,13 +1639,16 @@ class Move(QWidget):
             moveText = "Attach\n" + self.move["state1"].get_label() + " at " + str(
                 self.move["x"]) + " , " + str(self.move["y"])
         elif self.move["type"] == "t":
-            # Add Transition Direction
-            if self.move["dir"] == "v":
-                moveText = "V "
+            if self.move["state1Final"] != None and self.move["state2Final"] != None:
+                # Add Transition Direction
+                if self.move["dir"] == "v":
+                    moveText = "V "
+                else:
+                    moveText = "H "
+                moveText += "Transition\n" + self.move["state1"].get_label() + ", " + self.move["state2"].get_label(
+                ) + " to " + self.move["state1Final"].get_label() + ", " + self.move["state2Final"].get_label()
             else:
-                moveText = "H "
-            moveText += "Transition\n" + self.move["state1"].get_label() + ", " + self.move["state2"].get_label(
-            ) + " to " + self.move["state1Final"].get_label() + ", " + self.move["state2Final"].get_label()
+                moveText = "Error:\n state doesn't exist"
 
         pen = QApplication.palette().text().color()
         qp.setPen(pen)

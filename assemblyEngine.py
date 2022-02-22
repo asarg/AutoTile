@@ -1,7 +1,7 @@
 import random
 import UniversalClasses
 import copy
-
+from PyQt5.QtWidgets import QMessageBox
 
 # Debugging Functions
 def printMove(move):
@@ -24,6 +24,7 @@ class Engine:
         self.TimeTaken = []
         self.currentIndex = 0
         self.lastIndex = 0
+        self.errorStates = "" 
 
         # Get seed
         print(self.system.returnSeedStates())
@@ -176,6 +177,27 @@ class Engine:
                 self.removeMoves(hOldMoves)
 
         elif move["type"] == "t":
+            #quick check to see if states exist
+            errorState = ""
+            if move["state1Final"] == None:
+                errorState += self.findProblemTile(move["state1"], move["state2"], move["dir"], 1)
+
+            if move["state2Final"] == None:
+                errorState += self.findProblemTile(move["state1"], move["state2"], move["dir"], 2)
+
+            if errorState != "":
+               #self.validMoves = 0 
+                msgBox = QMessageBox()
+                msgBox.setIcon(QMessageBox.Information)
+                msgBox.setText("The following states dont exist: \n" + errorState)
+                msgBox.setWindowTitle("Missing states")
+                msgBox.setStandardButtons(QMessageBox.Ok)
+
+                returnValue = msgBox.exec()
+
+                return -1
+            
+
             # Removing Moves
             # remove other move for self
             trOldMoves = self.currentAssembly.getTRat(
@@ -425,3 +447,28 @@ class Engine:
             return 1 / self.TimeTaken[self.currentIndex - 1]
         else:
             return 0
+
+    def findProblemTile(self, tile1, tile2, dir, problem):
+        errorTile = ""
+        sys_h_tr = self.system.returnHorizontalTransitionDict()
+        sys_v_tr = self.system.returnVerticalTransitionDict()
+
+        if dir == "v":
+            rules = sys_v_tr.get((tile1.get_label(), tile2.get_label()))
+                  
+        if dir == "h":
+            rules = sys_h_tr.get((tile1.get_label(), tile2.get_label()))
+            
+        if rules != None:
+            for i in range(0, len(rules), 2):
+                if problem == 1:
+                    if self.system.get_state(rules[i]) == None:
+                        errorTile += rules[i]
+                        errorTile += " "
+                elif problem == 2:
+                    if self.system.get_state(rules[i+1]) == None:
+                        errorTile += rules[i + 1]
+                        errorTile += " "
+
+        return errorTile
+
