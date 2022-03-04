@@ -4,6 +4,7 @@ import detGen
 import oneSidedGen
 import nonDetGen
 import squareGen
+import patRectangles
 
 
 red = "f03a47"
@@ -49,6 +50,8 @@ def generator(paper, shape, value, model):
         if shape == "Lines":
             return detGen.genNFLine(value)
 
+    if paper == "Patterns":
+        return patRectangles.doublePat(value)
 
 
 

@@ -11,9 +11,17 @@ black = "323031"
 white = "DFE0E2"
 
 
+# Must be passed an interger, may be passed a color for all the states
+def genDoubleIndexStates(vLen, color=None):
+    if color != None:
+        red = color
+        blue = color
+        black = color
+    else:
+        red = "f03a47"
+        blue = "3f88c5"
+        black = "323031"
 
-# Must be passed an interger 
-def genDoubleIndexStates(vLen):
     seedA = uc.State("SA", black)
     genSys = uc.System(1, [], [], [seedA], [], [], [], [])
 
@@ -145,7 +153,14 @@ def genDoubleIndexStates(vLen):
 
 
 # Can be passed an interger or string (binary string)
-def genSqrtBinString(value):
+def genSqrtBinString(value, color=None):
+    if color == None:
+        black = "323031"
+        white = "DFE0E2"
+    else:
+        black = color
+        white = color
+
     if isinstance(value, int):
         value = bin(value)[2:]
 
@@ -157,7 +172,7 @@ def genSqrtBinString(value):
 
 
     revValue = value[::-1]
-    genSys = genDoubleIndexStates(len(value))
+    genSys = genDoubleIndexStates(len(value), color)
 
     sqrtLen = math.ceil(math.sqrt(len(value)))
 
@@ -196,25 +211,32 @@ def genSqrtBinString(value):
 
     return genSys
 
-# Can be passed an interger or string (binary string)
-def genSqrtBaseBString(value, base):
+# Can be passed an interger or string (integer string)
+def genSqrtBaseBString(value, base, color=None):
+    if color == None:
+        black = "323031"
+        white = "DFE0E2"
+    else:
+        black = color
+        white = color
+
     if isinstance(value, int):
         value = bin(value)[2:]
 
 
     revValue = value[::-1]
-    genSys = genDoubleIndexStates(len(value))
+    genSys = genDoubleIndexStates(len(value), color)
 
     sqrtLen = math.ceil(math.sqrt(len(value)))
 
     # Add Binary Symbol states
     for i in range(base):
         if i % 2 == 0:
-            color = black
+            icolor = black
         else:
-            color = white
+            icolor = white
 
-        stateI = uc.State(str(i) + "s", color)
+        stateI = uc.State(str(i) + "s", icolor)
         genSys.add_State(stateI)
 
         trBPrimeI = uc.TransitionRule(
