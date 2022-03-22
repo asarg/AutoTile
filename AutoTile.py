@@ -235,8 +235,11 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.clickPosition = QtCore.QPoint(
             self.geometry().x(), self.geometry().y())
 
-        self.textX = self.seedX + 10
-        self.textY = self.seedY + 25
+        self.textX_offset = 10
+        self.textY_offset = 25
+
+        self.textX = self.seedX + self.textX_offset
+        self.textY = self.seedY + self.textY_offset
 
         self.tileSize = 40
         self.textSize = int(self.tileSize / 3)
@@ -316,8 +319,8 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         if self.Engine != None:
             self.seedX = self.geometry().width() / 2
             self.seedY = self.geometry().height() / 2
-            self.textX = self.seedX + 10
-            self.textY = self.seedY + 25
+            self.textX = self.seedX + self.textX_offset
+            self.textY = self.seedY + self.textY_offset
             self.draw_assembly(self.Engine.getCurrentAssembly())
 
     def keyPressEvent(self, event):
@@ -404,8 +407,8 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.seedX = self.geometry().width() / 2
             self.seedY = self.geometry().height() / 2
 
-            self.textX = self.seedX + 10
-            self.textY = self.seedY + 25
+            self.textX = self.seedX + self.textX_offset
+            self.textY = self.seedY + self.textY_offset
             if self.Engine != None:
                 self.draw_assembly(self.Engine.getCurrentAssembly())
 
@@ -429,6 +432,9 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         elif event.key() == Qt.Key_Plus or event.key() == Qt.Key_Equal:
             if self.Engine != None:
                 self.tileSize = self.tileSize + 10
+                self.textX_offset = self.textX_offset + 2
+                self.textY_offset = self.textY_offset + 6
+
                 self.textX = self.textX + 2
                 self.textY = self.textY + 6
 
@@ -440,6 +446,9 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             if self.Engine != None:
                 if self.tileSize > 10:
                     self.tileSize = self.tileSize - 10
+                    self.textX_offset = self.textX_offset - 2
+                    self.textY_offset = self.textY_offset - 6
+
                     self.textX = self.textX - 2
                     self.textY = self.textY - 6
 
@@ -454,11 +463,17 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         #### Zoom in functions for the scroll wheel ####
         if event.angleDelta().y() == 120:
             self.tileSize = self.tileSize + 10
+            self.textX_offset = self.textX_offset + 2
+            self.textY_offset = self.textY_offset + 6
+
             self.textX = self.textX + 2
             self.textY = self.textY + 6
         else:
             if self.tileSize > 10:
                 self.tileSize = self.tileSize - 10
+                self.textX_offset = self.textX_offset - 2
+                self.textY_offset = self.textY_offset - 6
+
                 self.textX = self.textX - 2
                 self.textY = self.textY - 6
         self.textSize = int(self.tileSize / 3)
