@@ -446,14 +446,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                     x_num = 2
                     y_num = 6
 
-                self.tileSize = self.tileSize + tile_increase
-                self.textX_offset = self.textX_offset + x_num
-                self.textY_offset = self.textY_offset + y_num
-
-                self.textX = self.textX + x_num
-                self.textY = self.textY + y_num
-
-                self.textSize = int(self.tileSize / 3)
+                self.update_tileSize(tile_increase, x_num, y_num)
 
                 self.draw_assembly(self.Engine.getCurrentAssembly())
 
@@ -476,14 +469,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 elif self.tileSize > 5:
                     tile_increase = -5
 
-                self.tileSize = self.tileSize + tile_increase
-                self.textX_offset = self.textX_offset + x_num
-                self.textY_offset = self.textY_offset + y_num
-
-                self.textX = self.textX + x_num
-                self.textY = self.textY + y_num
-
-                self.textSize = int(self.tileSize / 3)
+                self.update_tileSize(tile_increase, x_num, y_num)
 
                 self.draw_assembly(self.Engine.getCurrentAssembly())
                 
@@ -521,6 +507,12 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             elif self.tileSize > 5:
                 tile_increase = -5
 
+        self.update_tileSize(tile_increase, x_num, y_num)
+
+        if self.Engine != None:
+            self.draw_assembly(self.Engine.getCurrentAssembly())
+
+    def update_tileSize(self, tile_increase, x_num, y_num):
         self.tileSize = self.tileSize + tile_increase
         self.textX_offset = self.textX_offset + x_num
         self.textY_offset = self.textY_offset + y_num
@@ -529,9 +521,6 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.textY = self.textY + y_num
 
         self.textSize = int(self.tileSize / 3)
-
-        if self.Engine != None:
-            self.draw_assembly(self.Engine.getCurrentAssembly())
 
     def draw_move(self, move, forward, color):
         painter = QPainter(self.label.pixmap())
