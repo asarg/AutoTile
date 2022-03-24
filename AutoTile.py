@@ -431,12 +431,27 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         # "Scroll" in and out functionality for + and - keys
         elif event.key() == Qt.Key_Plus or event.key() == Qt.Key_Equal:
             if self.Engine != None:
-                self.tileSize = self.tileSize + 10
-                self.textX_offset = self.textX_offset + 2
-                self.textY_offset = self.textY_offset + 6
+                x_num = 0
+                y_num = 0
 
-                self.textX = self.textX + 2
-                self.textY = self.textY + 6
+                tile_increase = 10
+            
+                if self.tileSize < 10:
+                    tile_increase = 5
+
+                elif self.tileSize < 30:
+                    x_num = 4.2
+                    y_num = 5
+                else:
+                    x_num = 2
+                    y_num = 6
+
+                self.tileSize = self.tileSize + tile_increase
+                self.textX_offset = self.textX_offset + x_num
+                self.textY_offset = self.textY_offset + y_num
+
+                self.textX = self.textX + x_num
+                self.textY = self.textY + y_num
 
                 self.textSize = int(self.tileSize / 3)
 
@@ -444,38 +459,75 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         elif event.key() == Qt.Key_Minus or event.key() == Qt.Key_Underscore:
             if self.Engine != None:
-                if self.tileSize > 10:
-                    self.tileSize = self.tileSize - 10
-                    self.textX_offset = self.textX_offset - 2
-                    self.textY_offset = self.textY_offset - 6
+                tile_increase = 0
+                x_num = 0
+                y_num = 0
 
-                    self.textX = self.textX - 2
-                    self.textY = self.textY - 6
+                if self.tileSize > 30:
+                    tile_increase = -10
+                    x_num = -2
+                    y_num = -6
 
-                    self.textSize = int(self.tileSize / 3)
+                elif self.tileSize > 10:
+                    tile_increase = -10
+                    x_num = -4.2
+                    y_num = -5
+                    
+                elif self.tileSize > 5:
+                    tile_increase = -5
 
-                    self.draw_assembly(self.Engine.getCurrentAssembly())
+                self.tileSize = self.tileSize + tile_increase
+                self.textX_offset = self.textX_offset + x_num
+                self.textY_offset = self.textY_offset + y_num
+
+                self.textX = self.textX + x_num
+                self.textY = self.textY + y_num
+
+                self.textSize = int(self.tileSize / 3)
+
+                self.draw_assembly(self.Engine.getCurrentAssembly())
+                
 
     def wheelEvent(self, event):
         if self.play:
             return
-
+        tile_increase = 0
+        x_num = 0
+        y_num = 0
         #### Zoom in functions for the scroll wheel ####
         if event.angleDelta().y() == 120:
-            self.tileSize = self.tileSize + 10
-            self.textX_offset = self.textX_offset + 2
-            self.textY_offset = self.textY_offset + 6
+            tile_increase = 10
+            
+            if self.tileSize < 10:
+                tile_increase = 5
 
-            self.textX = self.textX + 2
-            self.textY = self.textY + 6
+            elif self.tileSize < 30:
+                x_num = 4.2
+                y_num = 5
+            else:
+                x_num = 2
+                y_num = 6
         else:
-            if self.tileSize > 10:
-                self.tileSize = self.tileSize - 10
-                self.textX_offset = self.textX_offset - 2
-                self.textY_offset = self.textY_offset - 6
+            if self.tileSize > 30:
+                tile_increase = -10
+                x_num = -2
+                y_num = -6
 
-                self.textX = self.textX - 2
-                self.textY = self.textY - 6
+            elif self.tileSize > 10:
+                tile_increase = -10
+                x_num = -4.2
+                y_num = -5
+                    
+            elif self.tileSize > 5:
+                tile_increase = -5
+
+        self.tileSize = self.tileSize + tile_increase
+        self.textX_offset = self.textX_offset + x_num
+        self.textY_offset = self.textY_offset + y_num
+
+        self.textX = self.textX + x_num
+        self.textY = self.textY + y_num
+
         self.textSize = int(self.tileSize / 3)
 
         if self.Engine != None:
