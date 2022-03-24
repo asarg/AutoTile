@@ -947,11 +947,15 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             # the -150 is to account for the slide menu
             self.seedX = (self.geometry().width() - 150) / 2
             self.seedY = self.geometry().height() / 2
-            self.textX = self.seedX + 10
-            self.textY = self.seedY + 25
 
             self.tileSize = 40
             self.textSize = int(self.tileSize / 3)
+
+            self.textX_offset = self.tileSize / 3
+            self.textY_offset = self.tileSize / 1.7
+
+            self.textX = self.seedX + self.textX_offset
+            self.textY = self.seedY + self.textY_offset
 
             self.time = 0
             self.Engine = Engine(genSystem)
