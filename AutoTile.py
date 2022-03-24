@@ -238,7 +238,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.tileSize = 40
         self.textSize = int(self.tileSize / 3)
 
-        self.textX_offset = self.tileSize / 3
+        self.textX_offset = self.tileSize / 3.9
         self.textY_offset = self.tileSize / 1.7
 
         self.textX = self.seedX + self.textX_offset
@@ -488,20 +488,29 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 tile_increase = 5
 
             elif self.tileSize < 30:
-                x_num = 4.2
+                x_num = 3.4
                 y_num = 5
+            elif self.tileSize < 40:
+                x_num = 4.1
+                y_num = 6
+
             else:
                 x_num = 2
                 y_num = 6
         else:
-            if self.tileSize > 30:
-                tile_increase = -10
+            if self.tileSize > 40:
+                tile_increase = -10 #keep these in here so tile_increase stays at 0 when it should
                 x_num = -2
+                y_num = -6
+
+            elif self.tileSize > 30:
+                tile_increase = -10 
+                x_num = -4.1
                 y_num = -6
 
             elif self.tileSize > 10:
                 tile_increase = -10
-                x_num = -4.2
+                x_num = -3.4
                 y_num = -5
                     
             elif self.tileSize > 5:
@@ -877,7 +886,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.tileSize = 40
             self.textSize = int(self.tileSize / 3)
 
-            self.textX_offset = self.tileSize / 3
+            self.textX_offset = self.tileSize / 3.9
             self.textY_offset = self.tileSize / 1.7
 
             self.textX = self.seedX + self.textX_offset
@@ -992,7 +1001,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.tileSize = 40
             self.textSize = int(self.tileSize / 3)
 
-            self.textX_offset = self.tileSize / 3
+            self.textX_offset = self.tileSize / 3.9
             self.textY_offset = self.tileSize / 1.7
 
             self.textX = self.seedX + self.textX_offset
