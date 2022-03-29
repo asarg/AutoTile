@@ -235,11 +235,14 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.clickPosition = QtCore.QPoint(
             self.geometry().x(), self.geometry().y())
 
-        self.textX = self.seedX + 10
-        self.textY = self.seedY + 25
-
         self.tileSize = 40
         self.textSize = int(self.tileSize / 3)
+
+        self.textX_offset = self.tileSize / 3.9
+        self.textY_offset = self.tileSize / 1.7
+
+        self.textX = self.seedX + self.textX_offset
+        self.textY = self.seedY + self.textY_offset
 
         self.Engine = None
         self.SysLoaded = False
@@ -316,8 +319,8 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         if self.Engine != None:
             self.seedX = self.geometry().width() / 2
             self.seedY = self.geometry().height() / 2
-            self.textX = self.seedX + 10
-            self.textY = self.seedY + 25
+            self.textX = self.seedX + self.textX_offset
+            self.textY = self.seedY + self.textY_offset
             self.draw_assembly(self.Engine.getCurrentAssembly())
 
     def keyPressEvent(self, event):
@@ -404,8 +407,8 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.seedX = self.geometry().width() / 2
             self.seedY = self.geometry().height() / 2
 
-            self.textX = self.seedX + 10
-            self.textY = self.seedY + 25
+            self.textX = self.seedX + self.textX_offset
+            self.textY = self.seedY + self.textY_offset
             if self.Engine != None:
                 self.draw_assembly(self.Engine.getCurrentAssembly())
 
@@ -428,43 +431,105 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         # "Scroll" in and out functionality for + and - keys
         elif event.key() == Qt.Key_Plus or event.key() == Qt.Key_Equal:
             if self.Engine != None:
-                self.tileSize = self.tileSize + 10
-                self.textX = self.textX + 2
-                self.textY = self.textY + 6
+                x_num = 0
+                y_num = 0
 
-                self.textSize = int(self.tileSize / 3)
+                tile_increase = 10
+            
+                if self.tileSize < 10:
+                    tile_increase = 5
+
+                elif self.tileSize < 30:
+                    x_num = 4.2
+                    y_num = 5
+                else:
+                    x_num = 2
+                    y_num = 6
+
+                self.update_tileSize(tile_increase, x_num, y_num)
 
                 self.draw_assembly(self.Engine.getCurrentAssembly())
 
         elif event.key() == Qt.Key_Minus or event.key() == Qt.Key_Underscore:
             if self.Engine != None:
-                if self.tileSize > 10:
-                    self.tileSize = self.tileSize - 10
-                    self.textX = self.textX - 2
-                    self.textY = self.textY - 6
+                tile_increase = 0
+                x_num = 0
+                y_num = 0
 
-                    self.textSize = int(self.tileSize / 3)
+                if self.tileSize > 30:
+                    tile_increase = -10
+                    x_num = -2
+                    y_num = -6
 
-                    self.draw_assembly(self.Engine.getCurrentAssembly())
+                elif self.tileSize > 10:
+                    tile_increase = -10
+                    x_num = -4.2
+                    y_num = -5
+                    
+                elif self.tileSize > 5:
+                    tile_increase = -5
+
+                self.update_tileSize(tile_increase, x_num, y_num)
+
+                self.draw_assembly(self.Engine.getCurrentAssembly())
+                
 
     def wheelEvent(self, event):
         if self.play:
             return
-
+        tile_increase = 0
+        x_num = 0
+        y_num = 0
         #### Zoom in functions for the scroll wheel ####
         if event.angleDelta().y() == 120:
-            self.tileSize = self.tileSize + 10
-            self.textX = self.textX + 2
-            self.textY = self.textY + 6
+            tile_increase = 10
+            
+            if self.tileSize < 10:
+                tile_increase = 5
+
+            elif self.tileSize < 30:
+                x_num = 3.4
+                y_num = 5
+            elif self.tileSize < 40:
+                x_num = 4.1
+                y_num = 6
+
+            else:
+                x_num = 2
+                y_num = 6
         else:
-            if self.tileSize > 10:
-                self.tileSize = self.tileSize - 10
-                self.textX = self.textX - 2
-                self.textY = self.textY - 6
-        self.textSize = int(self.tileSize / 3)
+            if self.tileSize > 40:
+                tile_increase = -10 #keep these in here so tile_increase stays at 0 when it should
+                x_num = -2
+                y_num = -6
+
+            elif self.tileSize > 30:
+                tile_increase = -10 
+                x_num = -4.1
+                y_num = -6
+
+            elif self.tileSize > 10:
+                tile_increase = -10
+                x_num = -3.4
+                y_num = -5
+                    
+            elif self.tileSize > 5:
+                tile_increase = -5
+
+        self.update_tileSize(tile_increase, x_num, y_num)
 
         if self.Engine != None:
             self.draw_assembly(self.Engine.getCurrentAssembly())
+
+    def update_tileSize(self, tile_increase, x_num, y_num):
+        self.tileSize = self.tileSize + tile_increase
+        self.textX_offset = self.textX_offset + x_num
+        self.textY_offset = self.textY_offset + y_num
+
+        self.textX = self.textX + x_num
+        self.textY = self.textY + y_num
+
+        self.textSize = int(self.tileSize / 3)
 
     def draw_move(self, move, forward, color):
         painter = QPainter(self.label.pixmap())
@@ -707,11 +772,12 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         painter.drawRect(int((x * self.tileSize) + self.seedX),
                          int((y * -self.tileSize) + self.seedY), self.tileSize, self.tileSize)
-        if len(label) > 4:
-            
-            painter.drawText(int(x * self.tileSize) + int(self.textX), int(y * -self.tileSize) + int(self.textY), label[0:3])
-        else:
-            painter.drawText(int((x * self.tileSize) + int(self.textX)), int((y * -self.tileSize) + int(self.textY)), label)
+
+        if self.tileSize > 10:
+            if len(label) > 4:
+                painter.drawText(int(x * self.tileSize) + int(self.textX), int(y * -self.tileSize) + int(self.textY), label[0:3])
+            else:
+                painter.drawText(int((x * self.tileSize) + int(self.textX)), int((y * -self.tileSize) + int(self.textY)), label)
 
     def transition_draw_function(self, move, state1, state2, painter, brush):
         horizontal = 0
@@ -816,11 +882,15 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             # the -150 is to account for the slide menu
             self.seedX = (self.geometry().width() - 150) / 2
             self.seedY = self.geometry().height() / 2
-            self.textX = self.seedX + 10
-            self.textY = self.seedY + 25
 
             self.tileSize = 40
             self.textSize = int(self.tileSize / 3)
+
+            self.textX_offset = self.tileSize / 3.9
+            self.textY_offset = self.tileSize / 1.7
+
+            self.textX = self.seedX + self.textX_offset
+            self.textY = self.seedY + self.textY_offset
 
             self.time = 0
             self.Engine = Engine(currentSystem)
@@ -927,11 +997,15 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             # the -150 is to account for the slide menu
             self.seedX = (self.geometry().width() - 150) / 2
             self.seedY = self.geometry().height() / 2
-            self.textX = self.seedX + 10
-            self.textY = self.seedY + 25
 
             self.tileSize = 40
             self.textSize = int(self.tileSize / 3)
+
+            self.textX_offset = self.tileSize / 3.9
+            self.textY_offset = self.tileSize / 1.7
+
+            self.textX = self.seedX + self.textX_offset
+            self.textY = self.seedY + self.textY_offset
 
             self.time = 0
             self.Engine = Engine(genSystem)
