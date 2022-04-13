@@ -1,6 +1,6 @@
 #################################################################################################################################
 # AutoTile
-# Version 1.0
+# Version 1.0.3
 # Author: ASARG
 # Description: Implements the tile automata model as designed by Chalk et al.
 #################################################################################################################################
@@ -13,6 +13,7 @@ Sections
 3 - File I/O
 4 - Feature Map
 5 - Change Log
+6 - Known Bugs
 
 
 #############################
@@ -251,6 +252,22 @@ Section 4 - Feature Map
 #############################
 Section 5 - Changelog
 
-## 5.1 Version 1.0
+## Version 1.0
     - Initial version distributed to others
+
+## Version 1.0.1
+    - Update to examples along with an example on startup. 
+    - Minor bug fixes when loading files.
+
+## Version 1.0.2
+    - Implemented error checking for state transitions (making sure a state exists if we're going to transition to it).
+    - Fixed Python deprecation warning
+
+## Version 1.0.3
+    - Fixed text alignment bug when resizing.
+
+#############################
+Section 6 - Known Bugs
+
+- If you're display settings are zoomed in past 225%, AutoTiles GUI will break.
     
