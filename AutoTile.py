@@ -195,7 +195,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.moveWidgets.append(mGUI)
             self.movesLayout.addWidget(mGUI)
 
-        paper_options = ["SAND22"]
+        paper_options = ["SAND22", "COVERT"]
         self.GenPaper_Box.addItems(paper_options)
 
         shape_options = ["Strings", "Rectangle", "Squares"]
@@ -989,8 +989,9 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         shape = self.GenShape_Box.currentText()
         model = self.GenModel_Box.currentText()
         value = self.lineEdit.text()
+        paper = self.GenPaper_Box.currentText()
 
-        genSystem = sampleGen.generator(shape, value, model)
+        genSystem = sampleGen.generator(paper, shape, value, model)
 
         if type(genSystem) == System:
             self.SysLoaded = True

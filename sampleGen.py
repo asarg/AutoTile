@@ -1,9 +1,11 @@
+from pygame import GL_BLUE_SIZE
 import UniversalClasses as uc
 import SaveFile
 import detGen
 import oneSidedGen
 import nonDetGen
 import squareGen
+import glues
 
 
 red = "f03a47"
@@ -16,8 +18,10 @@ grey = "9EA9A4"
 light_blue = "C2DCFE"
 
 # This function handles all generators from UI
-def generator(shape, value, model):
-    
+def generator(paper, shape, value, model):
+    if paper == "COVERT":
+        return glues.toffSys()
+
     if model == "Deterministic":
         if shape == "Strings":
             return detGen.genString(value)

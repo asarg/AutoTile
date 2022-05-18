@@ -1,0 +1,29 @@
+2
+# Seed Row
+sA b3b3b3 A sA sD X
+sB ececec B sB _ sA
+sC b3b3b3 out0 sC sE sB
+sD 9d5c63 sD 0A sF W
+sE 9d5c63 sE _ sG 0A
+sF 537a5a sF _ sH 1B
+sG 537a5a sG 1B sI _
+sH 9d5c63 sH _ _ 0C
+sI 9d5c63 sI 0C _ _
+# Output Tiles
+oA0 93e1d8 _ o0 A out0
+oA1 ef8354 _ o1 A out1
+oB0 93e1d8 _ o0 B o0
+oB1 ef8354 _ o1 B o1
+oC0 93e1d8 _ _ out0 o0
+oC1 ef8354 _ _ out1 o1
+# Counter Column
+oE0 93e1d8 _ out0 countE _
+oE1 ef8354 _ out1 countE _
+sE0 93e1d8 countE E countE _
+sE1 ef8354 countE E countE _
+eA0 93e1d8 countE 0A countE 0A
+eA1 ef8354 countE 1A countE 1A
+eB0 93e1d8 countE 0B countE 0B
+eB1 ef8354 countE 1B countE 1B
+eC0 93e1d8 countE 0C countE 0C
+eC1 ef8354 countE 1C countE 1C

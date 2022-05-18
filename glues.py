@@ -12,8 +12,8 @@ import SaveFile
 
 ########################
 # Glues File format
-#
-#
+# {Glue Name} {Interger Strength}
+# \\ comment with "#"
 
 
 def loadTilesFromText(filename):
@@ -23,6 +23,9 @@ def loadTilesFromText(filename):
         tiles = []
 
         for line in f:
+            if line[0] == "#":
+                continue
+
             if temp == 0:
                 # First line states only temperature 
                 temp = int(line)
@@ -37,8 +40,15 @@ def loadGluesFromText(filename):
 
     with open (filename) as f:
         for line in f:
-            [glue, str] = line.split()
-            glueStrengths[glue] = str
+            if line[0] == "#":
+                continue
+
+            try: 
+                [glue, str] = line.split()
+            except:
+                print("Line: (", line, " not read")
+            if str != 0:
+                glueStrengths[glue] = str
 
     return glueStrengths
 
@@ -105,10 +115,19 @@ def buildSystem(temp, tiles, glueStrengths):
     return sys
 
 
+def toffSys():
+    [temp, tiles] = loadTilesFromText("XML Files/aTAM/tilesToff.txt")
+    glueStrs = loadGluesFromText("XML Files/aTAM/glueToff.txt")
+    sys = buildSystem(temp, tiles, glueStrs)
+
+    
+
+    return sys
+
 if __name__ == "__main__":
-    [temp, tiles] = loadTilesFromText("XML Files/aTAM/testTiles.txt")
-    glueStrs = loadGluesFromText("XML Files/aTAM/testGlues.txt")
+    [temp, tiles] = loadTilesFromText("XML Files/aTAM/tilesToff.txt")
+    glueStrs = loadGluesFromText("XML Files/aTAM/glueToff.txt")
 
     sys = buildSystem(temp, tiles, glueStrs)
 
-    SaveFile.main(sys, ["XML Files/aTAM/testSystem.xml"])
+    SaveFile.main(sys, ["XML Files/aTAM/toffSystem.xml"])

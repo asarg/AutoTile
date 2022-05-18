@@ -1,0 +1,63 @@
+2
+# Red Tiles
+r0 9d5c63 seedA r1 rej0 r0
+r1 9d5c63 red r2 null r1
+r2 9d5c63 gRed rOut null r2
+r4 9d5c63 fRed r3 null rOut
+r5 9d5c63 red r4 null r3
+r6 9d5c63 tRed r5 null r4
+# Seed
+s0A ececec seedB s0 seedA dec0
+s1B b3b3b3 seedC s1 seedB dec1
+s0C ececec null s0 seedC dec0
+# Rev grey/white row
+t0A ececec tA inc0 tRed s0
+t1A b3b3b3 tA inc1 tRed s1
+t0B ececec tB inc0 tA s0
+t1B b3b3b3 tB inc1 tA s1
+t0C ececec null inc0 tB s0
+t1C b3b3b3 null inc1 tB s1
+# Input Tiles
+i0A 93e1d8 inA z0 red s0
+i1A ef8354 inA o0 red s1
+i0B 93e1d8 inB z1 inA s0
+i1B ef8354 inB o1 inA s1
+i0C 93e1d8 null z2 inB s0
+i1C ef8354 null o2 inB s1
+# Reversed Input (output?)
+j0A 93e1d8 inA s0 red z0
+j1A ef8354 inA s1 red o0
+j0B 93e1d8 inB s0 inA z1
+j1B ef8354 inB s1 inA o1
+j0C 93e1d8 null s0 inB z2
+j1C ef8354 null s1 inB o2
+# Gates
+g0A 93e1d8 gA out0E gRed z0
+g1A ef8354 gA out1E gRed o0
+g0B 93e1d8 gB out0 gA z1
+g1B ef8354 gB out1 gA o1
+g0C 93e1d8 null out0 gB z2
+g1C ef8354 null out1 gB o2
+# Reversed Gates
+f0A 93e1d8 fA z0 fRed out0W
+f1A ef8354 fA o0 fRed out1W
+f0B 93e1d8 fB z1 fA out0
+f1B ef8354 fB o1 fA out1
+f0C 93e1d8 null z2 fB out0
+f1C ef8354 null o2 fB out1
+# Output
+o0A ececec ouA out0W green0 out0E
+o1A b3b3b3 ouA out1W green1 out1E
+o0B ececec ouB out0 ouA out0
+o1B b3b3b3 ouB out1 ouA out1
+o0C ececec null out0 ouB out0
+o1C b3b3b3 null out1 ouB out1
+cp0 537a5a green0 rOut rej rOut
+cp1 15d437 green1 rOut rej rOut
+rej0 537a5a rej0 rej0 null rej6
+rej1 537a5a null rej1 null rej0
+rej2 537a5a null rej2 null rej1
+rej3 537a5a rej rej3 null rej2
+rej4 537a5a null rej4 null rej3
+rej5 537a5a null rej5 null rej4
+rej6 537a5a 0count rej6 null rej5
