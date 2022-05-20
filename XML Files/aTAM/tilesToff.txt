@@ -1,15 +1,22 @@
 2
 # Red Tiles
-r0 9d5c63 seedA r1 rej0 r0
-r1 9d5c63 red r2 null r1
-r2 9d5c63 gRed rOut null r2
-r4 9d5c63 fRed r3 null rOut
-r5 9d5c63 red r4 null r3
-r6 9d5c63 tRed r5 null r4
+r* 9d5c63 seedA r1 rej0 r0
+r0 9d5c63 sRed r1 rej0 r0
+r1 9d5c63 red r2 red r1
+r2 9d5c63 gRed rOut red r2
+r4 9d5c63 fRed r3 red rOut
+r5 9d5c63 red r4 red r3
+r6 9d5c63 tRed r5 red r4
 # Seed
-s0A ececec seedB s0 seedA dec0
-s1B b3b3b3 seedC s1 seedB dec1
-s0C ececec null s0 seedC dec0
+*0A ececec seedB s0 seedA dec0
+*1B b3b3b3 seedC s1 seedB dec1
+*0C ececec null s0 seedC dec0
+S0A ececec sA s0 sRed dec0
+S1A b3b3b3 sA s1 sRed dec1
+S0B ececec sB s0 sA dec0
+S1B b3b3b3 sB s1 sA dec1
+S0C ececec null s0 sB dec0
+S1C b3b3b3 null s1 sB dec1
 # Rev grey/white row
 t0A ececec tA inc0 tRed s0
 t1A b3b3b3 tA inc1 tRed s1
@@ -54,10 +61,17 @@ o0C ececec null out0 ouB out0
 o1C b3b3b3 null out1 ouB out1
 cp0 537a5a green0 rOut rej rOut
 cp1 15d437 green1 rOut rej rOut
-rej0 537a5a rej0 rej0 null rej6
-rej1 537a5a null rej1 null rej0
-rej2 537a5a null rej2 null rej1
+rej0 537a5a rej0 rej0 null rej7
+rej1 537a5a red rej1 null rej0
+rej2 537a5a red rej2 null rej1
 rej3 537a5a rej rej3 null rej2
-rej4 537a5a null rej4 null rej3
-rej5 537a5a null rej5 null rej4
-rej6 537a5a 0count rej6 null rej5
+rej4 537a5a red rej4 null rej3
+rej5 537a5a red rej5 null rej4
+rej6 537a5a red rej6 null rej5
+rejC 537a5a redCount rej7 null rej6
+# Counter
+rCnt 9d5c63 cnt r0 redCount r5
+0c1 ececec copy dec1 cnt inc0
+1c0 b3b3b3 cnt dec0 cnt inc1
+0c0 ececec copy dec0 copy inc0
+1c1 b3b3b3 copy dec1 copy inc1

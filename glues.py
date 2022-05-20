@@ -58,15 +58,22 @@ def buildSystem(temp, tiles, glueStrengths):
 
     # States
     states = []
+    initial_st = []
     northGlues = {}
     eastGlues = {}
     southGlues = {}
     westGlues = {}
+    seed = 0
 
     for t in tiles:
         [label, color, northG, eastG, southG, westG] = t
 
         states.append(State(label, color))
+
+        if seed == 0:
+            seed = State(label, color)
+        else:
+            initial_st.append(State(label, color))
         
         if northG in northGlues:
             northGlues[northG].append(label)
@@ -88,7 +95,8 @@ def buildSystem(temp, tiles, glueStrengths):
         else:
             westGlues[westG] = [label]
 
-    sys = System(temp, states, states, [states[0]])
+
+    sys = System(temp, states, initial_st, [seed])
 
     # For each north glue
     for glue in glueStrengths.keys():
@@ -119,6 +127,18 @@ def toffSys():
     [temp, tiles] = loadTilesFromText("XML Files/aTAM/tilesToff.txt")
     glueStrs = loadGluesFromText("XML Files/aTAM/glueToff.txt")
     sys = buildSystem(temp, tiles, glueStrs)
+
+    seedTiles = []
+
+    #seedTiles.append("r0", 0, 0)
+    #seedTiles.append("r1", 1, 0)
+    #seedTiles.append("r2", 2, 0)
+    #seedTiles.append("s0A", 0, 1)
+    #seedTiles.append("s1B", 0, 2)
+    #seedTiles.append("s0C", 0, 3)
+    #seedTiles.append("i0A", 1, 1)
+    #seedTiles.append("i1B", 2, 1)
+    #seedTiles.append("i0C", 3, 1)
 
     
 
