@@ -8,22 +8,22 @@ r4 9d5c63 fRed r3 red rOut
 r5 9d5c63 red r4 red r3
 r6 9d5c63 tRed r5 red r4
 # Seed
-*0A ececec seedB s0 seedA dec0
+*0A ececec seedB s0 seedA dec0A
 *1B b3b3b3 seedC s1 seedB dec1
-*0C ececec null s0 seedC dec0
-S0A ececec sA s0 sRed dec0
-S1A b3b3b3 sA s1 sRed dec1
+*0C ececec null s0 seedC dec0C
+S0A ececec sA s0 sRed dec0A
+S1A b3b3b3 sA s1 sRed dec1A
 S0B ececec sB s0 sA dec0
 S1B b3b3b3 sB s1 sA dec1
-S0C ececec null s0 sB dec0
-S1C b3b3b3 null s1 sB dec1
+S0C ececec null s0 sB dec0C
+S1C b3b3b3 null s1 sB dec1C
 # Rev grey/white row
-t0A ececec tA inc0 tRed s0
-t1A b3b3b3 tA inc1 tRed s1
+t0A ececec tA inc0A tRed s0
+t1A b3b3b3 tA inc1A tRed s1
 t0B ececec tB inc0 tA s0
 t1B b3b3b3 tB inc1 tA s1
-t0C ececec null inc0 tB s0
-t1C b3b3b3 null inc1 tB s1
+t0C ececec null inc0C tB s0
+t1C b3b3b3 null inc1C tB s1
 # Input Tiles
 i0A 93e1d8 inA z0 red s0
 i1A ef8354 inA o0 red s1
@@ -70,8 +70,16 @@ rej5 537a5a red rej5 null rej4
 rej6 537a5a red rej6 null rej5
 rejC 537a5a redCount rej7 null rej6
 # Counter
-rCnt 9d5c63 cnt r0 redCount r5
-0c1 ececec copy dec1 cnt inc0
-1c0 b3b3b3 cnt dec0 cnt inc1
-0c0 ececec copy dec0 copy inc0
-1c1 b3b3b3 copy dec1 copy inc1
+rCnt 9d5c63 cntA r0 redCount r5
+0a1 ececec copyB dec1A cntA inc0A
+1a0 b3b3b3 cntB dec0A cntA inc1A
+# 0a0 ececec copyB dec0 copyA inc0
+# 1a1 b3b3b3 copyB dec1 copyA inc1
+0b1 ececec copyC dec1 cntB inc0
+1b0 b3b3b3 cntC dec0 cntB inc1
+0b0 ececec copyC dec0 copyB inc0
+1b1 b3b3b3 copyC dec1 copyB inc1
+0c1 ececec null dec1C cntC inc0C
+# 1c0 b3b3b3 null dec0C cntC inc1C
+0c0 ececec null dec0C copyC inc0C
+1c1 b3b3b3 null dec1C copyC inc1C
