@@ -47,6 +47,7 @@ def readxml(file):
 
         tempState = State(label, color)
         SeedStateSet.append(tempState)
+        
 
     # Record Vertical Transitions
     for rule_tag in treeroot.findall("VerticalTransitions/Rule"):

@@ -1,4 +1,4 @@
-from random import randrange
+import random
 # These classes are used for Loading and Saving Files and Communicating with general_TA_simulator.
 
 
@@ -568,6 +568,7 @@ class System:
         self.states = states
         self.initial_states = initial_states
         self.seed_states = seed_states
+        self.seed_assembly = Assembly()
 
         # List versions of rules
         # Takes 2 tiles [N][S] and returns the glue strength between them as an int
@@ -697,6 +698,9 @@ class System:
     def get_tile_horizontal_transitions(self):
         return self.tile_horizontal_transitions
 
+    def get_seed_assembly(self):
+        return self.seed_assembly
+
     # Displayers
 
     def displayVerticalAffinityDict(self):
@@ -783,6 +787,17 @@ class System:
     # idk if this will work
     def add_Seed_State(self, state):
         self.seed_states.append(state)
+
+    #if there is no preset assembly, pick a random seed state
+    #do nothing if there is a preset assembly
+    def make_Seed_Assembly(self):
+        if len(self.seed_assembly.tiles) == 0:
+            seed = random.choice(self.seed_states)
+            self.seed_assembly.set_tiles([Tile(seed, 0, 0)])
+
+    
+    def set_Seed_Assembly(self, assembly):
+        self.seed_assembly = assembly
 
     def remove_state(self, state):
         # if 
