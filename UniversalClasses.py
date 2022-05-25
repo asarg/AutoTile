@@ -785,9 +785,8 @@ class System:
         self.initial_states.append(state)
 
     # idk if this will work
-    #def add_Seed_State(self, state, x, y):
-        
-    #    self.seed_states.append(state)
+    def add_Seed_State(self, state):
+        self.seed_states.append(state)
 
     #if there is no preset assembly, pick a random seed state
     #do nothing if there is a preset assembly
