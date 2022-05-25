@@ -26,16 +26,12 @@ class Engine:
         self.lastIndex = 0
         self.errorStates = "" 
 
-        # Get seed
-        print(self.system.returnSeedStates())
-
-        seedState = random.choice(self.system.returnSeedStates())
-        seed = UniversalClasses.Tile(seedState, 0, 0)
-        self.seedAssembly = UniversalClasses.Assembly()
-        self.seedAssembly.set_tiles([seed])
-        # Changed from adding to list to setting it as the current assembly
-        # self.assemblyList.append(seedAssembly)
-        # self.currentAssembly = self.seedAssembly
+        #construct seed assembly from the seed states present in the respective system,
+        self.system.make_Seed_Assembly()
+        
+        #get resulting seed assembly
+        self.seedAssembly = self.system.get_seed_assembly()
+        self.currentAssembly = self.seedAssembly
         self.currentAssembly = copy.deepcopy(self.seedAssembly)
 
         self.validMoves = self.currentAssembly.getMoves(self.system)
