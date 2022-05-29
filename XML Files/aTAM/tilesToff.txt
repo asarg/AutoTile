@@ -1,6 +1,6 @@
 2
 # Red Tiles
-r* 9d5c63 seedA r1 rej0 r0
+# r* 9d5c63 seedA r1 rej0 r0
 r0 9d5c63 sRed r1 rej0 r0
 r1 9d5c63 red r2 red r1
 r2 9d5c63 gRed rOut red r2
@@ -8,9 +8,9 @@ r4 9d5c63 fRed r3 red rOut
 r5 9d5c63 red r4 red r3
 r6 9d5c63 tRed r5 red r4
 # Seed
-*0A ececec seedB s0 seedA dec0A
-*1B b3b3b3 seedC s1 seedB dec1
-*0C ececec null s0 seedC dec0C
+#*0A ececec seedB s0 seedA dec0A
+#*1B b3b3b3 seedC s1 seedB dec1
+#*0C ececec null s0 seedC dec0C
 S0A ececec sA s0 sRed dec0A
 S1A b3b3b3 sA s1 sRed dec1A
 S0B ececec sB s0 sA dec0

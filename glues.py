@@ -130,17 +130,22 @@ def toffSys():
 
     seedTiles = []
 
-    #seedTiles.append("r0", 0, 0)
-    #seedTiles.append("r1", 1, 0)
-    #seedTiles.append("r2", 2, 0)
-    #seedTiles.append("s0A", 0, 1)
-    #seedTiles.append("s1B", 0, 2)
-    #seedTiles.append("s0C", 0, 3)
-    #seedTiles.append("i0A", 1, 1)
-    #seedTiles.append("i1B", 2, 1)
-    #seedTiles.append("i0C", 3, 1)
+    seedTiles.append(Tile(sys.get_state("r0"), 0, 0))
+    seedTiles.append(Tile(sys.get_state("r1"), 1, 0))
+    seedTiles.append(Tile(sys.get_state("r2"), 2, 0))
+    seedTiles.append(Tile(sys.get_state("S0A"), 0, 1))
+    seedTiles.append(Tile(sys.get_state("S1B"), 0, 2))
+    seedTiles.append(Tile(sys.get_state("S0C"), 0, 3))
+    seedTiles.append(Tile(sys.get_state("i0A"), 1, 1))
+    seedTiles.append(Tile(sys.get_state("i1B"), 1, 2))
+    seedTiles.append(Tile(sys.get_state("i0C"), 1, 3))
 
-    
+    for seedT in seedTiles:
+        print(seedT.get_label())
+
+    seedAssembly = Assembly()
+    seedAssembly.set_tiles(seedTiles)
+    sys.set_Seed_Assembly(seedAssembly)
 
     return sys
 
