@@ -124,9 +124,85 @@ def buildSystem(temp, tiles, glueStrengths):
 
 
 def toffSys():
-    [temp, tiles] = loadTilesFromText("XML Files/aTAM/tilesToff.txt")
-    glueStrs = loadGluesFromText("XML Files/aTAM/glueToff.txt")
-    sys = buildSystem(temp, tiles, glueStrs)
+    #[temp, tiles] = loadTilesFromText("XML Files/aTAM/tilesToff.txt")
+    #glueStrs = loadGluesFromText("XML Files/aTAM/glueToff.txt")
+
+    # Get Circuit
+    input = "010"
+    gates = [4, 3, 4]
+    bits = 4
+
+
+    # Make Tile set and glues
+    tiles = []
+    glueStrs = []
+
+    glueStrs["s0"] = 1
+    glueStrs["s1"] = 1
+    glueStrs["t0"] = 1
+    glueStrs["t1"] = 1
+    glueStrs["dec0"] = 1
+    glueStrs["dec1"] = 1
+    glueStrs["inc0"] = 1
+    glueStrs["inc1"] = 1
+
+    # Red Tiles
+    for i in range((2 * len(gates)) + 5):
+        if i == 0:
+            glueStrs["r" + str(i)] = 1
+        else:
+            glueStrs["r" + str(i)] = 2
+
+
+    #  r0
+    r0 = ["r0", "9d5c63", "S0", "r1", "NULL", "r0"]
+    tiles.append(r0)
+
+    for i in range(bits):
+        # S tiles
+        # Si is vertical glue
+        sTile0 = ["s" + "0_" + str(i), "ececec", "S" + str(i + 1), "s0", "S" + str(i), "dec0"]
+        sTile1 = ["s" + "1_" + str(i), "b3b3b3", "S" + str(i + 1), "s1", "S" + str(i), "dec1"]
+        tiles.append(sTile0)
+        tiles.append(sTile1)
+
+        glueStrs["S" + str(i)] = 1
+        glueStrs["S" + str(i)] = 1
+
+        # T tiles is the reversed version
+        tTile0 = ["t" + "0_" + str(i), "ececec", "T" + str(i + 1), "dec0", "T" + str(i), "t0"]
+        tTile1 = ["t" + "1_" + str(i), "b3b3b3", "T" + str(i + 1), "dec1", "T" + str(i), "t1"]
+        tiles.append(tTile0)
+        tiles.append(tTile1)
+
+        glueStrs["T" + str(i)] = 1
+        glueStrs["T" + str(i)] = 1
+
+        # Input tiles - Connection between S and circuit
+        iTile0 = ["i" + "0_" + str(i), "93e1d8", "I" + str(i + 1), "0_" + str(i), "I" + str(i), "s0"]
+        iTile1 = ["i" + "1_" + str(i), "ef8354", "I" + str(i + 1), "1_" + str(i), "I" + str(i), "s1"]
+        tiles.append(iTile0)
+        tiles.append(iTile1)
+
+        glueStrs["I" + str(i)] = 1
+        glueStrs["I" + str(i)] = 1
+        
+        # "jinput" reversed input
+        jTile0 = ["j" + "0_" + str(i), "93e1d8", "J" + str(i + 1), "t0", "J" + str(i), "0" + str(i)]
+        jTile1 = ["j" + "1_" + str(i), "ef8354", "J" + str(i + 1), "t1", "J" + str(i), "1" + str(i)]
+        tiles.append(jTile0)
+        tiles.append(jTile1)
+
+        glueStrs["J" + str(i)] = 1
+        glueStrs["J" + str(i)] = 1
+
+        # Circuit Glues
+        glueStrs["0_" + str(i)] = 1
+        glueStrs["1_" + str(i)] = 1
+
+
+
+    sys = buildSystem(2, tiles, glueStrs)
 
     seedTiles = []
 
