@@ -33,7 +33,6 @@ class Engine:
         self.seedAssembly = self.system.get_seed_assembly()
         self.currentAssembly = self.seedAssembly
         self.currentAssembly = copy.deepcopy(self.seedAssembly)
-        print(self.seedAssembly)
 
         self.validMoves = self.currentAssembly.getMoves(self.system)
 
