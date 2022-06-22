@@ -40,13 +40,17 @@ def readxml(file):
         tempState = State(label, color)
         InitialStateSet.append(tempState)
 
-    # Record Seed States
+    # Record Seed States and make seed assembly
     for state_tag in treeroot.findall("SeedStates/State"):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
 
+        x = state_tag.get("x")
+        y = state_tag.get("y")
+
         tempState = State(label, color)
         SeedStateSet.append(tempState)
+        seedAssembly.set_tiles([Tile(tempState,int(x),int(y))])
         
 
     # Record Vertical Transitions
@@ -88,15 +92,3 @@ def readxml(file):
 
         tempRule = AffinityRule(label1, label2, "h", strength)
         HorizontalAffinityRules.append(tempRule)
-
-    for assembly_tag in treeroot.findall("Assembly/State"):
-
-        state = label = state_tag.get("Label")
-        color = state_tag.get("Color")
-        x = assembly_tag.get("x")
-        y = assembly_tag.get("y")
-
-        tempState = State(label, color)
-
-        print(x,y,state,color)
-        seedAssembly.set_tiles([Tile(tempState,int(x),int(y))])

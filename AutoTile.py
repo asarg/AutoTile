@@ -260,7 +260,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         self.thread = QThread()
         self.threadlast = QThread()
-        self.loadAssembly("XML Files/SquareExample.xml")
+        self.loadAssembly("XML Files/seededExample.xml")
 
     # Slide left menu function
     def slideLeftMenu(self):
@@ -828,7 +828,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self, "Select XML Document", "", "XML Files (*.xml)")
         if file[0] != '':
             self.SysLoaded = False
-            self.loadAssembly(file[0])
+            self.Load_File(file[0])
 
     def Load_File(self, filename):
         # Simulator must clear all of LoadFile's global variables when the user attempts to load something.
@@ -862,13 +862,14 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             horizontal_affinities = LoadFile.HorizontalAffinityRules
             vertical_transitions = LoadFile.VerticalTransitionRules
             horizontal_transitions = LoadFile.HorizontalTransitionRules
+            seed_assembly = LoadFile.seed_assembly
 
             self.SysLoaded = True
             self.stop_sequence()
 
             # Establish the current system we're working with
             global currentSystem
-            currentSystem = System(temp, states, inital_states, seed_states, vertical_affinities,
+            currentSystem = System(temp, states, inital_states, seed_assembly, seed_states,  vertical_affinities,
                                    horizontal_affinities, vertical_transitions, horizontal_transitions)
             print("\nSystem Dictionaries:")
             print("Vertical Affinities:")
@@ -939,7 +940,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         # Establish the current system we're working with
         global currentSystem
-        currentSystem = System(temp, states, inital_states, seed_states, vertical_affinities,
+        currentSystem = System(temp, states, inital_states, seed_assembly, seed_states, vertical_affinities,
                                 horizontal_affinities, vertical_transitions, horizontal_transitions)
         print("\nSystem Dictionaries:")
         print("Vertical Affinities:")

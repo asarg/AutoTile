@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 from UniversalClasses import State
 from UniversalClasses import AffinityRule
 from UniversalClasses import TransitionRule
+from UniversalClasses import Assembly
 
 # System's Affinity Rules
 VerticalAffinityRules = []
@@ -14,6 +15,7 @@ SeedStateSet = []  # Used in SingleTile mode; States that were marked as potenti
 # States marked as initial states; states that float around the system looking to attach to something.
 InitialStateSet = []
 CompleteStateSet = []  # All states in the system
+seed_assembly = Assembly()
 
 
 def readxml(file):
