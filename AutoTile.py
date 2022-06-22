@@ -109,6 +109,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.Load_button.clicked.connect(self.Click_FileSearch)
         self.Load_button.setIcon(QtGui.QIcon('Icons/tabler-icon-folder.png'))
 
+        # this is "Load Assembly" on the "File" menu
+        self.seededLoadButton.clicked.connect(self.Click_FileSearchSeeded)
+        self.seededLoadButton.setIcon(QtGui.QIcon('Icons/tabler-icon-folder.png'))
+
         # "Save" from the "File" menu
         self.SaveAs_button.clicked.connect(self.Click_SaveFile)
         self.SaveAs_button.setIcon(QtGui.QIcon('Icons/save-icon.png'))
@@ -829,6 +833,14 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         if file[0] != '':
             self.SysLoaded = False
             self.Load_File(file[0])
+
+    def Click_FileSearchSeeded(self, id):
+        self.stop_sequence()
+        file = QFileDialog.getOpenFileName(
+            self, "Select XML Document", "", "XML Files (*.xml)")
+        if file[0] != '':
+            self.SysLoaded = False
+            self.loadAssembly(file[0])
 
     def Load_File(self, filename):
         # Simulator must clear all of LoadFile's global variables when the user attempts to load something.
