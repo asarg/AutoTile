@@ -851,6 +851,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             LoadFile.SeedStateSet.clear()
             LoadFile.InitialStateSet.clear()
             LoadFile.CompleteStateSet.clear()
+            LoadFile.seed_assembly = Assembly()
 
             LoadFile.readxml(filename)
 
@@ -874,15 +875,15 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             horizontal_affinities = LoadFile.HorizontalAffinityRules
             vertical_transitions = LoadFile.VerticalTransitionRules
             horizontal_transitions = LoadFile.HorizontalTransitionRules
-            seed_assembly = LoadFile.seed_assembly
+            seeded_assembly = LoadFile.seed_assembly
 
             self.SysLoaded = True
             self.stop_sequence()
 
             # Establish the current system we're working with
             global currentSystem
-            currentSystem = System(temp, states, inital_states, seed_assembly, seed_states,  vertical_affinities,
-                                   horizontal_affinities, vertical_transitions, horizontal_transitions)
+            currentSystem = System(temp, states, inital_states, seed_states,  vertical_affinities,
+                                   horizontal_affinities, vertical_transitions, horizontal_transitions,seed_assembly=seeded_assembly)
             print("\nSystem Dictionaries:")
             print("Vertical Affinities:")
             currentSystem.displayVerticalAffinityDict()
@@ -922,6 +923,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         assemblyLoader.SeedStateSet.clear()
         assemblyLoader.InitialStateSet.clear()
         assemblyLoader.CompleteStateSet.clear()
+        assemblyLoader.seed_assembly = Assembly()
 
         assemblyLoader.readxml(filename)
 
@@ -945,15 +947,15 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         horizontal_affinities = assemblyLoader.HorizontalAffinityRules
         vertical_transitions = assemblyLoader.VerticalTransitionRules
         horizontal_transitions = assemblyLoader.HorizontalTransitionRules
-        seed_assembly = assemblyLoader.seedAssembly
+        seeded_assembly = assemblyLoader.seed_assembly
 
         self.SysLoaded = True
         self.stop_sequence()
 
         # Establish the current system we're working with
         global currentSystem
-        currentSystem = System(temp, states, inital_states, seed_assembly, seed_states, vertical_affinities,
-                                horizontal_affinities, vertical_transitions, horizontal_transitions)
+        currentSystem = System(temp, states, inital_states, seed_states, vertical_affinities,
+                                horizontal_affinities, vertical_transitions, horizontal_transitions, seed_assembly=seeded_assembly)
         print("\nSystem Dictionaries:")
         print("Vertical Affinities:")
         currentSystem.displayVerticalAffinityDict()

@@ -14,7 +14,7 @@ SeedStateSet = []  # Used in SingleTile mode; States that were marked as potenti
 # States marked as initial states; states that float around the system looking to attach to something.
 InitialStateSet = []
 CompleteStateSet = []  # All states in the system
-seedAssembly = Assembly()
+seed_assembly = Assembly()
 
 def readxml(file):
     tree = ET.parse(file)
@@ -50,7 +50,9 @@ def readxml(file):
 
         tempState = State(label, color)
         SeedStateSet.append(tempState)
-        seedAssembly.set_tiles([Tile(tempState,int(x),int(y))])
+
+        if isinstance(x,str) & isinstance(y,str):
+            seed_assembly.set_tiles([Tile(tempState,int(x),int(y))])
         
 
     # Record Vertical Transitions
