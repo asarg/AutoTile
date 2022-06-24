@@ -123,6 +123,16 @@ class Ui_MainWindow(object):
 "   }")
         self.Load_button.setObjectName("Load_button")
         self.verticalLayout_6.addWidget(self.Load_button)
+        self.seededLoadButton = QtWidgets.QPushButton(self.frame_6)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.seededLoadButton.setFont(font)
+        self.seededLoadButton.setStyleSheet("QPushButton::hover\n"
+"  {\n"
+"     background-color : lightblue;\n"
+"   }")
+        self.seededLoadButton.setObjectName("seededLoadButton")
+        self.verticalLayout_6.addWidget(self.seededLoadButton)
         self.SaveAs_button = QtWidgets.QPushButton(self.frame_6)
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -494,6 +504,7 @@ class Ui_MainWindow(object):
         self.Title_label.setText(_translate("MainWindow", "    AutoTile"))
         self.New_button.setText(_translate("MainWindow", "New"))
         self.Load_button.setText(_translate("MainWindow", "Load"))
+        self.seededLoadButton.setText(_translate("MainWindow", "Load Assembly"))
         self.SaveAs_button.setText(_translate("MainWindow", "Save As ..."))
         self.SaveHistory_Button.setText(_translate("MainWindow", "Save History"))
         self.LoadHistory_Button.setText(_translate("MainWindow", "Load History"))

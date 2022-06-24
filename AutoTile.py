@@ -22,6 +22,7 @@ import FreezingCheck
 import sampleGen
 
 import sys
+from util.loaders import assemblyLoader
 
 
 # Global Variables
@@ -107,6 +108,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         # this is "Load" on the "File" menu
         self.Load_button.clicked.connect(self.Click_FileSearch)
         self.Load_button.setIcon(QtGui.QIcon('Icons/tabler-icon-folder.png'))
+
+        # this is "Load Assembly" on the "File" menu
+        self.seededLoadButton.clicked.connect(self.Click_FileSearchSeeded)
+        self.seededLoadButton.setIcon(QtGui.QIcon('Icons/tabler-icon-folder.png'))
 
         # "Save" from the "File" menu
         self.SaveAs_button.clicked.connect(self.Click_SaveFile)
@@ -259,7 +264,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         self.thread = QThread()
         self.threadlast = QThread()
-        self.Load_File("XML Files/SquareExample.xml")
+        self.loadAssembly("XML Files/seededExample.xml")
 
     # Slide left menu function
     def slideLeftMenu(self):
@@ -829,6 +834,14 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.SysLoaded = False
             self.Load_File(file[0])
 
+    def Click_FileSearchSeeded(self, id):
+        self.stop_sequence()
+        file = QFileDialog.getOpenFileName(
+            self, "Select XML Document", "", "XML Files (*.xml)")
+        if file[0] != '':
+            self.SysLoaded = False
+            self.loadAssembly(file[0])
+
     def Load_File(self, filename):
         # Simulator must clear all of LoadFile's global variables when the user attempts to load something.
             LoadFile.HorizontalAffinityRules.clear()
@@ -838,6 +851,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             LoadFile.SeedStateSet.clear()
             LoadFile.InitialStateSet.clear()
             LoadFile.CompleteStateSet.clear()
+            LoadFile.seed_assembly = Assembly()
 
             LoadFile.readxml(filename)
 
@@ -861,14 +875,15 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             horizontal_affinities = LoadFile.HorizontalAffinityRules
             vertical_transitions = LoadFile.VerticalTransitionRules
             horizontal_transitions = LoadFile.HorizontalTransitionRules
+            seeded_assembly = LoadFile.seed_assembly
 
             self.SysLoaded = True
             self.stop_sequence()
 
             # Establish the current system we're working with
             global currentSystem
-            currentSystem = System(temp, states, inital_states, seed_states, vertical_affinities,
-                                   horizontal_affinities, vertical_transitions, horizontal_transitions)
+            currentSystem = System(temp, states, inital_states, seed_states,  vertical_affinities,
+                                   horizontal_affinities, vertical_transitions, horizontal_transitions,seed_assembly=seeded_assembly)
             print("\nSystem Dictionaries:")
             print("Vertical Affinities:")
             currentSystem.displayVerticalAffinityDict()
@@ -898,6 +913,78 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
             self.draw_assembly(self.Engine.getCurrentAssembly())
             self.Update_available_moves()
+
+    def loadAssembly(self, filename):
+    # Simulator must clear all of LoadFile's global variables when the user attempts to load something.
+        assemblyLoader.HorizontalAffinityRules.clear()
+        assemblyLoader.VerticalAffinityRules.clear()
+        assemblyLoader.HorizontalTransitionRules.clear()
+        assemblyLoader.VerticalTransitionRules.clear()
+        assemblyLoader.SeedStateSet.clear()
+        assemblyLoader.InitialStateSet.clear()
+        assemblyLoader.CompleteStateSet.clear()
+        assemblyLoader.seed_assembly = Assembly()
+
+        assemblyLoader.readxml(filename)
+
+        # Creating global variables
+        global temp
+        global states
+        global inital_states
+        global seed_assembly
+        global seed_states
+        global vertical_affinities
+        global horizontal_affinities
+        global vertical_transitions
+        global horizontal_transitions
+
+        # Creating a System object from data read.
+        temp = assemblyLoader.Temp
+        states = assemblyLoader.CompleteStateSet
+        inital_states = assemblyLoader.InitialStateSet
+        seed_states = assemblyLoader.SeedStateSet
+        vertical_affinities = assemblyLoader.VerticalAffinityRules
+        horizontal_affinities = assemblyLoader.HorizontalAffinityRules
+        vertical_transitions = assemblyLoader.VerticalTransitionRules
+        horizontal_transitions = assemblyLoader.HorizontalTransitionRules
+        seeded_assembly = assemblyLoader.seed_assembly
+
+        self.SysLoaded = True
+        self.stop_sequence()
+
+        # Establish the current system we're working with
+        global currentSystem
+        currentSystem = System(temp, states, inital_states, seed_states, vertical_affinities,
+                                horizontal_affinities, vertical_transitions, horizontal_transitions, seed_assembly=seeded_assembly)
+        print("\nSystem Dictionaries:")
+        print("Vertical Affinities:")
+        currentSystem.displayVerticalAffinityDict()
+        print("Horizontal Affinities:")
+        currentSystem.displayHorizontalAffinityDict()
+        print("Vertical Transitions:")
+        currentSystem.displayVerticalTransitionDict()
+        print("Horizontal Transitions:")
+        currentSystem.displayHorizontalTransitionDict()
+
+        # the -150 is to account for the slide menu
+        self.seedX = (self.geometry().width() - 150) / 2
+        self.seedY = self.geometry().height() / 2
+
+        self.tileSize = 40
+        self.textSize = int(self.tileSize / 3)
+
+        self.textX_offset = self.tileSize / 3.9
+        self.textY_offset = self.tileSize / 1.7
+
+        self.textX = self.seedX + self.textX_offset
+        self.textY = self.seedY + self.textY_offset
+
+        self.time = 0
+        self.Engine = Engine(currentSystem)
+        self.historian.set_engine(self.Engine)
+
+        self.draw_assembly(self.Engine.getCurrentAssembly())
+        self.Update_available_moves()
 
     def Click_SaveFile(self):
         # Creating a System object from data read.

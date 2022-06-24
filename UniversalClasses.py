@@ -563,12 +563,12 @@ class System:
     # Temp int
     # Initial List of States
     # Seed Assembly Object
-    def __init__(self, temp, states, initial_states, seed_states=None, vertical_affinities_list=[], horizontal_affinities_list=[], vertical_transitions_list=[], horizontal_transitions_list=[], tile_vertical_transitions=[], tile_horizontal_transitions=[], empty=False):
+    def __init__(self, temp, states, initial_states, seed_states=None, vertical_affinities_list=[], horizontal_affinities_list=[], vertical_transitions_list=[], horizontal_transitions_list=[], tile_vertical_transitions=[], tile_horizontal_transitions=[], seed_assembly = Assembly(), empty=False):
         self.temp = temp
         self.states = states
         self.initial_states = initial_states
         self.seed_states = seed_states
-        self.seed_assembly = Assembly()
+        self.seed_assembly = seed_assembly
 
         # List versions of rules
         # Takes 2 tiles [N][S] and returns the glue strength between them as an int
