@@ -817,7 +817,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
     def Click_newButton(self):
         global currentSystem
-        currentSystem = System(1, [], [], [], [], [], [], [], [], [], True)
+        currentSystem = System(1, [], [], [], [], [], [], [], [], [], seed_assembly=Assembly(), empty=True)
         seed = State("X", "ffffff")
         currentSystem.add_Seed_State(seed)
         currentSystem.add_State(seed)
@@ -1642,7 +1642,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         global currentSystem
         newtemp = self.spinBox.value()
 
-        newsys = System(newtemp, [], [], [], [], [], [], [], [], [], True)
+        newsys = System(newtemp, [], [], [], [], [], [], [], [], [], seed_assembly=Assembly(), empty=True)
 
         available_states = []
         states_used = []

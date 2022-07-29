@@ -792,8 +792,11 @@ class System:
     #do nothing if there is a preset assembly
     def make_Seed_Assembly(self):
         if len(self.seed_assembly.tiles) == 0:
-            seed = random.choice(self.seed_states)
-            self.seed_assembly.set_tiles([Tile(seed, 0, 0)])
+            try:
+                seed = random.choice(self.seed_states)
+                self.seed_assembly.set_tiles([Tile(seed, 0, 0)])
+            except:
+                print("ERROR: No states are set as seeds.")
 
     
     def set_Seed_Assembly(self, assembly):

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<System Temp="1">
+	<AllStates>
+		<State Label="S" Color="ffffff" />
+		<State Label="L0" Color="ff0000 " />
+		<State Label="L1" Color="00FF00" />
+		<State Label="X1" Color="ffffff" />
+		<State Label="X0" Color="ffffff" />
+		<State Label="0S" Color="ffffff" />
+		<State Label="1S" Color="ffffff" />
+		<State Label="H1" Color="ffffff" />
+
+
+	</AllStates>
+	<InitialStates>
+		<State Label="S" Color="ffffff" />
+		<State Label="L0" Color="ff0000 " />
+		<State Label="L1" Color="00FF00" />
+		<State Label="X1" Color="ffffff" />
+		<State Label="X0" Color="ffffff" />
+		<State Label="0S" Color="ffffff" />
+		<State Label="1S" Color="ffffff" />
+		<State Label="H1" Color="ffffff" />
+
+	</InitialStates>
+	<SeedStates>
+		<State Label="S" Color="ffffff" x="0" y="0" />
+		<State Label="X1" Color="ffffff" x="0" y="1" />
+		<State Label="G" Color="ffffff" x="0" y="2" />
+		<State Label="X1" Color="ffffff" x="0" y="3" />
+		<State Label="G" Color="ffffff" x="0" y="4" />
+		<State Label="H1" Color="ffffff" x="0" y="5" />
+	</SeedStates>
+	<VerticalTransitions />
+	<HorizontalTransitions>
+	</HorizontalTransitions>
+	<VerticalAffinities>
+	</VerticalAffinities>
+	<HorizontalAffinities>
+		<Rule Label1="X1" Label2="L1" Strength="1" />
+		<Rule Label1="X0" Label2="L0" Strength="1" />
+		<Rule Label1="L0" Label2="0S" Strength="1" />
+		<Rule Label1="L1" Label2="1S" Strength="1" />
+		<Rule Label1="H1" Label2="L1" Strength="2" />
+
+	</HorizontalAffinities>
+</System>   
