@@ -796,7 +796,7 @@ class System:
                 seed = random.choice(self.seed_states)
                 self.seed_assembly.set_tiles([Tile(seed, 0, 0)])
             except:
-                print("ERROR: No states are set as seeds.")
+                "There are no states set as seeds for this assembly."
 
     
     def set_Seed_Assembly(self, assembly):
