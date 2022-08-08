@@ -555,67 +555,70 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         painter.setPen(pen)
 
         # adding attachment on screen
-        if move['type'] == 'a' and forward == 1:  # (type, x, y, state1)
-            if self.onScreen_check(move['x'], move['y']) != 1:
-                brush.setColor(QtGui.QColor(
-                    "#" + move['state1'].returnColor()))
-                self.draw_to_screen(
-                    move['x'], move['y'], move['state1'].get_label(), painter, brush)
-
-        # showing transition on screen
-        # (type, x, y, dir, state1, state2, state1Final, state2Final)
-        elif move['type'] == 't' and forward == 1:
-            self.transition_draw_function(
-                move, move['state1Final'], move['state2Final'], painter, brush)
-
-        # getting rid of attachment on screen
-        elif move['type'] == 'a' and forward == 0:  # (type, x, y, state1)
-            brush.setColor(QtGui.QColor("white"))
-            pen.setColor(QtGui.QColor("white"))
-            painter.setPen(pen)
-
-            if self.onScreen_check(move['x'], move['y']) != 1:
-                self.draw_to_screen(move['x'], move['y'], "", painter, brush)
-
-            assembly = self.Engine.getCurrentAssembly()
-            pen.setColor(QtGui.QColor("black"))
-            painter.setPen(pen)
-
-            neighborN = assembly.coords.get(
-                "(" + str(move['x']) + "," + str(move['y'] + 1) + ")")
-            neighborS = assembly.coords.get(
-                "(" + str(move['x']) + "," + str(move['y'] - 1) + ")")
-            neighborE = assembly.coords.get(
-                "(" + str(move['x'] + 1) + "," + str(move['y']) + ")")
-            neighborW = assembly.coords.get(
-                "(" + str(move['x'] - 1) + "," + str(move['y']) + ")")
-
-            if neighborN != None:
-                if self.onScreen_check(move['x'], move['y'] + 1) != 1:
-                    brush.setColor(QtGui.QColor("#" + neighborN.get_color()))
+        try:
+            if move['type'] == 'a' and forward == 1:  # (type, x, y, state1)
+                if self.onScreen_check(move['x'], move['y']) != 1:
+                    brush.setColor(QtGui.QColor(
+                        "#" + move['state1'].returnColor()))
                     self.draw_to_screen(
-                        move['x'], move['y'] + 1, neighborN.get_label(), painter, brush)
-            if neighborS != None:
-                if self.onScreen_check(move['x'], move['y'] - 1) != 1:
-                    brush.setColor(QtGui.QColor("#" + neighborS.get_color()))
-                    self.draw_to_screen(
-                        move['x'], move['y'] - 1, neighborS.get_label(), painter, brush)
-            if neighborE != None:
-                if self.onScreen_check(move['x'] + 1, move['y']) != 1:
-                    brush.setColor(QtGui.QColor("#" + neighborE.get_color()))
-                    self.draw_to_screen(
-                        move['x'] + 1, move['y'], neighborE.get_label(), painter, brush)
-            if neighborW != None:
-                if self.onScreen_check(move['x'] - 1, move['y']) != 1:
-                    brush.setColor(QtGui.QColor("#" + neighborW.get_color()))
-                    self.draw_to_screen(
-                        move['x'] - 1, move['y'], neighborW.get_label(), painter, brush)
+                        move['x'], move['y'], move['state1'].get_label(), painter, brush)
 
-        # reversing transition on screen
-        # (type, x, y, dir, state1, state2, state1Final, state2Final)
-        elif move['type'] == 't' and forward == 0:
-            self.transition_draw_function(
-                move, move['state1'], move['state2'], painter, brush)
+            # showing transition on screen
+            # (type, x, y, dir, state1, state2, state1Final, state2Final)
+            elif move['type'] == 't' and forward == 1:
+                self.transition_draw_function(
+                    move, move['state1Final'], move['state2Final'], painter, brush)
+
+            # getting rid of attachment on screen
+            elif move['type'] == 'a' and forward == 0:  # (type, x, y, state1)
+                brush.setColor(QtGui.QColor("white"))
+                pen.setColor(QtGui.QColor("white"))
+                painter.setPen(pen)
+
+                if self.onScreen_check(move['x'], move['y']) != 1:
+                    self.draw_to_screen(move['x'], move['y'], "", painter, brush)
+
+                assembly = self.Engine.getCurrentAssembly()
+                pen.setColor(QtGui.QColor("black"))
+                painter.setPen(pen)
+
+                neighborN = assembly.coords.get(
+                    "(" + str(move['x']) + "," + str(move['y'] + 1) + ")")
+                neighborS = assembly.coords.get(
+                    "(" + str(move['x']) + "," + str(move['y'] - 1) + ")")
+                neighborE = assembly.coords.get(
+                    "(" + str(move['x'] + 1) + "," + str(move['y']) + ")")
+                neighborW = assembly.coords.get(
+                    "(" + str(move['x'] - 1) + "," + str(move['y']) + ")")
+
+                if neighborN != None:
+                    if self.onScreen_check(move['x'], move['y'] + 1) != 1:
+                        brush.setColor(QtGui.QColor("#" + neighborN.get_color()))
+                        self.draw_to_screen(
+                            move['x'], move['y'] + 1, neighborN.get_label(), painter, brush)
+                if neighborS != None:
+                    if self.onScreen_check(move['x'], move['y'] - 1) != 1:
+                        brush.setColor(QtGui.QColor("#" + neighborS.get_color()))
+                        self.draw_to_screen(
+                            move['x'], move['y'] - 1, neighborS.get_label(), painter, brush)
+                if neighborE != None:
+                    if self.onScreen_check(move['x'] + 1, move['y']) != 1:
+                        brush.setColor(QtGui.QColor("#" + neighborE.get_color()))
+                        self.draw_to_screen(
+                            move['x'] + 1, move['y'], neighborE.get_label(), painter, brush)
+                if neighborW != None:
+                    if self.onScreen_check(move['x'] - 1, move['y']) != 1:
+                        brush.setColor(QtGui.QColor("#" + neighborW.get_color()))
+                        self.draw_to_screen(
+                            move['x'] - 1, move['y'], neighborW.get_label(), painter, brush)
+
+            # reversing transition on screen
+            # (type, x, y, dir, state1, state2, state1Final, state2Final)
+            elif move['type'] == 't' and forward == 0:
+                self.transition_draw_function(
+                    move, move['state1'], move['state2'], painter, brush)
+        except:
+            print("There are no valid attachments.")
 
         painter.end()
 
@@ -816,13 +819,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         return 0
 
     def Click_newButton(self):
-        global currentSystem
-        currentSystem = System(1, [], [], [], [], [], [], [], [], [], True)
-        seed = State("X", "ffffff")
-        currentSystem.add_Seed_State(seed)
-        currentSystem.add_State(seed)
-        self.Engine = Engine(currentSystem)
-
+        
         self.e = Ui_EditorWindow(self.Engine, self)
         self.e.show()
 
@@ -1639,10 +1636,12 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             self.copy_3(cells, currentRow+1)
 
     def Click_EditApply(self):
+
         global currentSystem
         newtemp = self.spinBox.value()
 
-        newsys = System(newtemp, [], [], [], [], [], [], [], [], [], True)
+        newsys = System(newtemp, [], [], [], [], [], [], [], [], [], seed_assembly = Assembly(), empty=True)
+        currentSystem = newsys
 
         available_states = []
         states_used = []
