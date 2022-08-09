@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<System Temp="1">
+	<AllStates>
+	</AllStates>
+	<InitialStates>
+	</InitialStates>
+	<SeedStates>
+		<State Label="" Color="ffffff" x="0" y="0" />
+		<State Label="->" Color="ffffff" x="1" y="0" />
+		<State Label="==" Color="ffffff" x="-1" y="0" />
+		<State Label="***" Color="ffffff" x="0" y="1" />
+		<State Label="" Color="ffffff" x="0" y="-1" />
+		<State Label="" Color="ffffff" x="1" y="1" />
+		<State Label="🤔" Color="ffffff" x="-1" y="2" />
+		<State Label="🤔" Color="ffffff" x="0" y="2" />
+		<State Label="🤔" Color="ffffff" x="1" y="2" />
+	</SeedStates>
+	<VerticalTransitions />
+	<HorizontalTransitions>
+	</HorizontalTransitions>
+	<VerticalAffinities>
+	</VerticalAffinities>
+	<HorizontalAffinities>
+	</HorizontalAffinities>
+</System>   

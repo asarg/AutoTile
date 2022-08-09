@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox, QMessageBox
-from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont
+from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
 
 from PyQt5.QtCore import Qt
@@ -200,6 +200,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.moveWidgets.append(mGUI)
             self.movesLayout.addWidget(mGUI)
 
+        # Add fonts to database
+        # TODO :: add whole font folder here
+        QFontDatabase.addApplicationFont("fonts/Fira Code Bold Nerd Font Complete.tff")
+
         paper_options = ["SAND22"]
         self.GenPaper_Box.addItems(paper_options)
 
@@ -264,7 +268,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         self.thread = QThread()
         self.threadlast = QThread()
-        self.loadAssembly("XML Files/seededExample.xml")
+        self.loadAssembly("XML Files/seededFontTest.xml")
 
     # Slide left menu function
     def slideLeftMenu(self):
@@ -646,7 +650,8 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         painter.drawRect(0, 0, self.geometry().width(),
                          self.geometry().height())
 
-        font.setFamily("Times")
+        # Font
+        font.setFamily("Fira Code")
         font.setBold(True)
         font.setPixelSize(self.textSize)
         painter.setFont(font)
