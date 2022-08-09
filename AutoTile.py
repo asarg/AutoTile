@@ -772,15 +772,18 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
     def draw_to_screen(self, x, y, label, painter, brush):
         painter.setBrush(brush)
+        ts = self.tileSize
+        ts_x = int(x*ts + self.seedX)
+        ts_y = int((y * -ts) + self.seedY)
+        rect = QtCore.QRect(ts_x, ts_y, ts, ts)
 
-        painter.drawRect(int((x * self.tileSize) + self.seedX),
-                         int((y * -self.tileSize) + self.seedY), self.tileSize, self.tileSize)
+        painter.drawRect(rect)
 
         if self.tileSize > 10:
             if len(label) > 4:
-                painter.drawText(int(x * self.tileSize) + int(self.textX), int(y * -self.tileSize) + int(self.textY), label[0:3])
+                painter.drawText(rect, Qt.AlignCenter, label[0:3])
             else:
-                painter.drawText(int((x * self.tileSize) + int(self.textX)), int((y * -self.tileSize) + int(self.textY)), label)
+                painter.drawText(rect, Qt.AlignCenter, label)
 
     def transition_draw_function(self, move, state1, state2, painter, brush):
         horizontal = 0
