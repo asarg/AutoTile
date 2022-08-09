@@ -1,27 +1,17 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox, QMessageBox
 from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
-from PyQt5.QtCore import QObject, QThread, pyqtSignal
+from PyQt5.QtCore import QObject, QThread, Qt, pyqtSignal
 
-from PyQt5.QtCore import Qt
 from random import randrange
+import math, sys
+
 from Player import ComputeLast, Player
 from Historian import Historian
-
 from assemblyEngine import Engine
 from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
-import TAMainWindow
-import EditorWindow16
-import LoadFile
-import SaveFile
-import QuickRotate
-import QuickCombine
-import QuickReflect
-import math
-import FreezingCheck
-import sampleGen
+import TAMainWindow, EditorWindow16, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
 
-import sys
 from util.loaders import assemblyLoader
 
 
@@ -444,7 +434,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 y_num = 0
 
                 tile_increase = 10
-            
+
                 if self.tileSize < 10:
                     tile_increase = 5
 
@@ -474,14 +464,14 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                     tile_increase = -10
                     x_num = -4.2
                     y_num = -5
-                    
+
                 elif self.tileSize > 5:
                     tile_increase = -5
 
                 self.update_tileSize(tile_increase, x_num, y_num)
 
                 self.draw_assembly(self.Engine.getCurrentAssembly())
-                
+
 
     def wheelEvent(self, event):
         if self.play:
@@ -492,7 +482,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         #### Zoom in functions for the scroll wheel ####
         if event.angleDelta().y() == 120:
             tile_increase = 10
-            
+
             if self.tileSize < 10:
                 tile_increase = 5
 
@@ -513,7 +503,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 y_num = -6
 
             elif self.tileSize > 30:
-                tile_increase = -10 
+                tile_increase = -10
                 x_num = -4.1
                 y_num = -6
 
@@ -521,7 +511,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 tile_increase = -10
                 x_num = -3.4
                 y_num = -5
-                    
+
             elif self.tileSize > 5:
                 tile_increase = -5
 
@@ -824,7 +814,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         return 0
 
     def Click_newButton(self):
-        
+
         self.e = Ui_EditorWindow(self.Engine, self)
         self.e.show()
 
@@ -1766,7 +1756,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
                 if item == state:
                     flag = 1
                     break
-                    
+
             if flag != 1:
                 states_not_used.append(state)
 
