@@ -1,3 +1,64 @@
+import webcolors
+class PaletteColor:
+    def __init__(self, color_hex, name=None, color_categories=[]):
+        self.name = name
+
+        if color_hex[0] == '#':
+            self.color_hex = color_hex
+        else:
+            self.color_hex = '#' + color_hex
+
+        self.color_categories = color_categories
+        """ if color_categories == []:
+            self.color_categories = [self.findCatagory(self.color_hex)]
+        else:
+            self.color_catagory = color_categories """ # List of color catagories e.g. 'red', 'blue', 'green'
+
+    def findCatagory(self, color_hex):
+        closest_name = webcolors.hex_to_name(color_hex)
+
+        return closest_name
+
+class ColorPalette:
+    def __init__(self, palette_name=None, colors_dict={}):
+        self.name = palette_name
+        self.colors_dict = colors_dict
+        self.num_colors = len(colors_dict)
+        self.palette_colors = self.createColorPalette(colors_dict)  # takes in a list of PaletteColor objects
+
+    def createColorPalette(self, colors_dict):
+        for key, value in colors_dict.items():
+            self.colors_dict[key] = value
+            pcolor = PaletteColor(key, value)
+            self.palette_colors.append(pcolor)
+
+class ColorPalettes:
+    all_colors = {} # List of all colors in all palettes
+    all_palettes = {}
+    def __init__(self):
+        pass
+
+    def addPalette(self, name, palette):
+        self.palettes[name] = palette
+        self.addColors(palette.palette_colors)
+
+    def addColors(self, colors):
+        for color in colors:
+            if self.all_colors[color.name] == None:
+                self.all_colors[color.name] = color.color_hex
+
+
+
+    def returnAllColors(self):
+        return self.all_colors
+
+class UnicodeIcons:
+    def __init__(self):
+        pass
+
+
+
+
 def increment_string(stri):
     strings = ""
     num = ""
