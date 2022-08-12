@@ -24,11 +24,11 @@ class Engine:
         self.TimeTaken = []
         self.currentIndex = 0
         self.lastIndex = 0
-        self.errorStates = "" 
+        self.errorStates = ""
 
         #construct seed assembly from the seed states present in the respective system,
         self.system.make_Seed_Assembly()
-        
+
         #get resulting seed assembly
         self.seedAssembly = self.system.get_seed_assembly()
         self.currentAssembly = self.seedAssembly
@@ -182,7 +182,7 @@ class Engine:
                 errorState += self.findProblemTile(move["state1"], move["state2"], move["dir"], 2)
 
             if errorState != "":
-               #self.validMoves = 0 
+               #self.validMoves = 0
                 msgBox = QMessageBox()
                 msgBox.setIcon(QMessageBox.Information)
                 msgBox.setText("The following states dont exist: \n" + errorState)
@@ -192,7 +192,7 @@ class Engine:
                 returnValue = msgBox.exec()
 
                 return -1
-            
+
 
             # Removing Moves
             # remove other move for self
@@ -451,10 +451,10 @@ class Engine:
 
         if dir == "v":
             rules = sys_v_tr.get((tile1.get_label(), tile2.get_label()))
-                  
+
         if dir == "h":
             rules = sys_h_tr.get((tile1.get_label(), tile2.get_label()))
-            
+
         if rules != None:
             for i in range(0, len(rules), 2):
                 if problem == 1:
@@ -467,4 +467,3 @@ class Engine:
                         errorTile += " "
 
         return errorTile
-
