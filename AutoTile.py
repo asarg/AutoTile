@@ -561,7 +561,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                     brush.setColor(QtGui.QColor(
                         "#" + move['state1'].returnColor()))
                     self.draw_to_screen(
-                        move['x'], move['y'], move['state1'].get_label(), painter, brush)
+                        move['x'], move['y'], move['state1'], painter, brush)
 
             # showing transition on screen
             # (type, x, y, dir, state1, state2, state1Final, state2Final)
@@ -595,22 +595,22 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                     if self.onScreen_check(move['x'], move['y'] + 1) != 1:
                         brush.setColor(QtGui.QColor("#" + neighborN.get_color()))
                         self.draw_to_screen(
-                            move['x'], move['y'] + 1, neighborN.get_label(), painter, brush)
+                            move['x'], move['y'] + 1, neighborN, painter, brush)
                 if neighborS != None:
                     if self.onScreen_check(move['x'], move['y'] - 1) != 1:
                         brush.setColor(QtGui.QColor("#" + neighborS.get_color()))
                         self.draw_to_screen(
-                            move['x'], move['y'] - 1, neighborS.get_label(), painter, brush)
+                            move['x'], move['y'] - 1, neighborS, painter, brush)
                 if neighborE != None:
                     if self.onScreen_check(move['x'] + 1, move['y']) != 1:
                         brush.setColor(QtGui.QColor("#" + neighborE.get_color()))
                         self.draw_to_screen(
-                            move['x'] + 1, move['y'], neighborE.get_label(), painter, brush)
+                            move['x'] + 1, move['y'], neighborE, painter, brush)
                 if neighborW != None:
                     if self.onScreen_check(move['x'] - 1, move['y']) != 1:
                         brush.setColor(QtGui.QColor("#" + neighborW.get_color()))
                         self.draw_to_screen(
-                            move['x'] - 1, move['y'], neighborW.get_label(), painter, brush)
+                            move['x'] - 1, move['y'], neighborW, painter, brush)
 
             # reversing transition on screen
             # (type, x, y, dir, state1, state2, state1Final, state2Final)
@@ -661,7 +661,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             brush.setColor(QtGui.QColor("#" + tile.get_color()))
 
             self.draw_to_screen(
-                tile.x, tile.y, tile.state.label, painter, brush)
+                tile.x, tile.y, tile.state, painter, brush)
 
         if self.Engine.currentIndex > 0:
             if self.color_flag == 0 and self.play != True and self.Engine.currentIndex < self.Engine.lastIndex:
@@ -759,7 +759,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 pen.setColor(QtGui.QColor("blue"))
                 painter.setPen(pen)
                 self.draw_to_screen(
-                    move['x'], move['y'], move['state1'].get_label(), painter, brush)
+                    move['x'], move['y'], move['state1'], painter, brush)
 
         # transition highlight
         # (type, x, y, dir, state1, state2, state1Final, state2Final)
@@ -814,7 +814,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.draw_to_screen(move['x'], move['y'], "", painter, brush)
             brush.setColor(QtGui.QColor("#" + state1.returnColor()))
             self.draw_to_screen(move['x'], move['y'],
-                                state1.get_label(), painter, brush)
+                                state1, painter, brush)
 
         if self.onScreen_check(move['x'] + horizontal, move['y'] + vertical) != 1:
             brush.setColor(QtGui.QColor("white"))
@@ -822,7 +822,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                                 move['y'] + vertical, "", painter, brush)
             brush.setColor(QtGui.QColor("#" + state2.returnColor()))
             self.draw_to_screen(
-                move['x'] + horizontal, move['y'] + vertical, state2.get_label(), painter, brush)
+                move['x'] + horizontal, move['y'] + vertical, state2, painter, brush)
 
     # checks if a given tile is on screen by checking its coordinate, if not returns 1
     def onScreen_check(self, x, y):
