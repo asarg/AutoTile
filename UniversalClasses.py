@@ -36,7 +36,6 @@ class State:
     def returnDisplayLabelFont(self):
         return self.display_label_font
 
-
     def setDisplayLabel(self, display_label):
         self.display_label = display_label
 
