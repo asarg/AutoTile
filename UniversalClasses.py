@@ -8,13 +8,18 @@ class State:
         self.label = label
         self.color = color
         self.display_label = display_label
-        self.display_label_font = QFont(display_label_font)
-        self.display_label_color = QColor(display_label_color)
 
         if display_label is None:
             self.display_label = label
 
+        if display_label_font is str:
+            self.display_label_font = QFont(display_label_font)
+        else: self.display_label_font = display_label_font
 
+        if display_label_color is str:
+            self.display_label_color = QColor(display_label_color)
+
+        else: self.display_label_color = display_label_color
 
 
     # Getters
@@ -40,10 +45,16 @@ class State:
         self.display_label = display_label
 
     def setDisplayLabelFont(self, display_label_font):
-        self.display_label_font = display_label_font
+        if display_label_font is str:
+            self.display_label_font = QFont(display_label_font)
+        else:
+            self.display_label_font = display_label_font
 
     def setDisplayLabelColor(self, display_label_color):
-        self.display_label_color = display_label_color
+        if display_label_color is str:
+            self.display_label_color = QColor(display_label_color)
+        else:
+            self.display_label_color = display_label_color
 
     def __eq__(self, other):
         if isinstance(other, State):

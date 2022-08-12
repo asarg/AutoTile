@@ -352,7 +352,7 @@ class NLength_LineGenerator(LinesGenerator):
         #states_test_14(st)
         #states_test_27(st)
         for s in sta:
-            print(s.get_label())
+            print(s.returnLabel())
 
 
     def reseed_states_gen(self):
@@ -385,7 +385,7 @@ class NLength_LineGenerator(LinesGenerator):
                 rpState = uc.State("R'" + str(bl), grey)
                 self.reseed_states.append("R'" + str(bl))
 
-                if rpState.get_label() == "R'1":
+                if rpState.returnLabel() == "R'1":
                     rs.append("R" + str(bl))
                     r1State = uc.State("R" + str(bl), grey)
                     self.genSys.add_State(r1State)

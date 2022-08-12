@@ -1403,7 +1403,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             self.tableWidget.setItem(r, 0, color_cell)
 
             label_cell = QTableWidgetItem()
-            label_cell.setText(s.get_label())
+            label_cell.setText(s.returnLabel())
             label_cell.setTextAlignment(Qt.AlignCenter)
             self.tableWidget.setItem(r, 1, label_cell)
 
@@ -1415,7 +1415,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             seedChkLayout.setContentsMargins(0, 0, 0, 0)
             self.tableWidget.setCellWidget(r, 2, seedWidget)
             for sstate in self.system.seed_states:
-                if sstate.get_label() == s.get_label():
+                if sstate.returnLabel() == s.returnLabel():
                     seedCheckbox.setChecked(True)
 
             initialWidget = QtWidgets.QWidget()
@@ -1426,7 +1426,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             initialChkLayout.setContentsMargins(0, 0, 0, 0)
             self.tableWidget.setCellWidget(r, 3, initialWidget)
             for istate in self.system.initial_states:
-                if istate.get_label() == s.get_label():
+                if istate.returnLabel() == s.returnLabel():
                     initialCheckbox.setChecked(True)
 
             r += 1
@@ -1767,7 +1767,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         for state in states_used:
             flag = 0
             for item in available_states:
-                if state == item.get_label():
+                if state == item.returnLabel():
                     flag = 1                     #flag means the state exist
                     break
 
@@ -1809,7 +1809,7 @@ class Move(QWidget):
             return
 
         if self.move["type"] == "a":
-            moveText = "Attach\n" + self.move["state1"].get_label() + " at " + str(
+            moveText = "Attach\n" + self.move["state1"].returnLabel() + " at " + str(
                 self.move["x"]) + " , " + str(self.move["y"])
         elif self.move["type"] == "t":
             if self.move["state1Final"] != None and self.move["state2Final"] != None:
@@ -1818,8 +1818,8 @@ class Move(QWidget):
                     moveText = "V "
                 else:
                     moveText = "H "
-                moveText += "Transition\n" + self.move["state1"].get_label() + ", " + self.move["state2"].get_label(
-                ) + " to " + self.move["state1Final"].get_label() + ", " + self.move["state2Final"].get_label()
+                moveText += "Transition\n" + self.move["state1"].returnLabel() + ", " + self.move["state2"].returnLabel(
+                ) + " to " + self.move["state1Final"].returnLabel() + ", " + self.move["state2Final"].returnLabel()
             else:
                 moveText = "Error:\n state doesn't exist"
 

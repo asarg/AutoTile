@@ -6,11 +6,11 @@ from PyQt5.QtWidgets import QMessageBox
 # Debugging Functions
 def printMove(move):
     if move["type"] == "a":
-        print("Attach: ", move["state1"].get_label(),
+        print("Attach: ", move["state1"].returnLabel(),
               " at ", move["x"], ", ", move["y"])
     if move["type"] == "t":
-        print("Transition ", move["state1"].get_label(), ", ", move["state2"].get_label(
-        ), " to ", move["state1Final"].get_label(), ", ", move["state2Final"].get_label())
+        print("Transition ", move["state1"].returnLabel(), ", ", move["state2"].returnLabel(
+        ), " to ", move["state1Final"].returnLabel(), ", ", move["state2Final"].returnLabel())
         print(" at ", move["x"], ", ", move["y"])
 
 
@@ -450,10 +450,10 @@ class Engine:
         sys_v_tr = self.system.returnVerticalTransitionDict()
 
         if dir == "v":
-            rules = sys_v_tr.get((tile1.get_label(), tile2.get_label()))
+            rules = sys_v_tr.get((tile1.returnLabel(), tile2.returnLabel()))
 
         if dir == "h":
-            rules = sys_h_tr.get((tile1.get_label(), tile2.get_label()))
+            rules = sys_h_tr.get((tile1.returnLabel(), tile2.returnLabel()))
 
         if rules != None:
             for i in range(0, len(rules), 2):
