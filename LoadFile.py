@@ -41,6 +41,8 @@ def readxml(file):
     for state_tag in treeroot.findall("InitialStates/State"):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
+
+
         display_label = state_tag.get("DisplayLabel")
         display_label_color = state_tag.get("DisplayLabelColor")
         display_label_font = state_tag.get("DisplayLabelFont")
