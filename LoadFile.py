@@ -30,6 +30,9 @@ def readxml(file):
     for state_tag in treeroot.findall('AllStates/State'):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
+        display_label = state_tag.get("DisplayLabel")
+        display_label_color = state_tag.get("DisplayLabelColor")
+        display_label_font = state_tag.get("DisplayLabelFont")
 
         tempState = State(label, color)
         CompleteStateSet.append(tempState)
@@ -38,6 +41,9 @@ def readxml(file):
     for state_tag in treeroot.findall("InitialStates/State"):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
+        display_label = state_tag.get("DisplayLabel")
+        display_label_color = state_tag.get("DisplayLabelColor")
+        display_label_font = state_tag.get("DisplayLabelFont")
 
         tempState = State(label, color)
         InitialStateSet.append(tempState)
@@ -46,10 +52,13 @@ def readxml(file):
     for state_tag in treeroot.findall("SeedStates/State"):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
+        display_label = state_tag.get("DisplayLabel")
+        display_label_color = state_tag.get("DisplayLabelColor")
+        display_label_font = state_tag.get("DisplayLabelFont")
 
         tempState = State(label, color)
         SeedStateSet.append(tempState)
-        
+
 
     # Record Vertical Transitions
     for rule_tag in treeroot.findall("VerticalTransitions/Rule"):

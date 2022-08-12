@@ -1,26 +1,50 @@
 import random
+from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
 # These classes are used for Loading and Saving Files and Communicating with general_TA_simulator.
 
 
 class State:
-    def __init__(self, label, color):
+    def __init__(self, label, color, display_label=None, display_label_options={"display_label_font": "Fira Code Regular Nerd Font Complete", "display_label_color": "black"}):
         self.label = label
         self.color = color
+        self.display_label = display_label
+        self.display_label_font = QFont(display_label_options["display_label_font"])
+        self.display_label_color = QColor(display_label_options["display_label_color"])
+        if display_label is None:
+            self.display_label = label
+
+
+
 
     # Getters
-    def returnLabel(self):
-        return self.label
 
     def get_label(self):  # NOTICE: LEAVE THIS HERE FOR THE ASSEMBLER
         return self.label
+    def returnLabel(self):
+        return self.label
+
+    def returnDisplayLabel(self):
+        return self.display_label
+
+    def returnDisplayLabelColor(self):
+        return self.display_label_color
+
+    def returnDisplayLabelFont(self):
+        return self.display_label_font
 
     def returnColor(self):
         return self.color
-    
+
+    def setDisplayLabel(self, display_label):
+        self.display_label = display_label
+
+    def setDisplayLabelFont(self, display_label_font):
+        self.display_label_font = display_label_font
+
     def __eq__(self, other):
         if isinstance(other, State):
             return self.label == other.label and self.color == other.color
-        
+
 
     def get_color(self):      # for editor window
         return self.color
@@ -272,7 +296,7 @@ class Assembly:
                         move["state1"] = iTile.get_state()
                         move["state2"] = neighborS.get_state()
 
-                   
+
                         move["state1Final"] = sy.get_state(
                             rules[i])  # .returnLabel1Final()
                         move["state2Final"] = sy.get_state(
@@ -296,7 +320,7 @@ class Assembly:
                         move["state1"] = iTile.get_state()
                         move["state2"] = neighborE.get_state()
 
-                    
+
                         move["state1Final"] = sy.get_state(
                             rules[i])  # .returnLabel1Final()
                         move["state2Final"] = sy.get_state(
@@ -434,7 +458,7 @@ class Assembly:
         sys_v_tr = sy.returnVerticalTransitionDict()
 
         iTile = self.coords.get(toCoords(x, y))
-        
+
         if iTile == None:
             return transitions_list
 
@@ -450,14 +474,14 @@ class Assembly:
                         (iTile.get_label(), neighborS.get_label()))
                     # rules.append(iVTranRules)
                     if rules != None:
-                        for i in range(0, len(rules), 2):     
+                        for i in range(0, len(rules), 2):
                             move = {"type": "t"}
                             move["x"] = iTile.x
                             move["y"] = iTile.y
                             move["dir"] = "v"
                             move["state1"] = iTile.get_state()
                             move["state2"] = neighborS.get_state()
-                          
+
                             move["state1Final"] = sy.get_state(
                                 rules[i])  # .returnLabel1Final()
                             move["state2Final"] = sy.get_state(
@@ -473,14 +497,14 @@ class Assembly:
                         (iTile.get_label(), neighborE.get_label()))
                     # rules.append(iVTranRules)
                     if rules != None:
-                        for i in range(0, len(rules), 2): 
+                        for i in range(0, len(rules), 2):
                             move = {"type": "t"}
                             move["x"] = iTile.x
                             move["y"] = iTile.y
                             move["dir"] = "h"
                             move["state1"] = iTile.get_state()
                             move["state2"] = neighborE.get_state()
-  
+
                             move["state1Final"] = sy.get_state(
                                 rules[i])  # .returnLabel1Final()
                             move["state2Final"] = sy.get_state(
@@ -492,8 +516,8 @@ class Assembly:
 
 
 
-                    
-            
+
+
 
 # Not in use right now.
 
@@ -772,15 +796,15 @@ class System:
             self.states.append(state)
         else:
             print("Attempted to add a state that is not a state object")
-            
+
     def return_list_of_state_labels(self):
         st = []
         cst = self.returnStates()
         for s in cst:
             st.append(s.get_label())
-            
-        return st    
-        
+
+        return st
+
     def add_Initial_State(self, state):
         self.initial_states.append(state)
 
@@ -798,19 +822,19 @@ class System:
             except:
                 "There are no states set as seeds for this assembly."
 
-    
+
     def set_Seed_Assembly(self, assembly):
         self.seed_assembly = assembly
 
     def remove_state(self, state):
-        # if 
+        # if
         if isinstance(state, list):
             for s in state:
                 self.states.remove(s)
         elif isinstance(state, State):
             self.states.remove(state)
 
-    # start here 
+    # start here
     def add_transition_rule(self, tr):
         label1 = tr.returnLabel1()
         label2 = tr.returnLabel2()
@@ -841,7 +865,7 @@ class System:
                 oldList.append(label1Final)
                 oldList.append(label2Final)
 
-            
+
 
             self.horizontal_transitions_dict[label1, label2] = oldList
 

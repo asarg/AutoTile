@@ -192,7 +192,13 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         # Add fonts to database
         # TODO :: add whole font folder here
-        QFontDatabase.addApplicationFont("fonts/Fira Code Bold Nerd Font Complete.tff")
+        fontdatabase = QtGui.QFontDatabase()
+        fontdatabase.addApplicationFont("fonts/Fira Code Regular Nerd Font Complete.tff")
+        fontdatabase.addApplicationFont("fonts/Fira Code Bold Nerd Font Complete.tff")
+        fontdatabase.addApplicationFont("fonts/MaterialIcons-Regular.tff")
+        fontdatabase.addApplicationFont("fonts/MaterialIcons-Outlined.tff")
+        #QFont("Fira Code", )
+
 
         paper_options = ["SAND22"]
         self.GenPaper_Box.addItems(paper_options)
@@ -770,20 +776,30 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.transition_draw_function(
                 move, move['state1'], move['state2'], painter, brush)
 
-    def draw_to_screen(self, x, y, label, painter, brush):
+    def draw_to_screen(self, x, y, state, painter, brush):
         painter.setBrush(brush)
         ts = self.tileSize
         ts_x = int(x*ts + self.seedX)
         ts_y = int((y * -ts) + self.seedY)
         rect = QtCore.QRect(ts_x, ts_y, ts, ts)
 
+
         painter.drawRect(rect)
+        painter.setFont(state.display_label_font)
+        painter.setPen(state.display_label_color)
 
         if self.tileSize > 10:
-            if len(label) > 4:
-                painter.drawText(rect, Qt.AlignCenter, label[0:3])
+            txt_rec = QtGui.QFontMetrics(rect, Qt.AlignCenter, state.display_label)
+            if txt_rec.width() < self.tileSize:
+                painter.drawText(rect, Qt.AlignCenter, state.display_label)
+            elif len(state.display_label) > 4:
+                painter.drawText(rect, Qt.AlignCenter, state.display_label[0:3])
             else:
-                painter.drawText(rect, Qt.AlignCenter, label)
+                painter.drawText(rect, Qt.AlignCenter, state.display_label)
+            """ if len(state.display_label) > 4:
+                painter.drawText(rect, Qt.AlignCenter, state.display_label[0:3])
+            else:
+                painter.drawText(rect, Qt.AlignCenter, state.display_label) """
 
     def transition_draw_function(self, move, state1, state2, painter, brush):
         horizontal = 0

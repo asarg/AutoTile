@@ -21,6 +21,8 @@ def main(system, fileName):
     vertical_transitions = system.returnVerticalTransitionDict()
     horizontal_transitions = system.returnHorizontalTransitionDict()
 
+
+
     # Establish root and add temperature value
     root = ET.Element("System")
     root.set('Temp', temp)
@@ -31,10 +33,16 @@ def main(system, fileName):
     for state in states:
         label = state.returnLabel()
         color = state.returnColor()
+        display_label = state.returnDisplayLabel()
+        display_label_color = state.returnDisplayLabelColor()
+        display_label_font = state.returnDisplayLabelFont()
 
         state_tag = ET.SubElement(all_states_tag, "State")
         state_tag.set('Label', label)
         state_tag.set('Color', color)
+        state_tag.set('DisplayLabel', display_label)
+        state_tag.set('DisplayLabelFont', display_label_font)
+        state_tag.set('DisplayLabelColor', display_label_color)
 
     # Add all inital states
     initial_states_tag = ET.Element("InitialStates")
@@ -42,10 +50,16 @@ def main(system, fileName):
     for state in initial_states:
         label = state.returnLabel()
         color = state.returnColor()
+        display_label = state.returnDisplayLabel()
+        display_label_color = state.returnDisplayLabelColor()
+        display_label_font = state.returnDisplayLabelFont()
 
         state_tag = ET.SubElement(initial_states_tag, "State")
         state_tag.set('Label', label)
         state_tag.set('Color', color)
+        state_tag.set('DisplayLabel', display_label)
+        state_tag.set('DisplayLabelFont', display_label_font)
+        state_tag.set('DisplayLabelColor', display_label_color)
 
     # Add all seed states
     seed_states_tag = ET.Element("SeedStates")
@@ -53,10 +67,16 @@ def main(system, fileName):
     for state in seed_states:
         label = state.returnLabel()
         color = state.returnColor()
+        display_label = state.returnDisplayLabel()
+        display_label_color = state.returnDisplayLabelColor()
+        display_label_font = state.returnDisplayLabelFont()
 
         state_tag = ET.SubElement(seed_states_tag, "State")
         state_tag.set('Label', label)
         state_tag.set('Color', color)
+        state_tag.set('DisplayLabel', display_label)
+        state_tag.set('DisplayLabelFont', display_label_font)
+        state_tag.set('DisplayLabelColor', display_label_color)
 
     # Add vertical transition rules
     vertical_transitions_tag = ET.Element("VerticalTransitions")
