@@ -1,6 +1,8 @@
 import webcolors
+import unicodedata
 
 #Example Input from coolers.co export palette
+
 """
 Object
 {"Charcoal": "264653", "Persian Green": "2a9d8f", "Maize Crayola": "e9c46a", "Sandy Brown": "f4a261", "Burnt Sienna": "e76f51"}
@@ -67,14 +69,38 @@ class ColorPalettes:
             if self.all_colors[color.name] == None:
                 self.all_colors[color.name] = color.color_hex
 
-
-
     def returnAllColors(self):
         return self.all_colors
 
 class UnicodeIcons:
+    unicode_dictionary = {} # Dictionary of unicode characters and their names all ever used
+    other_icon_dictionary = {} # Dictionary of other icons and their names
+    # Maybe add fonts to dictionary that include that unicode character or icon for each unicode character/icon
+    # Should probably index by unicode character/other icon codepoint and return the names and font names
     def __init__(self):
-        pass
+        self.instance_set = self.addInstanceSet()
+
+
+    def addInstanceSet(self, instance_set={}):
+        #Dictionary that can have self defined display state names for unicode characters
+        #Returns a dictionary for each unicode character/icons used with an instance display state name
+        return instance_set #Idk
+
+    def addInstanceItem(self, name, instance_item):
+        self.unicode_dictionary[name] = instance_item
+        self.other_icon_dictionary[name] = instance_item
+        self.instance_set[name] = instance_item
+
+    def addUnicodeItem(self, name, unicode_char):
+        self.unicode_dictionary[name] = unicode_char
+        self.other_icon_dictionary[name] = unicode_char
+    def addIcon(self, name, icon):
+        self.unicode_dictionary[name] = icon
+        self.other_icon_dictionary[name] = icon
+    def returnAllIcons(self):
+        return self.unicode_dictionary
+
+
 
 
 
