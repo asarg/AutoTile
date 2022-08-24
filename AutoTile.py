@@ -3,8 +3,10 @@ from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPus
 from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
 from PyQt5.QtCore import QObject, QThread, Qt, pyqtSignal
 
+from unicodedata import *
 from random import randrange
 import math, sys
+
 
 from Player import ComputeLast, Player
 from Historian import Historian
@@ -785,21 +787,21 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
 
         painter.drawRect(rect)
-        painter.setFont(state.display_label_font)
-        painter.setPen(state.display_label_color)
+
+        painter.setFont(QFont(state.display_label_font))
+        painter.setPen(QColor(state.display_label_color))
+        decoded_display_label = state.returnDisplayLabel()
 
         if self.tileSize > 10:
-            txt_rec = QtGui.QFontMetrics(rect, Qt.AlignCenter, state.display_label)
-            if txt_rec.width() < self.tileSize:
-                painter.drawText(rect, Qt.AlignCenter, state.display_label)
-            elif len(state.display_label) > 4:
-                painter.drawText(rect, Qt.AlignCenter, state.display_label[0:3])
+            fm = QtGui.QFontMetrics(painter.font())
+            txt_width = fm.width(decoded_display_label)
+            if txt_width < self.tileSize:
+                painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
+            elif len(decoded_display_label) > 4:
+                painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
             else:
-                painter.drawText(rect, Qt.AlignCenter, state.display_label)
-            """ if len(state.display_label) > 4:
-                painter.drawText(rect, Qt.AlignCenter, state.display_label[0:3])
-            else:
-                painter.drawText(rect, Qt.AlignCenter, state.display_label) """
+                painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
+
 
     def transition_draw_function(self, move, state1, state2, painter, brush):
         horizontal = 0
