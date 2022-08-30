@@ -787,7 +787,8 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
 
         painter.drawRect(rect)
-
+        brush_temp = brush
+        temp_painter = painter
         painter.setFont(QFont(state.display_label_font))
         painter.setPen(QColor(state.display_label_color))
         decoded_display_label = state.returnDisplayLabel()
@@ -801,6 +802,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
             else:
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
+
+        brush = brush_temp
+        painter = temp_painter
+
 
 
     def transition_draw_function(self, move, state1, state2, painter, brush):
