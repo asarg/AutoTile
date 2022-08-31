@@ -266,7 +266,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         self.thread = QThread()
         self.threadlast = QThread()
-        self.loadAssembly("XML Files/seededFontTest.xml")
+        self.loadAssembly("XML Files/IUActiveState.xml")
 
     # Slide left menu function
     def slideLeftMenu(self):
@@ -790,14 +790,18 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         brush_temp = brush
         temp_painter = painter
         painter.setFont(QFont(state.display_label_font))
-        painter.setPen(QColor(state.display_label_color))
-        decoded_display_label = state.returnDisplayLabel()
-
+        #painter.setPen(QColor(state.display_label_color))
+        #decoded_display_label = state.returnDisplayLabel()
+        decoded_display_label = state.display_label
         if self.tileSize > 10:
             fm = QtGui.QFontMetrics(painter.font())
             txt_width = fm.width(decoded_display_label)
-            if txt_width < self.tileSize:
-                painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
+            #if txt_width < self.tileSize:
+            if decoded_display_label == None:
+                if len(state.label) > 4:
+                    painter.drawText(rect, Qt.AlignCenter, state.label[0:3])
+                else:
+                    painter.drawText(rect, Qt.AlignCenter, state.label)
             elif len(decoded_display_label) > 4:
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
             else:

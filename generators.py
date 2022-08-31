@@ -4,14 +4,58 @@ from components import increment_string, make_prime, states_test_14, states_test
 
 import math
 
+#Colors
 red = "f03a47"
-blue = "3f88c5"
+light_green = "C2EFB3"
 green = "0ead69"
 orange = "f39237"
 black = "323031"
 white = "DFE0E2"
 grey = "9EA9A4"
+
+yellow = "F3A712"
 light_blue = "C2DCFE"
+blue = "3f88c5"
+dark_blue = "29335C"
+
+
+#Palette 1
+charcoal = "264653"
+persian_green = "2A9D8F"  # 2A9D8Fff
+maize_crayola = "E9C46A"  # medium yellow E9C46Aff
+sandy_brown = "F4A261"  # light brown/orange
+burnt_sienna = "E76F51"  # Burnt Orange
+
+#Palette 2
+Rich_Black_FOGRA = "001219"  # Black Color
+Blue_Sapphire = "005f73"  # Muted blue
+Viridian_Green = "0a9396"  # On the green side of blue/green
+Middle_Blue_Green = "94d2bd"  # Pale-ish blue/green/aquamarine
+Medium_Champagne = "e9d8a6"
+Gamboge = "ee9b00"  # dark yellow
+Alloy_Orange = "ca6702"  # burnt orange yellow
+Rust = "bb3e03"  # Dark Burnt Orange Red
+Rufous = "ae2012"  # Burnt Red
+Ruby_Red = "9b2226"  # Dark Brown Red
+
+#Palette 3
+Barn_Red = "780000"
+Venetian_Red = "c1121f"
+Papaya_Whip = "fdf0d5"
+Prussian_Blue = "003049"
+Air_Superiority_Blue = "669bbc"
+
+#Palette 4
+red_salsa = "f94144"
+orange_red = "f3722c"
+yellow_orange = "f8961e"
+mango_tango = "f9844a"
+maize_crayola_2 = "f9c74f"
+pistachio = "90be6d"
+jungle_green = "43aa8b"
+steel_teal = "4d908e"
+queen_blue = "577590"
+celadon_blue = "277da1"
 
 
 # Must be passed an interger
@@ -896,9 +940,41 @@ class DeterministicLines:
             label = str(i)
             self.genSys.add_State(label)
 
+
+
+class IUTable:
+    def __init__(self):
+        seed = uc.State("S", grey)
+        genSys = uc.System(1, [], [], [seed], [], [], [], [], [], [])
+        self.genSys = genSys
+        self.table_outline()
+        table_state_strings = []
+        table_state_strings.append("000")
+        table_state_strings.append("001")
+        table_state_strings.append("002")
+        table_state_strings.append("003")
+
+
+
+    def table_outline(self):
+        for i in range(0, 4):
+            i_label = str(i) + "_digit"
+            i_state = uc.State(i_label, white, i, display_label_color=black)
+            self.genSys.add_State(i_state)
+            self.genSys.add_Initial_State(i_state)
+
+
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
-    #sys = genDoubleIndexStates(16)
-    #SaveFile.main(sys, ["genTest16.xml"])
+    flag = 0
+
 
 
 
@@ -911,13 +987,7 @@ if __name__ == "__main__":
     #flag = 0
 
     #if(flag == 0):
-
-
-
         #states = sys.returnStates()
-
-
-
         #SaveFile.main(sys, ["tripleTest.xml"])
 
     #if(flag == 1):
