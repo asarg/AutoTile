@@ -202,7 +202,7 @@ class Historian:
         # what state should look like in json
         if isinstance(obj, State):
             statedict = {}
-            statedict["label"] = obj.get_label()
+            statedict["label"] = obj.returnLabel()
             statedict["color"] = obj.returnColor()
             return statedict
         elif isinstance(obj, self.Assemblies):

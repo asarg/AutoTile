@@ -185,30 +185,30 @@ class Assembly:
 
                     if(neighborN != None):
                         stren = v_rules.get(
-                            (neighborN.get_label(), iTile.get_label()))
+                            (neighborN.returnLabel(), iTile.returnLabel()))
                         if(stren != None):
                             attStr += int(stren)
                     if(neighborS != None):
                         stren = v_rules.get(
-                            (iTile.get_label(), neighborS.get_label()))
+                            (iTile.returnLabel(), neighborS.returnLabel()))
                         if(stren != None):
                             attStr += int(stren)
                     if(neighborE != None):
                         stren = h_rules.get(
-                            (iTile.get_label(), neighborE.get_label()))
+                            (iTile.returnLabel(), neighborE.returnLabel()))
                         if(stren != None):
                             attStr += int(stren)
                     # else:
                     #    print("East of "+ str(iX) + " : " + str(iY) + " is empty")
                     if(neighborW != None):
                         stren = h_rules.get(
-                            (neighborW.get_label(), iTile.get_label()))
+                            (neighborW.returnLabel(), iTile.returnLabel()))
                         if(stren != None):
                             attStr += int(stren)
                     # else:
                     #    print("West of "+ str(iX) + " : " + str(iY) + " is empty")
 
-                    #print(iTile.get_label(), ": ", attStr)
+                    #print(iTile.returnLabel(), ": ", attStr)
                     if attStr >= sy.returnTemp():
                         attMove = {"type": "a"}
 
@@ -282,25 +282,25 @@ class Assembly:
 
         # Check each tile in the assembly
         for iTile in self.tiles:
-           # print(sys_h_tiles[iTile.get_label()])
-            # if isinstance(sys_h_tiles[iTile.get_label()], tuple):
+           # print(sys_h_tiles[iTile.returnLabel()])
+            # if isinstance(sys_h_tiles[iTile.returnLabel()], tuple):
 
             #iHTranRules = None
             #iVTranRules = None
 
             # if sys_h_tiles != None:
-            # if sys_h_tiles.get(iTile.get_label()) != None:
-            #iHTranRules = sys_h_tr[sys_h_tiles[iTile.get_label()]]
+            # if sys_h_tiles.get(iTile.returnLabel()) != None:
+            #iHTranRules = sys_h_tr[sys_h_tiles[iTile.returnLabel()]]
             # else:
-            # for tiles in sys_h_tiles[iTile.get_label()]:
+            # for tiles in sys_h_tiles[iTile.returnLabel()]:
             #iHTranRules = sys_h_tr[tiles]
 
-            # if isinstance(sys_v_tiles[iTile.get_label()], tuple):
+            # if isinstance(sys_v_tiles[iTile.returnLabel()], tuple):
             # if sys_v_tiles != None:
-            # if sys_v_tiles.get(iTile.get_label()):
-            #iVTranRules = sys_v_tr[sys_v_tiles[iTile.get_label()]]
+            # if sys_v_tiles.get(iTile.returnLabel()):
+            #iVTranRules = sys_v_tr[sys_v_tiles[iTile.returnLabel()]]
             # else:
-            # for tiles in sys_v_tiles[iTile.get_label()]:
+            # for tiles in sys_v_tiles[iTile.returnLabel()]:
             #iVTranRules = sys_v_tr[tiles]
 
             # Get only the south and east neighbors of iTile
@@ -309,9 +309,9 @@ class Assembly:
 
             if(neighborS != None):
                 # second dictionary
-                # rules = iVTranRules.get(neighborS.get_label())
+                # rules = iVTranRules.get(neighborS.returnLabel())
                 rules = sys_v_tr.get(
-                    (iTile.get_label(), neighborS.get_label()))
+                    (iTile.returnLabel(), neighborS.returnLabel()))
                 # rules.append(iVTranRules)
                 if rules != None:
                     for i in range(0, len(rules), 2):
@@ -330,14 +330,14 @@ class Assembly:
                         transitions_list.append(move)
 
             if(neighborE != None):
-                #rules = iHTranRules[neighborE.get_label()]
+                #rules = iHTranRules[neighborE.returnLabel()]
                 rules = sys_h_tr.get(
-                    (iTile.get_label(), neighborE.get_label()))
+                    (iTile.returnLabel(), neighborE.returnLabel()))
                 # print(sys_h_tr)
                 # rules.append(iHTranRules)
 
                 if rules != None:
-                    #print(iTile.get_label() + " : " + str(len(rules)))
+                    #print(iTile.returnLabel() + " : " + str(len(rules)))
                     for i in range(0, len(rules), 2):
                         move = {"type": "t"}
                         move["x"] = iTile.x
@@ -361,12 +361,12 @@ class Assembly:
         # a = Assembly()
         # originally trans[2][0] + trans[2][1]
         self.label = self.label + "T " + \
-            trans["state1Final"].get_label() + trans["state2Final"].get_label()
+            trans["state1Final"].returnLabel() + trans["state2Final"].returnLabel()
         # self.set_tiles(self.tiles.copy())
         #change = trans["type"]
 
         # print(a.tiles[change])
-        #print(trans["state2Final"].get_label())
+        #print(trans["state2Final"].returnLabel())
         #print(trans["type"])
         self.coords[toCoords(trans["x"], trans["y"])].set_state(
             trans["state1Final"])
@@ -443,30 +443,30 @@ class Assembly:
 
             if(neighborN != None):
                 stren = v_rules.get(
-                    (neighborN.get_label(), iTile.get_label()))
+                    (neighborN.returnLabel(), iTile.returnLabel()))
                 if(stren != None):
                     attStr += int(stren)
             if(neighborS != None):
                 stren = v_rules.get(
-                    (iTile.get_label(), neighborS.get_label()))
+                    (iTile.returnLabel(), neighborS.returnLabel()))
                 if(stren != None):
                     attStr += int(stren)
             if(neighborE != None):
                 stren = h_rules.get(
-                    (iTile.get_label(), neighborE.get_label()))
+                    (iTile.returnLabel(), neighborE.returnLabel()))
                 if(stren != None):
                     attStr += int(stren)
             # else:
             #    print("East of "+ str(iX) + " : " + str(iY) + " is empty")
             if(neighborW != None):
                 stren = h_rules.get(
-                    (neighborW.get_label(), iTile.get_label()))
+                    (neighborW.returnLabel(), iTile.returnLabel()))
                 if(stren != None):
                     attStr += int(stren)
             # else:
             #    print("West of "+ str(iX) + " : " + str(iY) + " is empty")
 
-            #print(iTile.get_label(), ": ", attStr)
+            #print(iTile.returnLabel(), ": ", attStr)
             if attStr >= sy.returnTemp():
                 attMove = {"type": "a"}
 
@@ -495,9 +495,9 @@ class Assembly:
         if dir == None or dir == "v":
             if(neighborS != None):
                     # second dictionary
-                    # rules = iVTranRules.get(neighborS.get_label())
+                    # rules = iVTranRules.get(neighborS.returnLabel())
                     rules = sys_v_tr.get(
-                        (iTile.get_label(), neighborS.get_label()))
+                        (iTile.returnLabel(), neighborS.returnLabel()))
                     # rules.append(iVTranRules)
                     if rules != None:
                         for i in range(0, len(rules), 2):
@@ -518,9 +518,9 @@ class Assembly:
         if dir == None or dir == "h":
             if(neighborE != None):
                     # second dictionary
-                    # rules = iVTranRules.get(neighborS.get_label())
+                    # rules = iVTranRules.get(neighborS.returnLabel())
                     rules = sys_h_tr.get(
-                        (iTile.get_label(), neighborE.get_label()))
+                        (iTile.returnLabel(), neighborE.returnLabel()))
                     # rules.append(iVTranRules)
                     if rules != None:
                         for i in range(0, len(rules), 2):
@@ -631,7 +631,7 @@ class System:
 
     def get_state(self, label):
         for state in self.states:
-            if state.get_label() == label:
+            if state.returnLabel() == label:
                 return state
     # Utility
     # if tr remove dont work and still in system look here
@@ -678,7 +678,7 @@ class System:
 
     def get_state(self, label):
         for state in self.states:
-            if state.get_label() == label:
+            if state.returnLabel() == label:
                 return state
         print("State: ", label, "not found")
         return None
@@ -811,7 +811,7 @@ class System:
         st = []
         cst = self.returnStates()
         for s in cst:
-            st.append(s.get_label())
+            st.append(s.returnLabel())
 
         return st
 
