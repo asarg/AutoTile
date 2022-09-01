@@ -15,7 +15,7 @@ from UniversalClasses import AffinityRule, System, Assembly, Tile, State, Transi
 import TAMainWindow, EditorWindow16, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
 
 from util.loaders import assemblyLoader
-
+from Generators.IU_Generators import IUSampleGen
 
 # Global Variables
 # Note: currentSystem is still global but had to be moved into the loading method
@@ -1098,6 +1098,39 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         shape = self.GenShape_Box.currentText()
         model = self.GenModel_Box.currentText()
         value = self.lineEdit.text()
+
+        genSystem = sampleGen.generator(shape, value, model)
+
+        if type(genSystem) == System:
+            self.SysLoaded = True
+            # the -150 is to account for the slide menu
+            self.seedX = (self.geometry().width() - 150) / 2
+            self.seedY = self.geometry().height() / 2
+
+            self.tileSize = 40
+            self.textSize = int(self.tileSize / 3)
+
+            self.textX_offset = self.tileSize / 3.9
+            self.textY_offset = self.tileSize / 1.7
+
+            self.textX = self.seedX + self.textX_offset
+            self.textY = self.seedY + self.textY_offset
+
+            self.time = 0
+            self.Engine = Engine(genSystem)
+            self.historian.set_engine(self.Engine)
+
+            currentSystem = genSystem
+
+            self.draw_assembly(self.Engine.getCurrentAssembly())
+            self.Update_available_moves()
+
+    def Begin_IU_Example(self):
+        self.stop_sequence()
+        self.play = False
+        global currentSystem
+
+
 
         genSystem = sampleGen.generator(shape, value, model)
 
