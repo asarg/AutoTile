@@ -539,22 +539,6 @@ class Assembly:
 
         return transitions_list
 
-
-
-
-
-
-
-# Not in use right now.
-
-
-class SeedAssemblyTile:
-    def __init__(self, label, x, y):
-        self.label = label
-        self.x = x
-        self.y = y
-
-
 class AffinityRule:
     def __init__(self, label1, label2, dir, strength=None):
         self.label1 = label1  # Left/Upper label
