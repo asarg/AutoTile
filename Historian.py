@@ -104,7 +104,7 @@ class Historian:
                     # converting json into objects
                     x = int(m["x"])
                     y = int(m["y"])
-                    s = self.get_state(m["state1"])
+                    s = self.returnState(m["state1"])
 
                     # add move to movelist
                     newM = {}
@@ -117,10 +117,10 @@ class Historian:
                     # converting json into objects
                     x = int(m["x"])
                     y = int(m["y"])
-                    s1 = self.get_state(m["state1"])
-                    s2 = self.get_state(m["state2"])
-                    s3 = self.get_state(m["state1Final"])
-                    s4 = self.get_state(m["state2Final"])
+                    s1 = self.returnState(m["state1"])
+                    s2 = self.returnState(m["state2"])
+                    s3 = self.returnState(m["state1Final"])
+                    s4 = self.returnState(m["state2Final"])
 
                     # add move to movelist
                     newM = {}
@@ -166,7 +166,7 @@ class Historian:
 
             # update assembly in engine
             self.engine.currentAssembly = currentAssembly
-            self.engine.validMoves = currentAssembly.getMoves(
+            self.engine.validMoves = currentAssembly.returnMoves(
                 self.engine.system)
 
             # create timetaken list
@@ -183,7 +183,7 @@ class Historian:
             self.ui.draw_assembly(self.engine.getCurrentAssembly())
             self.ui.Update_available_moves()
 
-    def get_state(self, stateJSON):
+    def returnState(self, stateJSON):
         label = stateJSON["label"]
         color = stateJSON["color"]
         s = State(label, color)
@@ -191,7 +191,7 @@ class Historian:
         return s
 
     def get_tile(self, t):
-        s = self.get_state(t["state"])
+        s = self.returnState(t["state"])
         x = int(t["x"])
         y = int(t["y"])
         tile = Tile(s, x, y)

@@ -595,22 +595,22 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
                 if neighborN != None:
                     if self.onScreen_check(move['x'], move['y'] + 1) != 1:
-                        brush.setColor(QtGui.QColor("#" + neighborN.get_color()))
+                        brush.setColor(QtGui.QColor("#" + neighborN.returnColor()))
                         self.draw_to_screen(
                             move['x'], move['y'] + 1, neighborN, painter, brush)
                 if neighborS != None:
                     if self.onScreen_check(move['x'], move['y'] - 1) != 1:
-                        brush.setColor(QtGui.QColor("#" + neighborS.get_color()))
+                        brush.setColor(QtGui.QColor("#" + neighborS.returnColor()))
                         self.draw_to_screen(
                             move['x'], move['y'] - 1, neighborS, painter, brush)
                 if neighborE != None:
                     if self.onScreen_check(move['x'] + 1, move['y']) != 1:
-                        brush.setColor(QtGui.QColor("#" + neighborE.get_color()))
+                        brush.setColor(QtGui.QColor("#" + neighborE.returnColor()))
                         self.draw_to_screen(
                             move['x'] + 1, move['y'], neighborE, painter, brush)
                 if neighborW != None:
                     if self.onScreen_check(move['x'] - 1, move['y']) != 1:
-                        brush.setColor(QtGui.QColor("#" + neighborW.get_color()))
+                        brush.setColor(QtGui.QColor("#" + neighborW.returnColor()))
                         self.draw_to_screen(
                             move['x'] - 1, move['y'], neighborW, painter, brush)
 
@@ -660,7 +660,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             if self.onScreen_check(tile.x, tile.y) == 1:
                 continue
 
-            brush.setColor(QtGui.QColor("#" + tile.get_color()))
+            brush.setColor(QtGui.QColor("#" + tile.returnColor()))
 
             self.draw_to_screen(
                 tile.x, tile.y, tile.state, painter, brush)
@@ -1132,7 +1132,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
 
 
-        genSystem = sampleGen.generator(shape, value, model)
+        """ genSystem = sampleGen.generator(shape, value, model)
 
         if type(genSystem) == System:
             self.SysLoaded = True
@@ -1156,7 +1156,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             currentSystem = genSystem
 
             self.draw_assembly(self.Engine.getCurrentAssembly())
-            self.Update_available_moves()
+            self.Update_available_moves() """
 
     def do_move(self, move):
         if not self.play:
@@ -1440,10 +1440,10 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         r = 0
         for s in self.system.states:
             color_cell = QTableWidgetItem()
-            color_cell.setText(s.get_color())
+            color_cell.setText(s.returnColor())
             color_cell.setTextAlignment(Qt.AlignCenter)
-            color_cell.setForeground(QtGui.QColor("#" + s.get_color()))
-            color_cell.setBackground(QtGui.QColor("#" + s.get_color()))
+            color_cell.setForeground(QtGui.QColor("#" + s.returnColor()))
+            color_cell.setBackground(QtGui.QColor("#" + s.returnColor()))
             self.tableWidget.setItem(r, 0, color_cell)
 
             label_cell = QTableWidgetItem()
@@ -1721,14 +1721,14 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             seed = seedCheckbox.layout().itemAt(0).widget().isChecked()
             s = State(label, color)
 
-            self.system.add_State(s)
+            self.system.addState(s)
 
             available_states.append(s)
 
             if initial:
-                self.system.add_Initial_State(s)
+                self.system.addInitialState(s)
             if seed:
-                self.system.add_Seed_State(s)
+                self.system.addSeedState(s)
 
         # affinity
         for row in range(0, self.tableWidget_2.rowCount()):
@@ -1745,7 +1745,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
 
             afRule = AffinityRule(lab1, lab2, dire, glu)
 
-            self.system.add_affinity(afRule)
+            self.system.addAffinity(afRule)
 
         # transitions
         for row in range(0, self.tableWidget_3.rowCount()):
@@ -1766,7 +1766,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
 
             trRule = TransitionRule(tLab1, tLab2, tFin1, tFin2, tDir)
 
-            self.system.add_transition_rule(trRule)
+            self.system.addTransitionRule(trRule)
 
         # Check here to see if states used in transitions exist
         states_not_used = self.StatesUsed_Exist(available_states, states_used)

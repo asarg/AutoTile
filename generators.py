@@ -70,104 +70,104 @@ def genDoubleIndexStates(vLen):
     for i in range(sqrtLen):
         # Little a states (Initial States)
         aState = uc.State(str(i) + "a", red)
-        genSys.add_State(aState)
-        genSys.add_Initial_State(aState)
+        genSys.addState(aState)
+        genSys.addInitialState(aState)
         # Big A states
         bigAState = uc.State(str(i) + "A", red)
-        genSys.add_State(bigAState)
+        genSys.addState(bigAState)
         # A' (prime) states
         aPrime = uc.State(str(i) + "A'", red)
-        genSys.add_State(aPrime)
+        genSys.addState(aPrime)
         # B states (Initial States)
         bState = uc.State(str(i) + "B", blue)
-        genSys.add_State(bState)
-        genSys.add_Initial_State(bState)
+        genSys.addState(bState)
+        genSys.addInitialState(bState)
 
     # Blank A and A' states
     singleA = uc.State("A", red)
-    genSys.add_State(singleA)
+    genSys.addState(singleA)
     singleAPrime = uc.State("A'", red)
-    genSys.add_State(singleAPrime)
+    genSys.addState(singleAPrime)
     # Seed States
-    genSys.add_State(seedA)
+    genSys.addState(seedA)
     seedB = uc.State("SB", black)
     #     seedB is an Initial State
-    genSys.add_Initial_State(seedB)
-    genSys.add_State(seedB)
+    genSys.addInitialState(seedB)
+    genSys.addState(seedB)
     # B prime states
     Bprime = uc.State(str(sqrtLen - 1) + "B'", blue)
-    genSys.add_State(Bprime)
+    genSys.addState(Bprime)
     Bprime2 = uc.State(str(sqrtLen - 1) + "B''", blue)
-    genSys.add_State(Bprime2)
+    genSys.addState(Bprime2)
 
     # Adding Affinity Rules
     #       Seed Affinities to start building
     affinityA0 = uc.AffinityRule("0a", "SA", "v", 1)
-    genSys.add_affinity(affinityA0)
+    genSys.addAffinity(affinityA0)
     affinityB0 = uc.AffinityRule("0B", "SB", "v", 1)
-    genSys.add_affinity(affinityB0)
+    genSys.addAffinity(affinityB0)
     affinitySeed = uc.AffinityRule("SA", "SB", "h", 1)
-    genSys.add_affinity(affinitySeed)
+    genSys.addAffinity(affinitySeed)
 
     for i in range(sqrtLen - 1):
         # Affinity Rules to build each column
         affA = uc.AffinityRule(str(i + 1) + "a", str(i) + "a", "v", 1)
-        genSys.add_affinity(affA)
+        genSys.addAffinity(affA)
         affB = uc.AffinityRule(str(i + 1) + "B", str(i) + "B", "v", 1)
-        genSys.add_affinity(affB)
+        genSys.addAffinity(affB)
         # Affinity Rule to start the next section of the A column
         affGrowA = uc.AffinityRule("0a", str(i) + "A'", "v", 1)
-        genSys.add_affinity(affGrowA)
+        genSys.addAffinity(affGrowA)
 
     #       Affinity Rules to grow the next section of the B column
     affGrowB = uc.AffinityRule("0B", str(sqrtLen - 1) + "B'", "v", 1)
-    genSys.add_affinity(affGrowB)
+    genSys.addAffinity(affGrowB)
 
     # Transition Rules
     #   Transition for when the sections is complete
     trTop = uc.TransitionRule(
         str(sqrtLen - 1) + "a", str(sqrtLen - 1) + "B", "A'", str(sqrtLen - 1) + "B", "h")
-    genSys.add_transition_rule(trTop)
+    genSys.addTransitionRule(trTop)
 
     # Rule for starting propagation of A state
     AprimeProp = uc.TransitionRule(
         "A'", str(sqrtLen - 2) + "a", "A'", "A", "v")
-    genSys.add_transition_rule(AprimeProp)
+    genSys.addTransitionRule(AprimeProp)
 
     # Rule for when A state reaches seed and marked as 0A
     trAseed = uc.TransitionRule("A", "SA", "0A", "SA", "v")
-    genSys.add_transition_rule(trAseed)
+    genSys.addTransitionRule(trAseed)
 
     # Rule to allow B to transition to allow a string to print
     trAseed = uc.TransitionRule(
         "0B", str(sqrtLen - 1) + "B'", "0B", str(sqrtLen - 1) + "B''", "v")
-    genSys.add_transition_rule(trAseed)
+    genSys.addTransitionRule(trAseed)
 
     for i in range(sqrtLen):
         # Rule for continued propagation of A state downward
         if i < sqrtLen - 2:
             Aprop = uc.TransitionRule("A", str(i) + "a", "A", "A", "v")
-            genSys.add_transition_rule(Aprop)
+            genSys.addTransitionRule(Aprop)
 
         # Rule for A state reaches bottom of the column to increment
         if i < sqrtLen - 1:
             trIncA = uc.TransitionRule(
                 "A", str(i) + "A'", str(i + 1) + "A", str(i) + "A'", "v")
-            genSys.add_transition_rule(trIncA)
+            genSys.addTransitionRule(trIncA)
 
         # Rules for propagating the A index upward
         propUp = uc.TransitionRule(
             "A", str(i) + "A", str(i) + "A", str(i) + "A", "v")
-        genSys.add_transition_rule(propUp)
+        genSys.addTransitionRule(propUp)
         propUpPrime = uc.TransitionRule(
             "A'", str(i) + "A", str(i) + "A'", str(i) + "A", "v")
-        genSys.add_transition_rule(propUpPrime)
+        genSys.addTransitionRule(propUpPrime)
 
         # Rule allowing B column to start the next section
         if i < sqrtLen - 1:
             trGrowB = uc.TransitionRule(str(
                 i) + "A'", str(sqrtLen - 1) + "B", str(i) + "A'", str(sqrtLen - 1) + "B'", "h")
-            genSys.add_transition_rule(trGrowB)
+            genSys.addTransitionRule(trGrowB)
 
     return genSys
 
@@ -186,8 +186,8 @@ def genSqrtBinString(value):
     # Add Binary Symbol states
     state0 = uc.State("0", orange)
     state1 = uc.State("1", green)
-    genSys.add_State(state0)
-    genSys.add_State(state1)
+    genSys.addState(state0)
+    genSys.addState(state1)
 
     for i in range(sqrtLen):
         for j in range(sqrtLen):
@@ -210,7 +210,7 @@ def genSqrtBinString(value):
                 symbol = "1"
 
             tr = uc.TransitionRule(labelA, labelB, labelA, symbol, "h")
-            genSys.add_transition_rule(tr)
+            genSys.addTransitionRule(tr)
 
     return genSys
 
@@ -253,77 +253,77 @@ def genSqrtBinCount(value):
     # New Initial States
     # State for indicating carry
     carry = uc.State("c", blue)
-    genSys.add_State(carry)
-    genSys.add_Initial_State(carry)
+    genSys.addState(carry)
+    genSys.addInitialState(carry)
 
     # State for indicating no carry
     noCarry = uc.State("nc", red)
-    genSys.add_State(noCarry)
-    genSys.add_Initial_State(noCarry)
+    genSys.addState(noCarry)
+    genSys.addInitialState(noCarry)
 
     ##
     incState = uc.State("+", black)
-    genSys.add_State(incState)
-    genSys.add_Initial_State(incState)
+    genSys.addState(incState)
+    genSys.addInitialState(incState)
 
     northWall = uc.State("N", black)
-    genSys.add_State(northWall)
-    genSys.add_Initial_State(northWall)
+    genSys.addState(northWall)
+    genSys.addInitialState(northWall)
 
     # Other States
 
     southWall = uc.State("S", black)
-    genSys.add_State(southWall)
+    genSys.addState(southWall)
 
     zeroCarry = uc.State("0c", orange)
-    genSys.add_State(zeroCarry)
+    genSys.addState(zeroCarry)
 
     #<Rule Label1="N" Label2="2A'" Dir="v" Strength="1"></Rule>
     northAff = uc.AffinityRule("N", str(sqrtLen - 1) + "A'", "v")
-    genSys.add_affinity(northAff)
+    genSys.addAffinity(northAff)
     # <Rule Label1="SB" Label2="+" Dir="h" Strength="1"></Rule>
     incSeed = uc.AffinityRule("SB", "+", "h")
-    genSys.add_affinity(incSeed)
+    genSys.addAffinity(incSeed)
     #        <Rule Label1="S" Label2="+" Dir="h" Strength="1"></Rule>
     incAff = uc.AffinityRule("S", "+", "h")
-    genSys.add_affinity(incAff)
+    genSys.addAffinity(incAff)
     #        <Rule Label1="c" Label2="+" Dir="v" Strength="1"></Rule>
     carInc = uc.AffinityRule("c", "+", "v")
-    genSys.add_affinity(carInc)
+    genSys.addAffinity(carInc)
     #        <Rule Label1="c" Label2="0c" Dir="v" Strength="1"></Rule>
     carryAff = uc.AffinityRule("c", "0c", "v")
-    genSys.add_affinity(carryAff)
+    genSys.addAffinity(carryAff)
     #        <Rule Label1="nc" Label2="1" Dir="v" Strength="1"></Rule>
     nc1 = uc.AffinityRule("nc", "1", "v")
-    genSys.add_affinity(nc1)
+    genSys.addAffinity(nc1)
     #        <Rule Label1="nc" Label2="0" Dir="v" Strength="1"></Rule>
     nc0 = uc.AffinityRule("nc", "0", "v")
-    genSys.add_affinity(nc0)
+    genSys.addAffinity(nc0)
 
     # <Rule Label1="0" Label2="c" Label1Final="0" Label2Final="1" Dir="h"></Rule>
     carry0TR = uc.TransitionRule("0", "c", "0", "1", "h")
-    genSys.add_transition_rule(carry0TR)
+    genSys.addTransitionRule(carry0TR)
     # <Rule Label1="0" Label2="nc" Label1Final="0" Label2Final="0" Dir="h"></Rule>
     noCarry0TR = uc.TransitionRule("0", "nc", "0", "0", "h")
-    genSys.add_transition_rule(noCarry0TR)
+    genSys.addTransitionRule(noCarry0TR)
     # <Rule Label1="1" Label2="c" Label1Final="1" Label2Final="0c" Dir="h"></Rule>
     zeroCarryTR = uc.TransitionRule("1", "c", "1", "0c", "h")
-    genSys.add_transition_rule(zeroCarryTR)
+    genSys.addTransitionRule(zeroCarryTR)
     # <Rule Label1="1" Label2="nc" Label1Final="1" Label2Final="1" Dir="h"></Rule>
     noCarry1TR = uc.TransitionRule("1", "nc", "1", "1", "h")
-    genSys.add_transition_rule(noCarry1TR)
+    genSys.addTransitionRule(noCarry1TR)
     # <Rule Label1="1" Label2="+" Label1Final="1" Label2Final="S" Dir="v"></Rule>
     next1TR = uc.TransitionRule("1", "+", "1", "S", "v")
-    genSys.add_transition_rule(next1TR)
+    genSys.addTransitionRule(next1TR)
     # <Rule Label1="0" Label2="+" Label1Final="0" Label2Final="S" Dir="v"></Rule>
     next0TR = uc.TransitionRule("0", "+", "0", "S", "v")
-    genSys.add_transition_rule(next0TR)
+    genSys.addTransitionRule(next0TR)
     # <Rule Label1="1" Label2="0c" Label1Final="1" Label2Final="0" Dir="v"></Rule>
     down1TR = uc.TransitionRule("1", "0c", "1", "0", "v")
-    genSys.add_transition_rule(down1TR)
+    genSys.addTransitionRule(down1TR)
     # <Rule Label1="0" Label2="0c" Label1Final="0" Label2Final="0" Dir="v"></Rule>
     down0TR = uc.TransitionRule("0", "0c", "0", "0", "v")
-    genSys.add_transition_rule(down0TR)
+    genSys.addTransitionRule(down0TR)
 
     return genSys
 
@@ -338,7 +338,7 @@ class LinesGenerator:
             self.bit_len = line_len.bit_length()
         else:
             self.bit_len = None
-        self.genSys.add_State(self.seedA)
+        self.genSys.addState(self.seedA)
 
 
 class NLength_LineGenerator(LinesGenerator):
@@ -362,36 +362,36 @@ class NLength_LineGenerator(LinesGenerator):
         ## Add B0
 
         b0 = uc.State("B0", white)
-        self.genSys.add_State(b0)
-        self.genSys.add_Initial_State(b0)
+        self.genSys.addState(b0)
+        self.genSys.addInitialState(b0)
 
         # New Transition States
         ## Add B'0
         bp0 = uc.State("B'0", light_blue)
-        self.genSys.add_State(bp0)
+        self.genSys.addState(bp0)
 
         f0 = uc.State("F0", red)
 
-        self.genSys.add_State(f0)
+        self.genSys.addState(f0)
 
 
         for i in range(1, self.bit_len):
             if i == (self.bit_len - 1):
                bState = uc.State("B" + str(i), blue)
-               self.genSys.add_State(bState)
+               self.genSys.addState(bState)
             else:
                 #Add back states that are not B0
                 bState = uc.State("B" + str(i), blue)
-                self.genSys.add_State(bState)
+                self.genSys.addState(bState)
                 ## Add forward states
                 fState = uc.State("F" + str(i), red)
-                self.genSys.add_State(fState)
+                self.genSys.addState(fState)
                 ## Add forward prime states
                 fpState = uc.State("F'" + str(i), orange)
-                self.genSys.add_State(fpState)
+                self.genSys.addState(fpState)
 
         print("States Are: ")
-        st = self.genSys.return_list_of_state_labels()
+        st = self.genSys.returnStateLabelList()
         sta = self.genSys.returnStates()
         #states_test_14(st)
         #states_test_27(st)
@@ -414,14 +414,14 @@ class NLength_LineGenerator(LinesGenerator):
 
                 if not(num - 2**bl == 0):
                     rState = uc.State("R" + str(bl), grey)
-                    self.genSys.add_State(rState)
+                    self.genSys.addState(rState)
                     rs.append("R" + str(bl))
                     self.reseed_states.append("R" + str(bl))
 
 
                 elif math.log2(self.line_length - 1).is_integer():
                     rState = uc.State("R" + str(bl), grey)
-                    self.genSys.add_State(rState)
+                    self.genSys.addState(rState)
                     rs.append("R" + str(bl))
                     self.reseed_states.append("R" + str(bl))
 
@@ -432,12 +432,12 @@ class NLength_LineGenerator(LinesGenerator):
                 if rpState.returnLabel() == "R'1":
                     rs.append("R" + str(bl))
                     r1State = uc.State("R" + str(bl), grey)
-                    self.genSys.add_State(r1State)
+                    self.genSys.addState(r1State)
                     self.reseed_states.append("R" + str(bl))
 
                 rs.append("R'" + str(bl))
                 #Now append R' State after checking if it is R'1
-                self.genSys.add_State(rpState)
+                self.genSys.addState(rpState)
                 self.reseed_state_nums.append(bl)
 
 
@@ -456,14 +456,14 @@ class NLength_LineGenerator(LinesGenerator):
             if aff_label[0] == "R":
                 if int(aff_label[1:]) == (self.bit_len - 1):
                     Aff = uc.AffinityRule("S", aff_label, "h")
-                    self.genSys.add_affinity(Aff)
+                    self.genSys.addAffinity(Aff)
                     self.affinities_by_type[0].append(("S", aff_label))
                 elif math.log2(self.line_length - 1).is_integer():
                     Aff = uc.AffinityRule("S", aff_label, "h")
-                    self.genSys.add_affinity(Aff)
+                    self.genSys.addAffinity(Aff)
             else:
                 Aff = uc.AffinityRule("S", aff_label, "h")
-                self.genSys.add_affinity(Aff)
+                self.genSys.addAffinity(Aff)
                 self.affinities_by_type[0].append(("S", aff_label))
 
     ## Check if label attaches to self and create
@@ -476,7 +476,7 @@ class NLength_LineGenerator(LinesGenerator):
             return
         else:
             Aff = uc.AffinityRule(aff_label, aff_label, "h")
-            self.genSys.add_affinity(Aff)
+            self.genSys.addAffinity(Aff)
             self.affinities_by_type[1].append((aff_label, aff_label))
 
     ## Check if label attaches to self prime and create
@@ -490,7 +490,7 @@ class NLength_LineGenerator(LinesGenerator):
         else:
             l2 = make_prime(aff_label)
             Aff = uc.AffinityRule(aff_label, l2, "h")
-            self.genSys.add_affinity(Aff)
+            self.genSys.addAffinity(Aff)
             self.affinities_by_type[2].append((aff_label, l2))
 
     ## Check if label is prime and attaches to b0, create
@@ -503,26 +503,26 @@ class NLength_LineGenerator(LinesGenerator):
                 return
             else:
                 Aff = uc.AffinityRule(aff_label, "B0", "h")
-                self.genSys.add_affinity(Aff)
+                self.genSys.addAffinity(Aff)
                 self.affinities_by_type[3].append((aff_label, "B0"))
 
                 Aff = uc.AffinityRule(aff_label, "F0", "h")
-                self.genSys.add_affinity(Aff)
+                self.genSys.addAffinity(Aff)
                 self.affinities_by_type[3].append((aff_label, "F0"))
 
     def add_bp0_affinities(self, label):
         if label == "F0":
             Aff = uc.AffinityRule(label, "B'0", "h")
-            self.genSys.add_affinity(Aff)
+            self.genSys.addAffinity(Aff)
 
         elif label == "B1":
             Aff = uc.AffinityRule(label, "B'0", "h")
-            self.genSys.add_affinity(Aff)
+            self.genSys.addAffinity(Aff)
 
         elif not ("'" in label and label == "S"):
             if not (label[0] == "B" and label == self.smallest_reseed):
                 Aff = uc.AffinityRule(label, "B'0", "h")
-                self.genSys.add_affinity(Aff)
+                self.genSys.addAffinity(Aff)
 
     def add_reseed_prime_to_nextReseed_affinities(self, label):
 
@@ -530,7 +530,7 @@ class NLength_LineGenerator(LinesGenerator):
             ## Make R'0 attach to second to last reseed
             if len(self.reseed_states) >= 3 and self.smallest_reseed == "R'0":
                 Aff = uc.AffinityRule(self.reseed_states[-2], label, "h")
-                self.genSys.add_affinity(Aff)
+                self.genSys.addAffinity(Aff)
 
 
         # If prime and if next reseed state is not R'0
@@ -538,7 +538,7 @@ class NLength_LineGenerator(LinesGenerator):
             l_index = self.reseed_states.index(label)
             if len(self.reseed_states) -3 >= l_index:
                 Aff = uc.AffinityRule(label, self.reseed_states[l_index + 1],"h")
-                self.genSys.add_affinity(Aff)
+                self.genSys.addAffinity(Aff)
     def add_reseed_prime_affinities(self):
 
         max_num_split = split_nonprime_label(self.reseed_states[0])
@@ -572,15 +572,15 @@ class NLength_LineGenerator(LinesGenerator):
         #         if js[1] == max_num:
         #             bmax = "B" + str(max_num)
         #             rs_aff = uc.AffinityRule(j, bmax, "h")
-        #             self.genSys.add_affinity(rs_aff)
+        #             self.genSys.addAffinity(rs_aff)
 
         #         if js[1] > i:
         #             b = "B" + str(i)
         #             rs_baff = uc.AffinityRule(j, b, "h")
-        #             self.genSys.add_affinity(rs_baff)
+        #             self.genSys.addAffinity(rs_baff)
         #             f = "F" + str(i)
         #             rs_faff = uc.AffinityRule(j, f, "h")
-        #             self.genSys.add_affinity(rs_faff)
+        #             self.genSys.addAffinity(rs_faff)
 
     def add_fp_affinities(self, label):
         if check_is_prime(label) and not("R'" in label or "B'" in label):
@@ -590,18 +590,18 @@ class NLength_LineGenerator(LinesGenerator):
             for i in range(max_num):
                 b = "B" + str(i)
                 baff = uc.AffinityRule(label, b, "h")
-                self.genSys.add_affinity(baff)
+                self.genSys.addAffinity(baff)
                 if i < max_num:
                     f = "F" + str(i)
                     faff = uc.AffinityRule(label, f, "h")
-                    self.genSys.add_affinity(faff)
+                    self.genSys.addAffinity(faff)
 
     #Actually in use
     def add_reseed_affinities_v2(self):
         # Adds affinity for Seed to first reseed
         rs = self.reseed_states.copy()
         aff = uc.AffinityRule("S", rs[0], "h")
-        self.genSys.add_affinity(aff)
+        self.genSys.addAffinity(aff)
         print("rs[0]: ", rs[0])
 
         rs_len = len(rs) - 1
@@ -609,28 +609,28 @@ class NLength_LineGenerator(LinesGenerator):
             # Adds affinity between reseeds in order eg (R3, R'3), (R'3, R1)
             if (i + 1) <= rs_len:
                 aff = uc.AffinityRule(rs[i], rs[i+1], "h")
-                self.genSys.add_affinity(aff)
+                self.genSys.addAffinity(aff)
 
             # Adds affinities between non primes and B'0
             if not ("'" in rs[i] and i > 0):
                 aff = uc.AffinityRule(rs[i], "B'0", "h")
-                self.genSys.add_affinity(aff)
+                self.genSys.addAffinity(aff)
 
                 if not (rs[i] == "R1"):
                     aff = uc.AffinityRule(rs[i], rs[i], "h")
-                    self.genSys.add_affinity(aff)
+                    self.genSys.addAffinity(aff)
 
             elif not(i == rs_len):
                 aff = uc.AffinityRule(rs[i], "B0", "h")
-                self.genSys.add_affinity(aff)
+                self.genSys.addAffinity(aff)
 
     def add_affinities_v2(self):
         # Const states
         print("Affinities V2 Returns: ")
-        CONST_STATES = self.genSys.return_list_of_state_labels()
-        dynamic_states = self.genSys.return_list_of_state_labels()
+        CONST_STATES = self.genSys.returnStateLabelList()
+        dynamic_states = self.genSys.returnStateLabelList()
         # West affinities to pop
-        west_affs_to_complete = self.genSys.return_list_of_state_labels()
+        west_affs_to_complete = self.genSys.returnStateLabelList()
         west_affs_completed = []
         west_affs_to_complete.remove(self.smallest_reseed)
         west_affs_to_complete.remove("B'0")
@@ -654,16 +654,16 @@ class NLength_LineGenerator(LinesGenerator):
                         if i < self.reseed_state_nums[rwa_next]:
                             brp = "B" + str(i)
                             Aff = uc.AffinityRule(wa, brp, "h")
-                            self.genSys.add_affinity(Aff)
+                            self.genSys.addAffinity(Aff)
 
                             frp = "F" + str(i)
                             Aff = uc.AffinityRule(wa, frp, "h")
-                            self.genSys.add_affinity(Aff)
+                            self.genSys.addAffinity(Aff)
 
                         elif i == self.reseed_state_nums[rwa_next] and not(i == 0):
                             brp = "B" + str(i)
                             Aff = uc.AffinityRule(wa, brp, "h")
-                            self.genSys.add_affinity(Aff)
+                            self.genSys.addAffinity(Aff)
                         else:
                             comp = west_affs_to_complete.pop(j)
                             west_affs_completed.append(comp)
@@ -672,12 +672,12 @@ class NLength_LineGenerator(LinesGenerator):
                         if i <= wa_num and not(i == 0):
                             brp = "B" + str(i)
                             Aff = uc.AffinityRule(wa, brp, "h")
-                            self.genSys.add_affinity(Aff)
+                            self.genSys.addAffinity(Aff)
                         if i == 0 and wa == self.reseed_states[0]:
                             print(self.reseed_states[0])
                             brp = "B'0"
                             Aff = uc.AffinityRule(wa, brp, "h")
-                            self.genSys.add_affinity(Aff)
+                            self.genSys.addAffinity(Aff)
 
 
                     elif "B" in wa:
@@ -685,12 +685,12 @@ class NLength_LineGenerator(LinesGenerator):
                             if i == wa_num and i > 1:
                                 brp = "B" + str(i)
                                 Aff = uc.AffinityRule(wa, brp, "h")
-                                self.genSys.add_affinity(Aff)
+                                self.genSys.addAffinity(Aff)
                             # If i is one less than wa_num
                             elif (i - 1) == wa_num and wa_num >= 1:
                                 brp = "B" + str(i)
                                 Aff = uc.AffinityRule(brp, wa,"h")
-                                self.genSys.add_affinity(Aff)
+                                self.genSys.addAffinity(Aff)
 
 
 
@@ -698,32 +698,32 @@ class NLength_LineGenerator(LinesGenerator):
                         if i <= wa_num:
                             b = "B" + str(i)
                             Aff = uc.AffinityRule(wa, b, "h")
-                            self.genSys.add_affinity(Aff)
+                            self.genSys.addAffinity(Aff)
                             if i < wa_num:
                                 f = "F" + str(i)
                                 Aff = uc.AffinityRule(wa, f, "h")
-                                self.genSys.add_affinity(Aff)
+                                self.genSys.addAffinity(Aff)
 
 
                     elif "F" in wa:
                         if i == 0:
                             bp = "B'" + str(i)
                             Aff = uc.AffinityRule(wa, bp, "h")
-                            self.genSys.add_affinity(Aff)
+                            self.genSys.addAffinity(Aff)
                         elif i <= (wa_num + 1) and not(wa == 'F0' or wa == 'F1'):
                             if i > 1:
                                 b = "B" + str(i)
                                 Aff = uc.AffinityRule(wa, b, "h")
-                                self.genSys.add_affinity(Aff)
+                                self.genSys.addAffinity(Aff)
                             elif i == 1 and not(wa == 'F0' or wa == 'F1'):
                                 b = "B" + str(i)
                                 Aff = uc.AffinityRule(wa, b, "h")
-                                self.genSys.add_affinity(Aff)
+                                self.genSys.addAffinity(Aff)
 
                         elif wa == 'F1':
                             b = "B2"
                             Aff = uc.AffinityRule(wa, b, "h")
-                            self.genSys.add_affinity(Aff)
+                            self.genSys.addAffinity(Aff)
 
                         if i > 0:
 
@@ -731,24 +731,24 @@ class NLength_LineGenerator(LinesGenerator):
                                 if wa_num == i:
                                     fp = "F'" + str(i)
                                     Aff = uc.AffinityRule(wa, fp, "h")
-                                    self.genSys.add_affinity(Aff)
+                                    self.genSys.addAffinity(Aff)
                                     if i > 1 and wa_num >= i:
                                             f = "F" + str(i)
                                             Aff = uc.AffinityRule(wa, f, "h")
-                                            self.genSys.add_affinity(Aff)
+                                            self.genSys.addAffinity(Aff)
                             elif wa_num == 1:
                                 fp = "F'1"
                                 Aff = uc.AffinityRule(wa, fp, "h")
-                                self.genSys.add_affinity(Aff)
+                                self.genSys.addAffinity(Aff)
 
                 else:
                     b = "B" + str(i)
                     Aff = uc.AffinityRule(wa, b, "h")
-                    self.genSys.add_affinity(Aff)
+                    self.genSys.addAffinity(Aff)
                     if i < (bl -1):
                         f = "F" + str(i)
                         Aff = uc.AffinityRule(wa, f, "h")
-                        self.genSys.add_affinity(Aff)
+                        self.genSys.addAffinity(Aff)
 
         print("End Affinities V2 Returns")
 
@@ -756,16 +756,16 @@ class NLength_LineGenerator(LinesGenerator):
 
         states = self.genSys.returnStates()
         b0Aff = uc.AffinityRule("S","B0", "h")
-        self.genSys.add_affinity(b0Aff)
+        self.genSys.addAffinity(b0Aff)
 
         b0f0Aff = uc.AffinityRule("F0","B0", "h")
-        self.genSys.add_affinity(b0f0Aff)
+        self.genSys.addAffinity(b0f0Aff)
 
         bp0f0Aff = uc.AffinityRule("F0","B'0", "h")
-        self.genSys.add_affinity(bp0f0Aff)
+        self.genSys.addAffinity(bp0f0Aff)
 
         b1bp0Aff = uc.AffinityRule("B1","B'0", "h")
-        self.genSys.add_affinity(b1bp0Aff)
+        self.genSys.addAffinity(b1bp0Aff)
 
         self.add_reseed_affinities_v2()
         self.add_affinities_v2()
@@ -785,11 +785,11 @@ class NLength_LineGenerator(LinesGenerator):
             if split_b[1] == self.reseed_state_nums[0]:
                 labelB_Final = self.reseed_states[0]
                 tr = uc.TransitionRule(labelA, labelB, labelA, labelB_Final, "h")
-                self.genSys.add_transition_rule(tr)
+                self.genSys.addTransitionRule(tr)
             else:
                 labelB_Final = transition_to_forward(labelB)
                 tr = uc.TransitionRule(labelA, labelB, labelA, labelB_Final, "h")
-                self.genSys.add_transition_rule(tr)
+                self.genSys.addTransitionRule(tr)
 
     def add_reseed_transitions(self, labelA, labelB):
         if "R'" in labelA:
@@ -803,7 +803,7 @@ class NLength_LineGenerator(LinesGenerator):
                             if len(self.reseed_states) > (labelA_index + 1):
                                 labelB_Final = self.reseed_states[labelA_index + 1]
                                 tr = uc.TransitionRule(labelA, labelB, labelA, labelB_Final, "h")
-                                self.genSys.add_transition_rule(tr)
+                                self.genSys.addTransitionRule(tr)
 
         elif "R" in labelA and not("R" in labelB):
             if "B'" in labelB:
@@ -812,28 +812,28 @@ class NLength_LineGenerator(LinesGenerator):
                 labelB_Final = labelA
 
             tr = uc.TransitionRule(labelA, labelB, labelA, labelB_Final, "h")
-            self.genSys.add_transition_rule(tr)
+            self.genSys.addTransitionRule(tr)
 
     def add_forward_transition(self, labelA, labelB):
-        states = self.genSys.return_list_of_state_labels()
+        states = self.genSys.returnStateLabelList()
 
         if "F'" in labelA:
             if check_A_greater(labelA, labelB):
                 labelB_Final = transition_to_forward(labelB)
                 tr = uc.TransitionRule(labelA, labelB, labelA, labelB_Final, "h")
-                self.genSys.add_transition_rule(tr)
+                self.genSys.addTransitionRule(tr)
 
         elif "F" in labelA and labelA in states:
             if "B'" in labelB:
                 if check_A_greater(labelA, labelB):
                     labelB_Final = make_prime(labelA)
                     tr = uc.TransitionRule(labelA, labelB, labelA, labelB_Final, "h")
-                    self.genSys.add_transition_rule(tr)
+                    self.genSys.addTransitionRule(tr)
             elif "B" in labelB:
                 if check_A_greater(labelA, labelB):
                     labelB_Final = labelA
                     tr = uc.TransitionRule(labelA, labelB, labelA, labelB_Final, "h")
-                    self.genSys.add_transition_rule(tr)
+                    self.genSys.addTransitionRule(tr)
 
     def add_back_transition(self, labelA, labelB):
         if "R" in labelA or "S" in labelA:
@@ -845,16 +845,16 @@ class NLength_LineGenerator(LinesGenerator):
                 labelA_Final = increment_string(labelA)
                 labelA_Final = transition_to_backward(labelA_Final)
                 tr = uc.TransitionRule(labelA, labelB, labelA_Final, labelB, "h")
-                self.genSys.add_transition_rule(tr)
+                self.genSys.addTransitionRule(tr)
 
             elif check_A_less(labelA, labelB):
                 labelA_Final = labelB
                 tr = uc.TransitionRule(labelA, labelB, labelA_Final, labelB, "h")
-                self.genSys.add_transition_rule(tr)
+                self.genSys.addTransitionRule(tr)
 
     def add_transitions(self):
         #tr = uc.TransitionRule(labelA, labelB, labelA_Final, labelB_Final, "h")
-        #self.genSys.add_transition_rule(tr)
+        #self.genSys.addTransitionRule(tr)
         seed = "S"
         b0 = "B0"
         bp0 = "B'0"
@@ -863,14 +863,14 @@ class NLength_LineGenerator(LinesGenerator):
         if line_len > 1:
         # Seed transitions
             tr = uc.TransitionRule(seed, b0, seed, f0, "h")
-            self.genSys.add_transition_rule(tr)
+            self.genSys.addTransitionRule(tr)
 
             if line_len > 2:
                 tr = uc.TransitionRule(f0, b0, f0, bp0, "h")
-                self.genSys.add_transition_rule(tr)
+                self.genSys.addTransitionRule(tr)
 
                 tr = uc.TransitionRule(f0, bp0, "B1", bp0, "h")
-                self.genSys.add_transition_rule(tr)
+                self.genSys.addTransitionRule(tr)
 
                 if line_len > 4:
                     labelA = seed
@@ -912,33 +912,33 @@ class DeterministicLines:
         seed = uc.State(label, light_blue)
         return seed
 
-    def add_states(self):
+    def addStates(self):
         # Add states
         #Add empty State
         label = "-"
-        self.genSys.add_State(label)
-        self.genSys.add_Initial_State(label)
+        self.genSys.addState(label)
+        self.genSys.addInitialState(label)
 
         #Add X State
         label = "X"
-        self.genSys.add_State(label)
+        self.genSys.addState(label)
 
         #Add Copy State
         label = "C"
-        self.genSys.add_State(label)
+        self.genSys.addState(label)
 
         #Add Barrow State
         label = "B"
-        self.genSys.add_State(label)
+        self.genSys.addState(label)
 
         for i in range(1, self.digits_number):
             label = str(self.base_number) + "'" + str(i)
-            self.genSys.add_State(label)
-            self.genSys.add_Initial_State(label)
+            self.genSys.addState(label)
+            self.genSys.addInitialState(label)
 
         for i in range(self.base_number):
             label = str(i)
-            self.genSys.add_State(label)
+            self.genSys.addState(label)
 
 
 
@@ -960,8 +960,8 @@ class IUTable:
         for i in range(0, 4):
             i_label = str(i) + "_digit"
             i_state = uc.State(i_label, white, i, display_label_color=black)
-            self.genSys.add_State(i_state)
-            self.genSys.add_Initial_State(i_state)
+            self.genSys.addState(i_state)
+            self.genSys.addInitialState(i_state)
 
 
 

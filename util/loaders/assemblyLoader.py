@@ -101,7 +101,7 @@ def readxml(file):
         SeedStateSet.append(tempState)
 
         if isinstance(x,str) & isinstance(y,str):
-            seed_assembly.set_tiles([Tile(tempState,int(x),int(y))])
+            seed_assembly.setTiles([Tile(tempState,int(x),int(y))])
 
 
     # Record Vertical Transitions

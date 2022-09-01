@@ -14,14 +14,31 @@
         <State Label="BlankActiveStateLabelRegion" Color="94d2bd" DisplayLabel= " " x="-5" y="0" />
         <State Label="ActiveState_OutDoor" Color="005f73" DisplayLabel= "🚧" x="-6" y="0" />
 
-		<!-- Border -->
+		<!-- Border R -->
         <State Label="AS_BorderTile" Color="fdf0d5" DisplayLabel= " " x="0" y="1" />
         <State Label="AS_BorderTile" Color="fdf0d5" DisplayLabel= " " x="0" y="2" />
         <State Label="AS_BorderTile" Color="fdf0d5" DisplayLabel= " " x="0" y="3" />
         <State Label="AS_BorderTile" Color="fdf0d5" DisplayLabel= " " x="0" y="4" />
         <State Label="AS_BorderTile" Color="fdf0d5" DisplayLabel= " " x="0" y="5" />
         <State Label="AS_BorderTile" Color="fdf0d5" DisplayLabel= " " x="0" y="6" />
+
+        <!-- Top Border -->
         <State Label="AS_BorderTile" Color="fdf0d5" DisplayLabel= " " x="-1" y="6" />
+        <State Label="AS_BorderTile" Color="fdf0d5" DisplayLabel= " " x="-2" y="6" />
+        <State Label="AS_BorderTile" Color="fdf0d5" DisplayLabel= " " x="-3" y="6" />
+        <State Label="AS_BorderTile" Color="fdf0d5" DisplayLabel= " " x="-4" y="6" />
+        <State Label="AS_BorderTile" Color="fdf0d5" DisplayLabel= " " x="-5" y="6" />
+        <State Label="AS_BorderTile" Color="fdf0d5" DisplayLabel= " " x="-6" y="6" />
+
+        <!-- Left Door Wall -->
+        <State Label="NWallDoor" Color="fdf0d5" DisplayLabel= "⩻" x="-6" y="4" />
+        <State Label="WWallDoor" Color="fdf0d5" DisplayLabel= " " x="-6" y="3" />
+        <State Label="EWallDoor" Color="fdf0d5" DisplayLabel= " " x="-6" y="2" />
+        <State Label="SWallDoor" Color="fdf0d5" DisplayLabel= " " x="-6" y="1" />
+        <State Label="HandleChecker" Color="fdf0d5" DisplayLabel= " " x="-6" y="1" />
+        <State Label="UnlockASDoors" Color="fdf0d5" DisplayLabel= " " x="-7" y="0" />
+
+
 
 	</SeedStates>
 	<VerticalTransitions />

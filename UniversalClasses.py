@@ -28,13 +28,7 @@ class State:
 
         else: self.display_label_color = display_label_color
 
-
-
-
     # Getters
-
-    def get_label(self):  # NOTICE: LEAVE THIS HERE FOR THE ASSEMBLER
-        return self.label
     def returnLabel(self):
         return self.label
 
@@ -72,9 +66,6 @@ class State:
             return self.label == other.label and self.color == other.color
 
 
-    def get_color(self):      # for editor window
-        return self.color
-
 
 def toCoords(x, y):
     return "(" + str(x) + "," + str(y) + ")"
@@ -94,21 +85,16 @@ class Tile:
     def __str__(self):
         s = self.state.label + " (" + self.x + ", " + self.y + ")"
         return s
-
-    def get_state(self):
-        return self.state
-
-    def set_state(self, s):
+    def setState(self, s):
         self.state = s
-
-    def get_label(self):
-        return self.state.label
-
-    def set_label(self, l):
+    def setLabel(self, l):
         self.state.label = l
-
-    def get_color(self):
+    def returnColor(self):
         return self.state.returnColor()
+    def returnLabel(self):
+        return self.state.returnLabel()
+    def returnState(self):
+        return self.state
 
 
 class Assembly:
@@ -128,36 +114,17 @@ class Assembly:
         print("South Boundary: ", self.downMost)
         print("Size: ", len(self.tiles))
 
-    def get_borders(self):
+    def returnBorders(self):
         borders_list = [self.leftMost, self.rightMost, self.upMost, self.downMost]
         return borders_list
 
-    def get_label(self):
+    def returnLabel(self):
         return self.label
 
-    def set_label(self, l):
-        self.label = l
-
-    def get_tiles(self):
+    def returnTiles(self):
         return self.tiles
 
-    def set_tiles(self, t):
-        for tileI in t:
-            tile = Tile(tileI.state, tileI.x, tileI.y)
-            self.tiles.append(tile)
-            self.coords["(" + str(tile.x) + "," + str(tile.y) + ")"] = tile
-            # update boundaries
-            if(tile.y > self.upMost):
-                self.upMost = tile.y
-            if(tile.y < self.downMost):
-                self.downMost = tile.y
-            if(tile.x > self.rightMost):
-                self.rightMost = tile.x
-            if(tile.x < self.leftMost):
-                self.leftMost = tile.x
-
-    # Sonya on attachments
-    def get_attachments(self, sy):  # takes in a system
+    def returnAttachments(self, sy):  # takes in a system
         attachments_list = []
         # sys_attachments = sy.get_initial_states()
         # sys_v_transition_rules = sy.get_vertical_transition_rules
@@ -228,43 +195,7 @@ class Assembly:
         return attachments_list
         # ORIGINAL tuple of ((coord pair), (current labels), (transition labels))
 
-    def set_attachments(self, att):  # tuple of ((type: ), (x: ), (y: ), (state1: ))
-        # a = Assembly()
-        #a.label = self.label + "A " + att["state1"]
-        # a.set_tiles(self.tiles.copy())
-        #change = trans[0][0]
-       # print(a.tiles[change][0])
-        # print(trans[2][1])
-       # print(trans[0])
-        #a.tiles[change] = trans[2][1]
-        #print("attaching at " + str(att["x"]) + " : " + str(att["y"]))
-        #print("New Assembly Tiles: ", a.tiles)
-
-        att_tile = Tile(att["state1"], att["x"], att["y"])
-        self.tiles.append(att_tile)
-        self.coords[toCoords(att["x"], att["y"])] = att_tile
-
-        # Update Boundaries
-        if(int(att["y"]) > self.upMost):
-            self.upMost = att["y"]
-        else:
-            self.upMost = self.upMost
-        if(int(att["y"]) < self.downMost):
-            self.downMost = att["y"]
-        else:
-            self.downMost = self.downMost
-        if(int(att["x"]) > self.rightMost):
-            self.rightMost = att["x"]
-        else:
-            self.rightMost = self.rightMost
-        if(int(att["x"]) < self.leftMost):
-            self.leftMost = att["x"]
-        else:
-            self.leftMost = self.leftMost
-
-
-    # Elise on transitions
-    def get_transitions(self, sy):  # takes in a system
+    def returnTransitions(self, sy):  # takes in a system
         #t1 = (self.tiles[i-1][0])
         #t2 = (self.tiles[i][0])
         #ttc = (i-1, i)
@@ -277,8 +208,8 @@ class Assembly:
         transitions_list = []
         sys_h_tr = sy.returnHorizontalTransitionDict()
         sys_v_tr = sy.returnVerticalTransitionDict()
-        #sys_h_tiles = sy.get_tile_horizontal_transitions()
-        #sys_v_tiles = sy.get_tile_vertical_transitions()
+        #sys_h_tiles = sy.returnTileHorizontalTransitions()
+        #sys_v_tiles = sy.returnTileVerticalTransitions()
 
         # Check each tile in the assembly
         for iTile in self.tiles:
@@ -319,13 +250,12 @@ class Assembly:
                         move["x"] = iTile.x
                         move["y"] = iTile.y
                         move["dir"] = "v"
-                        move["state1"] = iTile.get_state()
-                        move["state2"] = neighborS.get_state()
+                        move["state1"] = iTile.returnState()
+                        move["state2"] = neighborS.returnState()
 
-
-                        move["state1Final"] = sy.get_state(
+                        move["state1Final"] = sy.returnState(
                             rules[i])  # .returnLabel1Final()
-                        move["state2Final"] = sy.get_state(
+                        move["state2Final"] = sy.returnState(
                             rules[i + 1])  # .returnLabel2Final()
                         transitions_list.append(move)
 
@@ -343,68 +273,119 @@ class Assembly:
                         move["x"] = iTile.x
                         move["y"] = iTile.y
                         move["dir"] = "h"
-                        move["state1"] = iTile.get_state()
-                        move["state2"] = neighborE.get_state()
+                        move["state1"] = iTile.returnState()
+                        move["state2"] = neighborE.returnState()
 
-
-                        move["state1Final"] = sy.get_state(
+                        move["state1Final"] = sy.returnState(
                             rules[i])  # .returnLabel1Final()
-                        move["state2Final"] = sy.get_state(
+                        move["state2Final"] = sy.returnState(
                             rules[i + 1])  # .returnLabel2Final()
                         transitions_list.append(move)
 
         return transitions_list
         # ORIGINAL ((type: ), (current labels), (transition labels))
 
+    def returnMoves(self, sy):
+        #print("attachments: " + str(len(self.returnAttachments(sy))) + " transitions: " + str(len(self.returnTransitions(sy))))
+        return self.returnAttachments(sy) + self.returnTransitions(sy)
+
+    def setLabel(self, l):
+        self.label = l
+    def setTiles(self, t):
+        for tileI in t:
+            tile = Tile(tileI.state, tileI.x, tileI.y)
+            self.tiles.append(tile)
+            self.coords["(" + str(tile.x) + "," + str(tile.y) + ")"] = tile
+            # update boundaries
+            if(tile.y > self.upMost):
+                self.upMost = tile.y
+            if(tile.y < self.downMost):
+                self.downMost = tile.y
+            if(tile.x > self.rightMost):
+                self.rightMost = tile.x
+            if(tile.x < self.leftMost):
+                self.leftMost = tile.x
+
+    def setAttachments(self, att):  # tuple of ((type: ), (x: ), (y: ), (state1: ))
+        # a = Assembly()
+        #a.label = self.label + "A " + att["state1"]
+        # a.setTiles(self.tiles.copy())
+        #change = trans[0][0]
+       # print(a.tiles[change][0])
+        # print(trans[2][1])
+       # print(trans[0])
+        #a.tiles[change] = trans[2][1]
+        #print("attaching at " + str(att["x"]) + " : " + str(att["y"]))
+        #print("New Assembly Tiles: ", a.tiles)
+
+        att_tile = Tile(att["state1"], att["x"], att["y"])
+        self.tiles.append(att_tile)
+        self.coords[toCoords(att["x"], att["y"])] = att_tile
+
+        # Update Boundaries
+        if(int(att["y"]) > self.upMost):
+            self.upMost = att["y"]
+        else:
+            self.upMost = self.upMost
+        if(int(att["y"]) < self.downMost):
+            self.downMost = att["y"]
+        else:
+            self.downMost = self.downMost
+        if(int(att["x"]) > self.rightMost):
+            self.rightMost = att["x"]
+        else:
+            self.rightMost = self.rightMost
+        if(int(att["x"]) < self.leftMost):
+            self.leftMost = att["x"]
+        else:
+            self.leftMost = self.leftMost
+
+    # Elise on transitions
     # tuple of {'type': 't', 'x': 0, 'y': 0, 'state1': 'S', 'state2': 'A', 'state1Final': 'S', 'state2Final': 'A'}
-    def set_transition(self, trans):
+    def setTransition(self, trans):
         # a = Assembly()
         # originally trans[2][0] + trans[2][1]
         self.label = self.label + "T " + \
             trans["state1Final"].returnLabel() + trans["state2Final"].returnLabel()
-        # self.set_tiles(self.tiles.copy())
+        # self.setTiles(self.tiles.copy())
         #change = trans["type"]
 
         # print(a.tiles[change])
         #print(trans["state2Final"].returnLabel())
         #print(trans["type"])
-        self.coords[toCoords(trans["x"], trans["y"])].set_state(
+        self.coords[toCoords(trans["x"], trans["y"])].setState(
             trans["state1Final"])
         # a.tiles[trans["x"]][trans["y"]].setState(trans["state1Final"])
         if(trans["dir"] == "v"):
             self.coords[toCoords(trans["x"], trans["y"] - 1)
-                     ].set_state(trans["state2Final"])
+                     ].setState(trans["state2Final"])
         if(trans["dir"] == "h"):
             self.coords[toCoords(trans["x"] + 1, trans["y"])
-                     ].set_state(trans["state2Final"])
+                     ].setState(trans["state2Final"])
         #print("New Assembly Tiles: ", a.tiles)
-
-    def getMoves(self, sy):
-        #print("attachments: " + str(len(self.get_attachments(sy))) + " transitions: " + str(len(self.get_transitions(sy))))
-        return self.get_attachments(sy) + self.get_transitions(sy)
 
     def performMove(self, move):
         if(move["type"] == "a"):
-            self.set_attachments(move)
+            self.setAttachments(move)
         if(move["type"] == "t"):
-            self.set_transition(move)
+            self.setTransition(move)
 
     def undoMove(self, move):
         a = Assembly()
-        a.set_tiles(self.tiles.copy())
+        a.setTiles(self.tiles.copy())
 
         x = move["x"]
         y = move["y"]
 
         if(move["type"] == "t"):
-            a.coords[toCoords(x, y)].set_state(move["state1"])
+            a.coords[toCoords(x, y)].setState(move["state1"])
             # a.tiles[trans["x"]][trans["y"]].setState(trans["state1Final"])
             if(move["dir"] == "v"):
                 a.coords[toCoords(move["x"], move["y"] - 1)
-                        ].set_state(move["state2"])
+                        ].setState(move["state2"])
             if(move["dir"] == "h"):
                 a.coords[toCoords(move["x"] + 1, move["y"])
-                        ].set_state(move["state2"])
+                        ].setState(move["state2"])
 
 
 
@@ -505,12 +486,12 @@ class Assembly:
                             move["x"] = iTile.x
                             move["y"] = iTile.y
                             move["dir"] = "v"
-                            move["state1"] = iTile.get_state()
-                            move["state2"] = neighborS.get_state()
+                            move["state1"] = iTile.returnState()
+                            move["state2"] = neighborS.returnState()
 
-                            move["state1Final"] = sy.get_state(
+                            move["state1Final"] = sy.returnState(
                                 rules[i])  # .returnLabel1Final()
-                            move["state2Final"] = sy.get_state(
+                            move["state2Final"] = sy.returnState(
                                 rules[i + 1])  # .returnLabel2Final()
                             transitions_list.append(move)
 
@@ -528,12 +509,12 @@ class Assembly:
                             move["x"] = iTile.x
                             move["y"] = iTile.y
                             move["dir"] = "h"
-                            move["state1"] = iTile.get_state()
-                            move["state2"] = neighborE.get_state()
+                            move["state1"] = iTile.returnState()
+                            move["state2"] = neighborE.returnState()
 
-                            move["state1Final"] = sy.get_state(
+                            move["state1Final"] = sy.returnState(
                                 rules[i])  # .returnLabel1Final()
-                            move["state2Final"] = sy.get_state(
+                            move["state2Final"] = sy.returnState(
                                 rules[i + 1])  # .returnLabel2Final()
                             transitions_list.append(move)
 
@@ -629,10 +610,7 @@ class System:
         if not empty:
             self.translateListsToDicts()
 
-    def get_state(self, label):
-        for state in self.states:
-            if state.returnLabel() == label:
-                return state
+
     # Utility
     # if tr remove dont work and still in system look here
     def translateListsToDicts(self):
@@ -676,12 +654,6 @@ class System:
             # self.horizontal_transitions_dict[label1, label2] = (
             #    label1Final, label2Final)
 
-    def get_state(self, label):
-        for state in self.states:
-            if state.returnLabel() == label:
-                return state
-        print("State: ", label, "not found")
-        return None
 
     def add_values_in_dict(self, dict, key, list_of_values):
         if key not in dict:
@@ -689,6 +661,13 @@ class System:
         dict[key].extend(list_of_values)
 
     # Getters
+    def returnState(self, label):
+        for state in self.states:
+            if state.returnLabel() == label:
+                return state
+        print("State: ", label, "not found")
+        return None
+
 
     def returnTemp(self):
         return int(self.temp)
@@ -726,14 +705,22 @@ class System:
     def returnHorizontalTransitionDict(self):
         return self.horizontal_transitions_dict
 
-    def get_tile_vertical_transitions(self):
+    def returnTileVerticalTransitions(self):
         return self.tile_vertical_transitions
 
-    def get_tile_horizontal_transitions(self):
+    def returnTileHorizontalTransitions(self):
         return self.tile_horizontal_transitions
 
-    def get_seed_assembly(self):
+    def returnSeedAssembly(self):
         return self.seed_assembly
+
+    def returnStateLabelList(self):
+        st = []
+        cst = self.returnStates()
+        for s in cst:
+            st.append(s.returnLabel())
+
+        return st
 
     # Displayers
 
@@ -792,13 +779,16 @@ class System:
 
     # TO DO Update these to write to a dictionary, and to use lists of objects from universalClasses.py
 
-    def set_tile_vertical_transitions(self, tile_vt):
+    def setTileVerticalTransitions(self, tile_vt):
         self.tile_vertical_transitions = tile_vt
 
-    def set_tile_horizontal_transitions(self, tile_ht):
+    def setTileHorizontalTransitions(self, tile_ht):
         self.tile_horizontal_transitions = tile_ht
+
+    def setSeedAssembly(self, assembly):
+        self.seed_assembly = assembly
     # each of these: add a remove functions to UC to call
-    def add_State(self, state):
+    def addState(self, state):
         if isinstance(state, list):
             for s in state:
                 self.states.append(s)
@@ -807,45 +797,15 @@ class System:
         else:
             print("Attempted to add a state that is not a state object")
 
-    def return_list_of_state_labels(self):
-        st = []
-        cst = self.returnStates()
-        for s in cst:
-            st.append(s.returnLabel())
-
-        return st
-
-    def add_Initial_State(self, state):
+    def addInitialState(self, state):
         self.initial_states.append(state)
 
     # idk if this will work
-    def add_Seed_State(self, state):
+    def addSeedState(self, state):
         self.seed_states.append(state)
 
-    #if there is no preset assembly, pick a random seed state
-    #do nothing if there is a preset assembly
-    def make_Seed_Assembly(self):
-        if len(self.seed_assembly.tiles) == 0:
-            try:
-                seed = random.choice(self.seed_states)
-                self.seed_assembly.set_tiles([Tile(seed, 0, 0)])
-            except:
-                "There are no states set as seeds for this assembly."
-
-
-    def set_Seed_Assembly(self, assembly):
-        self.seed_assembly = assembly
-
-    def remove_state(self, state):
-        # if
-        if isinstance(state, list):
-            for s in state:
-                self.states.remove(s)
-        elif isinstance(state, State):
-            self.states.remove(state)
-
     # start here
-    def add_transition_rule(self, tr):
+    def addTransitionRule(self, tr):
         label1 = tr.returnLabel1()
         label2 = tr.returnLabel2()
         label1Final = tr.returnLabel1Final()
@@ -879,7 +839,7 @@ class System:
 
             self.horizontal_transitions_dict[label1, label2] = oldList
 
-    def add_affinity(self, a):
+    def addAffinity(self, a):
         label1 = a.returnLabel1()
         label2 = a.returnLabel2()
         direct = a.returnDir()
@@ -891,3 +851,22 @@ class System:
         else:
             self.horizontal_affinities_list.append(a)
             self.horizontal_affinities_dict[(label1, label2)] = stren
+
+    #if there is no preset assembly, pick a random seed state
+    #do nothing if there is a preset assembly
+    def makeSeedAssembly(self):
+        if len(self.seed_assembly.tiles) == 0:
+            try:
+                seed = random.choice(self.seed_states)
+                self.seed_assembly.setTiles([Tile(seed, 0, 0)])
+            except:
+                "There are no states set as seeds for this assembly."
+
+
+    def removeState(self, state):
+        # if
+        if isinstance(state, list):
+            for s in state:
+                self.states.remove(s)
+        elif isinstance(state, State):
+            self.states.remove(state)

@@ -4,6 +4,7 @@ import detGen
 import oneSidedGen
 import nonDetGen
 import squareGen
+from Generators.IU_Generators import activeStateRegion as activeStateRegion
 
 
 red = "f03a47"
@@ -17,7 +18,7 @@ light_blue = "C2DCFE"
 
 # This function handles all generators from UI
 def generator(shape, value, model):
-    
+
     if model == "Deterministic":
         if shape == "Strings":
             return detGen.genString(value)
@@ -31,14 +32,14 @@ def generator(shape, value, model):
             return oneSidedGen.genString(value)
         if shape == "Rectangle":
             value = int(value)
-            return oneSidedGen.genRect(value - 1)   
+            return oneSidedGen.genRect(value - 1)
 
     if model == "Non-Deterministic":
         if shape == "Strings":
             return nonDetGen.genString(value)
         if shape == "Rectangle":
             value = int(value)
-            return nonDetGen.genRect(value - 1)    
+            return nonDetGen.genRect(value - 1)
 
     if shape == "Squares":
         value = int(value)
@@ -46,6 +47,9 @@ def generator(shape, value, model):
 
     if shape == "Lines":
         return detGen.genNFLine(value)
+
+    if model == "Active State Region":
+        return activeStateRegion(value)
 
 
 

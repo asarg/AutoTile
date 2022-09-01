@@ -19,214 +19,214 @@ def genQuadIndexStates(vLen):
     genSys = uc.System(1, [], [], [seedA], [], [], [], [])
 
     # Seed States
-    genSys.add_State(seedA)
+    genSys.addState(seedA)
     #     seedB is an Initial State
     seedB = uc.State("SB", black)
-    genSys.add_Initial_State(seedB)
-    genSys.add_State(seedB)
+    genSys.addInitialState(seedB)
+    genSys.addState(seedB)
     #     seedC is an Initial State
     seedC = uc.State("SC", black)
-    genSys.add_Initial_State(seedC)
-    genSys.add_State(seedC)
+    genSys.addInitialState(seedC)
+    genSys.addState(seedC)
     #     seedD is an Initial State
     seedD = uc.State("SD", black)
-    genSys.add_Initial_State(seedD)
-    genSys.add_State(seedD)
+    genSys.addInitialState(seedD)
+    genSys.addState(seedD)
 
     # Blank A and A' states
     singleA = uc.State("A", red)
-    genSys.add_State(singleA)
+    genSys.addState(singleA)
     singleAPrime = uc.State("A'", red)
-    genSys.add_State(singleAPrime)
+    genSys.addState(singleAPrime)
     # Blank B and B' states
     singleB = uc.State("B", blue)
-    genSys.add_State(singleB)
+    genSys.addState(singleB)
     BPrime = uc.State("B'", blue)
-    genSys.add_State(BPrime)
+    genSys.addState(BPrime)
     BPrime2 = uc.State("B''", blue)
-    genSys.add_State(BPrime2)
+    genSys.addState(BPrime2)
     # Blank C and C' states
     singleC = uc.State("C", orange)
-    genSys.add_State(singleC)
+    genSys.addState(singleC)
     singleCPrime = uc.State("C'", orange)
-    genSys.add_State(singleCPrime)
+    genSys.addState(singleCPrime)
 
     # Small Letter States
     for i in range(2 * rt4Len):
         # Little a states (Initial States)
         aState = uc.State(str(i) + "a", red)
-        genSys.add_State(aState)
-        genSys.add_Initial_State(aState)
+        genSys.addState(aState)
+        genSys.addInitialState(aState)
         # Little b states (Initial States)
         bState = uc.State(str(i) + "b", blue)
-        genSys.add_State(bState)
-        genSys.add_Initial_State(bState)
+        genSys.addState(bState)
+        genSys.addInitialState(bState)
         # Little b states (Initial States)
         cState = uc.State(str(i) + "c", orange)
-        genSys.add_State(cState)
-        genSys.add_Initial_State(cState)
+        genSys.addState(cState)
+        genSys.addInitialState(cState)
     # Large Letter States
     for i in range(rt4Len):
         # Big A states
         bigAState = uc.State(str(i) + "A", red)
-        genSys.add_State(bigAState)
+        genSys.addState(bigAState)
         # Base A states
         southAState = uc.State(str(i) + "As", red)
-        genSys.add_State(southAState)
+        genSys.addState(southAState)
         # A' (prime) states
         bigAPrime = uc.State(str(i) + "A'", red)
-        genSys.add_State(bigAPrime)
+        genSys.addState(bigAPrime)
         # Big B states
         bigBState = uc.State(str(i) + "B", blue)
-        genSys.add_State(bigBState)
+        genSys.addState(bigBState)
         # Base B states
         southBState = uc.State(str(i) + "Bs", blue)
-        genSys.add_State(southBState)
+        genSys.addState(southBState)
         # B prime states
         Bprime = uc.State(str(i) + "B'", blue)
-        genSys.add_State(Bprime)
+        genSys.addState(Bprime)
         Bprime2 = uc.State(str(i) + "B''", blue)
-        genSys.add_State(Bprime2)
+        genSys.addState(Bprime2)
         # C states (Initial States)
         cState = uc.State(str(i) + "C", orange)
-        genSys.add_State(cState)
+        genSys.addState(cState)
         # Base C states
         southCState = uc.State(str(i) + "Cs", orange)
-        genSys.add_State(southCState)
+        genSys.addState(southCState)
         # C prime states
         Cprime = uc.State(str(i) + "C'", orange)
-        genSys.add_State(Cprime)
+        genSys.addState(Cprime)
         # D states (Initial States)
         dState = uc.State(str(i) + "D", green)
-        genSys.add_State(dState)
-        genSys.add_Initial_State(dState)
+        genSys.addState(dState)
+        genSys.addInitialState(dState)
         # Base D states
         southDState = uc.State(str(i) + "Ds", green)
-        genSys.add_State(southDState)
-        genSys.add_Initial_State(southDState)
+        genSys.addState(southDState)
+        genSys.addInitialState(southDState)
 
     # Little a prime state
     aPrime = uc.State(str((2 * rt4Len) - 1) + "a'", red)
-    genSys.add_State(aPrime)
+    genSys.addState(aPrime)
     # Little b prime state
     bPrime = uc.State(str((2 * rt4Len) - 1) + "b'", blue)
-    genSys.add_State(bPrime)
+    genSys.addState(bPrime)
 
     ### Affinity Rules
     #       Seed Affinities to start building
     affinityA0 = uc.AffinityRule("0a", "SA", "v", 1)
-    genSys.add_affinity(affinityA0)
+    genSys.addAffinity(affinityA0)
     affinityB0 = uc.AffinityRule("0b", "SB", "v", 1)
-    genSys.add_affinity(affinityB0)
+    genSys.addAffinity(affinityB0)
     affinityC0 = uc.AffinityRule("0c", "SC", "v", 1)
-    genSys.add_affinity(affinityC0)
+    genSys.addAffinity(affinityC0)
     affinityD0 = uc.AffinityRule("0Ds", "SD", "v", 1)
-    genSys.add_affinity(affinityD0)
+    genSys.addAffinity(affinityD0)
     affinitySeed = uc.AffinityRule("SA", "SB", "h", 1)
-    genSys.add_affinity(affinitySeed)
+    genSys.addAffinity(affinitySeed)
     affinitySeed2 = uc.AffinityRule("SB", "SC", "h", 1)
-    genSys.add_affinity(affinitySeed2)
+    genSys.addAffinity(affinitySeed2)
     affinitySeed3 = uc.AffinityRule("SC", "SD", "h", 1)
-    genSys.add_affinity(affinitySeed3)
+    genSys.addAffinity(affinitySeed3)
 
     for i in range((2 * rt4Len) - 1):
         # Affinity Rules to build each column
         affA = uc.AffinityRule(str(i + 1) + "a", str(i) + "a", "v", 1)
-        genSys.add_affinity(affA)
+        genSys.addAffinity(affA)
         affB = uc.AffinityRule(str(i + 1) + "b", str(i) + "b", "v", 1)
-        genSys.add_affinity(affB)
+        genSys.addAffinity(affB)
         affC = uc.AffinityRule(str(i + 1) + "c", str(i) + "c", "v", 1)
-        genSys.add_affinity(affC)
+        genSys.addAffinity(affC)
 
     for i in range(rt4Len - 1):
         affD = uc.AffinityRule(str(i) + "D", str(i) + "Ds", "v", 1)
-        genSys.add_affinity(affD)
+        genSys.addAffinity(affD)
         affDs = uc.AffinityRule(str(i + 1) + "Ds", str(i) + "D", "v", 1)
-        genSys.add_affinity(affDs)
+        genSys.addAffinity(affDs)
 
         # Affinity Rule to start the next section of the A and B column
         affGrowA = uc.AffinityRule("0a", str(i) + "A'", "v", 1)
-        genSys.add_affinity(affGrowA)
+        genSys.addAffinity(affGrowA)
         affGrowB = uc.AffinityRule("0b", str(i) + "B'", "v", 1)
-        genSys.add_affinity(affGrowB)
+        genSys.addAffinity(affGrowB)
         affGrowC = uc.AffinityRule("0c", str(i) + "C'", "v", 1)
-        genSys.add_affinity(affGrowC)
+        genSys.addAffinity(affGrowC)
 
     affLD = uc.AffinityRule(str(rt4Len - 1) + "D", str(rt4Len - 1) + "Ds", "v", 1)
-    genSys.add_affinity(affLD)
+    genSys.addAffinity(affLD)
 
     ### Transitions
     # Transition once the C and D column are complete
     trCTop = uc.TransitionRule(str((2 * rt4Len) - 1) + "c", str(rt4Len - 1) + "D", "C'", str(rt4Len - 1) + "D", "h")
-    genSys.add_transition_rule(trCTop)
+    genSys.addTransitionRule(trCTop)
 
     # Rule for starting propagation of A state
     AprimeProp = uc.TransitionRule(
         "A'", str((2 * rt4Len) - 2) + "a", "A'", "A", "v")
-    genSys.add_transition_rule(AprimeProp)
+    genSys.addTransitionRule(AprimeProp)
     BprimeProp = uc.TransitionRule(
         "B'", str((2 * rt4Len) - 2) + "b", "B'", "B", "v")
-    genSys.add_transition_rule(BprimeProp)
+    genSys.addTransitionRule(BprimeProp)
     CprimeProp = uc.TransitionRule(
         "C'", str((2 * rt4Len) - 2) + "c", "C'", "C", "v")
-    genSys.add_transition_rule(CprimeProp)
+    genSys.addTransitionRule(CprimeProp)
 
     for i in range(2 * rt4Len - 1):
         # Rule for continued propagation of A state downward
         Aprop = uc.TransitionRule("A", str(i) + "a", "A", "A", "v")
-        genSys.add_transition_rule(Aprop)
+        genSys.addTransitionRule(Aprop)
         Bprop = uc.TransitionRule("B", str(i) + "b", "B", "B", "v")
-        genSys.add_transition_rule(Bprop)
+        genSys.addTransitionRule(Bprop)
         Cprop = uc.TransitionRule("C", str(i) + "c", "C", "C", "v")
-        genSys.add_transition_rule(Cprop)
+        genSys.addTransitionRule(Cprop)
 
 
     # Rule for when A/B state reaches seed or last B' and marked as 0As/0Bs
     trAseed = uc.TransitionRule("A", "SA", "0As", "SA", "v")
-    genSys.add_transition_rule(trAseed)
+    genSys.addTransitionRule(trAseed)
     trBseed = uc.TransitionRule("B", "SB", "0Bs", "SB", "v")
-    genSys.add_transition_rule(trBseed)
+    genSys.addTransitionRule(trBseed)
     trCseed = uc.TransitionRule("C", "SC", "0Cs", "SC", "v")
-    genSys.add_transition_rule(trCseed)
+    genSys.addTransitionRule(trCseed)
 
     for i in range(rt4Len):
-      
+
         # Rules for propagating the A index upward
         propUpA = uc.TransitionRule(
             "A", str(i) + "A", str(i) + "As", str(i) + "A", "v")
-        genSys.add_transition_rule(propUpA)
+        genSys.addTransitionRule(propUpA)
         propUpAs = uc.TransitionRule(
             "A", str(i) + "As", str(i) + "A", str(i) + "As", "v")
-        genSys.add_transition_rule(propUpAs)
+        genSys.addTransitionRule(propUpAs)
         propUpPrimeA = uc.TransitionRule(
             "A'", str(i) + "As", str(i) + "A'", str(i) + "As", "v")
-        genSys.add_transition_rule(propUpPrimeA)
+        genSys.addTransitionRule(propUpPrimeA)
 
         propUpB = uc.TransitionRule(
             "B", str(i) + "B", str(i) + "Bs", str(i) + "B", "v")
-        genSys.add_transition_rule(propUpB)
+        genSys.addTransitionRule(propUpB)
         propUpBs = uc.TransitionRule(
             "B", str(i) + "Bs", str(i) + "B", str(i) + "Bs", "v")
-        genSys.add_transition_rule(propUpBs)
+        genSys.addTransitionRule(propUpBs)
         propUpPrimeB = uc.TransitionRule(
             "B'", str(i) + "Bs", str(i) + "B'", str(i) + "Bs", "v")
-        genSys.add_transition_rule(propUpPrimeB)
+        genSys.addTransitionRule(propUpPrimeB)
 
         propUpC = uc.TransitionRule(
             "C", str(i) + "C", str(i) + "Cs", str(i) + "C", "v")
-        genSys.add_transition_rule(propUpC)
+        genSys.addTransitionRule(propUpC)
         propUpCs = uc.TransitionRule(
             "C", str(i) + "Cs", str(i) + "C", str(i) + "Cs", "v")
-        genSys.add_transition_rule(propUpCs)
+        genSys.addTransitionRule(propUpCs)
         propUpPrimeC = uc.TransitionRule(
             "C'", str(i) + "Cs", str(i) + "C'", str(i) + "Cs", "v")
-        genSys.add_transition_rule(propUpPrimeC)
+        genSys.addTransitionRule(propUpPrimeC)
 
         # Once the B index reaches the top transition the a and b columns
         trBC = uc.TransitionRule(str(2 * rt4Len - 1) + "b", str(i) + "C'", str(2 * rt4Len - 1) + "b'", str(i) + "C'", "h")
-        genSys.add_transition_rule(trBC)
+        genSys.addTransitionRule(trBC)
         trAB = uc.TransitionRule(str(2 * rt4Len - 1) + "a", str(2 * rt4Len - 1) + "b'", str(2 * rt4Len - 1) + "a'", str(2 * rt4Len - 1) + "b'", "h")
-        genSys.add_transition_rule(trAB)
+        genSys.addTransitionRule(trAB)
 
     return genSys
 
@@ -235,4 +235,3 @@ def genQuadIndexStates(vLen):
 if __name__ == "__main__":
     sys = genQuadIndexStates(81)
     SaveFile.main(sys, ["quadTest.xml"])
-

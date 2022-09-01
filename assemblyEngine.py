@@ -27,14 +27,14 @@ class Engine:
         self.errorStates = ""
 
         #construct seed assembly from the seed states present in the respective system,
-        self.system.make_Seed_Assembly()
+        self.system.makeSeedAssembly()
 
         #get resulting seed assembly
-        self.seedAssembly = self.system.get_seed_assembly()
+        self.seedAssembly = self.system.returnSeedAssembly()
         self.currentAssembly = self.seedAssembly
         self.currentAssembly = copy.deepcopy(self.seedAssembly)
 
-        self.validMoves = self.currentAssembly.getMoves(self.system)
+        self.validMoves = self.currentAssembly.returnMoves(self.system)
 
     def step(self, nextMove=None):
 
@@ -78,7 +78,7 @@ class Engine:
     def first(self):
         self.currentIndex = 0
         self.currentAssembly = copy.deepcopy(self.seedAssembly)
-        self.validMoves = self.currentAssembly.getMoves(self.system)
+        self.validMoves = self.currentAssembly.returnMoves(self.system)
 
     def last(self):
         while self.currentIndex < self.lastIndex:
@@ -101,7 +101,7 @@ class Engine:
             return self.moveList[self.getCurrentIndex()]
 
     def getCurrentBorders(self):
-        return self.currentAssembly.get_borders()
+        return self.currentAssembly.returnBorders()
 
     def build(self, nextMove=None, forwards=True):
 
@@ -458,11 +458,11 @@ class Engine:
         if rules != None:
             for i in range(0, len(rules), 2):
                 if problem == 1:
-                    if self.system.get_state(rules[i]) == None:
+                    if self.system.returnState(rules[i]) == None:
                         errorTile += rules[i]
                         errorTile += " "
                 elif problem == 2:
-                    if self.system.get_state(rules[i+1]) == None:
+                    if self.system.returnState(rules[i+1]) == None:
                         errorTile += rules[i + 1]
                         errorTile += " "
 
