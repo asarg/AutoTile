@@ -89,12 +89,39 @@ class Tile:
         self.state = s
     def setLabel(self, l):
         self.state.label = l
+
+    def setDisplayLabel(self, display_label):
+        try:
+            self.state.setDisplayLabel(display_label)
+        except Exception as e:
+            raise e
+
+    def setDisplayLabelFont(self, display_label_font):
+        try:
+            self.state.setDisplayLabelFont(display_label_font)
+        except Exception as e:
+            raise e
+
+    def setDisplayLabelColor(self, display_label_color):
+        try:
+            self.state.setDisplayLabelColor(display_label_color)
+        except Exception as e:
+            raise e
     def returnColor(self):
         return self.state.returnColor()
     def returnLabel(self):
         return self.state.returnLabel()
     def returnState(self):
         return self.state
+    def returnDisplayLabel(self):
+        return self.state.returnDisplayLabel()
+    def returnDisplayLabelColor(self):
+        return self.state.returnDisplayLabelColor()
+    def returnDisplayLabelFont(self):
+        return self.state.returnDisplayLabelFont()
+
+    def returnPosition(self):
+        return "({self.x}, {self.y})".format(self=self)
 
 
 class Assembly:
@@ -306,6 +333,20 @@ class Assembly:
             if(tile.x < self.leftMost):
                 self.leftMost = tile.x
 
+    def setTilesFromList(self, t):
+        #takes in a list of tile objects
+        for tile in t:
+            self.tiles.append(tile)
+            self.coords["(" + str(tile.x) + "," + str(tile.y) + ")"] = tile
+            # update boundaries
+            if(tile.y > self.upMost):
+                self.upMost = tile.y
+            if(tile.y < self.downMost):
+                self.downMost = tile.y
+            if(tile.x > self.rightMost):
+                self.rightMost = tile.x
+            if(tile.x < self.leftMost):
+                self.leftMost = tile.x
     def setAttachments(self, att):  # tuple of ((type: ), (x: ), (y: ), (state1: ))
         # a = Assembly()
         #a.label = self.label + "A " + att["state1"]
