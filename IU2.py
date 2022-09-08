@@ -1,5 +1,5 @@
 import UniversalClasses as uc
-from components import Barn_Red, Blue_Sapphire, colors_list, light_blue, grey, Papaya_Whip, pink, mid_pink, persian_green, grey_pink, outer_space_crayola, green_yellow_crayola, Venetian_Red
+from components import Barn_Red, Blue_Sapphire, colors_list, light_blue, grey, Papaya_Whip, pink, mid_pink, persian_green, grey_pink, outer_space_crayola, green_yellow_crayola, Venetian_Red, Viridian_Green
 import sys
 
 
@@ -135,7 +135,7 @@ class IUGenerators:
         equality_gadget_seed_states = [check_equal_S_start_state_inactive, check_equal_S_end_state_inactive,
                                        check_equal_S_any_num_state_inactive, row_signal_positive_inactive, trap_door_inactive, row_signal_positive_start_inactive, signal_transmitter_turn_down_inactive] + endcap_signal_sys.returnSeedStates()
         equality_gadget_states = [check_equal_S_start_state_inactive, check_equal_S_end_state_inactive, check_equal_S_any_num_state_inactive, row_signal_positive_inactive, check_equal_S_any_num_state,
-                                  check_equal_S_end_state, check_equal_S_start_state, trap_door_inactive, signal_transmitter_turn_up_active, endcap_door_west_handle_active, signal_transmitter_turn_up_inactive, row_signal_positive_start_inactive, row_signal_positive_waiting, row_signal_positive_start_waiting, signal_transmitter_turn_down_inactive] + endcap_signal_sys.returnStates()
+                                  check_equal_S_end_state, check_equal_S_start_state, trap_door_inactive, signal_transmitter_turn_up_active, endcap_door_west_handle_active, signal_transmitter_turn_up_inactive, row_signal_positive_start_inactive, row_signal_positive_waiting, row_signal_positive_start_waiting, signal_transmitter_turn_down_inactive, row_signal_positive_full_accept, signal_transmitter_turn_down_active] + endcap_signal_sys.returnStates()
         equality_gadget_seed_tiles = []
         eq_t = uc.Tile(signal_transmitter_turn_up_inactive, -1, 2)
         equality_gadget_seed_tiles.append(eq_t)
@@ -221,11 +221,18 @@ class IUGenerators:
         aff = uc.AffinityRule(row_signal_positive_waiting.label, row_signal_positive_waiting.label, "h", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(signal_transmitter_turn_down_inactive.label,
-                              row_signal_positive_waiting.label, "h", 1)
+        aff = uc.AffinityRule(signal_transmitter_turn_down_inactive.label, row_signal_positive_waiting.label, "h", 1)
+        endcap_equality_gadget_sys.addAffinity(aff)
+
+        aff = uc.AffinityRule(signal_transmitter_turn_down_active.label,
+                              row_signal_positive_full_accept.label, "h", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
         ### Transitions with row_signal
+        tr = uc.TransitionRule(signal_transmitter_turn_down_inactive.label, row_signal_positive_full_accept.label,
+                               signal_transmitter_turn_down_active.label, row_signal_positive_full_accept.label, "h")
+        endcap_equality_gadget_sys.addTransitionRule(tr)
+
         tr = uc.TransitionRule(
             row_signal_positive_start_inactive.label, signal_transmitter_turn_up_active.label, row_signal_positive_start_waiting.label, signal_transmitter_turn_up_active.label, "h")
         endcap_equality_gadget_sys.addTransitionRule(tr)
@@ -463,6 +470,8 @@ row_signal_positive_start_inactive = uc.State("RowSignalPositiveStartInactive", 
 row_signal_positive_start_waiting = uc.State("RowSignalPositiveStartWaiting", green_yellow_crayola, "⊝⏱", "black")
 
 row_signal_positive_waiting = uc.State("RowSignalPositiveWaiting", green_yellow_crayola, "⏱", "black")
+row_signal_positive_full_accept = uc.State(
+    "RowSignalPositiveFullAccept", Viridian_Green, "✅")
 
 ### Trap Doors
 trap_door_inactive = uc.State("TrapDoorInactive", Barn_Red, "TD", "black")
