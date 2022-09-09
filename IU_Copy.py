@@ -1,58 +1,9 @@
 
 import UniversalClasses as uc
 import sys
-
+from components import *
 #Colors
-red = "f03a47"
-light_green = "C2EFB3"
-green = "0ead69"
-orange = "f39237"
-black = "323031"
-white = "DFE0E2"
-grey = "9EA9A4"
-pink = "f4acb7"
-yellow = "F3A712"
-light_blue = "C2DCFE"
-blue = "3f88c5"
-dark_blue = "29335C"
 
-#Palette 1
-charcoal = "264653"
-persian_green = "2A9D8F"  # 2A9D8Fff
-maize_crayola = "E9C46A"  # medium yellow E9C46Aff
-sandy_brown = "F4A261"  # light brown/orange
-burnt_sienna = "E76F51"  # Burnt Orange
-
-#Palette 2
-Rich_Black_FOGRA = "001219"  # Black Color
-Blue_Sapphire = "005f73"  # Muted blue
-Viridian_Green = "0a9396"  # On the green side of blue/green
-Middle_Blue_Green = "94d2bd"  # Pale-ish blue/green/aquamarine
-Medium_Champagne = "e9d8a6"
-Gamboge = "ee9b00"  # dark yellow
-Alloy_Orange = "ca6702"  # burnt orange yellow
-Rust = "bb3e03"  # Dark Burnt Orange Red
-Rufous = "ae2012"  # Burnt Red
-Ruby_Red = "9b2226"  # Dark Brown Red
-
-#Palette 3
-Barn_Red = "780000"
-Venetian_Red = "c1121f"
-Papaya_Whip = "fdf0d5"
-Prussian_Blue = "003049"
-Air_Superiority_Blue = "669bbc"
-
-#Palette 4
-red_salsa = "f94144"
-orange_red = "f3722c"
-yellow_orange = "f8961e"
-mango_tango = "f9844a"
-maize_crayola_2 = "f9c74f"
-pistachio = "90be6d"
-jungle_green = "43aa8b"
-steel_teal = "4d908e"
-queen_blue = "577590"
-celadon_blue = "277da1"
 
 
 class IUGenerator:
@@ -68,6 +19,7 @@ class IUGenerator:
     def makeTransitions(self, states):
         pass
 
+
 class SeedAssemblyEqualityWire:
     def __init__(self):
         self.seed = None
@@ -79,12 +31,8 @@ class SeedAssemblyEqualityWire:
         self.wire_assembly_tiles = self.wire_assembly.returnTiles()
         self.test_data_generator(test_data)
 
-
         self.wire_transitions = self.createWireTransitions(
             self.test_data_states)
-
-
-
 
     def returnWireAssembly(self):
         return self.wire_assembly
@@ -119,15 +67,10 @@ class SeedAssemblyEqualityWire:
     def createWireTransitions(self, test_data_states):
         wire_transitions = []
         for ds in test_data_states:
-            transition = uc.TransitionRule("WestWire", ds.label, ds.label, "WestWire", "h")
+            transition = uc.TransitionRule(
+                "WestWire", ds.label, ds.label, "WestWire", "h")
             wire_transitions.append(transition)
         return wire_transitions
-
-
-
-
-
-
 
 
 class IUSeedAssemblyGenerator:
@@ -135,22 +78,27 @@ class IUSeedAssemblyGenerator:
 
         self.seedA = uc.Assembly()
         self.st = []
-        self.border_state = uc.State("Border", Papaya_Whip, " ", "black", "Arial")
+        self.border_state = uc.State(
+            "Border", Papaya_Whip, " ", "black", "Arial")
         self.st.append(self.border_state)
         self.equalityGadget(self)
 
         if self.seedA.returnTiles() == []:
             print("Seed Assembly is empty")
         else:
-            self.genSys = uc.System(1, [], [], [self.st], [], [], [], [], [], [], self.returnSeedAssembly(), False)
+            self.genSys = uc.System(1, [], [], [self.st], [], [], [], [], [
+            ], [], self.returnSeedAssembly(), False)
             print("Seed Assembly Generated")
 
     def equalityGadget(self):
-        check_equal_S_para = uc.State("CheckEqualS(", pink, "=(", "black", "Arial")
+        check_equal_S_para = uc.State(
+            "CheckEqualS(", pink, "=(", "black", "Arial")
         self.st.append(check_equal_S_para)
-        check_equal_S_any = uc.State("CheckEqualS*", pink, "=*", "black", "Arial")
+        check_equal_S_any = uc.State(
+            "CheckEqualS*", pink, "=*", "black", "Arial")
         self.st.append(check_equal_S_any)
-        check_equal_S_rpara = uc.State("CheckEqualS)", pink, "=)", "black", "Arial")
+        check_equal_S_rpara = uc.State(
+            "CheckEqualS)", pink, "=)", "black", "Arial")
         self.st.append(check_equal_S_rpara)
 
         eq_list = []
@@ -172,7 +120,6 @@ class IUSeedAssemblyGenerator:
         eq_list.append(EqT)
 
         self.seedA.addTilesFromList(eq_list)
-
 
     def returnSeedAssembly(self):
         return self.seedA
@@ -198,7 +145,6 @@ class IUSeedAssemblyGenerator:
         return wire """
 
 
-
 class SuperState:
     def __init__(self, data_string, source_state):
         self.data_string = data_string
@@ -220,7 +166,7 @@ class DataString:
         if type(data[0]) == uc.Tile:
             self.data = data
             self.parent = parent
-        self.data = data # List of tiles in order of appearance
+        self.data = data  # List of tiles in order of appearance
         self.value = " ".join(t.label for t in self.data)
 
     def __str__(self):
@@ -232,13 +178,14 @@ class DataString:
     def returnAltIdentifier(self):
         return self.alt_identifier
 
+
 class Gadget:
     def __init__(self, name="", description="", states=[], intitial_config=uc.Assembly()):
         self.gadget_name = name
         self.gadget_description = description
-        self.gadget_states = states # list of states in the gadget
-        self.initial_config = intitial_config # Assembly
-        self.demensions = None # tuple of (x, y) demensions of the gadget
+        self.gadget_states = states  # list of states in the gadget
+        self.initial_config = intitial_config  # Assembly
+        self.demensions = None  # tuple of (x, y) demensions of the gadget
 
 
 class TestGadget:
@@ -248,12 +195,11 @@ class TestGadget:
 
 
 class MultiGadget:
-    def __init__(self, multi_gadget_name, start_assembly=uc.Assembly() ):
+    def __init__(self, multi_gadget_name, start_assembly=uc.Assembly()):
         self.gadget_states = []
         self.multi_assembly = start_assembly
         self.gadgets_added = []
         self.multi_gadget_name = multi_gadget_name
-
 
     def appendAssembly(self, assembly, location):
         self.multi_assembly.addAssembly(assembly, location)
@@ -265,7 +211,6 @@ class MultiGadget:
 
         if location == "SW":
             self.multi_assembly
-
 
     def addGadget(self, gadget, location):
         self.gadget_states.append(gadget.gadget_states)
@@ -291,25 +236,21 @@ class MultiGadget:
         self.addWireGadget(wire)
 
 
-
-
-
 class GadgetBlock:
     pass
-
-
 
 
 class SuperBlock:
     def __init__(self, source_state, sim_state, architecture, position):
         self.superblock_source_state = source_state
-        self.sim_state = [] #data string
+        self.sim_state = []  # data string
         #self.gadgets = gadgets
         #self.gSystem = IU_System
 
 
 class SourceSystem:
     pass
+
 
 class IUSystem:
     unit_states = []
@@ -370,7 +311,6 @@ class WireGadget:
         print("Wire made from ({},{}) to {}".format(
             self.start_x, self.start_y, self.wire_list[-1].returnPosition()))
 
-
     def returnWireTileList(self):
         return self.wire_list
 
@@ -387,26 +327,27 @@ class WireGadget:
 
         for i in range(len(data_string)):
             if self.direction == "N":
-                temptile = uc.Tile(data_string[i].state, self.end_x, self.end_y - i)
+                temptile = uc.Tile(
+                    data_string[i].state, self.end_x, self.end_y - i)
             elif self.direction == "S":
-                temptile = uc.Tile(data_string[i].state, self.end_x, self.end_y + i)
+                temptile = uc.Tile(
+                    data_string[i].state, self.end_x, self.end_y + i)
             elif self.direction == "W":
-                temptile = uc.Tile(data_string[i].state, self.end_x + i, self.end_y)
+                temptile = uc.Tile(
+                    data_string[i].state, self.end_x + i, self.end_y)
             elif self.direction == "E":
-                temptile = uc.Tile(data_string[i].state, self.end_x + i, self.end_y)
+                temptile = uc.Tile(
+                    data_string[i].state, self.end_x + i, self.end_y)
             self.test_data_tile_list.append(temptile)
             if data_string[i].state not in self.states_used:
                 self.states_used.append(data_string[i].state)
             if temptile is not None:
                 self.test_data_states_list.append(data_string[i].state)
 
-
         self.wire.setTilesFromList(self.test_data_tile_list)
 
     def appendTestDataRawString(self, raw_string):
         pass
-
-
 
 
 class EqualityGadget:
@@ -420,13 +361,15 @@ class EqualityGadget:
         self.states_used = []
 
     def make_equality_any_gadget(self, start_x, start_y, len_to_check):
-        self.eq_list.append(uc.Tile(self.check_equal_S_start_state, start_x, start_y))
+        self.eq_list.append(
+            uc.Tile(self.check_equal_S_start_state, start_x, start_y))
         self.states_used.append(self.check_equal_S_start_state)
         for i in range(1, len_to_check - 2):
             self.eq_list.append(
                 uc.Tile(self.check_equal_S_any_num_state, start_x + i, start_y))
         self.states_used.append(self.check_equal_S_any_num_state)
-        self.eq_list.append(uc.Tile(self.check_equal_S_end_state, start_x + 2, start_y))
+        self.eq_list.append(
+            uc.Tile(self.check_equal_S_end_state, start_x + 2, start_y))
         self.states_used.append(self.check_equal_S_end_state)
         self.eq.addTilesFromList(self.eq_list)
         print("Equality Gadget Generated")
@@ -452,7 +395,6 @@ class EqualityGadget:
     eastWire = uc.State("EastWire", blue, "⮚", "black")
     """
 
-
     # Circled Equals: ⊜
     # Subscripted Equals: ₌ (U+208C)
     # Questioned Equals: ≟ (U+225F)
@@ -473,6 +415,7 @@ def test_data_generator(td, d):
         test_data_tiles.append(temp_tile)
 
         return test_data_states, test_data_tiles
+
 
 if __name__ == "__main__":
     test_data = [1, 1, 0, 2]

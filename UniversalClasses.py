@@ -5,6 +5,8 @@ from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
 # These classes are used for Loading and Saving Files and Communicating with general_TA_simulator.
 
 
+def toCoords(x, y):
+    return "(" + str(x) + "," + str(y) + ")"
 class State:
     def __init__(self, label, color, display_label=None, display_label_font="Fira Code Regular Nerd Font Complete Mono", display_label_color ="black"):
         self.label = label
@@ -21,7 +23,9 @@ class State:
 
         if display_label_font is str:
             self.display_label_font = QFont(display_label_font)
-        else: self.display_label_font = display_label_font
+
+        else:
+            self.display_label_font = display_label_font
 
         if display_label_color is str:
             self.display_label_color = QColor(display_label_color)
@@ -67,8 +71,6 @@ class State:
 
 
 
-def toCoords(x, y):
-    return "(" + str(x) + "," + str(y) + ")"
 
 
 class Tile:
@@ -840,10 +842,12 @@ class System:
 
     def addInitialState(self, state):
         self.initial_states.append(state)
+        self.addState(state)
 
     # idk if this will work
     def addSeedState(self, state):
         self.seed_states.append(state)
+        self.addState(state)
 
     # start here
     def addTransitionRule(self, tr):
@@ -875,8 +879,6 @@ class System:
             else:
                 oldList.append(label1Final)
                 oldList.append(label2Final)
-
-
 
             self.horizontal_transitions_dict[label1, label2] = oldList
 
