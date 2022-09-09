@@ -574,6 +574,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
             # getting rid of attachment on screen
             elif move['type'] == 'a' and forward == 0:  # (type, x, y, state1)
+
                 brush.setColor(QtGui.QColor("white"))
                 pen.setColor(QtGui.QColor("white"))
                 painter.setPen(pen)
@@ -618,6 +619,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             # reversing transition on screen
             # (type, x, y, dir, state1, state2, state1Final, state2Final)
             elif move['type'] == 't' and forward == 0:
+
                 self.transition_draw_function(
                     move, move['state1'], move['state2'], painter, brush)
         except:
@@ -658,6 +660,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         pen.setColor(QtGui.QColor("black"))
         painter.setPen(pen)
         for tile in assembly.tiles:
+
             if self.onScreen_check(tile.x, tile.y) == 1:
                 continue
 
@@ -766,12 +769,14 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         # transition highlight
         # (type, x, y, dir, state1, state2, state1Final, state2Final)
         elif move['type'] == 't' and color_flag == 1:
+
             pen.setColor(QtGui.QColor("blue"))
             painter.setPen(pen)
             self.transition_draw_function(move, move['state1Final'], move['state2Final'], painter, brush)
 
         # (type, x, y, dir, state1, state2, state1Final, state2Final)
         elif move['type'] == 't' and color_flag == 0:
+
             pen.setColor(QtGui.QColor("red"))
             painter.setPen(pen)
             self.transition_draw_function(
@@ -795,20 +800,31 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         #painter.setFont(QFont(state.display_label_font))
         #painter.setPen(QColor(state.display_label_color))
         #decoded_display_label = state.returnDisplayLabel()
-        decoded_display_label = state.display_label
+        if state == "":
+            painter.drawText(rect, Qt.AlignCenter, "")
+            return
+        else:
+            decoded_display_label = state.display_label
+
         if self.tileSize > 10:
             fm = QtGui.QFontMetrics(painter.font())
             txt_width = fm.width(decoded_display_label)
             #if txt_width < self.tileSize:
+
             if decoded_display_label == None:
+
                 if len(state.label) > 4:
                     painter.drawText(rect, Qt.AlignCenter, state.label[0:3])
                 else:
                     painter.drawText(rect, Qt.AlignCenter, state.label)
             elif len(decoded_display_label) > 4:
+
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
             else:
+
+
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
+
 
 
     def transition_draw_function(self, move, state1, state2, painter, brush):
@@ -822,7 +838,9 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             vertical = -1
 
         if self.onScreen_check(move['x'], move['y']) != 1:
+
             self.draw_to_screen(move['x'], move['y'], "", painter, brush)
+
             brush.setColor(QtGui.QColor("#" + state1.returnColor()))
             self.draw_to_screen(move['x'], move['y'], state1, painter, brush)
 
@@ -1163,6 +1181,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.stop_sequence()
             if self.SysLoaded == True:
                 prev_move = self.Engine.getCurrentMove()
+                print("prev_move: " + str(prev_move))
                 if self.Engine.step(move) != -1:
                     self.color_flag = 1
                     if self.Engine.currentIndex > 1:

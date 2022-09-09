@@ -85,7 +85,7 @@ class Tile:
         self.y = _y
 
     def __str__(self):
-        s = self.state.label + " (" + self.x + ", " + self.y + ")"
+        s = self.state.label + " (" + str(self.x) + ", " + str(self.y) + ")"
         return s
     def setState(self, s):
         self.state = s
@@ -400,11 +400,9 @@ class Assembly:
             trans["state1Final"])
         # a.tiles[trans["x"]][trans["y"]].setState(trans["state1Final"])
         if(trans["dir"] == "v"):
-            self.coords[toCoords(trans["x"], trans["y"] - 1)
-                     ].setState(trans["state2Final"])
+            self.coords[toCoords(trans["x"], trans["y"] - 1)].setState(trans["state2Final"])
         if(trans["dir"] == "h"):
-            self.coords[toCoords(trans["x"] + 1, trans["y"])
-                     ].setState(trans["state2Final"])
+            self.coords[toCoords(trans["x"] + 1, trans["y"])].setState(trans["state2Final"])
         #print("New Assembly Tiles: ", a.tiles)
 
     def performMove(self, move):
