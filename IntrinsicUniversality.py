@@ -1,59 +1,27 @@
 
 import UniversalClasses as uc
 import sys
+from components import *
 
-#Colors
-red = "f03a47"
-light_green = "C2EFB3"
-green = "0ead69"
-orange = "f39237"
-black = "323031"
-white = "DFE0E2"
-grey = "9EA9A4"
-pink = "f4acb7"
-yellow = "F3A712"
-light_blue = "C2DCFE"
-blue = "3f88c5"
-dark_blue = "29335C"
 
-#Palette 1
-charcoal = "264653"
-persian_green = "2A9D8F"  # 2A9D8Fff
-maize_crayola = "E9C46A"  # medium yellow E9C46Aff
-sandy_brown = "F4A261"  # light brown/orange
-burnt_sienna = "E76F51"  # Burnt Orange
+class IUSystem:
+    unit_states = {}
 
-#Palette 2
-Rich_Black_FOGRA = "001219"  # Black Color
-Blue_Sapphire = "005f73"  # Muted blue
-Viridian_Green = "0a9396"  # On the green side of blue/green
-Middle_Blue_Green = "94d2bd"  # Pale-ish blue/green/aquamarine
-Medium_Champagne = "e9d8a6"
-Gamboge = "ee9b00"  # dark yellow
-Alloy_Orange = "ca6702"  # burnt orange yellow
-Rust = "bb3e03"  # Dark Burnt Orange Red
-Rufous = "ae2012"  # Burnt Red
-Ruby_Red = "9b2226"  # Dark Brown Red
+    def addStates(self, states):
+        self.unit_states = states
+def test_data_generator(td, d):
+    test_data_states = []
+    test_data_tiles = []
+    for count, ele in enumerate(td):
+        temp_state = uc.State(str(ele), Barn_Red, str(ele), black)
 
-#Palette 3
-Barn_Red = "780000"
-Venetian_Red = "c1121f"
-Papaya_Whip = "fdf0d5"
-Prussian_Blue = "003049"
-Air_Superiority_Blue = "669bbc"
+        if temp_state not in test_data_states:
+            test_data_states.append(temp_state)
 
-#Palette 4
-red_salsa = "f94144"
-orange_red = "f3722c"
-yellow_orange = "f8961e"
-mango_tango = "f9844a"
-maize_crayola_2 = "f9c74f"
-pistachio = "90be6d"
-jungle_green = "43aa8b"
-steel_teal = "4d908e"
-queen_blue = "577590"
-celadon_blue = "277da1"
+        temp_tile = uc.Tile(temp_state, count, 0)
+        test_data_tiles.append(temp_tile)
 
+        return test_data_states, test_data_tiles
 
 class IUGenerator:
     def __init__(self):
@@ -68,150 +36,21 @@ class IUGenerator:
     def makeTransitions(self, states):
         pass
 
-class SeedAssemblyEqualityWire:
-    def __init__(self):
-        self.seed = None
-
-        self.wire_gadget = WireGadget(9, "W", 0, 0)
-        test_data = ["1", "1", "0", "2"]
-        self.wire_assembly = self.wire_gadget.returnWireAssembly()
-        self.wire_gadget_states = self.wire_gadget.returnStatesUsed()
-        self.wire_assembly_tiles = self.wire_assembly.returnTiles()
-        self.test_data_generator(test_data)
-
-
-        self.wire_transitions = self.createWireTransitions(
-            self.test_data_states)
-
-
-
-
-    def returnWireAssembly(self):
-        return self.wire_assembly
-
-    def returnWireGadget(self):
-        return self.wire_gadget
-
-    def returnStatesUsed(self):
-        return self.wire_gadget_states
-
-    def test_data_generator(self, td):
-        self.test_data_states = []
-        self.test_data_tiles = []
-        for count, ele in enumerate(td):
-            print("count: {}, element: {}".format(count, ele))
-            temp_state = uc.State(ele, Barn_Red, ele, black)
-
-            if temp_state not in self.test_data_states:
-                self.test_data_states.append(temp_state)
-
-            temp_tile = uc.Tile(temp_state, count, 0)
-            self.test_data_tiles.append(temp_tile)
-
-        self.wire_gadget.appendTestDataString(self.test_data_tiles)
-
-        """ self.wire_gadget_states = self.wire_gadget.returnStatesUsed()
-        self.wire_assembly_tiles = self.wire_assembly.returnTiles()
-        self.wire_assembly = self.wire_gadget.returnWireAssembly() """
-        self.wire_assembly = self.wire_gadget.returnWireAssembly()
-        print("Test Data Added")
-
-    def createWireTransitions(self, test_data_states):
-        wire_transitions = []
-        for ds in test_data_states:
-            transition = uc.TransitionRule("WestWire", ds.label, ds.label, "WestWire", "h")
-            wire_transitions.append(transition)
-        return wire_transitions
-
-
-
-
-
-
-
-
-class IUSeedAssemblyGenerator:
-    def __init__(self):
-
-        self.seedA = uc.Assembly()
-        self.st = []
-        self.border_state = uc.State("Border", Papaya_Whip, " ", "black", "Arial")
-        self.st.append(self.border_state)
-        self.equalityGadget(self)
-
-        if self.seedA.returnTiles() == []:
-            print("Seed Assembly is empty")
-        else:
-            self.genSys = uc.System(1, [], [], [self.st], [], [], [], [], [], [], self.returnSeedAssembly(), False)
-            print("Seed Assembly Generated")
-
-    def equalityGadget(self):
-        check_equal_S_para = uc.State("CheckEqualS(", pink, "=(", "black", "Arial")
-        self.st.append(check_equal_S_para)
-        check_equal_S_any = uc.State("CheckEqualS*", pink, "=*", "black", "Arial")
-        self.st.append(check_equal_S_any)
-        check_equal_S_rpara = uc.State("CheckEqualS)", pink, "=)", "black", "Arial")
-        self.st.append(check_equal_S_rpara)
-
-        eq_list = []
-        EqT = uc.Tile(check_equal_S_any, 0, 0)
-        eq_list.append(EqT)
-        EqT = uc.Tile(check_equal_S_any, 1, 0)
-        eq_list.append(EqT)
-        EqT = uc.Tile(check_equal_S_any, -1, 0)
-        eq_list.append(EqT)
-        EqT = uc.Tile(check_equal_S_para, -2, 0)
-        eq_list.append(EqT)
-        EqT = uc.Tile(check_equal_S_rpara, 2, 0)
-
-        for i in range(-2, 3):
-            EqT = uc.Tile(self.border_state, 1, i)
-            eq_list.append(EqT)
-
-        EqT = uc.Tile(self.border_state, 3, 0)
-        eq_list.append(EqT)
-
-        self.seedA.addTilesFromList(eq_list)
-
-
-    def returnSeedAssembly(self):
-        return self.seedA
-
-    def returnStatesInSeedAssembly(self):
-        return self.st
-
-    def returnGenSys(self):
-        return self.genSys
-
-    """ def makeWire(self, len, dir, start_x, start_y):
-        wire = uc.Assembly()
-        wire_list = []
-        northWire = uc.State("NorthWire", blue, "⮙", "black")
-        southWire = uc.State("SouthWire", blue, "⮛", "black")
-        westWire = uc.State("WestWire", blue, "⮘", "black")
-        eastWire = uc.State("EastWire", blue, "⮚", "black")
-        for i in range(len):
-            if dir == "N":
-                wire_list.append(uc.Tile(self.border_state, start_x, start_y + i))
-
-        wire.addTilesFromList(wire_list)
-        return wire """
-
-
-
 class SuperState:
     def __init__(self, data_string, source_state):
         self.data_string = data_string
         self.source_state_label = source_state.returnLabel()
-        self.data_string_identifier = None  # List of data string states
+        self.data_string_identifier = self.makeIdentifierPair()
 
     def __str__(self):
         return self.data_string_identifier
 
     def makeIdentifierPair(self):
-
         for i in self.data_string:
             self.data_string_identifier.append(i.returnLabel())
+
+    def returnDataTiles(self):
+        return self.data_string
 
 
 class DataString:
@@ -231,6 +70,9 @@ class DataString:
 
     def returnAltIdentifier(self):
         return self.alt_identifier
+
+
+
 
 class Gadget:
     def __init__(self, name="", description="", states=[], intitial_config=uc.Assembly()):
@@ -284,11 +126,7 @@ class MultiGadget:
 
             self.addWireGadget(wire)
 
-    def makeEqualityWire(self):
-        wire = WireGadget()
-        equality_gadget = EqualityGadget()
-        wire.makeWire(9, "W", 0, 0)
-        self.addWireGadget(wire)
+
 
 
 
@@ -311,8 +149,7 @@ class SuperBlock:
 class SourceSystem:
     pass
 
-class IUSystem:
-    unit_states = []
+
 
 
 class WireGadget:
@@ -440,6 +277,10 @@ class EqualityGadget:
     def returnEqualityStatesUsed(self):
         return self.states_used
 
+
+
+
+
 # Notes
 ## At edge of a superbloc data strings pick up a directional signature depending on the direction they are moving in
     """northCopyWire = uc.State("NorthWire", blue, "⇈", "black")
@@ -460,19 +301,7 @@ class EqualityGadget:
     # Equals with Asterisk: ⩮ (U+2A6E)
 
 
-def test_data_generator(td, d):
-    test_data_states = []
-    test_data_tiles = []
-    for count, ele in enumerate(td):
-        temp_state = uc.State(str(ele), Barn_Red, str(ele), black)
 
-        if temp_state not in test_data_states:
-            test_data_states.append(temp_state)
-
-        temp_tile = uc.Tile(temp_state, count, 0)
-        test_data_tiles.append(temp_tile)
-
-        return test_data_states, test_data_tiles
 
 if __name__ == "__main__":
     test_data = [1, 1, 0, 2]
