@@ -31,21 +31,18 @@ def readxml(file):
         display_label = state_tag.get("DisplayLabel")
         display_label_color = state_tag.get("DisplayLabelColor")
         display_label_font = state_tag.get("DisplayLabelFont")
+        rotate_display_label_degrees = state_tag.get("RotateDisplayLabelDegrees")
 
         if display_label is None:
-            tempState = State(label, color)
-        else:
-            if display_label_font is None:
-                if display_label_color is None:
-                    tempState = State(label, color, display_label)
-                else:
-                    tempState = State(
-                        label, color, display_label, display_label_color)
-            elif display_label_color is None:
-                tempState = State(label, color, display_label,
-                                  display_label_font)
-            else:
-                tempState = State(label, color, display_label, display_label_color, display_label_font)
+            display_label = label
+        if display_label_font is None:
+            display_label_font = "Nerd Font"
+        if display_label_color is None:
+            display_label_color = "black"
+        if rotate_display_label_degrees is None:
+            rotate_display_label_degrees = 0
+
+        tempState = State(label, color, display_label, display_label_color, display_label_font, rotate_display_label_degrees)
 
         CompleteStateSet.append(tempState)
 
@@ -57,18 +54,18 @@ def readxml(file):
         display_label_color = state_tag.get("DisplayLabelColor")
         display_label_font = state_tag.get("DisplayLabelFont")
 
+        rotate_display_label_degrees = state_tag.get("RotateDisplayLabelDegrees")
+
         if display_label is None:
-            tempState = State(label, color)
-        else:
-            if display_label_font is None:
-                if display_label_color is None:
-                    tempState = State(label, color, display_label)
-                else:
-                    tempState = State(label, color, display_label, display_label_color)
-            elif display_label_color is None:
-                tempState = State(label, color, display_label, display_label_font)
-            else:
-                tempState = State(label, color, display_label, display_label_color, display_label_font)
+            display_label = label
+        if display_label_font is None:
+            display_label_font = "Nerd Font"
+        if display_label_color is None:
+            display_label_color = "black"
+        if rotate_display_label_degrees is None:
+            rotate_display_label_degrees = 0
+
+        tempState = State(label, color, display_label, display_label_color, display_label_font, rotate_display_label_degrees)
 
         InitialStateSet.append(tempState)
 
@@ -84,20 +81,15 @@ def readxml(file):
         y = state_tag.get("y")
 
         if display_label is None:
-            tempState = State(label, color)
-        else:
-            if display_label_font is None:
-                if display_label_color is None:
-                    tempState = State(label, color, display_label)
-                else:
-                    tempState = State(
-                        label, color, display_label, display_label_color)
-            elif display_label_color is None:
-                tempState = State(label, color, display_label,
-                                  display_label_font)
-            else:
-                tempState = State(label, color, display_label,
-                                  display_label_color, display_label_font)
+            display_label = label
+        if display_label_font is None:
+            display_label_font = "Nerd Font"
+        if display_label_color is None:
+            display_label_color = "black"
+        if rotate_display_label_degrees is None:
+            rotate_display_label_degrees = 0
+
+        tempState = State(label, color, display_label, display_label_color, display_label_font, rotate_display_label_degrees)
         SeedStateSet.append(tempState)
 
         if isinstance(x,str) & isinstance(y,str):

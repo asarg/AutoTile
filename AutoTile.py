@@ -819,10 +819,18 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 else:
                     painter.drawText(rect, Qt.AlignCenter, state.label)
             elif len(decoded_display_label) > 4:
-
+                try:
+                    painter.rotate(state.rotate_display_label_degrees)
+                    painter.drawText(rect, Qt.AlignCenter,decoded_display_label[0:3])
+                except:
+                    pass
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
-            else:
 
+            else:
+                try:
+                    painter.rotate(state.rotate_display_label_degrees)
+                except:
+                    pass
 
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
 

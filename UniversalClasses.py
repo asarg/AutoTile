@@ -8,10 +8,12 @@ from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
 def toCoords(x, y):
     return "(" + str(x) + "," + str(y) + ")"
 class State:
-    def __init__(self, label, color, display_label=None, display_label_font="Fira Code Regular Nerd Font Complete Mono", display_label_color ="black"):
+    def __init__(self, label, color, display_label=None, display_label_font="Fira Code Regular Nerd Font Complete Mono", display_label_color ="black", rotate_display_label_degrees=0):
         self.label = label
         self.color = color
         self.display_label = display_label
+        self.rotate_display_label = rotate_display_label_degrees
+
 
         if display_label is None:
             self.display_label = label
@@ -49,6 +51,10 @@ class State:
 
     def returnDisplayLabelFont(self):
         return self.display_label_font
+
+    def returnRotateDisplayLabel(self):
+        return self.rotate_display_label_degrees
+
     def setDisplayLabel(self, display_label):
         self.display_label = display_label
         #self.display_label = display_label.encode('utf-8')
@@ -65,6 +71,8 @@ class State:
         else:
             self.display_label_color = display_label_color
 
+    def setDisplayLabelRotation(self, rotate_display_label_degrees):
+        self.rotate_display_label_degrees = rotate_display_label_degrees
     def __eq__(self, other):
         if isinstance(other, State):
             return self.label == other.label and self.color == other.color
