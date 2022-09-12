@@ -611,40 +611,7 @@ class IUGenerators:
         endcap_equality_gadget_sys.addTransitionRule(
             self.combine_affs_for_tr(aff1, aff2, "h"))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        print("Endcap Equality Gadget System States Number: " + str(len(endcap_equality_gadget_sys.states)))
 
         return endcap_equality_gadget_sys
 
