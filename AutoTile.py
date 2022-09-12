@@ -204,7 +204,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         #QFont("Fira Code", )
 
 
-        paper_options = ["SAND22"]
+        paper_options = ["SAND22", "IU"]
         self.GenPaper_Box.addItems(paper_options)
 
         shape_options = ["Strings", "Rectangle", "Squares"]
@@ -216,6 +216,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.InputLabel.setText("Enter a binary string.")
 
         self.GenShape_Box.currentIndexChanged.connect(self.exampleTextChange)
+        self.GenPaper_Box.currentIndexChanged.connect(self.paperTextChange)
 
         self.ExampleButton.clicked.connect(self.Begin_example)
 
@@ -1088,11 +1089,22 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         else:
             self.delay = 0
 
+    def paperTextChange(self):
+        self.GenShape_Box.clear()
+        if self.GenPaper_Box.currentText() == "SAND22":
+            shape_options = ["Strings", "Rectangle", "Squares"]
+            self.GenShape_Box.addItems(shape_options)
+        else:
+            gadget_options = ["gadget1", "gadget2"]
+            self.GenShape_Box.addItems(gadget_options)
+
     def exampleTextChange(self):
         if self.GenShape_Box.currentText() == "Strings":
             self.InputLabel.setText("Enter a binary string.")
         elif self.GenShape_Box.currentText() == "Rectangle" or self.GenShape_Box.currentText() == "Squares":
             self.InputLabel.setText("Enter an integer.")
+        elif self.GenShape_Box.currentText() == "gadget1" or self.GenShape_Box.currentText() == "gadget2":
+            self.InputLabel.setText("No input. Press start.")
 
     def Begin_example(self):
         self.stop_sequence()
