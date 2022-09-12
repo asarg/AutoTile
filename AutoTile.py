@@ -1261,8 +1261,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 self.workerlast.finished.connect(self.threadlast.quit)
                 self.workerlast.finished.connect(self.workerlast.deleteLater)
 
-                self.threadlast.finished.connect(
-                    lambda: self.draw_assembly(self.Engine.getCurrentAssembly()))
+                self.threadlast.finished.connect(lambda: self.draw_assembly(self.Engine.getCurrentAssembly()))
                 self.threadlast.finished.connect(
                     lambda: self.Update_available_moves())
 
