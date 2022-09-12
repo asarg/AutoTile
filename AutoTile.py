@@ -14,7 +14,7 @@ from assemblyEngine import Engine
 from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
 import TAMainWindow, EditorWindow16, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
 import IntrinsicUniversality as IU
-import IU2
+import Generators.IU_Generators.IU2 as IU2
 
 from util.loaders import assemblyLoader
 from Generators.IU_Generators import IUSampleGen
