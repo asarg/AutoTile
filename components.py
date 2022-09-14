@@ -797,6 +797,7 @@ def transition_rules_check_14(trans_dict):
         print("Missing: ", p)
 
 
+tumbleweed_pink_grey = "D8B4A0"
 #Colors
 red = "f03a47"
 colors_list.append(red)
@@ -886,3 +887,6 @@ colors_list.append(queen_blue)
 celadon_blue = "277da1"
 colors_list.append(celadon_blue)
 green_yellow_crayola = "F7EF99"
+
+unbleached_silk = "FFDDD2"
+tea_green = "D4E4BC"

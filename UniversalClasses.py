@@ -53,7 +53,7 @@ class State:
         return self.display_label_font
 
     def returnDisplayLabelRotation(self):
-        return self.display_label_rotation
+        return int(self.display_label_rotation)
 
     def setDisplayLabel(self, display_label):
         self.display_label = display_label

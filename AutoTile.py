@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox, QMessageBox
-from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
+from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase, QPainterPath
 from PyQt5.QtCore import QObject, QThread, Qt, pyqtSignal
 
 from unicodedata import *
@@ -201,7 +201,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         fontdatabase.addApplicationFont("fonts/Fira Code Bold Nerd Font Complete.tff")
         fontdatabase.addApplicationFont("fonts/MaterialIcons-Regular.tff")
         fontdatabase.addApplicationFont("fonts/MaterialIcons-Outlined.tff")
-        #QFont("Fira Code", )
+        fira_code = QFont("Fira Code Regular Nerd Font Complete.tff", 12)
 
 
         paper_options = ["SAND22", "IU"]
@@ -798,6 +798,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         rect = QtCore.QRect(ts_x, ts_y, ts, ts)
 
         painter.drawRect(rect)
+        painter.save()
         #painter.setFont(QFont(state.display_label_font))
         #painter.setPen(QColor(state.display_label_color))
         #decoded_display_label = state.returnDisplayLabel()
@@ -819,30 +820,20 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 else:
                     painter.drawText(rect, Qt.AlignCenter, state.label)
             elif len(decoded_display_label) > 4:
-                try:
-                    painter.rotate(state.display_label_rotation)
-                    rotated = True
-                except:
-                    pass
-                else:
-                    rotated = False
-                painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
-                if rotated:
-                    painter.rotate(-state.display_label_rotation)
 
-
+                decoded_display_label = decoded_display_label[0:3]
             else:
-                try:
-                    painter.rotate(state.display_label_rotation)
-                    rotated = True
-                except:
-                    pass
-                else:
-                    rotated = False
+                fira_code = QFont(
+                    "Fira Code Regular Nerd Font Complete.tff", 12)
+                painter.setFont(fira_code)
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
-                if rotated:
-                    painter.rotate(-state.display_label_rotation)
 
+
+
+
+
+
+        painter.restore()
 
 
 
@@ -1176,11 +1167,13 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         genS = IU2.IUGenerators()
         genSystem = genS.EqualityGadgetGenerator()
-        #asb_gadget = IU.SeedAssemblyEqualityWire()
-        #asb = asb_gadget.returnWireAssembly()
-        #asb_states = asb_gadget.returnStatesUsed()
-        #genSystem = asb.returnGenSystem()
-        #asb_transitions = asb_gadget.wire_transitions
+        #genSystem = genS.basicWireGenerator2()
+        #genSystem = genS.wireGeneratorWithEndcapDoorNoSignalGadget2()
+        #genSystem = genS.equality_gadget_with_prefixes()
+
+
+
+
 
         if type(genSystem) == System:
             #current system takes in an assembly,
@@ -1192,7 +1185,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.seedY = self.geometry().height() / 2
 
             self.tileSize = 40
-            self.textSize = int(self.tileSize / 2)
+            self.textSize = int(self.tileSize / 3)
 
             self.time = 0
             self.Engine = Engine(genSystem)
