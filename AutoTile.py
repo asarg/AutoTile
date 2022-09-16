@@ -12,7 +12,7 @@ from Player import ComputeLast, Player
 from Historian import Historian
 from assemblyEngine import Engine
 from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
-import TAMainWindow, EditorWindow16, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
+import TAMainWindow, EditorWindow, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
 import IntrinsicUniversality as IU
 import Generators.IU_Generators.IU2 as IU2
 
@@ -860,6 +860,13 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         return 0
 
     def Click_newButton(self):
+        global currentSystem
+        currentSystem = System(1, [], [], [], [], [], [], [], [], [], seed_assembly=Assembly(), empty=True)
+        seed = State("X", "ffffff")
+        currentSystem.addSeedState(seed)
+        #currentSystem.addState(seed)
+        self.Engine = Engine(currentSystem)
+
         self.e = Ui_EditorWindow(self.Engine, self)
         self.e.show()
 
@@ -1339,7 +1346,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 # engine has the system
 
 
-class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor window class
+class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor window class
     def __init__(self, engine, mainGUI):
         super().__init__()
         self.setupUi(self)
@@ -1365,6 +1372,13 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             self.system.vertical_transitions_list) + len(self.system.horizontal_transitions_list))
         print(len(self.system.vertical_transitions_list) +
               len(self.system.horizontal_transitions_list))
+
+        self.tableWidget_3.setColumnWidth(0, 100)
+        self.tableWidget_3.setColumnWidth(1, 100)
+        self.tableWidget_3.setColumnWidth(2, 40)
+        self.tableWidget_3.setColumnWidth(3, 120)
+        self.tableWidget_3.setColumnWidth(4, 120)
+        self.tableWidget_3.setColumnWidth(5, 100)
 
         # set tempurature
         self.spinBox.setMinimum(1)
@@ -1511,17 +1525,17 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         self.pushButton_3.clicked.connect(self.Click_AddRowStates)
         self.pushButton_4.clicked.connect(self.Click_AddRowAff)
         self.pushButton_5.clicked.connect(self.Click_AddRowTrans)
-        # user deletes state - currently only deletes state from
-        # state table.
-
-        self.pushButton_11.clicked.connect(self.click_removeRowState)
-        self.pushButton_10.clicked.connect(self.click_removeRowAff)
-        self.pushButton_9.clicked.connect(self.click_removeRowTran)
 
         # duplicate row
         self.pushButton_6.clicked.connect(self.click_duplicateRowState)
         self.pushButton_7.clicked.connect(self.click_duplicateRowAff)
         self.pushButton_8.clicked.connect(self.click_duplicateRowTrans)
+
+        # user deletes state - currently only deletes state from
+        # state table.
+        self.pushButton_9.clicked.connect(self.click_removeRowState)
+        self.pushButton_10.clicked.connect(self.click_removeRowAff)
+        self.pushButton_11.clicked.connect(self.click_removeRowTran)
 
         self.pushButton_12.clicked.connect(self.Click_freezingCheck)
 
@@ -1750,7 +1764,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             seed = seedCheckbox.layout().itemAt(0).widget().isChecked()
             s = State(label, color)
 
-            self.system.addState(s)
+            print(initial)
 
             available_states.append(s)
 
@@ -1758,6 +1772,8 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
                 self.system.addInitialState(s)
             if seed:
                 self.system.addSeedState(s)
+            if (not initial and not seed):
+                self.system.addState(s)
 
         # affinity
         for row in range(0, self.tableWidget_2.rowCount()):
