@@ -860,12 +860,11 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         return 0
 
     def Click_newButton(self):
-        global currentSystem
-        currentSystem = System(1, [], [], [], [], [], [], [], [], [], seed_assembly=Assembly(), empty=True)
+        newSys = System(1, [], [], [], [], [], [], [], [], [], seed_assembly = Assembly(), empty=True)
         seed = State("X", "ffffff")
-        currentSystem.addSeedState(seed)
+        newSys.addSeedState(seed)
         #currentSystem.addState(seed)
-        self.Engine = Engine(currentSystem)
+        self.Engine = Engine(newSys)
 
         self.e = Ui_EditorWindow(self.Engine, self)
         self.e.show()
@@ -1764,16 +1763,17 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
             seed = seedCheckbox.layout().itemAt(0).widget().isChecked()
             s = State(label, color)
 
-            print(initial)
+            if (not self.system.returnState(s.label)):
+                if initial:
+                    self.system.addInitialState(s)
+                if seed:
+                    self.system.addSeedState(s)
+                if (not initial and not seed):
+                    self.system.addState(s)
 
             available_states.append(s)
 
-            if initial:
-                self.system.addInitialState(s)
-            if seed:
-                self.system.addSeedState(s)
-            if (not initial and not seed):
-                self.system.addState(s)
+            
 
         # affinity
         for row in range(0, self.tableWidget_2.rowCount()):
