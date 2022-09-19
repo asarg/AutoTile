@@ -15,6 +15,7 @@ from UniversalClasses import AffinityRule, System, Assembly, Tile, State, Transi
 import TAMainWindow, EditorWindow16, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
 import IntrinsicUniversality as IU
 import Generators.IU_Generators.IU2 as IU2
+import Generators.IU_Generators.IUEqualityChanges as IUEC
 
 from util.loaders import assemblyLoader
 from Generators.IU_Generators import IUSampleGen
@@ -1166,7 +1167,9 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         global currentSystem
 
         genS = IU2.IUGenerators()
+        gS = IUEC.IUGenerators()
         genSystem = genS.EqualityGadgetGenerator()
+        gS.setSampleDataStartCoords(7, 0, "h")
         #genSystem = genS.basicWireGenerator2()
         #genSystem = genS.wireGeneratorWithEndcapDoorNoSignalGadget2()
         #genSystem = genS.equality_gadget_with_prefixes()

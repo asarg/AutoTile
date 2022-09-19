@@ -8,20 +8,13 @@ from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
 def toCoords(x, y):
     return "(" + str(x) + "," + str(y) + ")"
 class State:
-    def __init__(self, label, color, display_label=None, display_label_font="Fira Code Regular Nerd Font Complete Mono", display_label_color ="black", display_label_rotation=0):
+    def __init__(self, label, color, display_label=None, display_label_font="Fira Code [Regular]", display_label_color ="black"):
         self.label = label
         self.color = color
         self.display_label = display_label
-        self.display_label_rotation = display_label_rotation
-
 
         if display_label is None:
             self.display_label = label
-            #self.display_label = label.encode('utf-8')
-
-        else:
-            #self.display_label = display_label.encode('utf-8')
-            self.display_label = display_label
 
         if display_label_font is str:
             self.display_label_font = QFont(display_label_font)
@@ -52,8 +45,6 @@ class State:
     def returnDisplayLabelFont(self):
         return self.display_label_font
 
-    def returnDisplayLabelRotation(self):
-        return int(self.display_label_rotation)
 
     def setDisplayLabel(self, display_label):
         self.display_label = display_label
@@ -71,11 +62,17 @@ class State:
         else:
             self.display_label_color = display_label_color
 
-    def setDisplayLabelRotation(self, display_label_rotation):
-        self.display_label_rotation = display_label_rotation
+
     def __eq__(self, other):
         if isinstance(other, State):
             return self.label == other.label and self.color == other.color
+
+    def prettyPrintState(self):
+        print("State: " + self.label + " Color: " + self.color + " Display Label: " + self.display_label)
+
+    def compareWithDisplayLabel(self, other):
+        if isinstance(other, State):
+            return self.display_label == other.display_label and self.color == other.color and self.label == other.label
 
 
 
@@ -129,7 +126,6 @@ class Tile:
         return self.state.returnDisplayLabelColor()
     def returnDisplayLabelFont(self):
         return self.state.returnDisplayLabelFont()
-
     def returnPosition(self):
         return "({self.x}, {self.y})".format(self=self)
 
