@@ -7,7 +7,6 @@ from unicodedata import *
 from random import randrange
 import math, sys
 
-
 from Player import ComputeLast, Player
 from Historian import Historian
 from assemblyEngine import Engine
@@ -202,7 +201,6 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         fontdatabase.addApplicationFont("fonts/MaterialIcons-Regular.tff")
         fontdatabase.addApplicationFont("fonts/MaterialIcons-Outlined.tff")
         #QFont("Fira Code", )
-
 
         paper_options = ["SAND22", "IU"]
         self.GenPaper_Box.addItems(paper_options)
@@ -570,12 +568,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             # showing transition on screen
             # (type, x, y, dir, state1, state2, state1Final, state2Final)
             elif move['type'] == 't' and forward == 1:
-
                 self.transition_draw_function(move, move['state1Final'], move['state2Final'], painter, brush)
 
             # getting rid of attachment on screen
             elif move['type'] == 'a' and forward == 0:  # (type, x, y, state1)
-
                 brush.setColor(QtGui.QColor("white"))
                 pen.setColor(QtGui.QColor("white"))
                 painter.setPen(pen)
@@ -620,7 +616,6 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             # reversing transition on screen
             # (type, x, y, dir, state1, state2, state1Final, state2Final)
             elif move['type'] == 't' and forward == 0:
-
                 self.transition_draw_function(
                     move, move['state1'], move['state2'], painter, brush)
         except:
@@ -661,7 +656,6 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         pen.setColor(QtGui.QColor("black"))
         painter.setPen(pen)
         for tile in assembly.tiles:
-
             if self.onScreen_check(tile.x, tile.y) == 1:
                 continue
 
@@ -764,20 +758,17 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                     "#" + move['state1'].returnColor()))
                 pen.setColor(QtGui.QColor("blue"))
                 painter.setPen(pen)
-                self.draw_to_screen(
-                    move['x'], move['y'], move['state1'], painter, brush)
+                self.draw_to_screen(move['x'], move['y'], move['state1'], painter, brush)
 
         # transition highlight
         # (type, x, y, dir, state1, state2, state1Final, state2Final)
         elif move['type'] == 't' and color_flag == 1:
-
             pen.setColor(QtGui.QColor("blue"))
             painter.setPen(pen)
             self.transition_draw_function(move, move['state1Final'], move['state2Final'], painter, brush)
 
         # (type, x, y, dir, state1, state2, state1Final, state2Final)
         elif move['type'] == 't' and color_flag == 0:
-
             pen.setColor(QtGui.QColor("red"))
             painter.setPen(pen)
             self.transition_draw_function(
@@ -798,9 +789,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         rect = QtCore.QRect(ts_x, ts_y, ts, ts)
 
         painter.drawRect(rect)
-        #painter.setFont(QFont(state.display_label_font))
-        #painter.setPen(QColor(state.display_label_color))
-        #decoded_display_label = state.returnDisplayLabel()
+
         if state == "":
             painter.drawText(rect, Qt.AlignCenter, "")
             return
@@ -810,10 +799,8 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         if self.tileSize > 10:
             fm = QtGui.QFontMetrics(painter.font())
             txt_width = fm.width(decoded_display_label)
-            #if txt_width < self.tileSize:
 
             if decoded_display_label == None:
-
                 if len(state.label) > 4:
                     painter.drawText(rect, Qt.AlignCenter, state.label[0:3])
                 else:
@@ -822,14 +809,11 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
             else:
-
-
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
 
 
 
     def transition_draw_function(self, move, state1, state2, painter, brush):
-
         horizontal = 0
         vertical = 0
         brush.setColor(QtGui.QColor("white"))
@@ -839,9 +823,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             vertical = -1
 
         if self.onScreen_check(move['x'], move['y']) != 1:
-
             self.draw_to_screen(move['x'], move['y'], "", painter, brush)
-
             brush.setColor(QtGui.QColor("#" + state1.returnColor()))
             self.draw_to_screen(move['x'], move['y'], state1, painter, brush)
 
@@ -1173,7 +1155,6 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         if type(genSystem) == System:
             #current system takes in an assembly,
 
-
             self.SysLoaded = True
             # the -150 is to account for the slide menu
             self.seedX = (self.geometry().width() - 100) / 2
@@ -1190,8 +1171,6 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
             self.draw_assembly(self.Engine.getCurrentAssembly())
             self.Update_available_moves()
-
-
 
     def do_move(self, move):
         if not self.play:
@@ -1736,7 +1715,6 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
             self.copy_3(cells, currentRow+1)
 
     def Click_EditApply(self):
-
         global currentSystem
         newtemp = self.spinBox.value()
 
@@ -1772,8 +1750,6 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
                     self.system.addState(s)
 
             available_states.append(s)
-
-            
 
         # affinity
         for row in range(0, self.tableWidget_2.rowCount()):
