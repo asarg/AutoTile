@@ -600,22 +600,22 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                     if self.onScreen_check(move['x'], move['y'] + 1) != 1:
                         brush.setColor(QtGui.QColor("#" + neighborN.returnColor()))
                         self.draw_to_screen(
-                            move['x'], move['y'] + 1, neighborN, painter, brush)
+                            move['x'], move['y'] + 1, neighborN.returnState(), painter, brush)
                 if neighborS != None:
                     if self.onScreen_check(move['x'], move['y'] - 1) != 1:
                         brush.setColor(QtGui.QColor("#" + neighborS.returnColor()))
                         self.draw_to_screen(
-                            move['x'], move['y'] - 1, neighborS, painter, brush)
+                            move['x'], move['y'] - 1, neighborS.returnState(), painter, brush)
                 if neighborE != None:
                     if self.onScreen_check(move['x'] + 1, move['y']) != 1:
                         brush.setColor(QtGui.QColor("#" + neighborE.returnColor()))
                         self.draw_to_screen(
-                            move['x'] + 1, move['y'], neighborE, painter, brush)
+                            move['x'] + 1, move['y'], neighborE.returnState(), painter, brush)
                 if neighborW != None:
                     if self.onScreen_check(move['x'] - 1, move['y']) != 1:
                         brush.setColor(QtGui.QColor("#" + neighborW.returnColor()))
                         self.draw_to_screen(
-                            move['x'] - 1, move['y'], neighborW, painter, brush)
+                            move['x'] - 1, move['y'], neighborW.returnState(), painter, brush)
 
             # reversing transition on screen
             # (type, x, y, dir, state1, state2, state1Final, state2Final)
