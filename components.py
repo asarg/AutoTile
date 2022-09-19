@@ -855,7 +855,7 @@ Rufous = "ae2012"  # Burnt Red
 colors_list.append(Rufous)
 Ruby_Red = "9b2226"  # Dark Brown Red
 colors_list.append(Ruby_Red)
-
+Light_Steel_Blue = "A9BCD0"  # Light Blue Grey
 #Palette 3
 Barn_Red = "780000"
 colors_list.append(Barn_Red)
