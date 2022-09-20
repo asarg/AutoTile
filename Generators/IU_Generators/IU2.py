@@ -1388,7 +1388,7 @@ check_equal_S_end_state = uc.State("Check=S)", mid_pink, "↧=₎", "black")
 check_equal_S_any_num_state = uc.State("Check=S*", mid_pink, "↧=*", "black")
 check_equal_S_NorthPrefix = uc.State("Check=S_NorthPrefix", mid_pink, "↧=N", "black")
 
-check_equal_S_start_state_inactive = uc.State("IN_Check=S(Inactive", grey_pink, "↧=₍", "black", display_label_rotation=90)
+check_equal_S_start_state_inactive = uc.State("IN_Check=S(Inactive", grey_pink, "↧=₍", "black")
 check_equal_S_end_state_inactive = uc.State("Check=S)Inactive", grey_pink, "↧=₎", "black")
 check_equal_S_any_num_state_inactive = uc.State("IN_Check=S*Inactive", grey_pink, "↧=*", "black")
 check_equal_S_NorthPrefix_inactive = uc.State("Check=S_NorthPrefix_Inactive", grey_pink, "↧=N", "black")

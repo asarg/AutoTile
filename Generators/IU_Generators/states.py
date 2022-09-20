@@ -5,7 +5,8 @@ class GeneratedStates:
     def __init__(self):
         self.states_dict = {} #Label: State
         self.directions = ["N", "S", "E", "W"]
-        self.dWire = {"N": "🡹", "S": "🡻", "E": "🡺", "W": "🡸"}
+        self.dWire = {"N": "🡹", "S": "🡻", "E": "🡺", "W": "🡸",
+                      "NE": "🡹🡺", "NW": "🡹🡸", "SE": "🡻🡺", "SW": "🡻🡸"}
         self.wss = {"N": "↟", "S": "↡", "E": "↠", "W": "↞"}
         self.wireWriterStatesGenerate()
 
@@ -35,7 +36,22 @@ northWire = uc.State("NorthWire", Blue_Sapphire, "🡹")
 southWire = uc.State("SouthWire", Blue_Sapphire, "🡻")
 westWire = uc.State("WestWire", Blue_Sapphire, "🡸")
 eastWire = uc.State("EastWire", Blue_Sapphire, "🡺")
+
 northEastWire = uc.State("NorthEastWire", Blue_Sapphire, "🡹🡺")
+northWestWire = uc.State("NorthWestWire", Blue_Sapphire, "🡹🡸")
+southEastWire = uc.State("SouthEastWire", Blue_Sapphire, "🡻🡺")
+southWestWire = uc.State("SouthWestWire", Blue_Sapphire, "🡻🡸")
+
+northProtectedWire = uc.State("NorthProtectedWire", Blue_Sapphire, "|🡹|")
+southProtectedWire = uc.State("SouthProtectedWire", Blue_Sapphire, "|🡻|")
+eastProtectedWire = uc.State("EastProtectedWire", Blue_Sapphire, "|🡺|")
+westProtectedWire = uc.State("WestProtectedWire", Blue_Sapphire, "|🡸|")
+northEastProtectedWire = uc.State("NorthEastProtectedWire", Blue_Sapphire, "|🡹🡺|")
+northWestProtectedWire = uc.State("NorthWestProtectedWire", Blue_Sapphire, "|🡹🡸|")
+southEastProtectedWire = uc.State("SouthEastProtectedWire", Blue_Sapphire, "|🡻🡺|")
+southWestProtectedWire = uc.State("SouthWestProtectedWire", Blue_Sapphire, "|🡻🡸|")
+
+protectWireWalker = uc.State("ProtectWireWalker", Air_Superiority_Blue, "|🖋|")
 
 northCopyWire = uc.State("NorthCopyWire", light_blue, "⇈")
 southCopyWire = uc.State("SouthCopyWire", light_blue, "⇊")

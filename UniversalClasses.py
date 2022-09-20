@@ -836,19 +836,24 @@ class System:
     def addState(self, state):
         if isinstance(state, list):
             for s in state:
-                self.states.append(s)
+                if state not in self.states:
+                    self.states.append(state)
+
         elif isinstance(state, State):
-            self.states.append(state)
+            if state not in self.states:
+                self.states.append(state)
         else:
             print("Attempted to add a state that is not a state object")
 
     def addInitialState(self, state):
-        self.initial_states.append(state)
+        if state not in self.initial_states:
+            self.initial_states.append(state)
         self.addState(state)
 
     # idk if this will work
     def addSeedState(self, state):
-        self.seed_states.append(state)
+        if state not in self.seed_states:
+            self.seed_states.append(state)
         self.addState(state)
 
     # start here

@@ -1166,10 +1166,11 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.play = False
         global currentSystem
 
-        genS = IU2.IUGenerators()
+        #genS = IU2.IUGenerators()
+        #genSystem = genS.EqualityGadgetGenerator()
         gS = IUEC.IUGenerators()
-        genSystem = genS.EqualityGadgetGenerator()
-        gS.setSampleDataStartCoords(7, 0, "h")
+
+        genSystem = gS.basicWireGenerator()
         #genSystem = genS.basicWireGenerator2()
         #genSystem = genS.wireGeneratorWithEndcapDoorNoSignalGadget2()
         #genSystem = genS.equality_gadget_with_prefixes()
