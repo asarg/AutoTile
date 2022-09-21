@@ -383,7 +383,6 @@ class Assembly:
         else:
             self.leftMost = self.leftMost
 
-    # Elise on transitions
     # tuple of {'type': 't', 'x': 0, 'y': 0, 'state1': 'S', 'state2': 'A', 'state1Final': 'S', 'state2Final': 'A'}
     def setTransition(self, trans):
         # a = Assembly()
@@ -840,12 +839,10 @@ class System:
 
     def addInitialState(self, state):
         self.initial_states.append(state)
-        self.addState(state)
 
     # idk if this will work
     def addSeedState(self, state):
         self.seed_states.append(state)
-        self.addState(state)
 
     # start here
     def addTransitionRule(self, tr):
