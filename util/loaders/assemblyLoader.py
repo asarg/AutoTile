@@ -84,20 +84,20 @@ def readxml(file):
         y = state_tag.get("y")
 
         if display_label is None:
-            tempState = State(label, color)
+            tempState = State(label, color, xCoordinate=int(x), yCoordinate=int(y))
         else:
             if display_label_font is None:
                 if display_label_color is None:
-                    tempState = State(label, color, display_label)
+                    tempState = State(label, color, display_label, xCoordinate=int(x), yCoordinate=int(y))
                 else:
                     tempState = State(
-                        label, color, display_label, display_label_color)
+                        label, color, display_label, display_label_color, xCoordinate=int(x), yCoordinate=int(y))
             elif display_label_color is None:
                 tempState = State(label, color, display_label,
-                                  display_label_font)
+                                  display_label_font, xCoordinate=int(x), yCoordinate=int(y))
             else:
                 tempState = State(label, color, display_label,
-                                  display_label_color, display_label_font)
+                                  display_label_color, display_label_font, xCoordinate=int(x), yCoordinate=int(y))
         SeedStateSet.append(tempState)
 
         if isinstance(x,str) & isinstance(y,str):

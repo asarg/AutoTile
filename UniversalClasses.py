@@ -8,10 +8,14 @@ from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
 def toCoords(x, y):
     return "(" + str(x) + "," + str(y) + ")"
 class State:
-    def __init__(self, label, color, display_label=None, display_label_font="Fira Code Regular Nerd Font Complete Mono", display_label_color ="black"):
+    def __init__(self, label, color, display_label=None, display_label_font="Fira Code Regular Nerd Font Complete Mono", display_label_color ="black", xCoordinate = 0, yCoordinate = 0):
         self.label = label
         self.color = color
         self.display_label = display_label
+
+        #unless we have a seedState class, a State needs to know where it wants to be placed for saving purposes
+        self.xCoordinate = xCoordinate
+        self.yCoordinate = yCoordinate 
 
         if display_label is None:
             self.display_label = label
@@ -42,13 +46,19 @@ class State:
     def returnDisplayLabel(self):
         if self.display_label is str:
             return self.display_label
-            #return self.display_label.decode('utf-8')
+        else:
+            return self.returnLabel()
+            
 
     def returnDisplayLabelColor(self):
-        return self.display_label_color
+        if self.display_label_color is str:
+            return self.display_label_color
+        else:
+            return self.returnColor()
 
     def returnDisplayLabelFont(self):
         return self.display_label_font
+
     def setDisplayLabel(self, display_label):
         self.display_label = display_label
         #self.display_label = display_label.encode('utf-8')
@@ -64,6 +74,13 @@ class State:
             self.display_label_color = QColor(display_label_color)
         else:
             self.display_label_color = display_label_color
+
+    def getX(self):
+        return self.xCoordinate
+    
+    def getY(self):
+        return self.yCoordinate
+    
 
     def __eq__(self, other):
         if isinstance(other, State):
