@@ -130,7 +130,8 @@ class SeedScene(QtWidgets.QGraphicsScene):
         self.update()
 
 
-app = QtWidgets.QApplication(sys.argv)
-window = TestWindow()
-window.show()
-app.exec_()
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    window = TestWindow()
+    window.show()
+    app.exec_()

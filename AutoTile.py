@@ -8,6 +8,7 @@ from random import randrange
 import math, sys
 
 from Player import ComputeLast, Player
+from SeedEditor import SeedScene
 from Historian import Historian
 from assemblyEngine import Engine
 from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
@@ -1518,6 +1519,9 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         self.pushButton_11.clicked.connect(self.click_removeRowTran)
 
         self.pushButton_12.clicked.connect(self.Click_freezingCheck)
+
+        # Seed Editor
+        self.graphicsView.setScene(SeedScene())
 
     # just need to fix this function
 
