@@ -34,6 +34,7 @@ class TestWindow(QtWidgets.QMainWindow):
         tiles.append(Tile(s1, 0, 0))
         tiles.append(Tile(s2, 1, 0))
         tiles.append(Tile(s3, 0, 1))
+        tiles.append(Tile(s2, -1, 0))
         ass = Assembly()
         ass.setTilesFromList(tiles)
         self.draw_assembly(ass)
@@ -45,6 +46,19 @@ class TestWindow(QtWidgets.QMainWindow):
             return 1
         return 0
 
+    def mouseReleaseEvent(self, e):
+        print("Click at", e.x(), ",", e.y())
+        x = e.x() - self.seedX
+        y = e.y() - self.seedY
+        if x < 0:
+            x -= 40
+        if y < 0:
+            y -= 40
+
+        x = int(x / self.tileSize)
+        y = int(y / self.tileSize)
+        print("Tile would be at", x, y)
+
     def draw_to_screen(self, x, y, state, painter, brush):
         painter.setBrush(brush)
         ts = self.tileSize
@@ -53,6 +67,7 @@ class TestWindow(QtWidgets.QMainWindow):
         rect = QtCore.QRect(ts_x, ts_y, ts, ts)
 
         painter.drawRect(rect)
+        print("Drew tile", x, y, "::", ts_x, ts_y, ts, ts)
 
         if state == "":
             painter.drawText(rect, Qt.AlignCenter, "")
@@ -71,7 +86,8 @@ class TestWindow(QtWidgets.QMainWindow):
                     painter.drawText(rect, Qt.AlignCenter, state.label)
             elif len(decoded_display_label) > 4:
 
-                painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
+                painter.drawText(rect, Qt.AlignCenter,
+                                 decoded_display_label[0:3])
             else:
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
 
