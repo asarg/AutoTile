@@ -27,17 +27,15 @@ class TestWindow(QtWidgets.QMainWindow):
         self.textSize = int(self.tileSize / 3)
 
         # Testing Assembly
+        self.ass = Assembly()
         s1 = State("yo", "ff0000")
         s2 = State("ma", "00ff00")
         s3 = State("ya", "0000ff")
-        tiles = []
-        tiles.append(Tile(s1, 0, 0))
-        tiles.append(Tile(s2, 1, 0))
-        tiles.append(Tile(s3, 0, 1))
-        tiles.append(Tile(s2, -1, 0))
-        ass = Assembly()
-        ass.setTilesFromList(tiles)
-        self.draw_assembly(ass)
+        self.ass.tiles.append(Tile(s1, 0, 0))
+        self.ass.tiles.append(Tile(s2, 1, 0))
+        self.ass.tiles.append(Tile(s3, 0, 1))
+        self.ass.tiles.append(Tile(s2, -1, 0))
+        self.draw_assembly(self.ass)
 
     def onScreen_check(self, x, y):
         if((x * self.tileSize) + self.seedX > self.geometry().width() or (x * self.tileSize) + self.seedX < -self.tileSize):
@@ -47,17 +45,26 @@ class TestWindow(QtWidgets.QMainWindow):
         return 0
 
     def mouseReleaseEvent(self, e):
-        print("Click at", e.x(), ",", e.y())
         x = e.x() - self.seedX
         y = e.y() - self.seedY
         if x < 0:
             x -= 40
         if y < 0:
             y -= 40
-
         x = int(x / self.tileSize)
-        y = int(y / self.tileSize)
-        print("Tile would be at", x, y)
+        y = int(y / -self.tileSize)
+
+        # will be replaced by the selected state
+        s = State("new", "ff00ff")
+
+        # Find x,y if it is in use
+        for t in self.ass.tiles:
+            if t.x == x and t.y == y:
+                self.ass.tiles.remove(t)
+                break
+
+        self.ass.tiles.append(Tile(s, x, y))
+        self.draw_assembly(self.ass)
 
     def draw_to_screen(self, x, y, state, painter, brush):
         painter.setBrush(brush)
