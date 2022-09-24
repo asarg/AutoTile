@@ -8,7 +8,7 @@ from random import randrange
 import math, sys
 
 from Player import ComputeLast, Player
-from SeedEditor import SeedScene
+from SeedEditor import SeedScene, TableScene
 from Historian import Historian
 from assemblyEngine import Engine
 from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
@@ -1522,6 +1522,8 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
 
         # Seed Editor
         self.graphicsView.setScene(SeedScene())
+        self.tableGraphicsView.setScene(TableScene())
+        self.tableGraphicsView.centerOn(0, 0)
 
     # just need to fix this function
 
