@@ -9,19 +9,25 @@ class TestWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("TestWindow")
+        scene = SeedScene()
+        view = QtWidgets.QGraphicsView(scene)
 
-        # Seed Editor Code
-        self.width: int = 800
-        self.height: int = 600
-        self.resize(self.width, self.height)
-        self.seedX = self.geometry().width() / 2
-        self.seedY = self.geometry().height() / 2
+        self.resize(800, 600)
+
+        self.setCentralWidget(view)
+
+
+class SeedScene(QtWidgets.QGraphicsScene):
+    def __init__(self):
+        super().__init__()
+
+        self.width: int = 8000
+        self.height: int = 8000
+        self.seedX = self.width / 2
+        self.seedY = self.height / 2
         self.label = QtWidgets.QLabel()
-        canvas = QtGui.QPixmap(self.width, self.height)
-        # canvas.fill(Qt.white)
-        self.label.setPixmap(canvas)
-        self.setCentralWidget(self.label)
+        self.canvas = QtGui.QPixmap(self.width, self.height)
+        self.scenePixmapItem = self.addPixmap(self.canvas)
 
         self.tileSize = 40
         self.textSize = int(self.tileSize / 3)
@@ -37,16 +43,11 @@ class TestWindow(QtWidgets.QMainWindow):
         self.ass.tiles.append(Tile(s2, -1, 0))
         self.draw_assembly(self.ass)
 
-    def onScreen_check(self, x, y):
-        if((x * self.tileSize) + self.seedX > self.geometry().width() or (x * self.tileSize) + self.seedX < -self.tileSize):
-            return 1
-        if((y * -self.tileSize) + self.seedY > self.geometry().height() or (y * -self.tileSize) + self.seedY < -self.tileSize):
-            return 1
-        return 0
-
     def mouseReleaseEvent(self, e):
-        x = e.x() - self.seedX
-        y = e.y() - self.seedY
+        x = e.scenePos().x()
+        y = e.scenePos().y()
+        x = x - self.seedX
+        y = y - self.seedY
         if x < 0:
             x -= 40
         if y < 0:
@@ -74,7 +75,6 @@ class TestWindow(QtWidgets.QMainWindow):
         rect = QtCore.QRect(ts_x, ts_y, ts, ts)
 
         painter.drawRect(rect)
-        print("Drew tile", x, y, "::", ts_x, ts_y, ts, ts)
 
         if state == "":
             painter.drawText(rect, Qt.AlignCenter, "")
@@ -99,7 +99,7 @@ class TestWindow(QtWidgets.QMainWindow):
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
 
     def draw_assembly(self, assembly):
-        painter = QtGui.QPainter(self.label.pixmap())
+        painter = QtGui.QPainter(self.canvas)
         pen = QtGui.QPen()
         brush = QtGui.QBrush()
         font = QtGui.QFont()
@@ -110,8 +110,7 @@ class TestWindow(QtWidgets.QMainWindow):
         brush.setColor(QtGui.QColor("white"))
         painter.setPen(pen)
         painter.setBrush(brush)
-        painter.drawRect(0, 0, self.geometry().width(),
-                         self.geometry().height())
+        painter.drawRect(0, 0, self.width, self.height)
 
         # Font
         font.setFamily("Fira Code")
@@ -122,15 +121,12 @@ class TestWindow(QtWidgets.QMainWindow):
         pen.setColor(QtGui.QColor("black"))
         painter.setPen(pen)
         for tile in assembly.tiles:
-            if self.onScreen_check(tile.x, tile.y) == 1:
-                continue
-
             brush.setColor(QtGui.QColor("#" + tile.returnColor()))
-
             self.draw_to_screen(tile.x, tile.y, tile.state, painter, brush)
 
         painter.end()
 
+        self.scenePixmapItem.setPixmap(self.canvas)
         self.update()
 
 
