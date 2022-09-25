@@ -1521,9 +1521,23 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         self.pushButton_12.clicked.connect(self.Click_freezingCheck)
 
         # Seed Editor
-        self.graphicsView.setScene(SeedScene())
-        self.tableGraphicsView.setScene(TableScene())
+        t = TableScene()
+        s = SeedScene()
+        s.table = t
+
+        t.states.clear()
+        s.ass.tiles.clear()
+
+        for st in engine.system.states:
+            t.states.append(st)
+
+        t.draw_table()
+        s.draw_assembly()
+
+        self.tableGraphicsView.setScene(t)
         self.tableGraphicsView.centerOn(0, 0)
+        self.graphicsView.setScene(s)
+        
 
     # just need to fix this function
 

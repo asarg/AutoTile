@@ -33,11 +33,7 @@ class TableScene(QtWidgets.QGraphicsScene):
 
         # Testing states
         self.states = []
-        self.states.append(State("yo", "ff0000"))
-        self.states.append(State("ma", "00ff00"))
-        self.states.append(State("ya", "0000ff"))
-
-        self.draw_table()
+        self.selected = -1
 
     def draw_to_screen(self, x, y, state, painter, brush):
         painter.setBrush(brush)
@@ -63,10 +59,22 @@ class TableScene(QtWidgets.QGraphicsScene):
                     painter.drawText(rect, Qt.AlignCenter, state.label)
             elif len(decoded_display_label) > 4:
 
-                painter.drawText(rect, Qt.AlignCenter,
-                                 decoded_display_label[0:3])
+                painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
             else:
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
+
+    def mouseReleaseEvent(self, e):
+        x = e.scenePos().x()
+        y = e.scenePos().y()
+        section_y = int(y / (self.tileSize + 20))
+
+        if (
+            y >= ((section_y * (self.tileSize + 20)) + 20)
+            and y <= ((section_y + 1) * (self.tileSize + 20))
+            and x >= int(self.width / 2 - (self.tileSize / 2))
+            and x <= int(self.width / 2 + (self.tileSize / 2))
+        ):
+            self.selected = section_y
 
     def draw_table(self):
         painter = QtGui.QPainter(self.canvas)
@@ -91,11 +99,11 @@ class TableScene(QtWidgets.QGraphicsScene):
         pen.setColor(QtGui.QColor("black"))
         painter.setPen(pen)
         x = int(self.width / 2 - (self.tileSize / 2))
-        y = int(10)
+        y = int(20)
         for s in self.states:
             brush.setColor(QtGui.QColor("#" + s.returnColor()))
             self.draw_to_screen(x, y, s, painter, brush)
-            y += self.tileSize + 10
+            y += self.tileSize + 20
 
         painter.end()
 
@@ -117,16 +125,8 @@ class SeedScene(QtWidgets.QGraphicsScene):
         self.tileSize = 40
         self.textSize = int(self.tileSize / 3)
 
-        # Testing Assembly
         self.ass = Assembly()
-        s1 = State("yo", "ff0000")
-        s2 = State("ma", "00ff00")
-        s3 = State("ya", "0000ff")
-        self.ass.tiles.append(Tile(s1, 0, 0))
-        self.ass.tiles.append(Tile(s2, 1, 0))
-        self.ass.tiles.append(Tile(s3, 0, 1))
-        self.ass.tiles.append(Tile(s2, -1, 0))
-        self.draw_assembly(self.ass)
+        self.table = None
 
     def mouseReleaseEvent(self, e):
         x = e.scenePos().x()
@@ -142,6 +142,7 @@ class SeedScene(QtWidgets.QGraphicsScene):
 
         # will be replaced by the selected state
         s = State("new", "ff00ff")
+        s = self.table.states[self.table.selected]
 
         # Find x,y if it is in use
         for t in self.ass.tiles:
@@ -150,7 +151,7 @@ class SeedScene(QtWidgets.QGraphicsScene):
                 break
 
         self.ass.tiles.append(Tile(s, x, y))
-        self.draw_assembly(self.ass)
+        self.draw_assembly()
 
     def draw_to_screen(self, x, y, state, painter, brush):
         painter.setBrush(brush)
@@ -178,12 +179,11 @@ class SeedScene(QtWidgets.QGraphicsScene):
                     painter.drawText(rect, Qt.AlignCenter, state.label)
             elif len(decoded_display_label) > 4:
 
-                painter.drawText(rect, Qt.AlignCenter,
-                                 decoded_display_label[0:3])
+                painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
             else:
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
 
-    def draw_assembly(self, assembly):
+    def draw_assembly(self):
         painter = QtGui.QPainter(self.canvas)
         pen = QtGui.QPen()
         brush = QtGui.QBrush()
@@ -205,7 +205,7 @@ class SeedScene(QtWidgets.QGraphicsScene):
 
         pen.setColor(QtGui.QColor("black"))
         painter.setPen(pen)
-        for tile in assembly.tiles:
+        for tile in self.ass.tiles:
             brush.setColor(QtGui.QColor("#" + tile.returnColor()))
             self.draw_to_screen(tile.x, tile.y, tile.state, painter, brush)
 
