@@ -13,10 +13,6 @@ class State:
         self.color = color
         self.display_label = display_label
 
-        #unless we have a seedState class, a State needs to know where it wants to be placed for saving purposes
-        self.xCoordinate = xCoordinate
-        self.yCoordinate = yCoordinate 
-
         if display_label is None:
             self.display_label = label
             #self.display_label = label.encode('utf-8')
@@ -74,13 +70,6 @@ class State:
             self.display_label_color = QColor(display_label_color)
         else:
             self.display_label_color = display_label_color
-
-    def getX(self):
-        return self.xCoordinate
-    
-    def getY(self):
-        return self.yCoordinate
-    
 
     def __eq__(self, other):
         if isinstance(other, State):

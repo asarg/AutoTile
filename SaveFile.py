@@ -94,7 +94,7 @@ def main(system, fileName):
         display_label_color = tile.returnDisplayLabelColor()
         display_label_font = tile.returnDisplayLabelFont()
 
-        state_tag = ET.SubElement(seed_states_tag, "Tile")
+        state_tag = ET.SubElement(tiles_tag, "Tile")
         state_tag.set('Label', label)
         state_tag.set('Color', color)
         state_tag.set('x', x)
