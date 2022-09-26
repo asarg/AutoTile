@@ -73,21 +73,21 @@ def readxml(file):
         InitialStateSet.append(tempState)
 
     # Record Tiles and make seed assembly
-    for state_tag in treeroot.findall("Tiles/Tile"):
-        label = state_tag.get("Label")
+    for tile_tag in treeroot.findall("Tiles/Tile"):
+        label = tile_tag.get("Label")
         print(label)
-        color = state_tag.get("Color")
+        color = tile_tag.get("Color")
         print(color)
-        display_label = state_tag.get("DisplayLabel")
+        display_label = tile_tag.get("DisplayLabel")
         print(display_label)
 
-        display_label_color = state_tag.get("DisplayLabelColor")
+        display_label_color = tile_tag.get("DisplayLabelColor")
         print(display_label_color)
-        display_label_font = state_tag.get("DisplayLabelFont")
+        display_label_font = tile_tag.get("DisplayLabelFont")
         print(display_label_font)
 
-        x = state_tag.get("x")
-        y = state_tag.get("y")
+        x = tile_tag.get("x")
+        y = tile_tag.get("y")
 
         if display_label is None:
             tempState = State(label, color, xCoordinate=int(x), yCoordinate=int(y))
