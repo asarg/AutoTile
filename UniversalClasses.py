@@ -139,6 +139,11 @@ class Tile:
     def returnDisplayLabelFont(self):
         return self.state.returnDisplayLabelFont()
 
+    def getX(self):
+        return self.x
+    def getY(self):
+        return self.y
+
     def returnPosition(self):
         return "({self.x}, {self.y})".format(self=self)
 
@@ -770,6 +775,9 @@ class System:
 
     def returnSeedAssembly(self):
         return self.seed_assembly
+    
+    def returnTiles(self):
+        return self.seed_assembly.returnTiles()
 
     def returnStateLabelList(self):
         st = []

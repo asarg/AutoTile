@@ -20,7 +20,7 @@ def main(system, fileName):
     horizontal_affinities = system.returnHorizontalAffinityDict()
     vertical_transitions = system.returnVerticalTransitionDict()
     horizontal_transitions = system.returnHorizontalTransitionDict()
-
+    tiles = system.returnTiles()
 
 
     # Establish root and add temperature value
@@ -81,6 +81,28 @@ def main(system, fileName):
         state_tag.set('DisplayLabel', display_label)
         state_tag.set('DisplayLabelFont', display_label_font)
         state_tag.set('DisplayLabelColor', display_label_color)
+    
+    # Add all Tiles
+    tiles_tag = ET.Element("Tiles")
+    root.append(tiles_tag)
+    for tile in tiles:
+        label = tile.returnLabel()
+        color = tile.returnColor()
+        x = str(tile.getX())
+        y = str(tile.getY())
+        display_label = tile.returnDisplayLabel()
+        display_label_color = tile.returnDisplayLabelColor()
+        display_label_font = tile.returnDisplayLabelFont()
+
+        state_tag = ET.SubElement(seed_states_tag, "Tile")
+        state_tag.set('Label', label)
+        state_tag.set('Color', color)
+        state_tag.set('x', x)
+        state_tag.set('y', y)
+        state_tag.set('DisplayLabel', display_label)
+        state_tag.set('DisplayLabelFont', display_label_font)
+        state_tag.set('DisplayLabelColor', display_label_color)
+        
 
     # Add vertical transition rules
     vertical_transitions_tag = ET.Element("VerticalTransitions")
