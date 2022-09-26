@@ -1526,7 +1526,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         s.table = t
 
         t.states.clear()
-        s.ass.tiles.clear()
+        s.assembly.tiles.clear()
 
         for st in engine.system.states:
             t.states.append(st)

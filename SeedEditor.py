@@ -125,7 +125,7 @@ class SeedScene(QtWidgets.QGraphicsScene):
         self.tileSize = 40
         self.textSize = int(self.tileSize / 3)
 
-        self.ass = Assembly()
+        self.assembly = Assembly()
         self.table = None
 
     def mouseReleaseEvent(self, e):
@@ -140,17 +140,16 @@ class SeedScene(QtWidgets.QGraphicsScene):
         x = int(x / self.tileSize)
         y = int(y / -self.tileSize)
 
-        # will be replaced by the selected state
-        s = State("new", "ff00ff")
+        # selected state
         s = self.table.states[self.table.selected]
 
         # Find x,y if it is in use
-        for t in self.ass.tiles:
+        for t in self.assembly.tiles:
             if t.x == x and t.y == y:
-                self.ass.tiles.remove(t)
+                self.assembly.tiles.remove(t)
                 break
 
-        self.ass.tiles.append(Tile(s, x, y))
+        self.assembly.tiles.append(Tile(s, x, y))
         self.draw_assembly()
 
     def draw_to_screen(self, x, y, state, painter, brush):
@@ -205,7 +204,7 @@ class SeedScene(QtWidgets.QGraphicsScene):
 
         pen.setColor(QtGui.QColor("black"))
         painter.setPen(pen)
-        for tile in self.ass.tiles:
+        for tile in self.assembly.tiles:
             brush.setColor(QtGui.QColor("#" + tile.returnColor()))
             self.draw_to_screen(tile.x, tile.y, tile.state, painter, brush)
 
