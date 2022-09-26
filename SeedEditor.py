@@ -212,6 +212,9 @@ class SeedScene(QtWidgets.QGraphicsScene):
 
         self.scenePixmapItem.setPixmap(self.canvas)
         self.update()
+    
+    def getAssembly(self):
+        return self.assembly
 
 
 if __name__ == "__main__":

@@ -1335,6 +1335,8 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         self.mainGUI = mainGUI
         self.Engine = engine
         self.system = engine.system
+        self.t = TableScene()
+        self.s = SeedScene()
         # set row count state table
         self.newStateIndex = len(self.system.states)
         self.tableWidget.setRowCount(len(self.system.states))
@@ -1521,22 +1523,20 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         self.pushButton_12.clicked.connect(self.Click_freezingCheck)
 
         # Seed Editor
-        t = TableScene()
-        s = SeedScene()
-        s.table = t
+        self.s.table = self.t
 
-        t.states.clear()
-        s.assembly.tiles.clear()
+        self.t.states.clear()
+        self.s.assembly.tiles.clear()
 
         for st in engine.system.states:
-            t.states.append(st)
+            self.t.states.append(st)
 
-        t.draw_table()
-        s.draw_assembly()
+        self.t.draw_table()
+        self.s.draw_assembly()
 
-        self.tableGraphicsView.setScene(t)
+        self.tableGraphicsView.setScene(self.t)
         self.tableGraphicsView.centerOn(0, 0)
-        self.graphicsView.setScene(s)
+        self.graphicsView.setScene(self.s)
         
 
     # just need to fix this function
@@ -1740,7 +1740,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         global currentSystem
         newtemp = self.spinBox.value()
 
-        newsys = System(newtemp, [], [], [], [], [], [], [], [], [], seed_assembly = Assembly(), empty=True)
+        newsys = System(newtemp, [], [], [], [], [], [], [], [], [], seed_assembly = self.s.getAssembly(), empty=True)
         currentSystem = newsys
 
         available_states = []
