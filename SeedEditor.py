@@ -140,16 +140,17 @@ class SeedScene(QtWidgets.QGraphicsScene):
         x = int(x / self.tileSize)
         y = int(y / -self.tileSize)
 
-        # selected state
-        s = self.table.states[self.table.selected]
-
         # Find x,y if it is in use
         for t in self.assembly.tiles:
             if t.x == x and t.y == y:
                 self.assembly.tiles.remove(t)
                 break
 
-        self.assembly.tiles.append(Tile(s, x, y))
+        if e.button() == Qt.LeftButton:
+            # selected state
+            s = self.table.states[self.table.selected]
+            self.assembly.tiles.append(Tile(s, x, y))
+
         self.draw_assembly()
 
     def draw_to_screen(self, x, y, state, painter, brush):
