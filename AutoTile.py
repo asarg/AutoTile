@@ -1168,9 +1168,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         #genS = IU2.IUGenerators()
         #genSystem = genS.EqualityGadgetGenerator()
-        gS = IUEC.IUGenerators()
+        gS = IUEC.IUGenerators_EC()
+        genSystem = gS.macroCellCopyNorthTest()
 
-        genSystem = gS.basicWireGenerator()
+
         #genSystem = genS.basicWireGenerator2()
         #genSystem = genS.wireGeneratorWithEndcapDoorNoSignalGadget2()
         #genSystem = genS.equality_gadget_with_prefixes()

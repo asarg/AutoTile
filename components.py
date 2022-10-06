@@ -1,4 +1,4 @@
-import webcolors
+
 import unicodedata
 
 #Example Input from coolers.co export palette
@@ -36,10 +36,10 @@ class PaletteColor:
         else:
             self.color_catagory = color_categories """ # List of color catagories e.g. 'red', 'blue', 'green'
 
-    def findCatagory(self, color_hex):
+    """ def findCatagory(self, color_hex):
         closest_name = webcolors.hex_to_name(color_hex)
 
-        return closest_name
+        return closest_name """
 
 class ColorPalette:
     def __init__(self, palette_name=None, colors_dict={}):
@@ -890,3 +890,10 @@ green_yellow_crayola = "F7EF99"
 
 unbleached_silk = "FFDDD2"
 tea_green = "D4E4BC"
+terra_cotta = "E9BEBE" #nice medium orange red
+rosy_brown = "CC978E"
+atomic_tangerine = "F39C6B"
+amaranth_pink = "F49FBC"
+cornflower_blue = "7699D4"
+deep_space_sparkle = "4A5859"
+copper_rose = "A07178"
