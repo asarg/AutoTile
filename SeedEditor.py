@@ -110,6 +110,12 @@ class TableScene(QtWidgets.QGraphicsScene):
         self.scenePixmapItem.setPixmap(self.canvas)
         self.update()
 
+    def highlight_tile(self, state, x, y, painter, brush, pen):
+        brush.setColor(QtGui.QColor("#" + state.returnColor()))
+        pen.setColor(QtGui.QColor("blue"))
+        painter.setPen(pen)
+        self.draw_to_screen(x, y, state, painter, brush)
+
 
 class SeedScene(QtWidgets.QGraphicsScene):
     def __init__(self):
