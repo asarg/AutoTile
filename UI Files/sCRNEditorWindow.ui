@@ -186,11 +186,6 @@
              <string>State 2 Final</string>
             </property>
            </column>
-           <column>
-            <property name="text">
-             <string>Direction</string>
-            </property>
-           </column>
           </widget>
           <widget class="QPushButton" name="pushButton_5">
            <property name="geometry">

@@ -1905,7 +1905,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the e
         self.tableWidget_3.setColumnWidth(2, 40)
         self.tableWidget_3.setColumnWidth(3, 120)
         self.tableWidget_3.setColumnWidth(4, 120)
-        self.tableWidget_3.setColumnWidth(5, 100)
 
         # connect the color change
         self.tableWidget.cellChanged.connect(self.cellchanged)
@@ -2099,10 +2098,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the e
 
         print("remove row button clicked")
 
-        if self.tableWidget_2.rowCount() > 0:
-            currentRow = self.tableWidget_2.currentRow()
-            self.tableWidget_2.removeRow(currentRow)
-
         # only delete if there is something in the table, and if there is something selected
         if self.tableWidget.rowCount() > 0 and len(self.tableWidget.selectedIndexes()) > 0:
             self.tableWidget.removeRow(
@@ -2138,11 +2133,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the e
             self.tableWidget.setItem(r, i, it)
         for i, w in cells["widgets"]:
             self.tableWidget.setCellWidget(r, i, w)
-
-    def copy_2(self, cells, r):
-        self.tableWidget_2.insertRow(r)
-        for i, it in cells["items"]:
-            self.tableWidget_2.setItem(r, i, it)
 
     def copy_3(self, cells, r):
         self.tableWidget_3.insertRow(r)
@@ -2181,7 +2171,7 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the e
 
     def Click_EditApply(self):
         global currentSystem
-        newtemp = self.spinBox.value()
+        newtemp = 1
 
         newsys = System(newtemp, [], [], [], [], [], [], [], [], [], seed_assembly = self.s.getAssembly(), empty=True)
         currentSystem = newsys
@@ -2230,12 +2220,15 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the e
             states_used.append(tFin1)
             states_used.append(tFin2)
 
-            trRule = TransitionRule(tLab1, tLab2, tFin1, tFin2, "h")
-            trRule = TransitionRule(tLab2, tLab1, tFin2, tFin1, "h")
-            trRule = TransitionRule(tLab1, tLab2, tFin1, tFin2, "v")
-            trRule = TransitionRule(tLab2, tLab1, tFin2, tFin1, "v")
+            trRule1 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "h")
+            trRule2 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "h")
+            trRule3 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "v")
+            trRule4 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "v")
 
-            self.system.addTransitionRule(trRule)
+            self.system.addTransitionRule(trRule1)
+            self.system.addTransitionRule(trRule2)
+            self.system.addTransitionRule(trRule3)
+            self.system.addTransitionRule(trRule4)
 
         # Check here to see if states used in transitions exist
         states_not_used = self.StatesUsed_Exist(available_states, states_used)
