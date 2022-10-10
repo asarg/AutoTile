@@ -75,6 +75,7 @@ class TableScene(QtWidgets.QGraphicsScene):
             and x <= int(self.width / 2 + (self.tileSize / 2))
         ):
             self.selected = section_y
+            self.draw_table()
 
     def draw_table(self):
         painter = QtGui.QPainter(self.canvas)
@@ -100,10 +101,18 @@ class TableScene(QtWidgets.QGraphicsScene):
         painter.setPen(pen)
         x = int(self.width / 2 - (self.tileSize / 2))
         y = int(20)
+        i = 0
         for s in self.states:
             brush.setColor(QtGui.QColor("#" + s.returnColor()))
             self.draw_to_screen(x, y, s, painter, brush)
+
+            if i == self.selected:
+                self.highlight_tile(s, x, y, painter, brush, pen)
+
+            i += 1
             y += self.tileSize + 20
+
+
 
         painter.end()
 
@@ -115,6 +124,8 @@ class TableScene(QtWidgets.QGraphicsScene):
         pen.setColor(QtGui.QColor("blue"))
         painter.setPen(pen)
         self.draw_to_screen(x, y, state, painter, brush)
+        pen.setColor(QtGui.QColor("black"))
+        painter.setPen(pen)
 
 
 class SeedScene(QtWidgets.QGraphicsScene):
