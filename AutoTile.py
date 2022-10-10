@@ -1528,7 +1528,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         self.t.states.clear()
         self.s.assembly.tiles.clear()
 
-        for st in engine.system.states:
+        for st in self.Engine.system.states:
             self.t.states.append(st)
 
         self.t.draw_table()
@@ -1838,6 +1838,16 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
 
         self.mainGUI.draw_assembly(self.Engine.getCurrentAssembly())
         self.mainGUI.Update_available_moves()
+
+        # update the seed editor
+        self.t.states.clear()
+        self.s.assembly.tiles.clear()
+
+        for st in self.Engine.system.states:
+            self.t.states.append(st)
+
+        self.t.draw_table()
+        self.s.draw_assembly()
 
     def Click_EditSaveAs(self):
         print("Save As button clicked")
