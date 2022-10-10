@@ -244,22 +244,22 @@
           <attribute name="label">
            <string>Seed</string>
           </attribute>
-          <widget class="QTableWidget" name="tableWidget_4">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>0</y>
-             <width>171</width>
-             <height>381</height>
-            </rect>
-           </property>
-          </widget>
           <widget class="QGraphicsView" name="graphicsView">
            <property name="geometry">
             <rect>
              <x>200</x>
              <y>0</y>
-             <width>541</width>
+             <width>561</width>
+             <height>381</height>
+            </rect>
+           </property>
+          </widget>
+          <widget class="QGraphicsView" name="tableGraphicsView">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>161</width>
              <height>381</height>
             </rect>
            </property>
