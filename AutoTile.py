@@ -12,7 +12,7 @@ from SeedEditor import SeedScene, TableScene
 from Historian import Historian
 from assemblyEngine import Engine
 from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
-import TAMainWindow, EditorWindow, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
+import TAMainWindow, EditorWindow, sCRNEditorWindow, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
 import IntrinsicUniversality as IU
 import Generators.IU_Generators.IU2 as IU2
 
@@ -851,7 +851,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         currentSystem.addState(seed)
         self.Engine = Engine(currentSystem)
 
-        self.e = Ui_EditorWindow(self.Engine, self)
+        if self.sCRN_button.isChecked():
+            self.e = Ui_sCRNEditorWindow(self.Engine, self)
+        else:
+            self.e = Ui_EditorWindow(self.Engine, self)
         self.e.show()
 
     def Click_FileSearch(self, id):
@@ -1319,7 +1322,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
     def Click_EditFile(self):
         # if system loaded, open editorwindow
         if self.SysLoaded == True:
-            self.e = Ui_EditorWindow(self.Engine, self)
+            if self.sCRN_button.isChecked():
+                self.e = Ui_sCRNEditorWindow(self.Engine, self)
+            else:
+                self.e = Ui_EditorWindow(self.Engine, self)
             self.e.show()
         else:
             print("Please load a file to edit.")
