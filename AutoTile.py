@@ -1910,12 +1910,7 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         print(len(self.system.states))
 
         # set row count transition table
-        self.newTransitionIndex = (len(
-            self.system.vertical_transitions_list)) + (len(self.system.horizontal_transitions_list))
-        self.tableWidget_3.setRowCount(len(
-            self.system.vertical_transitions_list) + len(self.system.horizontal_transitions_list))
-        print(len(self.system.vertical_transitions_list) +
-              len(self.system.horizontal_transitions_list))
+        self.tableWidget_3.setRowCount(len(self.system.horizontal_transitions_list) // 2)
 
         self.tableWidget_3.setColumnWidth(0, 100)
         self.tableWidget_3.setColumnWidth(1, 100)
@@ -1949,10 +1944,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
             finalHT2.setText(trH.returnLabel2Final())
             finalHT2.setTextAlignment(Qt.AlignCenter)
             self.tableWidget_3.setItem(r, 4, finalHT2)
-            direcHT = QTableWidgetItem()
-            direcHT.setText(trH.returnDir())
-            direcHT.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 5, direcHT)
 
             prevTR = trH
             r += 1
@@ -2043,6 +2034,7 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
     def duplicateCRNRuleCheck(self, rule1, rule2):
         if (rule1.returnLabel1() == rule2.returnLabel2()) and (rule1.returnLabel2() == rule2.returnLabel1()):
             if(rule1.returnLabel1Final() == rule2.returnLabel2Final()) and (rule1.returnLabel2Final() == rule2.returnLabel1Final()):
+                print("duplicate found")
                 return True
 
         return False
