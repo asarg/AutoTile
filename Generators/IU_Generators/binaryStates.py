@@ -3,7 +3,7 @@ from UniversalClasses import State
 from Assets.colors import *
 
 # Border
-border_state = State("Border", outer_space_crayola, " ", "black")
+border_state = State("Border", rosy_brown, " ", "black")
 
 # Wires
 northWire = State("NorthWire", Blue_Sapphire, "🡹")
@@ -32,6 +32,11 @@ southCopyWire = State("SouthCopyWire", light_blue, "⇊")
 westCopyWire = State("WestCopyWire", light_blue, "⇇")
 eastCopyWire = State("EastCopyWire", light_blue, "⇉")
 
+checkCopyWireReachedInactive = State("CheckCopyWireReachedInactive", unbleached_silk, "*⇈")
+
+# Signal Wire and states
+verticalMacroCellDoorOpenSignal = State("VerticalMacroCellDoorOpenSignal", atomic_tangerine, "⭥⟥")
+horizontalMacroCellDoorOpenSignal = State("HorizontalMacroCellDoorOpenSignal", atomic_tangerine, "⭤ ⟥")
 
 
 # Check For Num Equality
@@ -112,6 +117,8 @@ northCopyDoor = State("NorthCopyDoor", light_blue, "⇈⬓", "black")
 westCopyDoor = State("WestCopyDoor", light_blue, "⇇⬓", "black")
 eastCopyDoor = State("EastCopyDoor", light_blue, "⇉⬓", "black")
 southCopyDoor = State("SouthCopyDoor", light_blue, "⇊⬓", "black")
+northCopySeriesCheckEast = State("NorthCopySeriesCheckEast", light_blue, "⇈⬓?", "black")
+
 northCopyDoorInactive = State("NorthCopyDoorInactive", queen_blue, "⇈⬓")
 southCopyDoorInactive = State("SouthCopyDoorInactive", queen_blue, "⇊⬓")
 eastCopyDoorInactive = State("EastCopyDoorInactive", queen_blue, "⇉⬓")
@@ -205,3 +212,9 @@ program_prefix =  State("ProgramPrefix", Papaya_Whip, "</>", "black")
 reset_prefix =  State("ResetPrefix", Papaya_Whip, "⭯", "black")
 
 ds_states = [ds_0, ds_1, start_state, end_state, start_state_pair, end_state_pair, start_data_string, end_data_string, north_prefix, south_prefix, east_prefix, west_prefix, program_prefix, reset_prefix]
+
+
+# Potential Symbols
+# ⍼
+# ⟥ , ⭤ ⟥, ⭥⟥, ⟥
+# ⤕,🔎

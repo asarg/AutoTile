@@ -472,17 +472,17 @@ class IUGenerators_EC:
         return [wire_tr, wire_affs, wire_st]
 
 
-    def wireAffinitiesTrOnlyUsed(self, gs=None):
-        used = gs.returnStates()
+    def wireAffinitiesTrOnlyUsed(self, used_states):
 
-        if gs is None:
-            gs = self.genSys
+
+
+        used = used_states
 
         wire_tr = []
         wire_aff = []
         wires_used = [u for u in used if u in wire_states]
         ds_used = [u for u in used if u in data_states_list_all_with_prefixes_no_order]
-        dirs = ["North", "South", "East", "West"]
+        dirs = ["north", "south", "east", "west"]
 
         for d in ds_used:
             for w in wires_used:
@@ -493,7 +493,7 @@ class IUGenerators_EC:
                     wire_aff.append(aff)
                     aff = uc.AffinityRule(d.label, w.label, "v", 1)
                     wire_aff.append(aff)
-                    tr = uc.TransitionRule(w.label, d.label, d.label, w.label, "v")
+                    tr = uc.TransitionRule(w.label, d.label, d.label, w.label, "v") #North
                     wire_tr.append(tr)
                 elif dirs[1] in w.label.lower(): #South
                     aff = uc.AffinityRule(w.label, w.label, "v", 1)
@@ -502,7 +502,7 @@ class IUGenerators_EC:
                     wire_aff.append(aff)
                     aff = uc.AffinityRule(d.label, w.label, "v", 1)
                     wire_aff.append(aff)
-                    tr = uc.TransitionRule( d.label, w.label, w.label, d.label, "v")
+                    tr = uc.TransitionRule( d.label, w.label, w.label, d.label, "v") #South
                     wire_tr.append(tr)
                 elif dirs[2] in w.label.lower(): #East
                     aff = uc.AffinityRule(w.label, w.label, "h", 1)
@@ -520,19 +520,12 @@ class IUGenerators_EC:
                     wire_aff.append(aff)
                     aff = uc.AffinityRule(d.label, w.label, "h", 1)
                     wire_aff.append(aff)
-                    tr = uc.TransitionRule( w.label,  d.label, d.label, w.label, "h") #East ->
+                    tr = uc.TransitionRule( w.label,  d.label, d.label, w.label, "h") #West <-
                     wire_tr.append(tr)
                 else:
                     print("Error in wireAffinitiesTrOnlyUsed")
 
-
-
-
-
-
-
-
-        return
+        return [wire_aff, wire_tr]
     def addStateToIUSys(self, state):
         if state.label not in self.all_states_dict.keys():
             self.all_states_dict[state.label] = state
@@ -572,8 +565,8 @@ class IUGenerators_EC:
 
         ds = [start_state_pair, north_prefix, start_state, ds_0, ds_1, ds_0, end_state,
               south_prefix, start_state, ds_1, ds_1, ds_1, end_state, end_state_pair]
-        initial_states_used_cg = ds + [northCopyWire, northCopyDoorInactive, northCopyDoorHandleInactive,
-                                       endcap_door_west_inactive, border_state, westWire, southWire]
+        seed_states_used_cg = ds + [northCopyWire, northCopyDoorInactive, northCopyDoorHandleInactive,
+                                       endcap_door_west_inactive, border_state, westWire, southWire, verticalMacroCellDoorOpenSignal]
 
         for i in range(0, 16):
             if i < 15 and i > 0:
@@ -590,16 +583,24 @@ class IUGenerators_EC:
                 h = uc.Tile(northCopyDoorHandleInactive, i, -1)
                 tile_list_cg.append(h)
 
-                d = uc.Tile(endcap_door_west_inactive, i, 0)
-                tile_list_cg.append(d)
-
+                if i == 0:
+                    d = uc.Tile(endcap_door_west_inactive, i, 0)
+                    tile_list_cg.append(d)
+                elif i == 15:
+                    b = uc.Tile(check_for_any_end_cap, i, 0)
+                    tile_list_cg.append(b)
                 b = uc.Tile(border_state, i, -2)
                 tile_list_cg.append(b)
 
             b = uc.Tile(border_state, i, -3)
             tile_list_cg.append(b)
 
+            b = uc.Tile(border_state, i, 1)
+            tile_list_cg.append(b)
 
+
+        t = uc.Tile(verticalMacroCellDoorOpenSignal, -1, -1)
+        tile_list_cg.append(t)
 
         for i in range(1, 4):
             t = uc.Tile(southWire, -1, i)
@@ -608,17 +609,101 @@ class IUGenerators_EC:
             t = uc.Tile(westWire, -i, 0)
             tile_list_cg.append(t)
 
-        return tile_list_cg, initial_states_used_cg
+        return tile_list_cg, seed_states_used_cg
 
+    def macroCellCopyNorthAffsTrs(self, states):
+        affs = []
+        trs = []
+        ds_used = [u for u in states if u in data_states_list_all_with_prefixes_no_order]
+
+        for ds_state in ds_used:
+            aff = uc.AffinityRule(northCopyWire.label, ds_state.label, "v", 1)
+            affs.append(aff)
+            aff = uc.AffinityRule(ds_state.label, northCopyWire.label, "v", 1)
+            affs.append(aff)
+
+            tr = uc.TransitionRule(northCopyWire.label,
+                                   ds_state.label, ds_state.label, ds_state.label, "v")
+            trs.append(tr)
+
+            aff = uc.AffinityRule(northCopyDoor.label, ds_state.label, "v", 1)
+            affs.append(aff)
+
+            aff = uc.AffinityRule(
+                northCopyDoorInactive.label, ds_state.label, "v", 1)
+            affs.append(aff)
+
+            tr = uc.TransitionRule(northCopyDoor.label,
+                                   ds_state.label, ds_state.label, ds_state.label, "v")
+            trs.append(tr)
+
+
+        aff = uc.AffinityRule(northCopyDoorHandle.label,
+                              northCopyDoor.label, "h", 1)
+        affs.append(aff)
+
+        aff = uc.AffinityRule(northCopyDoorHandle.label,
+                              northCopyDoorInactive.label, "h", 1)
+        affs.append(aff)
+
+        aff = uc.AffinityRule(northCopyDoorHandle.label, northCopySeriesCheckEast.label, "h", 1)
+        affs.append(aff)
+
+        aff = uc.AffinityRule(northCopySeriesCheckEast.label, northCopyDoorInactive.label, "h", 1)
+        affs.append(aff)
+
+        aff = uc.AffinityRule(northCopyDoor.label, northCopySeriesCheckEast.label, "h", 1)
+        affs.append(aff)
+
+
+        tr = uc.TransitionRule(northCopyDoorHandle.label, northCopyDoorInactive.label, northCopyDoorHandle.label, northCopySeriesCheckEast.label, "h")
+        trs.append(tr)
+
+        tr = uc.TransitionRule(northCopySeriesCheckEast.label, northCopyDoorInactive.label,
+                               northCopyDoor.label, northCopySeriesCheckEast.label, "h")
+        trs.append(tr)
+
+
+        aff = uc.AffinityRule(northCopyDoorHandleInactive.label, northCopyDoorInactive.label, "h", 1)
+        affs.append(aff)
+
+        aff = uc.AffinityRule(verticalMacroCellDoorOpenSignal.label, northCopyDoorHandleInactive.label, "h", 1)
+        affs.append(aff)
+
+        aff = uc.AffinityRule(verticalMacroCellDoorOpenSignal.label, northCopyDoorHandle.label, "h", 1)
+        affs.append(aff)
+
+        tr = uc.TransitionRule(verticalMacroCellDoorOpenSignal.label, northCopyDoorHandleInactive.label,
+                               verticalMacroCellDoorOpenSignal.label, northCopyDoorHandle.label, "h")
+        trs.append(tr)
+
+        return [affs, trs]
     def macroCellCopyNorthTest(self):
         tiles = self.macroCellCopyNorthTiles()[0]
         seed_states = self.macroCellCopyNorthTiles()[1]
-        states = [northCopyDoorHandle, endcap_door_west_active, northCopyDoor, endcap_door_west_stop] + seed_states
+        states = [northCopyDoorHandle, endcap_door_west_active, northCopyDoor,
+                  endcap_door_west_stop, northCopySeriesCheckEast] + seed_states
+        affs = self.macroCellCopyNorthAffsTrs(states)[0]
+        trs = self.macroCellCopyNorthAffsTrs(states)[1]
 
         assm = uc.Assembly()
         assm.setTilesFromList(tiles)
-        genSystem = uc.System(1, seed_states, [], states, [], [], [], [], [], [], assm)
+        genSystem = uc.System(1, states, [], seed_states, [], [], [], [], [], [], assm)
 
+
+        for a in affs:
+            genSystem.addAffinity(a)
+
+        for t in trs:
+            genSystem.addTransitionRule(t)
+
+        affs_tr_wire = self.wireAffinitiesTrOnlyUsed(genSystem.returnStates())
+        affs2 = affs_tr_wire[0]
+        tr2 = affs_tr_wire[1]
+        for a in affs2:
+            genSystem.addAffinity(a)
+        for t in tr2:
+            genSystem.addTransitionRule(t)
         return genSystem
 
 
@@ -653,5 +738,6 @@ data_states_list_nums_only = [ds_0, ds_1, ds_2, ds_3, ds_4, ds_5, ds_6, ds_7, ds
 data_states_list_all = [start_state] + data_states_list_nums_only + [end_state]
 
 wire_states = [westWire, eastWire, northWire, southWire, northEastWire, northWestWire, southEastWire, southWestWire, westProtectedWire, eastProtectedWire, northProtectedWire, southProtectedWire]
-data_states_list_prefixes = [north_prefix, south_prefix, east_prefix, west_prefix, program_prefix, reset_prefix, start_state_pair, end_state_pair, start_data_string, end_data_string]
-data_states_list_all_with_prefixes_no_order = data_states_list_prefixes + data_states_list_all
+data_states_list_prefixes = [north_prefix, south_prefix, east_prefix, west_prefix, program_prefix, reset_prefix, start_state_pair, end_state_pair, start_data_string, end_data_string, start_state, end_state]
+data_states_list_all_with_prefixes_no_order = data_states_list_prefixes + data_states_list_nums_only
+copy_wire_states = [northCopyWire, southCopyWire, eastCopyWire, westCopyWire]

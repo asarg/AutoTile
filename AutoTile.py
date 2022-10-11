@@ -1191,6 +1191,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
             self.tileSize = 40
             self.textSize = int(self.tileSize / 3)
+            self.textX_offset = self.tileSize / 3.9
+            self.textY_offset = self.tileSize / 1.7
+            self.textX = self.seedX + self.textX_offset
+            self.textY = self.seedY + self.textY_offset
 
             self.time = 0
             self.Engine = Engine(genSystem)

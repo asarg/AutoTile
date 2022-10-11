@@ -569,6 +569,7 @@ class AffinityRule:
     def __init__(self, label1, label2, dir, strength=None):
         self.label1 = label1  # Left/Upper label
         self.label2 = label2  # Right/Bottom label
+
         if strength == None:
             self.strength = 1
         else:
@@ -593,8 +594,12 @@ class TransitionRule:
     def __init__(self, label1, label2, label1Final, label2Final, dir):
         self.label1 = label1
         self.label2 = label2
+
         self.label1Final = label1Final
         self.label2Final = label2Final
+
+
+
         self.dir = dir
 
     # Getters

@@ -883,10 +883,11 @@ class NLength_LineGenerator(LinesGenerator):
 
                     for key in affinities_list:
                         print(key)
-                        self.add_seed_transitions(key[0], key[1])
-                        self.add_reseed_transitions(key[0], key[1])
-                        self.add_forward_transition(key[0], key[1])
-                        self.add_back_transition(key[0], key[1])
+
+                        self.add_seed_transitions(key[0].labelA, key[1].labelB)
+                        self.add_reseed_transitions(key[0].labelA, key[1].labelB)
+                        self.add_forward_transition(key[0].labelA, key[1].labelB)
+                        self.add_back_transition(key[0].labelA, key[1].labelB)
 
 
 
@@ -898,12 +899,14 @@ class NLength_LineGenerator(LinesGenerator):
         # B'0 transitions
 
         return
+def make5States():
+    s = uc.State("S", blue)
 
+    pass
 class DeterministicLines:
     def __init__(self, base_number, digits_number):
         seed = self.add_seed(base_number)
-        self.genSys = uc.System(
-            1, [], [], [seed], [], [], [], [], [], [])
+        self.genSys = uc.System(1, [], [], [seed], [], [], [], [], [], [])
         self.base_number = base_number
         self.digits_number = digits_number
 
@@ -942,6 +945,8 @@ class DeterministicLines:
 
 
 
+
+
 class IUTable:
     def __init__(self):
         seed = uc.State("S", grey)
@@ -974,7 +979,8 @@ class IUTable:
 
 if __name__ == "__main__":
     flag = 0
-
+    linesSys = DeterministicLines(2, 4)
+    SaveFile.main(linesSys, ["Test.xml"])
 
 
 
@@ -995,12 +1001,8 @@ if __name__ == "__main__":
         #sys = genSqrtBinCount(int(value))
         #fileName = input("Please Enter file name: ")  + ".xml"
 
-        #SaveFile.main(sys, [fileName])
-        #print("Generated File: saved as ", fileName)
+        #
 
 
     """ sys = genSqrtBinCount("110011100")
     SaveFile.main(sys, ["biggerTestCount.xml"]) """
-
-
-    linesSys = NLength_LineGenerator(14)
