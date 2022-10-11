@@ -166,7 +166,7 @@ class SeedScene(QtWidgets.QGraphicsScene):
         if e.button() == Qt.LeftButton:
             # selected state
             s = self.table.states[self.table.selected]
-            self.assembly.tiles.append(Tile(s, x, y))
+            self.assembly.setTiles([Tile(s, x, y)])
 
         self.draw_assembly()
 
