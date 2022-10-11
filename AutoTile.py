@@ -269,7 +269,14 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.thread = QThread()
         self.threadlast = QThread()
         #self.loadAssembly("XML Files/IUActiveState.xml")
-        self.Begin_IU_Example()
+        #self.Begin_IU_Example()
+
+        print(len(sys.argv))
+        if len(sys.argv) == 2:
+            self.Load_File(sys.argv[1])
+        else:
+            self.Load_File("XML Files/seededExample.xml")
+
 
     # Slide left menu function
     def slideLeftMenu(self):
