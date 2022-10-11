@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox, QMessageBox
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox, QMessageBox, QButtonGroup
 from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
 from PyQt5.QtCore import QObject, QThread, Qt, pyqtSignal
 
@@ -143,6 +143,13 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         # "Quick Reflect-Y"
         self.Y_reflect_button.clicked.connect(self.Click_YReflect)
+
+
+        # Group for the radio buttons, this is so they can be checked independently.
+        self.group = QButtonGroup() 
+        self.group.setExclusive(False)
+        self.group.addButton(self.SlowMode_button)
+        self.group.addButton(self.sCRN_button)
 
         self.SlowMode_button.clicked.connect(self.slowMode_toggle)
 
@@ -1887,7 +1894,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         print("Button clicked is:",i.text())
 
 
-class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the editor window class
+class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the sCRN editor window class
     def __init__(self, engine, mainGUI):
         super().__init__()
         self.setupUi(self)
@@ -1919,33 +1926,13 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the e
         # connect the color change
         self.tableWidget.cellChanged.connect(self.cellchanged)
 
-        # filling in table 3 with vertical transitions
         r = 0
-        for trV in self.system.vertical_transitions_list:
-            stateVT1 = QTableWidgetItem()
-            stateVT1.setText(trV.returnLabel1())
-            stateVT1.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 0, stateVT1)
-            stateVT2 = QTableWidgetItem()
-            stateVT2.setText(trV.returnLabel2())
-            stateVT2.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 1, stateVT2)
-            finalVT1 = QTableWidgetItem()
-            finalVT1.setText(trV.returnLabel1Final())
-            finalVT1.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 3, finalVT1)
-            finalVT2 = QTableWidgetItem()
-            finalVT2.setText(trV.returnLabel2Final())
-            finalVT2.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 4, finalVT2)
-            direcVT = QTableWidgetItem()
-            direcVT.setText(trV.returnDir())
-            direcVT.setTextAlignment(Qt.AlignCenter)
-            self.tableWidget_3.setItem(r, 5, direcVT)
-            r += 1
 
-        # filling in table 3 with horizontal transitions
+        # filling in table 3 with transitions, only looking at horizontal and filtering.
         for trH in self.system.horizontal_transitions_list:
+            if r > 0:
+                if self.duplicateCRNRuleCheck(prevTR, trH):
+                    continue
             stateHT1 = QTableWidgetItem()
             stateHT1.setText(trH.returnLabel1())
             stateHT1.setTextAlignment(Qt.AlignCenter)
@@ -1966,6 +1953,8 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the e
             direcHT.setText(trH.returnDir())
             direcHT.setTextAlignment(Qt.AlignCenter)
             self.tableWidget_3.setItem(r, 5, direcHT)
+
+            prevTR = trH
             r += 1
 
         # filling in table 1 with states
@@ -2049,6 +2038,14 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the e
             color = color_cell.text()
             color_cell.setForeground(QtGui.QColor("#" + color))
             color_cell.setBackground(QtGui.QColor("#" + color))
+
+    #a function to check if the rule has already been parsed, just in a different orientation
+    def duplicateCRNRuleCheck(self, rule1, rule2):
+        if (rule1.returnLabel1() == rule2.returnLabel2()) and (rule1.returnLabel2() == rule2.returnLabel1()):
+            if(rule1.returnLabel1Final() == rule2.returnLabel2Final()) and (rule1.returnLabel2Final() == rule2.returnLabel1Final()):
+                return True
+
+        return False
 
     def Click_AddRowStates(self):
         newrow = self.tableWidget.rowCount()
