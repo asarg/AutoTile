@@ -1945,16 +1945,20 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         # set row count state table
         self.newStateIndex = len(self.system.states)
         self.tableWidget.setRowCount(len(self.system.states))
+
+        self.tableWidget.setColumnWidth(0, 274)
+        self.tableWidget.setColumnWidth(1, 274)
+
         print(len(self.system.states))
 
         # set row count transition table
         self.tableWidget_3.setRowCount(len(self.system.horizontal_transitions_list) // 2)
 
-        self.tableWidget_3.setColumnWidth(0, 100)
-        self.tableWidget_3.setColumnWidth(1, 100)
+        self.tableWidget_3.setColumnWidth(0, 124)
+        self.tableWidget_3.setColumnWidth(1, 125)
         self.tableWidget_3.setColumnWidth(2, 40)
-        self.tableWidget_3.setColumnWidth(3, 120)
-        self.tableWidget_3.setColumnWidth(4, 120)
+        self.tableWidget_3.setColumnWidth(3, 125)
+        self.tableWidget_3.setColumnWidth(4, 125)
 
         # connect the color change
         self.tableWidget.cellChanged.connect(self.cellchanged)
@@ -2000,28 +2004,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
             label_cell.setText(s.returnLabel())
             label_cell.setTextAlignment(Qt.AlignCenter)
             self.tableWidget.setItem(r, 1, label_cell)
-
-            seedWidget = QtWidgets.QWidget()
-            seedCheckbox = QCheckBox()
-            seedChkLayout = QtWidgets.QHBoxLayout(seedWidget)
-            seedChkLayout.addWidget(seedCheckbox)
-            seedChkLayout.setAlignment(Qt.AlignCenter)
-            seedChkLayout.setContentsMargins(0, 0, 0, 0)
-            self.tableWidget.setCellWidget(r, 2, seedWidget)
-            for sstate in self.system.seed_states:
-                if sstate.returnLabel() == s.returnLabel():
-                    seedCheckbox.setChecked(True)
-
-            initialWidget = QtWidgets.QWidget()
-            initialCheckbox = QCheckBox()
-            initialChkLayout = QtWidgets.QHBoxLayout(initialWidget)
-            initialChkLayout.addWidget(initialCheckbox)
-            initialChkLayout.setAlignment(Qt.AlignCenter)
-            initialChkLayout.setContentsMargins(0, 0, 0, 0)
-            self.tableWidget.setCellWidget(r, 3, initialWidget)
-            for istate in self.system.initial_states:
-                if istate.returnLabel() == s.returnLabel():
-                    initialCheckbox.setChecked(True)
 
             r += 1
 
@@ -2089,22 +2071,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         label_cell.setTextAlignment(Qt.AlignCenter)
         self.tableWidget.setItem(newrow, 1, label_cell)
 
-        seedWidget = QtWidgets.QWidget()
-        seedCheckbox = QCheckBox()
-        seedChkLayout = QtWidgets.QHBoxLayout(seedWidget)
-        seedChkLayout.addWidget(seedCheckbox)
-        seedChkLayout.setAlignment(Qt.AlignCenter)
-        seedChkLayout.setContentsMargins(0, 0, 0, 0)
-        self.tableWidget.setCellWidget(newrow, 2, seedWidget)
-
-        initialWidget = QtWidgets.QWidget()
-        initialCheckbox = QCheckBox()
-        initialChkLayout = QtWidgets.QHBoxLayout(initialWidget)
-        initialChkLayout.addWidget(initialCheckbox)
-        initialChkLayout.setAlignment(Qt.AlignCenter)
-        initialChkLayout.setContentsMargins(0, 0, 0, 0)
-        self.tableWidget.setCellWidget(newrow, 3, initialWidget)
-
     def Click_AddRowTrans(self):
         print("Add Row in Transitions clicked")
         newrow = self.tableWidget_3.rowCount()
@@ -2126,9 +2092,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         tFinal2.setTextAlignment(Qt.AlignCenter)
         self.tableWidget_3.setItem(newrow, 4, tFinal2)
 
-        tDirec = QTableWidgetItem()
-        tDirec.setTextAlignment(Qt.AlignCenter)
-        self.tableWidget_3.setItem(newrow, 5, tDirec)
 
     # remove/delete rows from state table
     def click_removeRowState(self):
@@ -2222,25 +2185,18 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         for row in range(0, self.tableWidget.rowCount()):
             color_cell = self.tableWidget.item(row, 0)
             label_cell = self.tableWidget.item(row, 1)
-            initialCheckbox = self.tableWidget.cellWidget(row, 3)
-            seedCheckbox = self.tableWidget.cellWidget(row, 2)
             color = color_cell.text()
             label = label_cell.text()
 
             # print(initialCheckbox)
             # 'apply as' works now
-            initial = initialCheckbox.layout().itemAt(0).widget().isChecked()
-            seed = seedCheckbox.layout().itemAt(0).widget().isChecked()
             s = State(label, color)
 
             self.system.addState(s)
 
             available_states.append(s)
 
-            if initial:
-                self.system.addInitialState(s)
-            if seed:
-                self.system.addSeedState(s)
+            self.system.addSeedState(s)
 
         # transitions
         for row in range(0, self.tableWidget_3.rowCount()):
