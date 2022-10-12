@@ -1905,6 +1905,8 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         fileName = QFileDialog.getSaveFileName(
             self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
 
+        
+        currentSystem.setSeedAssembly(self.s.getAssembly())
         if(fileName[0] != ''):
             SaveFile.main(currentSystem, fileName)
 
