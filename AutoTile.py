@@ -2045,7 +2045,7 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         self.s.table = self.t
 
         self.t.states.clear()
-        self.s.assembly.tiles.clear()
+        self.s.assembly = self.Engine.getCurrentAssembly()
 
         for st in engine.system.states:
             self.t.states.append(st)
@@ -2287,6 +2287,35 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
             if returnValue == QMessageBox.Cancel:
                 return
 
+        # assumes that the user is okay with their current system (they did not say cancel above)
+        
+
+        # check if states were used
+        s_used = []
+        for t in self.s.assembly.tiles:
+            s_used.append(t.state.returnLabel())
+
+        states_not_used = self.StatesUsed_Exist(self.system.states, s_used)
+        if len(states_not_used) != 0:
+            error_states = ""
+            for state in states_not_used:
+                error_states += state
+                error_states += " "
+
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("The following states dont exist in the assembly: \n" + error_states + "\n Click Cancel to go back or Ok to apply anyway (generates random seed)")
+            msgBox.setWindowTitle("Missing states")
+            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+
+            returnValue = msgBox.exec()
+
+            if returnValue == QMessageBox.Ok:
+                self.system.setSeedAssembly(Assembly())
+            elif returnValue == QMessageBox.Cancel:
+                return
+
+
         # update the engine, and update the main GUI
         self.Engine.reset_engine(self.system)
 
@@ -2298,7 +2327,7 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
 
         # update the seed editor
         self.t.states.clear()
-        self.s.assembly.tiles.clear()
+        self.s.assembly = self.Engine.getCurrentAssembly()
 
         for st in self.Engine.system.states:
             self.t.states.append(st)
