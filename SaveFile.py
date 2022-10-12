@@ -67,8 +67,6 @@ def main(system, fileName):
     for state in seed_states:
         label = state.returnLabel()
         color = state.returnColor()
-        x = str(state.getX())
-        y = str(state.getY())
         display_label = state.returnDisplayLabel()
         display_label_color = state.returnDisplayLabelColor()
         display_label_font = state.returnDisplayLabelFont()
@@ -76,8 +74,6 @@ def main(system, fileName):
         state_tag = ET.SubElement(seed_states_tag, "State")
         state_tag.set('Label', label)
         state_tag.set('Color', color)
-        state_tag.set('x', x)
-        state_tag.set('y', y)
         state_tag.set('DisplayLabel', display_label)
         state_tag.set('DisplayLabelFont', display_label_font)
         state_tag.set('DisplayLabelColor', display_label_color)
