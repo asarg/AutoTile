@@ -230,7 +230,7 @@ class Assembly:
             # print(ttl)
             # if ttl in sys_attachments:
                 #attachments_list.append((ttc, ttl, sys_attachments[ttl]))
-        print(len(attachments_list), " Attachments")
+        # print(len(attachments_list), " Attachments")
 
         return attachments_list
         # ORIGINAL tuple of ((coord pair), (current labels), (transition labels))
