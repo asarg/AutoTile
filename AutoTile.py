@@ -146,7 +146,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
 
         # Group for the radio buttons, this is so they can be checked independently.
-        self.group = QButtonGroup() 
+        self.group = QButtonGroup()
         self.group.setExclusive(False)
         self.group.addButton(self.SlowMode_button)
         self.group.addButton(self.sCRN_button)
@@ -1557,7 +1557,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         self.tableGraphicsView.setScene(self.t)
         self.tableGraphicsView.centerOn(0, 0)
         self.graphicsView.setScene(self.s)
-        
+
 
     # just need to fix this function
 
@@ -1851,7 +1851,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
                 return
 
         # assumes that the user is okay with their current system (they did not say cancel above)
-        
+
 
         # check if states were used
         s_used = []
@@ -1905,7 +1905,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         fileName = QFileDialog.getSaveFileName(
             self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
 
-        
+
         currentSystem.setSeedAssembly(self.s.getAssembly())
         if(fileName[0] != ''):
             SaveFile.main(currentSystem, fileName)
@@ -2040,7 +2040,7 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         self.tableGraphicsView.setScene(self.t)
         self.tableGraphicsView.centerOn(0, 0)
         self.graphicsView.setScene(self.s)
-        
+
 
     # for 'add state'
     def cellchanged(self, row, col):
@@ -2246,7 +2246,7 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
                 return
 
         # assumes that the user is okay with their current system (they did not say cancel above)
-        
+
 
         # check if states were used
         s_used = []
