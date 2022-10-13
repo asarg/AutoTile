@@ -129,6 +129,10 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(10)
         self.seededLoadButton.setFont(font)
+        self.seededLoadButton.setStyleSheet("QPushButton::hover\n"
+"  {\n"
+"     background-color : lightblue;\n"
+"   }")
         self.seededLoadButton.setObjectName("seededLoadButton")
         self.verticalLayout_6.addWidget(self.seededLoadButton)
         self.SaveAs_button = QtWidgets.QPushButton(self.frame_6)
@@ -170,7 +174,7 @@ class Ui_MainWindow(object):
         icon1.addPixmap(QtGui.QPixmap("TileAutomataSimV1/Icons/document-icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.toolBox.addItem(self.page, icon1, "")
         self.page_2 = QtWidgets.QWidget()
-        self.page_2.setGeometry(QtCore.QRect(0, 0, 154, 430))
+        self.page_2.setGeometry(QtCore.QRect(0, 0, 108, 179))
         self.page_2.setObjectName("page_2")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.page_2)
         self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
@@ -259,11 +263,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_7.addWidget(self.frame_7)
         self.toolBox.addItem(self.page_2, "")
         self.page_3 = QtWidgets.QWidget()
-        self.page_3.setGeometry(QtCore.QRect(0, 0, 154, 430))
+        self.page_3.setGeometry(QtCore.QRect(0, 0, 100, 30))
         self.page_3.setObjectName("page_3")
         self.toolBox.addItem(self.page_3, "")
         self.page_4 = QtWidgets.QWidget()
-        self.page_4.setGeometry(QtCore.QRect(0, 0, 154, 430))
+        self.page_4.setGeometry(QtCore.QRect(0, 0, 100, 30))
         self.page_4.setObjectName("page_4")
         self.GenShape_Box = QtWidgets.QComboBox(self.page_4)
         self.GenShape_Box.setGeometry(QtCore.QRect(0, 94, 155, 18))

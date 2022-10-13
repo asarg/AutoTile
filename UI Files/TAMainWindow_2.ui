@@ -291,6 +291,12 @@
                         <pointsize>10</pointsize>
                        </font>
                       </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton::hover
+  {
+     background-color : lightblue;
+   }</string>
+                      </property>
                       <property name="text">
                        <string>Load Assembly</string>
                       </property>
@@ -370,8 +376,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>154</width>
-                  <height>430</height>
+                  <width>108</width>
+                  <height>179</height>
                  </rect>
                 </property>
                 <attribute name="label">
@@ -567,8 +573,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>154</width>
-                  <height>430</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <attribute name="label">
@@ -580,8 +586,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>154</width>
-                  <height>430</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <attribute name="label">
