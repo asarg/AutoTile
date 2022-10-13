@@ -2298,6 +2298,7 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         fileName = QFileDialog.getSaveFileName(
             self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
 
+        currentSystem.setSeedAssembly(self.s.getAssembly())
         if(fileName[0] != ''):
             SaveFile.main(currentSystem, fileName)
 
