@@ -1,5 +1,5 @@
 import UniversalClasses as uc
-from components import Barn_Red, Blue_Sapphire, colors_list, light_blue, grey, Papaya_Whip, pink, mid_pink, persian_green, grey_pink, outer_space_crayola, green_yellow_crayola, Venetian_Red, Viridian_Green, pistachio, mango_tango
+from Assets.colors import *
 import sys
 
 
