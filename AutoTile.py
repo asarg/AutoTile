@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox, QMessageBox
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox, QMessageBox, QButtonGroup
 from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
 from PyQt5.QtCore import QObject, QThread, Qt, pyqtSignal
 
@@ -12,7 +12,7 @@ from SeedEditor import SeedScene, TableScene
 from Historian import Historian
 from assemblyEngine import Engine
 from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
-import TAMainWindow, EditorWindow, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
+import TAMainWindow, EditorWindow, sCRNEditorWindow, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
 import IntrinsicUniversality as IU
 import Generators.IU_Generators.IU2 as IU2
 
@@ -144,6 +144,13 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         # "Quick Reflect-Y"
         self.Y_reflect_button.clicked.connect(self.Click_YReflect)
 
+
+        # Group for the radio buttons, this is so they can be checked independently.
+        self.group = QButtonGroup() 
+        self.group.setExclusive(False)
+        self.group.addButton(self.SlowMode_button)
+        self.group.addButton(self.sCRN_button)
+
         self.SlowMode_button.clicked.connect(self.slowMode_toggle)
 
         # Available moves layout to place available moves
@@ -269,7 +276,14 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.thread = QThread()
         self.threadlast = QThread()
         #self.loadAssembly("XML Files/IUActiveState.xml")
-        self.Begin_IU_Example()
+        #self.Begin_IU_Example()
+
+        print(len(sys.argv))
+        if len(sys.argv) == 2:
+            self.Load_File(sys.argv[1])
+        else:
+            self.Load_File("XML Files/seededExample.xml")
+
 
     # Slide left menu function
     def slideLeftMenu(self):
@@ -851,7 +865,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         currentSystem.addState(seed)
         self.Engine = Engine(currentSystem)
 
-        self.e = Ui_EditorWindow(self.Engine, self)
+        if self.sCRN_button.isChecked():
+            self.e = Ui_sCRNEditorWindow(self.Engine, self)
+        else:
+            self.e = Ui_EditorWindow(self.Engine, self)
         self.e.show()
 
     def Click_FileSearch(self, id):
@@ -1319,7 +1336,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
     def Click_EditFile(self):
         # if system loaded, open editorwindow
         if self.SysLoaded == True:
-            self.e = Ui_EditorWindow(self.Engine, self)
+            if self.sCRN_button.isChecked():
+                self.e = Ui_sCRNEditorWindow(self.Engine, self)
+            else:
+                self.e = Ui_EditorWindow(self.Engine, self)
             self.e.show()
         else:
             print("Please load a file to edit.")
@@ -1526,7 +1546,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         self.s.table = self.t
 
         self.t.states.clear()
-        self.s.assembly.tiles.clear()
+        self.s.assembly = self.Engine.getCurrentAssembly()
 
         for st in self.Engine.system.states:
             self.t.states.append(st)
@@ -1830,6 +1850,34 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
             if returnValue == QMessageBox.Cancel:
                 return
 
+        # assumes that the user is okay with their current system (they did not say cancel above)
+        
+
+        # check if states were used
+        s_used = []
+        for t in self.s.assembly.tiles:
+            s_used.append(t.state.returnLabel())
+
+        states_not_used = self.StatesUsed_Exist(self.system.states, s_used)
+        if len(states_not_used) != 0:
+            error_states = ""
+            for state in states_not_used:
+                error_states += state
+                error_states += " "
+
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("The following states dont exist in the assembly: \n" + error_states + "\n Click Cancel to go back or Ok to apply anyway (generates random seed)")
+            msgBox.setWindowTitle("Missing states")
+            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+
+            returnValue = msgBox.exec()
+
+            if returnValue == QMessageBox.Ok:
+                self.system.setSeedAssembly(Assembly())
+            elif returnValue == QMessageBox.Cancel:
+                return
+
         # update the engine, and update the main GUI
         self.Engine.reset_engine(self.system)
 
@@ -1841,19 +1889,24 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
 
         # update the seed editor
         self.t.states.clear()
-        self.s.assembly.tiles.clear()
-
         for st in self.Engine.system.states:
             self.t.states.append(st)
+
+        self.s.assembly = self.Engine.getCurrentAssembly()
 
         self.t.draw_table()
         self.s.draw_assembly()
 
+
+
     def Click_EditSaveAs(self):
+        # TODO call save as
         print("Save As button clicked")
         fileName = QFileDialog.getSaveFileName(
             self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
 
+        
+        currentSystem.setSeedAssembly(self.s.getAssembly())
         if(fileName[0] != ''):
             SaveFile.main(currentSystem, fileName)
 
@@ -1880,6 +1933,397 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
     def msgButtonClick(self, i):
         print("Button clicked is:",i.text())
 
+
+class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the sCRN editor window class
+    def __init__(self, engine, mainGUI):
+        super().__init__()
+        self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('Icons/Logo.png'))
+        self.mainGUI = mainGUI
+        self.Engine = engine
+        self.system = engine.system
+        self.t = TableScene()
+        self.s = SeedScene()
+        # set row count state table
+        self.newStateIndex = len(self.system.states)
+        self.tableWidget.setRowCount(len(self.system.states))
+
+        self.tableWidget.setColumnWidth(0, 274)
+        self.tableWidget.setColumnWidth(1, 274)
+
+        print(len(self.system.states))
+
+        # set row count transition table
+        self.tableWidget_3.setRowCount(len(self.system.horizontal_transitions_list) // 2)
+
+        self.tableWidget_3.setColumnWidth(0, 124)
+        self.tableWidget_3.setColumnWidth(1, 125)
+        self.tableWidget_3.setColumnWidth(2, 40)
+        self.tableWidget_3.setColumnWidth(3, 125)
+        self.tableWidget_3.setColumnWidth(4, 125)
+
+        # connect the color change
+        self.tableWidget.cellChanged.connect(self.cellchanged)
+
+        r = 0
+
+        # filling in table 3 with transitions, only looking at horizontal and filtering.
+        for trH in self.system.horizontal_transitions_list:
+            if r > 0:
+                if self.duplicateCRNRuleCheck(prevTR, trH):
+                    continue
+            stateHT1 = QTableWidgetItem()
+            stateHT1.setText(trH.returnLabel1())
+            stateHT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 0, stateHT1)
+            stateHT2 = QTableWidgetItem()
+            stateHT2.setText(trH.returnLabel2())
+            stateHT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 1, stateHT2)
+            finalHT1 = QTableWidgetItem()
+            finalHT1.setText(trH.returnLabel1Final())
+            finalHT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 3, finalHT1)
+            finalHT2 = QTableWidgetItem()
+            finalHT2.setText(trH.returnLabel2Final())
+            finalHT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 4, finalHT2)
+
+            prevTR = trH
+            r += 1
+
+        # filling in table 1 with states
+        r = 0
+        for s in self.system.states:
+            color_cell = QTableWidgetItem()
+            color_cell.setText(s.returnColor())
+            color_cell.setTextAlignment(Qt.AlignCenter)
+            color_cell.setForeground(QtGui.QColor("#" + s.returnColor()))
+            color_cell.setBackground(QtGui.QColor("#" + s.returnColor()))
+            self.tableWidget.setItem(r, 0, color_cell)
+
+            label_cell = QTableWidgetItem()
+            label_cell.setText(s.returnLabel())
+            label_cell.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget.setItem(r, 1, label_cell)
+
+            r += 1
+
+     # action for 'apply' the changes made to the side edit window to the view states side
+        self.pushButton.clicked.connect(self.Click_EditApply)
+        # action for 'save' the changes made to the side edit window to the XML file
+        self.pushButton_2.clicked.connect(self.Click_EditSaveAs)
+        self.pushButton_3.clicked.connect(self.Click_AddRowStates)
+        self.pushButton_5.clicked.connect(self.Click_AddRowTrans)
+
+        # duplicate row
+        self.pushButton_6.clicked.connect(self.click_duplicateRowState)
+        self.pushButton_8.clicked.connect(self.click_duplicateRowTrans)
+
+        # user deletes state - currently only deletes state from
+        # state table.
+        self.pushButton_9.clicked.connect(self.click_removeRowState)
+        self.pushButton_11.clicked.connect(self.click_removeRowTran)
+
+        # Seed Editor
+        self.s.table = self.t
+
+        self.t.states.clear()
+        self.s.assembly = self.Engine.getCurrentAssembly()
+
+        for st in engine.system.states:
+            self.t.states.append(st)
+
+        self.t.draw_table()
+        self.s.draw_assembly()
+
+        self.tableGraphicsView.setScene(self.t)
+        self.tableGraphicsView.centerOn(0, 0)
+        self.graphicsView.setScene(self.s)
+        
+
+    # for 'add state'
+    def cellchanged(self, row, col):
+        # only do anything is we are in the color column (0)
+        if col == 0:
+
+            color_cell = self.tableWidget.item(row, col)
+            color = color_cell.text()
+            color_cell.setForeground(QtGui.QColor("#" + color))
+            color_cell.setBackground(QtGui.QColor("#" + color))
+
+    #a function to check if the rule has already been parsed, just in a different orientation
+    def duplicateCRNRuleCheck(self, rule1, rule2):
+        if (rule1.returnLabel1() == rule2.returnLabel2()) and (rule1.returnLabel2() == rule2.returnLabel1()):
+            if(rule1.returnLabel1Final() == rule2.returnLabel2Final()) and (rule1.returnLabel2Final() == rule2.returnLabel1Final()):
+                print("duplicate found")
+                return True
+
+        return False
+
+    def Click_AddRowStates(self):
+        newrow = self.tableWidget.rowCount()
+        self.tableWidget.setRowCount(newrow + 1)
+
+        color_cell = QTableWidgetItem()
+        color_cell.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget.setItem(newrow, 0, color_cell)
+
+        label_cell = QTableWidgetItem()
+        label_cell.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget.setItem(newrow, 1, label_cell)
+
+    def Click_AddRowTrans(self):
+        print("Add Row in Transitions clicked")
+        newrow = self.tableWidget_3.rowCount()
+        self.tableWidget_3.setRowCount(newrow + 1)
+
+        tLabel1 = QTableWidgetItem()
+        tLabel1.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget_3.setItem(newrow, 0, tLabel1)
+
+        tLabel2 = QTableWidgetItem()
+        tLabel2.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget_3.setItem(newrow, 1, tLabel2)
+
+        tFinal1 = QTableWidgetItem()
+        tFinal1.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget_3.setItem(newrow, 3, tFinal1)
+
+        tFinal2 = QTableWidgetItem()
+        tFinal2.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget_3.setItem(newrow, 4, tFinal2)
+
+
+    # remove/delete rows from state table
+    def click_removeRowState(self):
+
+        print("remove row button clicked")
+
+        # only delete if there is something in the table, and if there is something selected
+        if self.tableWidget.rowCount() > 0 and len(self.tableWidget.selectedIndexes()) > 0:
+            self.tableWidget.removeRow(
+                self.tableWidget.selectedIndexes()[0].row())
+
+    def click_removeRowTran(self):
+        if self.tableWidget_3.rowCount() > 0 and len(self.tableWidget_3.selectedIndexes()) > 0:
+            self.tableWidget_3.removeRow(
+                self.tableWidget_3.selectedIndexes()[0].row())
+
+
+    def copy_widget(self, w):
+        if isinstance(w, QtWidgets.QWidget):
+            new_w = QCheckBox()
+            newWidget = QtWidgets.QWidget()
+            newChkLayout = QtWidgets.QHBoxLayout(newWidget)
+            newChkLayout.addWidget(new_w)
+            newChkLayout.setAlignment(Qt.AlignCenter)
+            newChkLayout.setContentsMargins(0, 0, 0, 0)
+            # copy values
+
+            for widget in w.children():
+                if isinstance(widget, QCheckBox):
+                    if widget.isChecked():
+                        new_w.setChecked(True)
+            # else:
+             #   new_w.setChecked(False)
+        return newWidget
+
+    def copy(self, cells, r):
+        self.tableWidget.insertRow(r)
+        for i, it in cells["items"]:
+            self.tableWidget.setItem(r, i, it)
+        for i, w in cells["widgets"]:
+            self.tableWidget.setCellWidget(r, i, w)
+
+    def copy_3(self, cells, r):
+        self.tableWidget_3.insertRow(r)
+        for i, it in cells["items"]:
+            self.tableWidget_3.setItem(r, i, it)
+
+    def click_duplicateRowState(self):
+
+        currentRow = self.tableWidget.currentRow()
+
+        if self.tableWidget.rowCount() > 0 and len(self.tableWidget.selectedIndexes()) > 0:
+            cells = {"items": [], "widgets": []}
+            for i in range(self.tableWidget.columnCount()):
+
+                it = self.tableWidget.item(currentRow, i)
+                if it:
+                    cells["items"].append((i, it.clone()))
+
+                w = self.tableWidget.cellWidget(currentRow, i)
+                print(w)
+                if w:
+                    cells["widgets"].append((i, self.copy_widget(w)))
+            self.copy(cells, currentRow+1)
+
+    def click_duplicateRowTrans(self):
+        currentRow = self.tableWidget_3.currentRow()
+
+        if self.tableWidget_3.rowCount() > 0 and len(self.tableWidget_3.selectedIndexes()) > 0:
+            cells = {"items": []}
+            for i in range(self.tableWidget_3.columnCount()):
+
+                it = self.tableWidget_3.item(currentRow, i)
+                if it:
+                    cells["items"].append((i, it.clone()))
+            self.copy_3(cells, currentRow+1)
+
+    def Click_EditApply(self):
+        global currentSystem
+        newtemp = 1
+
+        newsys = System(newtemp, [], [], [], [], [], [], [], [], [], seed_assembly = self.s.getAssembly(), empty=True)
+        currentSystem = newsys
+
+        available_states = []
+        states_used = []
+
+        self.system = newsys
+
+        # go through new rows, create states, add states to system
+        for row in range(0, self.tableWidget.rowCount()):
+            color_cell = self.tableWidget.item(row, 0)
+            label_cell = self.tableWidget.item(row, 1)
+            color = color_cell.text()
+            label = label_cell.text()
+
+            # print(initialCheckbox)
+            # 'apply as' works now
+            s = State(label, color)
+
+            self.system.addState(s)
+
+            available_states.append(s)
+
+            self.system.addSeedState(s)
+
+        # transitions
+        for row in range(0, self.tableWidget_3.rowCount()):
+            tLabel1 = self.tableWidget_3.item(row, 0)
+            tLabel2 = self.tableWidget_3.item(row, 1)
+            tFinal1 = self.tableWidget_3.item(row, 3)
+            tFinal2 = self.tableWidget_3.item(row, 4)
+
+            tLab1 = tLabel1.text()
+            tLab2 = tLabel2.text()
+            tFin1 = tFinal1.text()
+            tFin2 = tFinal2.text()
+
+            states_used.append(tFin1)
+            states_used.append(tFin2)
+
+            trRule1 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "h")
+            trRule2 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "h")
+            trRule3 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "v")
+            trRule4 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "v")
+
+            self.system.addTransitionRule(trRule1)
+            self.system.addTransitionRule(trRule2)
+            self.system.addTransitionRule(trRule3)
+            self.system.addTransitionRule(trRule4)
+
+        # Check here to see if states used in transitions exist
+        states_not_used = self.StatesUsed_Exist(available_states, states_used)
+        if len(states_not_used) != 0:
+            error_states = ""
+            for state in states_not_used:
+                error_states += state
+                error_states += " "
+
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("The following states dont exist: \n" + error_states + "\n Click Cancel to go back or Ok to apply anyway")
+            msgBox.setWindowTitle("Missing states")
+            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            #msgBox.buttonClicked.connect(self.msgButtonClick)
+
+            returnValue = msgBox.exec()
+
+            if returnValue == QMessageBox.Cancel:
+                return
+
+        # assumes that the user is okay with their current system (they did not say cancel above)
+        
+
+        # check if states were used
+        s_used = []
+        for t in self.s.assembly.tiles:
+            s_used.append(t.state.returnLabel())
+
+        states_not_used = self.StatesUsed_Exist(self.system.states, s_used)
+        if len(states_not_used) != 0:
+            error_states = ""
+            for state in states_not_used:
+                error_states += state
+                error_states += " "
+
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("The following states dont exist in the assembly: \n" + error_states + "\n Click Cancel to go back or Ok to apply anyway (generates random seed)")
+            msgBox.setWindowTitle("Missing states")
+            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+
+            returnValue = msgBox.exec()
+
+            if returnValue == QMessageBox.Ok:
+                self.system.setSeedAssembly(Assembly())
+            elif returnValue == QMessageBox.Cancel:
+                return
+
+
+        # update the engine, and update the main GUI
+        self.Engine.reset_engine(self.system)
+
+        self.mainGUI.SysLoaded = True
+        currentSystem = self.system
+
+        self.mainGUI.draw_assembly(self.Engine.getCurrentAssembly())
+        self.mainGUI.Update_available_moves()
+
+        # update the seed editor
+        self.t.states.clear()
+        self.s.assembly = self.Engine.getCurrentAssembly()
+
+        for st in self.Engine.system.states:
+            self.t.states.append(st)
+
+        self.t.draw_table()
+        self.s.draw_assembly()
+
+    def Click_EditSaveAs(self):
+        print("Save As button clicked")
+        fileName = QFileDialog.getSaveFileName(
+            self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
+
+        currentSystem.setSeedAssembly(self.s.getAssembly())
+        if(fileName[0] != ''):
+            SaveFile.main(currentSystem, fileName)
+
+    #function to see if the states the user uses exist
+    def StatesUsed_Exist(self, available_states, states_used):
+        states_not_used = []
+        for state in states_used:
+            flag = 0
+            for item in available_states:
+                if state == item.returnLabel():
+                    flag = 1                     #flag means the state exist
+                    break
+
+            for item in states_not_used:     #if state has already been added we dont need to add it again
+                if item == state:
+                    flag = 1
+                    break
+
+            if flag != 1:
+                states_not_used.append(state)
+
+        return states_not_used
+
+    def msgButtonClick(self, i):
+        print("Button clicked is:",i.text())
 
 class Move(QWidget):
 
