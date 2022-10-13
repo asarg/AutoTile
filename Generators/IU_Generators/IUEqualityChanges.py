@@ -564,7 +564,7 @@ class IUGenerators_EC:
         tile_list_cg = []
 
         ds = [start_state_pair, north_prefix, start_state, ds_0, ds_1, ds_0, end_state,
-              south_prefix, start_state, ds_1, ds_1, ds_1, end_state, end_state_pair]
+              south_prefix, start_state, start_state_pair, end_state_pair]
         seed_states_used_cg = ds + [northCopyWire, northCopyDoorInactive, northCopyDoorHandleInactive,
                                        endcap_door_west_inactive, border_state, westWire, southWire, verticalMacroCellDoorOpenSignal]
 
@@ -622,8 +622,7 @@ class IUGenerators_EC:
             aff = uc.AffinityRule(ds_state.label, northCopyWire.label, "v", 1)
             affs.append(aff)
 
-            tr = uc.TransitionRule(northCopyWire.label,
-                                   ds_state.label, ds_state.label, ds_state.label, "v")
+            tr = uc.TransitionRule(northCopyWire.label, ds_state.label, ds_state.label, ds_state.label, "v")
             trs.append(tr)
 
             aff = uc.AffinityRule(northCopyDoor.label, ds_state.label, "v", 1)
@@ -678,6 +677,59 @@ class IUGenerators_EC:
         trs.append(tr)
 
         return [affs, trs]
+
+    def macroCellNorthTiles2(self):
+        tile_list_cg = []
+
+        ds = [start_state_pair, north_prefix, start_state, ds_0, ds_1, ds_0, end_state,
+              south_prefix, start_state, start_state_pair, end_state_pair]
+        ds_write_states = [writeDoorInactive, writeStartStatePairInactive, writeNorthPrefixInactive, writeStartStateInactive, writeZeroInactive, writeOneInactive,
+                           writeZeroInactive, writeEndStateInactive, writeSouthPrefixInactive, writeStartStateInactive, writeOneInactive,
+                           writeZeroInactive, writeZeroInactive, writeEndStateInactive, writeEndStatePairInactive]
+
+        seed_states_used_cg = ds_write_states + [endcap_door_west_inactive, border_state, westWire, southWire, verticalMacroCellDoorOpenSignal]
+
+        for i in range(0, 16):
+            if i < 15:
+                if i == 0:
+                    d = uc.Tile(endcap_door_west_inactive, i-1, 0)
+                    tile_list_cg.append(d)
+
+                else:
+                    t = uc.Tile(westWire, i, 0)
+                    tile_list_cg.append(t)
+
+                t = uc.Tile(ds_write_states[i], i, -1)
+                tile_list_cg.append(t)
+
+            else:
+                b = uc.Tile(check_for_any_end_cap, i, 0)
+                tile_list_cg.append(b)
+
+                b = uc.Tile(border_state, i, -1)
+                tile_list_cg.append(b)
+
+
+            b = uc.Tile(border_state, i, -2)
+            tile_list_cg.append(b)
+
+            b = uc.Tile(border_state, i, 1)
+            tile_list_cg.append(b)
+
+        for i in range(2, 4):
+            t = uc.Tile(southWire, -1, i)
+            tile_list_cg.append(t)
+
+            t = uc.Tile(westWire, -i, 0)
+            tile_list_cg.append(t)
+
+        return tile_list_cg, seed_states_used_cg
+
+    def macroCellCopyNorthTest2(self):
+        tiles = self.macroCellNorthTiles2()[0]
+        seed_states = self.macroCellNorthTiles2()[1]
+        states = []
+
     def macroCellCopyNorthTest(self):
         tiles = self.macroCellCopyNorthTiles()[0]
         seed_states = self.macroCellCopyNorthTiles()[1]
@@ -730,14 +782,5 @@ class IUGenerators_EC:
 ### 5. Fan-out
 
 
-
-
-
-
-data_states_list_nums_only = [ds_0, ds_1, ds_2, ds_3, ds_4, ds_5, ds_6, ds_7, ds_8, ds_9]
-data_states_list_all = [start_state] + data_states_list_nums_only + [end_state]
-
-wire_states = [westWire, eastWire, northWire, southWire, northEastWire, northWestWire, southEastWire, southWestWire, westProtectedWire, eastProtectedWire, northProtectedWire, southProtectedWire]
-data_states_list_prefixes = [north_prefix, south_prefix, east_prefix, west_prefix, program_prefix, reset_prefix, start_state_pair, end_state_pair, start_data_string, end_data_string, start_state, end_state]
-data_states_list_all_with_prefixes_no_order = data_states_list_prefixes + data_states_list_nums_only
-copy_wire_states = [northCopyWire, southCopyWire, eastCopyWire, westCopyWire]
+data_states_list_nums_only = [ds_0, ds_1, ds_2,
+                              ds_3, ds_4, ds_5, ds_6, ds_7, ds_8, ds_9]

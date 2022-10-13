@@ -103,3 +103,15 @@ copper_rose = "A07178"
 firey_rose = "FC6471"
 terquoise_blue = "4ADBC8"
 ming = "3C6E71" # dark blue green grey terquoise inactive
+
+reset_color = mango_tango
+writing_color = Air_Superiority_Blue
+inactive_color = unbleached_silk
+intermediate_accept_color = None
+reject_color = None
+complete_color = tea_green
+full_accept_color = tea_green
+active_color = None
+wire_color = Blue_Sapphire
+activate_next_color = pistachio
+waiting_color = mango_tango
