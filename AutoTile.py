@@ -13,11 +13,12 @@ from Historian import Historian
 from assemblyEngine import Engine
 from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
 import TAMainWindow, EditorWindow, sCRNEditorWindow, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
-import IntrinsicUniversality as IU
-import Generators.IU_Generators.IU2 as IU2
+#import Generators.IU_Generators.IntrinsicUniversality as IU
+#import Generators.IU_Generators.IU2 as IU2
+#from Generators.IU_Generators import IUSampleGen
 
 from util.loaders import assemblyLoader
-from Generators.IU_Generators import IUSampleGen
+
 
 # Global Variables
 # Note: currentSystem is still global but had to be moved into the loading method
@@ -1159,18 +1160,14 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.draw_assembly(self.Engine.getCurrentAssembly())
             self.Update_available_moves()
 
-    def Begin_IU_Example(self):
+    """ def Begin_IU_Example(self):
         self.stop_sequence()
         self.play = False
         global currentSystem
 
         genS = IU2.IUGenerators()
         genSystem = genS.EqualityGadgetGenerator()
-        #asb_gadget = IU.SeedAssemblyEqualityWire()
-        #asb = asb_gadget.returnWireAssembly()
-        #asb_states = asb_gadget.returnStatesUsed()
-        #genSystem = asb.returnGenSystem()
-        #asb_transitions = asb_gadget.wire_transitions
+
 
         if type(genSystem) == System:
             #current system takes in an assembly,
@@ -1190,7 +1187,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             currentSystem = genSystem
 
             self.draw_assembly(self.Engine.getCurrentAssembly())
-            self.Update_available_moves()
+            self.Update_available_moves() """
 
     def do_move(self, move):
         if not self.play:

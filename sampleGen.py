@@ -4,7 +4,7 @@ import detGen
 import oneSidedGen
 import nonDetGen
 import squareGen
-from Generators.IU_Generators import activeStateRegion as activeStateRegion
+#from Generators.IU_Generators import activeStateRegion as activeStateRegion
 
 
 red = "f03a47"
@@ -48,8 +48,7 @@ def generator(shape, value, model):
     if shape == "Lines":
         return detGen.genNFLine(value)
 
-    if model == "Active State Region":
-        return activeStateRegion(value)
+
 
 
 
