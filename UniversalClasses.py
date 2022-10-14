@@ -15,11 +15,6 @@ class State:
 
         if display_label is None:
             self.display_label = label
-            #self.display_label = label.encode('utf-8')
-
-        else:
-            #self.display_label = display_label.encode('utf-8')
-            self.display_label = display_label
 
         if display_label_font is str:
             self.display_label_font = QFont(display_label_font)
@@ -44,7 +39,7 @@ class State:
             return self.display_label
         else:
             return self.returnLabel()
-            
+
 
     def returnDisplayLabelColor(self):
         if self.display_label_color is str:
@@ -71,9 +66,17 @@ class State:
         else:
             self.display_label_color = display_label_color
 
+
     def __eq__(self, other):
         if isinstance(other, State):
             return self.label == other.label and self.color == other.color
+
+    def prettyPrintState(self):
+        print("State: " + self.label + " Color: " + self.color + " Display Label: " + self.display_label)
+
+    def compareWithDisplayLabel(self, other):
+        if isinstance(other, State):
+            return self.display_label == other.display_label and self.color == other.color and self.label == other.label
 
 
 
@@ -575,6 +578,7 @@ class AffinityRule:
     def __init__(self, label1, label2, dir, strength=None):
         self.label1 = label1  # Left/Upper label
         self.label2 = label2  # Right/Bottom label
+
         if strength == None:
             self.strength = 1
         else:
@@ -599,8 +603,12 @@ class TransitionRule:
     def __init__(self, label1, label2, label1Final, label2Final, dir):
         self.label1 = label1
         self.label2 = label2
+
         self.label1Final = label1Final
         self.label2Final = label2Final
+
+
+
         self.dir = dir
 
     # Getters
@@ -764,7 +772,7 @@ class System:
 
     def returnSeedAssembly(self):
         return self.seed_assembly
-    
+
     def returnTiles(self):
         return self.seed_assembly.returnTiles()
 
@@ -845,18 +853,25 @@ class System:
     def addState(self, state):
         if isinstance(state, list):
             for s in state:
-                self.states.append(s)
+                if state not in self.states:
+                    self.states.append(state)
+
         elif isinstance(state, State):
-            self.states.append(state)
+            if state not in self.states:
+                self.states.append(state)
         else:
             print("Attempted to add a state that is not a state object")
 
     def addInitialState(self, state):
-        self.initial_states.append(state)
+        if state not in self.initial_states:
+            self.initial_states.append(state)
+        self.addState(state)
 
     # idk if this will work
     def addSeedState(self, state):
-        self.seed_states.append(state)
+        if state not in self.seed_states:
+            self.seed_states.append(state)
+        self.addState(state)
 
     # start here
     def addTransitionRule(self, tr):

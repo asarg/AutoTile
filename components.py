@@ -724,3 +724,13 @@ def transition_rules_check_14(trans_dict):
 
     for p in missing:
         print("Missing: ", p)
+
+unbleached_silk = "FFDDD2"
+tea_green = "D4E4BC"
+terra_cotta = "E9BEBE"  # nice medium orange red
+rosy_brown = "CC978E"
+atomic_tangerine = "F39C6B"
+amaranth_pink = "F49FBC"
+cornflower_blue = "7699D4"
+deep_space_sparkle = "4A5859"
+copper_rose = "A07178"

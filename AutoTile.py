@@ -12,9 +12,10 @@ from SeedEditor import SeedScene, TableScene
 from Historian import Historian
 from assemblyEngine import Engine
 from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
-import TAMainWindow, EditorWindow, sCRNEditorWindow, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
+import TAMainWindow, EditorWindow16, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
 import IntrinsicUniversality as IU
 import Generators.IU_Generators.IU2 as IU2
+import Generators.IU_Generators.IUEqualityChanges as IUEC
 
 from util.loaders import assemblyLoader
 from Generators.IU_Generators import IUSampleGen
@@ -208,7 +209,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         fontdatabase.addApplicationFont("fonts/Fira Code Bold Nerd Font Complete.tff")
         fontdatabase.addApplicationFont("fonts/MaterialIcons-Regular.tff")
         fontdatabase.addApplicationFont("fonts/MaterialIcons-Outlined.tff")
-        #QFont("Fira Code", )
+        fira_code = QFont("Fira Code Regular Nerd Font Complete.tff", 12)
 
         paper_options = ["SAND22", "IU"]
         self.GenPaper_Box.addItems(paper_options)
@@ -804,7 +805,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         rect = QtCore.QRect(ts_x, ts_y, ts, ts)
 
         painter.drawRect(rect)
-
+        painter.save()
+        #painter.setFont(QFont(state.display_label_font))
+        #painter.setPen(QColor(state.display_label_color))
+        #decoded_display_label = state.returnDisplayLabel()
         if state == "":
             painter.drawText(rect, Qt.AlignCenter, "")
             return
@@ -822,9 +826,19 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                     painter.drawText(rect, Qt.AlignCenter, state.label)
             elif len(decoded_display_label) > 4:
 
-                painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
+                decoded_display_label = decoded_display_label[0:3]
             else:
+                fira_code = QFont(
+                    "Fira Code Regular Nerd Font Complete.tff", 12)
+                painter.setFont(fira_code)
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
+
+
+
+
+
+
+        painter.restore()
 
 
 
@@ -1164,13 +1178,19 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.play = False
         global currentSystem
 
-        genS = IU2.IUGenerators()
-        genSystem = genS.EqualityGadgetGenerator()
-        #asb_gadget = IU.SeedAssemblyEqualityWire()
-        #asb = asb_gadget.returnWireAssembly()
-        #asb_states = asb_gadget.returnStatesUsed()
-        #genSystem = asb.returnGenSystem()
-        #asb_transitions = asb_gadget.wire_transitions
+        #genS = IU2.IUGenerators()
+        #genSystem = genS.EqualityGadgetGenerator()
+        gS = IUEC.IUGenerators_EC()
+        genSystem = gS.macroCellCopyNorthTest()
+
+
+        #genSystem = genS.basicWireGenerator2()
+        #genSystem = genS.wireGeneratorWithEndcapDoorNoSignalGadget2()
+        #genSystem = genS.equality_gadget_with_prefixes()
+
+
+
+
 
         if type(genSystem) == System:
             #current system takes in an assembly,
@@ -1181,7 +1201,11 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.seedY = self.geometry().height() / 2
 
             self.tileSize = 40
-            self.textSize = int(self.tileSize / 2)
+            self.textSize = int(self.tileSize / 3)
+            self.textX_offset = self.tileSize / 3.9
+            self.textY_offset = self.tileSize / 1.7
+            self.textX = self.seedX + self.textX_offset
+            self.textY = self.seedY + self.textY_offset
 
             self.time = 0
             self.Engine = Engine(genSystem)
