@@ -1,5 +1,5 @@
 import UniversalClasses as uc
-from UniversalClasses import State, TransitionRule, AffinityRule, System, Tile
+from UniversalClasses import State, TransitionRule, AffinityRule, System, Tile, Assembly
 from Assets.colors import *
 import sys
 

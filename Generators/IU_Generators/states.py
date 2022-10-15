@@ -1,5 +1,6 @@
 from components import *
 from UniversalClasses import State
+from Assets.colors import *
 
 class GeneratedStates:
     def __init__(self):

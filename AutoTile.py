@@ -12,13 +12,14 @@ from SeedEditor import SeedScene, TableScene
 from Historian import Historian
 from assemblyEngine import Engine
 from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
-import TAMainWindow, EditorWindow16, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
-import IntrinsicUniversality as IU
+import TAMainWindow, EditorWindow16, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen, sCRNEditorWindow, EditorWindow
+import Generators.IU_Generators.IntrinsicUniversality as IU
 import Generators.IU_Generators.IU2 as IU2
 import Generators.IU_Generators.IUEqualityChanges as IUEC
+from Generators.IU_Generators import IUSampleGen
 
 from util.loaders import assemblyLoader
-from Generators.IU_Generators import IUSampleGen
+
 
 # Global Variables
 # Note: currentSystem is still global but had to be moved into the loading method
@@ -825,12 +826,12 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 else:
                     painter.drawText(rect, Qt.AlignCenter, state.label)
             elif len(decoded_display_label) > 4:
-
                 decoded_display_label = decoded_display_label[0:3]
             else:
                 fira_code = QFont(
                     "Fira Code Regular Nerd Font Complete.tff", 12)
                 painter.setFont(fira_code)
+
                 painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
 
 

@@ -3,5 +3,8 @@
     "editor.formatOnType": true,
     "search.showLineNumbers": true,
     "prettier.printWidth": 200,
-    "prettier.useTabs": true
+    "prettier.useTabs": true,
+    "cSpell.words": [
+        "Mauvelous"
+    ]
 }

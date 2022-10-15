@@ -276,8 +276,34 @@ row_signal_positive_full_accept = State("RowSignalPositiveFullAccept", Viridian_
 row_signal_intermediate_accept = State("RowSignalPositiveInterimAccept", activate_next_color, "✅")
 row_signal_positive_reset = State("RowSignalPositiveReset", waiting_color, "↺", "black")
 
+signal_inactive_color = grey
+signal_receiver_inactive = State("SignalReceiverInactive", grey, "⊝", "black")
+signal_received_accept = State("SignalReceivedAccept", persian_green, "✔✔", "black")
+signal_recieved_reject = State("SignalReceivedReject", Venetian_Red, "✖", "black")
+signal_receiver_passed = State("SignalReceiverPassed", persian_green, "⇉", "black")
+signal_receiver_reset = State("SignalReceiverReset", waiting_color, "↺", "black")
 
+signal_transmitter = State("SignalTransmitter", persian_green, "⇉⍼", "black")
+signal_transmitter_inactive = State("SignalTransmitterInactive", grey, "⍼", "black")
+signal_transmitter_reset = State( "SignalTransmitterReset", waiting_color, "⍼↺", "black")
+signal_transmitter_accept = State("SignalTransmitterAccept", persian_green, "⍼✔", "black")
+signal_transmitter_reject = State("SignalTransmitterReject", Venetian_Red, "⍼✖ ", "black")
 
+signal_wire_inactive = State("SignalWireInactive", grey, "⇉", "black")
+signal_wire_active = State("SignalWireActive", persian_green, "⇉", "black")
+
+signal_start_checks_inactive = State("SignalStartChecksInactive", grey, "⏯")
+signal_start_checks_active = State("SignalStartChecksActive", persian_green, "⏯")
+signal_end_checks_inactive = State("SignalEndChecksInactive", grey, "⏱")
+signal_end_checks_accept = State("SignalEndChecksAccept", persian_green, "✔✔")
+signal_end_checks_reject = State("SignalEndChecksReject", Venetian_Red, "✖")
+
+signal_conditional_inactive = State("SignalConditionalInactive", grey, "⏱")
+signal_conditional_waiting = State("SignalConditionalWaiting", green_yellow_crayola, "⏱")
+signal_conditional_intermediate_accept = State("SignalConditionalInterimAccept", activate_next_color, "✔")
+signal_conditional_full_accept = State("SignalConditionalFullAccept", Viridian_Green, "✔✔")
+signal_conditional_reject = State("SignalConditionalReject", Venetian_Red, "✖")
+signal_conditional_reset = State("SignalConditionalReset", waiting_color, "↺")
 
 
 ### Data States
@@ -299,6 +325,7 @@ east_prefix =  State("EastPrefix", Papaya_Whip, "𝗘", "black")
 west_prefix =  State("WestPrefix", Papaya_Whip, "𝗪", "black")
 program_prefix =  State("ProgramPrefix", Papaya_Whip, "</>", "black")
 reset_prefix =  State("ResetPrefix", Papaya_Whip, "⭯", "black")
+
 
 ds_states = [ds_0, ds_1, start_state, end_state, start_state_pair, end_state_pair, start_data_string, end_data_string, north_prefix, south_prefix, east_prefix, west_prefix, program_prefix, reset_prefix]
 
