@@ -36,7 +36,7 @@ def main(system, fileName):
         display_label = state.returnDisplayLabel()
         display_label_color = state.returnDisplayLabelColor()
         display_label_font = state.returnDisplayLabelFont()
-        display_label_rotation = state.returnDisplayLabelRotation()
+
 
         state_tag = ET.SubElement(all_states_tag, "State")
         state_tag.set('Label', label)
@@ -44,7 +44,7 @@ def main(system, fileName):
         state_tag.set('DisplayLabel', display_label)
         state_tag.set('DisplayLabelFont', display_label_font)
         state_tag.set('DisplayLabelColor', display_label_color)
-        state_tag.set('DisplayLabelRotation', str(display_label_rotation))
+
 
     # Add all inital states
     initial_states_tag = ET.Element("InitialStates")
@@ -55,7 +55,7 @@ def main(system, fileName):
         display_label = state.returnDisplayLabel()
         display_label_color = state.returnDisplayLabelColor()
         display_label_font = state.returnDisplayLabelFont()
-        display_label_rotation = state.returnDisplayLabelRotation()
+
 
         state_tag = ET.SubElement(initial_states_tag, "State")
         state_tag.set('Label', label)
@@ -63,8 +63,7 @@ def main(system, fileName):
         state_tag.set('DisplayLabel', display_label)
         state_tag.set('DisplayLabelFont', display_label_font)
         state_tag.set('DisplayLabelColor', display_label_color)
-        state_tag.set('DisplayLabelRotation',
-                      str(display_label_rotation))
+
 
     # Add all seed states
     seed_states_tag = ET.Element("SeedStates")
@@ -75,7 +74,7 @@ def main(system, fileName):
         display_label = state.returnDisplayLabel()
         display_label_color = state.returnDisplayLabelColor()
         display_label_font = state.returnDisplayLabelFont()
-        display_label_rotation = state.returnDisplayLabelRotation()
+
 
         state_tag = ET.SubElement(seed_states_tag, "State")
         state_tag.set('Label', label)
