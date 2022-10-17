@@ -307,7 +307,7 @@ class WireGadget:
                 if self.eastWire not in self.states_used:
                     self.states_used.append(self.eastWire)
 
-        self.wire.setTilesFromList(self.wire_list)
+        self.wire.setTiles(self.wire_list)
         print("Wire made from ({},{}) to {}".format(
             self.start_x, self.start_y, self.wire_list[-1].returnPosition()))
 
@@ -344,7 +344,7 @@ class WireGadget:
             if temptile is not None:
                 self.test_data_states_list.append(data_string[i].state)
 
-        self.wire.setTilesFromList(self.test_data_tile_list)
+        self.wire.setTiles(self.test_data_tile_list)
 
     def appendTestDataRawString(self, raw_string):
         pass

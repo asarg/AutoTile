@@ -83,7 +83,7 @@ class SignalArc:
         self.tiles.append(check2)
 
         a = Assembly()
-        a.setTilesFromList(self.tiles)
+        a.setTiles(self.tiles)
 
         return a
 

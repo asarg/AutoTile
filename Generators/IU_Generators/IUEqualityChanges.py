@@ -81,7 +81,7 @@ class IUGenerators_EC:
         wa_seed_tiles = wa_seed_tiles + example_tiles
 
         asb = uc.Assembly()
-        asb.setTilesFromList(wa_seed_tiles)
+        asb.setTiles(wa_seed_tiles)
         return asb, wa_seed_states, wa_seed_tiles
 
     def basicWireGenerator(self):
@@ -739,7 +739,7 @@ class IUGenerators_EC:
         trs = self.macroCellCopyNorthAffsTrs(states)[1]
 
         assm = uc.Assembly()
-        assm.setTilesFromList(tiles)
+        assm.setTiles(tiles)
         genSystem = uc.System(1, states, [], seed_states, [], [], [], [], [], [], assm)
 
 
