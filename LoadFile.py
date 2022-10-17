@@ -33,7 +33,7 @@ def readxml(file):
         display_label = state_tag.get("DisplayLabel")
         display_label_color = state_tag.get("DisplayLabelColor")
         display_label_font = state_tag.get("DisplayLabelFont")
-        display_label_rotation = state_tag.get("DisplayLabelRotation")
+
 
 
         if display_label is None:
@@ -42,10 +42,9 @@ def readxml(file):
             display_label_color = "black"
         if display_label_font is None:
             display_label_font = "Nerd Font"
-        if display_label_rotation is None:
-            display_label_rotation = 0
 
-        tempState = State(label, color, display_label, display_label_color, display_label_font, display_label_rotation)
+
+        tempState = State(label, color, display_label, display_label_color, display_label_font)
 
 
         CompleteStateSet.append(tempState)
@@ -57,7 +56,7 @@ def readxml(file):
         display_label = state_tag.get("DisplayLabel")
         display_label_color = state_tag.get("DisplayLabelColor")
         display_label_font = state_tag.get("DisplayLabelFont")
-        display_label_rotation = state_tag.get("DisplayLabelRotation")
+
 
         if display_label is None:
             display_label = label
@@ -65,10 +64,9 @@ def readxml(file):
             display_label_color = "black"
         if display_label_font is None:
             display_label_font = "Nerd Font"
-        if display_label_rotation is None:
-            display_label_rotation = 0
 
-        tempState = State(label, color, display_label, display_label_color,display_label_font, display_label_rotation)
+
+        tempState = State(label, color, display_label, display_label_color,display_label_font)
 
 
         InitialStateSet.append(tempState)
@@ -80,7 +78,7 @@ def readxml(file):
         display_label = state_tag.get("DisplayLabel")
         display_label_color = state_tag.get("DisplayLabelColor")
         display_label_font = state_tag.get("DisplayLabelFont")
-        display_label_rotation = state_tag.get("DisplayLabelRotation")
+
 
         if display_label is None:
             display_label = label
@@ -88,10 +86,9 @@ def readxml(file):
             display_label_color = "black"
         if display_label_font is None:
             display_label_font = "Nerd Font"
-        if display_label_rotation is None:
-            display_label_rotation = 0
 
-        tempState = State(label, color, display_label, display_label_color, display_label_font, display_label_rotation)
+
+        tempState = State(label, color, display_label, display_label_color, display_label_font)
 
         SeedStateSet.append(tempState)
 

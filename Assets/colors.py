@@ -10,6 +10,8 @@ rosy_brown = "CC978E"
 #CC978E
 Tumbleweed_Beige = "D8B4A0"  # Brownish Grey
 #D8B4A0
+
+platinum = "E5E0DC"  # Greyish
 # Blacks
 
 Jet_Black = "323031"
@@ -25,10 +27,12 @@ grey = "9EA9A4"  # Morning Blue
 Morning_Blue = "9EA9A4"  # Grey Blue
 Space_Cadet_Grey = "2D3142"  # Dark Blue Grey
 charcoal = "264653" # dark blue grey
-
+roman_silver = "8A8698"
+silver_metalic_grey = "AFACAF"
+silver_metalic_blue = "B4B2BD"
 # Blues
 Light_Steel_Blue = "B0C4DE" # Light Blue Grey
-
+sky_blue_crayola = "4ED9F9"  # Light Blue
 Beau_Blue = "C2DCFE"
 light_blue = Beau_Blue  # Beau Blue
 
@@ -48,6 +52,7 @@ queen_blue = "577590"
 celadon_blue = "277da1"
 cornflower_blue = "7699D4"
 terquoise_blue = "4ADBC8"
+blue_jeans = "54A6F2" # Wire Color
 #24799e
 #9bc0bb
 #5ba4a9
@@ -69,7 +74,7 @@ unbleached_silk = "FFDDD2"
 apricot = "ffcdb3"
 #ffcdb3
 # Reds
-
+fuzzy_wuzzy = "c1666b"  # Dark Red
 Red_Salsa = "f94144" # Bright Red
 Darker_Red_Salsa = "f03a47"
 red = Darker_Red_Salsa  # Red Salsa
@@ -120,17 +125,32 @@ pistachio = "90be6d"
 jungle_green = "43aa8b"
 ming = "3C6E71"  # dark blue green grey terquoise inactive
 Middle_Blue_Green = "94d2bd"  # Pale-ish blue/green/aquamarine
-
+illuminating_emerald = "23967F"  # Nice Green
 
 ## Colors
+dutch_white = "E9D7AF" # less saturated than peach
+peach = "F6DCA2"
+inactive_waiting = dutch_white
+active_waiting = peach
 reset_color = mango_tango
-writing_color = Air_Superiority_Blue
+cornflower_blue = "7699D4"
+
+door_color = roman_silver
+writing_color = cornflower_blue
+writing_inactive_color = Beau_Blue
 inactive_color = unbleached_silk
-intermediate_accept_color = None
-reject_color = None
+intermediate_accept_color = bright_tea_green
+reject_color = firey_rose
 complete_color = tea_green
-full_accept_color = tea_green
+full_accept_color = Viridian_Green
 active_color = None
 wire_color = Blue_Sapphire
 activate_next_color = pistachio
-waiting_color = mango_tango
+waiting_color = lemon_yellow_crayola
+signal_inactive_color = grey
+signal_active_color = Marigold
+signal_partial_accept_color = pistachio
+signal_full_accept_color = bright_tea_green
+signal_reject_color = firey_rose
+border_color = platinum
+signal_wire_color = maize_crayola_yellow

@@ -1225,7 +1225,7 @@ class IUGenerators:
         return tr
 
     def test_rotate(self):
-        r_check_equal_S_start_state_inactive = uc.State("IN_Check=S(Inactive", grey_pink, "↧=₍", "black", display_label_rotation=90)
+        r_check_equal_S_start_state_inactive = uc.State("IN_Check=S(Inactive", grey_pink, "↧=₍", "black")
         aff = uc.AffinityRule(check_equal_S_start_state_inactive.label, ds_0.label, "v", 1)
         tempSys = uc.System(1, [r_check_equal_S_start_state_inactive, ds_0], [r_check_equal_S_start_state_inactive, ds_0], [r_check_equal_S_start_state_inactive], [], [], [], [], [], [])
         tempSys.addAffinity(aff)
