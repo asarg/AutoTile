@@ -37,7 +37,7 @@ class IUGenerators:
             c = c + 1
 
         asb = uc.Assembly()
-        asb.setTilesFromList(seed_tiles)
+        asb.setTiles(seed_tiles)
         return asb, seed_states, seed_tiles
 
 
@@ -77,7 +77,7 @@ class IUGenerators:
 
         endcap_seed_states = [endcap_door_west_inactive]
 
-        end_cap_asb.setTilesFromList(ec_seed_tiles)
+        end_cap_asb.setTiles(ec_seed_tiles)
         endcap_states = [endcap_door_west_inactive, endcap_door_west_active, endcap_door_west_stop] + wire_sys.returnStates()
         endcap_all_seed_states = endcap_seed_states + wire_sys.returnSeedStates()
         horizontal_transitions = wire_sys.returnHorizontalTransitionList()
@@ -116,7 +116,7 @@ class IUGenerators:
         endcap_horizontal_affinities = endcap_no_signal_sys.returnHorizontalAffinityList()
         endcap_asb = endcap_no_signal_sys.returnSeedAssembly()
 
-        endcap_asb.setTilesFromList([uc.Tile(endcap_door_west_handle_inactive, -1, 1)])
+        endcap_asb.setTiles([uc.Tile(endcap_door_west_handle_inactive, -1, 1)])
         #System takes in temp, states, initial states, seed states, vertical_affinitys, horizontal_affinitys, vert transitions, horiz transitions, tile vertical transitions, tile horizontal transitions, seed assembly
         endcap_signal_genSys = uc.System(1, endcap_gadget_states, [], endcap_gadget_seed_states,  [], endcap_horizontal_affinities, [], endcap_horizontal_transitions, [],  [], endcap_asb)
 
@@ -174,7 +174,7 @@ class IUGenerators:
             temp_tile = uc.Tile(westWire, i, 0)
             equality_gadget_seed_tiles.append(temp_tile)
 
-        endcap_asb.setTilesFromList(equality_gadget_seed_tiles)
+        endcap_asb.setTiles(equality_gadget_seed_tiles)
         endcap_horizontal_affinities = endcap_signal_sys.returnHorizontalAffinityList()
         endcap_vertical_affinities = endcap_signal_sys.returnVerticalAffinityList()
         endcap_horizontal_transitions = endcap_signal_sys.returnHorizontalTransitionList()

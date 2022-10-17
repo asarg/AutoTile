@@ -44,7 +44,7 @@ class State:
             return self.display_label
         else:
             return self.returnLabel()
-            
+
 
     def returnDisplayLabelColor(self):
         if self.display_label_color is str:
@@ -331,35 +331,39 @@ class Assembly:
 
     def setLabel(self, l):
         self.label = l
+
     def setTiles(self, t):
         for tileI in t:
-            tile = Tile(tileI.state, tileI.x, tileI.y)
+            if type(tileI) == State:
+                tile = Tile(tileI.state, tileI.x, tileI.y)
+            elif type(tileI) == Tile:
+                tile = tileI
+            else:
+                print("Error: tile is not a state or tile")
+
+            c = "(" + str(tile.x) + "," + str(tile.y) + ")"
+
+            if c in self.coords:
+                r = self.coords[c]
+                if r in self.tiles:
+                    self.tiles.remove(r)    # remove the old tile
+                    print("Warning: tile with state {} at {} was overwritten".format(
+                        tile.state.label, c))
+
+            self.coords[c] = tile
             self.tiles.append(tile)
-            self.coords["(" + str(tile.x) + "," + str(tile.y) + ")"] = tile
+
             # update boundaries
-            if(tile.y > self.upMost):
+            if (tile.y > self.upMost):
                 self.upMost = tile.y
-            if(tile.y < self.downMost):
+            if (tile.y < self.downMost):
                 self.downMost = tile.y
-            if(tile.x > self.rightMost):
+            if (tile.x > self.rightMost):
                 self.rightMost = tile.x
-            if(tile.x < self.leftMost):
+            if (tile.x < self.leftMost):
                 self.leftMost = tile.x
 
-    def setTilesFromList(self, t):
-        #takes in a list of tile objects
-        for tile in t:
-            self.tiles.append(tile)
-            self.coords["(" + str(tile.x) + "," + str(tile.y) + ")"] = tile
-            # update boundaries
-            if(tile.y > self.upMost):
-                self.upMost = tile.y
-            if(tile.y < self.downMost):
-                self.downMost = tile.y
-            if(tile.x > self.rightMost):
-                self.rightMost = tile.x
-            if(tile.x < self.leftMost):
-                self.leftMost = tile.x
+
     def setAttachments(self, att):  # tuple of ((type: ), (x: ), (y: ), (state1: ))
         # a = Assembly()
         #a.label = self.label + "A " + att["state1"]
@@ -764,7 +768,7 @@ class System:
 
     def returnSeedAssembly(self):
         return self.seed_assembly
-    
+
     def returnTiles(self):
         return self.seed_assembly.returnTiles()
 
