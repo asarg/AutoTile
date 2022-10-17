@@ -335,6 +335,7 @@ class Assembly:
     def setLabel(self, l):
         self.label = l
     def setTiles(self, t):
+
         for tileI in t:
             if type(tileI) == State:
                 tile = Tile(tileI.state, tileI.x, tileI.y)
@@ -347,8 +348,9 @@ class Assembly:
 
             if c in self.coords:
                 r = self.coords[c]
-                self.tiles.remove(r)    # remove the old tile
-                print("Warning: tile with state {} at {} was overwritten".format(tile.state.label, c))
+                if r in self.tiles:
+                    self.tiles.remove(r)    # remove the old tile
+                    print("Warning: tile with state {} at {} was overwritten".format(tile.state.label, c))
 
             self.coords[c] = tile
             self.tiles.append(tile)
