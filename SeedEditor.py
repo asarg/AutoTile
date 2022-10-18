@@ -232,6 +232,9 @@ class SeedScene(QtWidgets.QGraphicsScene):
         self.update()
     
     def getAssembly(self):
+        self.assembly.resetBorders()
+        print("here")
+        print(self.assembly.returnBorders())
         return self.assembly
 
 

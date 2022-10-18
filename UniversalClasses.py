@@ -154,6 +154,24 @@ class Assembly:
         print("South Boundary: ", self.downMost)
         print("Size: ", len(self.tiles))
 
+    #a function that resets then updates the borders to handle the case of deleting in the seed assembly editor.
+    def resetBorders(self):
+        self.leftMost = 0
+        self.rightMost = 0
+        self.upMost = 0
+        self.downMost = 0
+
+        for tile in self.tiles:
+            # update boundaries
+            if (tile.y > self.upMost):
+                self.upMost = tile.y
+            if (tile.y < self.downMost):
+                self.downMost = tile.y
+            if (tile.x > self.rightMost):
+                self.rightMost = tile.x
+            if (tile.x < self.leftMost):
+                self.leftMost = tile.x
+
     def returnBorders(self):
         borders_list = [self.leftMost, self.rightMost, self.upMost, self.downMost]
         return borders_list
@@ -364,24 +382,12 @@ class Assembly:
                 self.leftMost = tile.x
 
     def removeTile(self, tile):
-
         c = "(" + str(tile.x) + "," + str(tile.y) + ")"
 
         if c in self.coords:
             del self.coords[c]
 
         self.tiles.remove(tile)
-
-        # update boundaries
-        if (tile.y > self.upMost):
-            self.upMost = tile.y
-        if (tile.y < self.downMost):
-            self.downMost = tile.y
-        if (tile.x > self.rightMost):
-            self.rightMost = tile.x
-        if (tile.x < self.leftMost):
-            self.leftMost = tile.x
-
 
     def setAttachments(self, att):  # tuple of ((type: ), (x: ), (y: ), (state1: ))
         # a = Assembly()
