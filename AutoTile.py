@@ -282,6 +282,8 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         print(len(sys.argv))
         if len(sys.argv) == 2:
             self.Load_File(sys.argv[1])
+        elif len(sys.argv) == 3:
+            self.loadAssembly(sys.argv[1])
         else:
             self.Load_File("XML Files/seededExample.xml")
 

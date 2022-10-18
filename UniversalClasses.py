@@ -45,7 +45,6 @@ class State:
         else:
             return self.returnLabel()
 
-
     def returnDisplayLabelColor(self):
         if self.display_label_color is str:
             return self.display_label_color
@@ -74,9 +73,6 @@ class State:
     def __eq__(self, other):
         if isinstance(other, State):
             return self.label == other.label and self.color == other.color
-
-
-
 
 
 class Tile:
