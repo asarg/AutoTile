@@ -363,6 +363,25 @@ class Assembly:
             if (tile.x < self.leftMost):
                 self.leftMost = tile.x
 
+    def removeTile(self, tile):
+
+        c = "(" + str(tile.x) + "," + str(tile.y) + ")"
+
+        if c in self.coords:
+            del self.coords[c]
+
+        self.tiles.remove(tile)
+
+        # update boundaries
+        if (tile.y > self.upMost):
+            self.upMost = tile.y
+        if (tile.y < self.downMost):
+            self.downMost = tile.y
+        if (tile.x > self.rightMost):
+            self.rightMost = tile.x
+        if (tile.x < self.leftMost):
+            self.leftMost = tile.x
+
 
     def setAttachments(self, att):  # tuple of ((type: ), (x: ), (y: ), (state1: ))
         # a = Assembly()

@@ -160,7 +160,7 @@ class SeedScene(QtWidgets.QGraphicsScene):
         # Find x,y if it is in use
         for t in self.assembly.tiles:
             if t.x == x and t.y == y:
-                self.assembly.tiles.remove(t)
+                self.assembly.removeTile(t)
                 break
 
         if e.button() == Qt.LeftButton:
