@@ -706,7 +706,6 @@ class System:
         if not empty:
             self.translateListsToDicts()
 
-
     # Utility
     # if tr remove dont work and still in system look here
     def translateListsToDicts(self):
@@ -750,6 +749,10 @@ class System:
             # self.horizontal_transitions_dict[label1, label2] = (
             #    label1Final, label2Final)
 
+        for rule in self.single_transition_list:
+            label1 = rule.returnLabel1()
+            label1Final = rule.returnLabel1Final()
+            self.add_values_in_dict(self.single_transition_dict, label1, label1Final)
 
     def add_values_in_dict(self, dict, key, list_of_values):
         if key not in dict:
@@ -763,7 +766,6 @@ class System:
                 return state
         print("State: ", label, "not found")
         return None
-
 
     def returnTemp(self):
         return int(self.temp)
@@ -822,7 +824,6 @@ class System:
         return st
 
     # Displayers
-
     def displayVerticalAffinityDict(self):
         print(self.vertical_affinities_dict)
 
@@ -974,7 +975,6 @@ class System:
                 self.seed_assembly.setTiles([Tile(seed, 0, 0)])
             except:
                 "There are no states set as seeds for this assembly."
-
 
     def removeState(self, state):
         # if

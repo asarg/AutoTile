@@ -1989,6 +1989,26 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
             prevTR = trH
             r += 1
 
+        for tr in self.system.single_transition_list:
+            stateHT1 = QTableWidgetItem()
+            stateHT1.setText(tr.returnLabel1())
+            stateHT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 0, stateHT1)
+            stateHT2 = QTableWidgetItem()
+            stateHT2.setText("")
+            stateHT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 1, stateHT2)
+            finalHT1 = QTableWidgetItem()
+            finalHT1.setText(tr.returnLabel1Final())
+            finalHT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 3, finalHT1)
+            finalHT2 = QTableWidgetItem()
+            finalHT2.setText("")
+            finalHT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 4, finalHT2)
+
+            r += 1
+
         # filling in table 1 with states
         r = 0
         for s in self.system.states:
