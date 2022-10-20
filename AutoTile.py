@@ -11,7 +11,7 @@ from Player import ComputeLast, Player
 from SeedEditor import SeedScene, TableScene
 from Historian import Historian
 from assemblyEngine import Engine
-from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
+from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule, SingleTransitionRule
 import TAMainWindow, EditorWindow, sCRNEditorWindow, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
 #import Generators.IU_Generators.IntrinsicUniversality as IU
 #import Generators.IU_Generators.IU2 as IU2
@@ -1951,7 +1951,7 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         print(len(self.system.states))
 
         # set row count transition table
-        self.tableWidget_3.setRowCount(len(self.system.horizontal_transitions_list) // 2)
+        self.tableWidget_3.setRowCount((len(self.system.horizontal_transitions_list) // 2) + len(self.system.single_transition_list))
 
         self.tableWidget_3.setColumnWidth(0, 124)
         self.tableWidget_3.setColumnWidth(1, 125)

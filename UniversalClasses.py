@@ -262,39 +262,40 @@ class Assembly:
         transitions_list = []
         sys_h_tr = sy.returnHorizontalTransitionDict()
         sys_v_tr = sy.returnVerticalTransitionDict()
+        sys_s_tr = sy.returnSingleTransitionDict()
         #sys_h_tiles = sy.returnTileHorizontalTransitions()
         #sys_v_tiles = sy.returnTileVerticalTransitions()
 
         # Check each tile in the assembly
         for iTile in self.tiles:
-           # print(sys_h_tiles[iTile.returnLabel()])
-            # if isinstance(sys_h_tiles[iTile.returnLabel()], tuple):
+            #print(sys_h_tiles[iTile.returnLabel()])
+            #if isinstance(sys_h_tiles[iTile.returnLabel()], tuple):
 
             #iHTranRules = None
             #iVTranRules = None
 
-            # if sys_h_tiles != None:
-            # if sys_h_tiles.get(iTile.returnLabel()) != None:
-            #iHTranRules = sys_h_tr[sys_h_tiles[iTile.returnLabel()]]
-            # else:
-            # for tiles in sys_h_tiles[iTile.returnLabel()]:
-            #iHTranRules = sys_h_tr[tiles]
+           # if sys_h_tiles != None:
+           # if sys_h_tiles.get(iTile.returnLabel()) != None:
+           #iHTranRules = sys_h_tr[sys_h_tiles[iTile.returnLabel()]]
+           # else:
+           # for tiles in sys_h_tiles[iTile.returnLabel()]:
+           #iHTranRules = sys_h_tr[tiles]
 
-            # if isinstance(sys_v_tiles[iTile.returnLabel()], tuple):
-            # if sys_v_tiles != None:
-            # if sys_v_tiles.get(iTile.returnLabel()):
-            #iVTranRules = sys_v_tr[sys_v_tiles[iTile.returnLabel()]]
-            # else:
-            # for tiles in sys_v_tiles[iTile.returnLabel()]:
-            #iVTranRules = sys_v_tr[tiles]
+           # if isinstance(sys_v_tiles[iTile.returnLabel()], tuple):
+           # if sys_v_tiles != None:
+           # if sys_v_tiles.get(iTile.returnLabel()):
+           #iVTranRules = sys_v_tr[sys_v_tiles[iTile.returnLabel()]]
+           # else:
+           # for tiles in sys_v_tiles[iTile.returnLabel()]:
+           #iVTranRules = sys_v_tr[tiles]
 
-            # Get only the south and east neighbors of iTile
+           # Get only the south and east neighbors of iTile
             neighborS = self.coords.get(toCoords(iTile.x, iTile.y - 1))
             neighborE = self.coords.get(toCoords(iTile.x + 1, iTile.y))
 
             if(neighborS != None):
-                # second dictionary
-                # rules = iVTranRules.get(neighborS.returnLabel())
+               # second dictionary
+              # rules = iVTranRules.get(neighborS.returnLabel())
                 rules = sys_v_tr.get(
                     (iTile.returnLabel(), neighborS.returnLabel()))
                 # rules.append(iVTranRules)
@@ -335,6 +336,18 @@ class Assembly:
                         move["state2Final"] = sy.returnState(
                             rules[i + 1])  # .returnLabel2Final()
                         transitions_list.append(move)
+
+            rules = sys_s_tr.get(iTile.returnLabel())
+            if rules != None:
+                for i in range(0, len(rules)):
+                    move = {"type": "t"}
+                    move["x"] = iTile.x
+                    move["y"] = iTile.y
+                    move["dir"] = "s"
+                    move["state1"] = iTile.returnState()
+
+                    move["state1Final"] = sy.returnState(rules[i])  # .returnLabel1Final()
+                    transitions_list.append(move)
 
         return transitions_list
         # ORIGINAL ((type: ), (current labels), (transition labels))
@@ -791,6 +804,9 @@ class System:
     def returnHorizontalTransitionList(self):
         return self.horizontal_transitions_list
 
+    def returnSingleTransitionList(self):
+        return self.single_transition_list
+
     def returnVerticalAffinityDict(self):
         return self.vertical_affinities_dict
 
@@ -802,6 +818,9 @@ class System:
 
     def returnHorizontalTransitionDict(self):
         return self.horizontal_transitions_dict
+
+    def returnSingleTransitionDict(self):
+        return self.single_transition_dict
 
     def returnTileVerticalTransitions(self):
         return self.tile_vertical_transitions
@@ -860,6 +879,9 @@ class System:
 
     def clearHorizontalTransitionDict(self):
         self.horizontal_transitions_dict.clear()
+
+    def clearSingleTransitionDict(self):
+        self.single_transition_dict.clear()
 
     # Dictionary Appenders
     # Note: Value = Bond Strength
@@ -944,14 +966,14 @@ class System:
 
         self.single_transition_list.append(tr)
 
-        oldList = self.self.single_transition_dict.get(label1)
+        oldList = self.single_transition_dict.get(label1)
 
         if oldList == None:
             oldList = label1Final
         else:
             oldList.append(label1Final)
 
-        self.self.single_transition_list[label1] = oldList
+        self.single_transition_dict[label1] = oldList
 
     def addAffinity(self, a):
         label1 = a.returnLabel1()
