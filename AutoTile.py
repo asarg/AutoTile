@@ -1989,6 +1989,7 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
             prevTR = trH
             r += 1
 
+        #if single transitions exist add them
         for tr in self.system.single_transition_list:
             stateHT1 = QTableWidgetItem()
             stateHT1.setText(tr.returnLabel1())
@@ -2058,7 +2059,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         self.tableGraphicsView.centerOn(0, 0)
         self.graphicsView.setScene(self.s)
 
-
     # for 'add state'
     def cellchanged(self, row, col):
         # only do anything is we are in the color column (0)
@@ -2111,7 +2111,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         tFinal2.setTextAlignment(Qt.AlignCenter)
         self.tableWidget_3.setItem(newrow, 4, tFinal2)
 
-
     # remove/delete rows from state table
     def click_removeRowState(self):
         # only delete if there is something in the table, and if there is something selected
@@ -2155,7 +2154,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
             self.tableWidget_3.setItem(r, i, it)
 
     def click_duplicateRowState(self):
-
         currentRow = self.tableWidget.currentRow()
 
         if self.tableWidget.rowCount() > 0 and len(self.tableWidget.selectedIndexes()) > 0:
@@ -2215,28 +2213,52 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
 
         # transitions
         for row in range(0, self.tableWidget_3.rowCount()):
-            tLabel1 = self.tableWidget_3.item(row, 0)
-            tLabel2 = self.tableWidget_3.item(row, 1)
-            tFinal1 = self.tableWidget_3.item(row, 3)
-            tFinal2 = self.tableWidget_3.item(row, 4)
+            if ((self.tableWidget_3.item(row, 0).text() == "" and self.tableWidget_3.item(row, 1).text() == "") or (self.tableWidget_3.item(row, 3).text() == "" and self.tableWidget_3.item(row, 4).text() == "")):
+                continue
 
-            tLab1 = tLabel1.text()
-            tLab2 = tLabel2.text()
-            tFin1 = tFinal1.text()
-            tFin2 = tFinal2.text()
+            if self.tableWidget_3.item(row, 0).text() == "" and self.tableWidget_3.item(row, 1).text() != "":
+                self.tableWidget_3.item(row, 0).setText(self.tableWidget_3.item(row, 1).text())
+                self.tableWidget_3.item(row, 1).setText("")
 
-            states_used.append(tFin1)
-            states_used.append(tFin2)
+            if self.tableWidget_3.item(row, 0).text() != "" and self.tableWidget_3.item(row, 1).text() == "":
+                if self.tableWidget_3.item(row, 3).text() == "" and self.tableWidget_3.item(row, 4).text() != "":
+                    self.tableWidget_3.item(row, 3).setText(self.tableWidget_3.item(row, 4).text())
+                    self.tableWidget_3.item(row, 4).setText("")
 
-            trRule1 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "h")
-            trRule2 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "h")
-            trRule3 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "v")
-            trRule4 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "v")
+                if self.tableWidget_3.item(row, 3).text() != "" and self.tableWidget_3.item(row, 4).text() == "":
+                    tLabel1 = self.tableWidget_3.item(row, 0)
+                    tFinal1 = self.tableWidget_3.item(row, 3)
 
-            self.system.addTransitionRule(trRule1)
-            self.system.addTransitionRule(trRule2)
-            self.system.addTransitionRule(trRule3)
-            self.system.addTransitionRule(trRule4)
+                    tLab1 = tLabel1.text()
+                    tFin1 = tFinal1.text()
+                    
+                    states_used.append(tFin1)
+
+                    trRule = SingleTransitionRule(tLab1, tFin1)
+                    self.system.addSingleTransitionRule(trRule)
+            else:
+                tLabel1 = self.tableWidget_3.item(row, 0)
+                tLabel2 = self.tableWidget_3.item(row, 1)
+                tFinal1 = self.tableWidget_3.item(row, 3)
+                tFinal2 = self.tableWidget_3.item(row, 4)
+
+                tLab1 = tLabel1.text()
+                tLab2 = tLabel2.text()
+                tFin1 = tFinal1.text()
+                tFin2 = tFinal2.text()
+
+                states_used.append(tFin1)
+                states_used.append(tFin2)
+
+                trRule1 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "h")
+                trRule2 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "h")
+                trRule3 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "v")
+                trRule4 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "v")
+
+                self.system.addTransitionRule(trRule1)
+                self.system.addTransitionRule(trRule2)
+                self.system.addTransitionRule(trRule3)
+                self.system.addTransitionRule(trRule4)
 
         # Check here to see if states used in transitions exist
         states_not_used = self.StatesUsed_Exist(available_states, states_used)
