@@ -2387,16 +2387,19 @@ class Move(QWidget):
             moveText = "Attach\n" + self.move["state1"].returnLabel() + " at " + str(
                 self.move["x"]) + " , " + str(self.move["y"])
         elif self.move["type"] == "t":
-            if self.move["state1Final"] != None and self.move["state2Final"] != None:
-                # Add Transition Direction
-                if self.move["dir"] == "v":
-                    moveText = "V "
-                else:
-                    moveText = "H "
-                moveText += "Transition\n" + self.move["state1"].returnLabel() + ", " + self.move["state2"].returnLabel(
-                ) + " to " + self.move["state1Final"].returnLabel() + ", " + self.move["state2Final"].returnLabel()
+            if self.move["dir"] == "s":
+                moveText = "Single Transition\n" + self.move["state1"].returnLabel() + " to " + self.move["state1Final"].returnLabel()
             else:
-                moveText = "Error:\n state doesn't exist"
+                if self.move["state1Final"] != None and self.move["state2Final"] != None:
+                    # Add Transition Direction
+                    if self.move["dir"] == "v":
+                        moveText = "V "
+                    else:
+                        moveText = "H "
+                    moveText += "Transition\n" + self.move["state1"].returnLabel() + ", " + self.move["state2"].returnLabel(
+                    ) + " to " + self.move["state1Final"].returnLabel() + ", " + self.move["state2Final"].returnLabel()
+                else:
+                    moveText = "Error:\n state doesn't exist"
 
         pen = QApplication.palette().text().color()
         qp.setPen(pen)
