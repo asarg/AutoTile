@@ -1557,9 +1557,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         self.tableGraphicsView.centerOn(0, 0)
         self.graphicsView.setScene(self.s)
 
-
     # just need to fix this function
-
     def Click_freezingCheck(self):
         global currentSystem
         self.label2.setText(str(FreezingCheck.main(currentSystem)))
@@ -2096,9 +2094,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
 
     # remove/delete rows from state table
     def click_removeRowState(self):
-
-        print("remove row button clicked")
-
         # only delete if there is something in the table, and if there is something selected
         if self.tableWidget.rowCount() > 0 and len(self.tableWidget.selectedIndexes()) > 0:
             self.tableWidget.removeRow(
@@ -2108,7 +2103,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         if self.tableWidget_3.rowCount() > 0 and len(self.tableWidget_3.selectedIndexes()) > 0:
             self.tableWidget_3.removeRow(
                 self.tableWidget_3.selectedIndexes()[0].row())
-
 
     def copy_widget(self, w):
         if isinstance(w, QtWidgets.QWidget):

@@ -644,6 +644,21 @@ class TransitionRule:
     def returnDir(self):
         return self.dir
 
+class SingleTransitionRule:
+    def __init__(self, label1, label1Final):
+        self.label1 = label1
+        self.label1Final = label1Final
+        self.dir = "s"
+
+    # Getters
+    def returnLabel1(self):
+        return self.label1
+
+    def returnLabel1Final(self):
+        return self.label1Final
+
+    def returnDir(self):
+        return self.dir
 
 # System is used for the assembler; represents the data in the XML
 class System:
@@ -654,7 +669,7 @@ class System:
     # Temp int
     # Initial List of States
     # Seed Assembly Object
-    def __init__(self, temp, states, initial_states, seed_states=None, vertical_affinities_list=[], horizontal_affinities_list=[], vertical_transitions_list=[], horizontal_transitions_list=[], tile_vertical_transitions=[], tile_horizontal_transitions=[], seed_assembly = Assembly(), empty=False):
+    def __init__(self, temp, states, initial_states, seed_states=None, vertical_affinities_list=[], horizontal_affinities_list=[], vertical_transitions_list=[], horizontal_transitions_list=[], single_transition_list = [], tile_vertical_transitions=[], tile_horizontal_transitions=[], seed_assembly = Assembly(), empty=False):
         self.temp = temp
         self.states = states
         self.initial_states = initial_states
@@ -671,6 +686,9 @@ class System:
         # Takes 2 tiles [W][E] and returns the transition pair
         self.horizontal_transitions_list = horizontal_transitions_list
 
+        #Special case for sCRNs
+        self.single_transition_list = single_transition_list
+
         # Takes tile and returns vertical transition pairs
         self.tile_vertical_transitions = tile_vertical_transitions
         # Takes tile and returns horizontal transition pairs
@@ -681,6 +699,8 @@ class System:
         self.horizontal_affinities_dict = {}
         self.vertical_transitions_dict = {}
         self.horizontal_transitions_dict = {}
+
+        self.single_transition_dict = {}
 
         # Translate list versions into dictionary versions
         if not empty:
@@ -915,6 +935,22 @@ class System:
                 oldList.append(label2Final)
 
             self.horizontal_transitions_dict[label1, label2] = oldList
+
+    def addSingleTransitionRule(self, tr):
+        label1 = tr.returnLabel1()
+        label1Final = tr.returnLabel1Final()
+        direct = tr.returnDir()
+
+        self.single_transition_list.append(tr)
+
+        oldList = self.self.single_transition_dict.get(label1)
+
+        if oldList == None:
+            oldList = label1Final
+        else:
+            oldList.append(label1Final)
+
+        self.self.single_transition_list[label1] = oldList
 
     def addAffinity(self, a):
         label1 = a.returnLabel1()
