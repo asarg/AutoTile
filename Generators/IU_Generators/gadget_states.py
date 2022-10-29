@@ -12,16 +12,17 @@ signal_checkpoint_active = State("SignalCheckpointActive", signal_active_color, 
 signal_checkpoint_reject = State("SignalCheckpointReject", signal_reject_color, "{}⍼".format(check_point_sym))
 signal_checkpoint_accept = State("SignalCheckpointAccept", signal_full_accept_color, "{}⍼".format(check_point_sym))
 signal_conditional_full_reject = State("SignalConditionalFullReject", signal_reject_color, "⍼✖")
-
+signal_enter_states = [signal_enter_active, signal_enter_inactive]
+signal_exit_states = [signal_exit_accept, signal_exit_inactive]
+signal_checkpoint_states = [signal_checkpoint_inactive, signal_checkpoint_active, signal_checkpoint_reject, signal_checkpoint_accept]
 signal_receiver_inactive = State("SignalReceiverInactive", signal_inactive_color, "⎆", "black")
-signal_received_accept = State(
-    "SignalReceivedAccept", signal_full_accept_color, "⚡✔✔", "black")
-signal_recieved_reject = State(
-    "SignalReceivedReject", reject_color, "✖⚡", "black")
+signal_received_accept = State("SignalReceivedAccept", signal_full_accept_color, "⚡✔✔", "black")
+signal_recieved_reject = State("SignalReceivedReject", reject_color, "✖⚡", "black")
 signal_receiver_passed = State(
     "SignalReceiverPassed", signal_full_accept_color, "⚡⇉", "black")
 signal_receiver_reset = State(
     "SignalReceiverReset", waiting_color, "⚡↺", "black")
+
 
 signal_transmitter = State("SignalTransmitter", signal_active_color, "⇉⍼", "black")
 signal_transmitter_inactive = State("SignalTransmitterInactive", signal_inactive_color, "⍼", "black")
@@ -52,7 +53,7 @@ signal_conditional_reject = State(
     "SignalConditionalReject", reject_color, "⍼✖")
 signal_conditional_reset = State("SignalConditionalReset", reset_color, "⍼↺")
 
-
+signal_conditional_states = [signal_conditional_inactive, signal_conditional_waiting, signal_conditional_intermediate_accept, signal_conditional_full_accept, signal_conditional_reject, signal_conditional_reset]
 """
 
 ✑𝗦

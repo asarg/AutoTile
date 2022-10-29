@@ -1,7 +1,10 @@
+from Generators.IU_Generators.GadgetComponents import add_affinities_vertical
 from UniversalClasses import State, AffinityRule, System, TransitionRule, Tile, Assembly
 from Assets.colors import *
 from binaryStates import *
 from gadget_states import *
+from GadgetComponents import add_affinity_all_dirs
+from binaryStates import write_data_states, write_data_states_dirs, write_data_states_caps
 
 class Gadget:
     def __init__(self):
@@ -92,6 +95,35 @@ class SignalArc:
             if t.x == 0 and t.y == 0:
                 self.affinity_rules[t] = [signal_enter_inactive, signal_enter_active]
         return False
+
+    def makeArcAffs(self):
+        all_affs = []
+
+        for sc in signal_checkpoint_states:
+            for st in signal_enter_states:
+                affs = add_affinity_all_dirs(sc, st)
+                all_affs = all_affs + affs
+
+            for stx in signal_exit_states:
+                affs = add_affinity_all_dirs(sc, stx)
+                all_affs = all_affs + affs
+
+            for scs in signal_conditional_states:
+                affs = add_affinity_all_dirs(sc, scs)
+                all_affs = all_affs + affs
+
+            for i in writeStatesAll:
+                affs = add_affinity_all_dirs(sc, i)
+                all_affs = all_affs + affs
+
+        for i in writeStatesAll:
+            affs = add_affinities_vertical(i, westWire)
+            all_affs = all_affs + affs
+
+
+
+
+
 
 
 

@@ -1,6 +1,35 @@
 from components import *
 from UniversalClasses import *
+from UniversalClasses import AffinityRule, State
 from states import *
+
+def add_affinities_vertical(state1, state2):
+    affs = []
+    a = AffinityRule(state1, state2, "V", 1)
+    affs.append(a)
+    a = AffinityRule(state2, state1, "V", 1)
+    affs.append(a)
+    return affs
+
+def add_affinities_horizontal(state1, state2):
+    affs = []
+    a = AffinityRule(state1, state2, "H", 1)
+    affs.append(a)
+    a = AffinityRule(state2, state1, "H", 1)
+    affs.append(a)
+    return affs
+
+def add_affinity_all_dirs(state1, state2):
+    affs = []
+    a = AffinityRule(state1, state2, "V", 1)
+    affs.append(a)
+    a = AffinityRule(state2, state1, "V", 1)
+    affs.append(a)
+    a = AffinityRule(state1, state2, "H", 1)
+    affs.append(a)
+    a = AffinityRule(state2, state1, "H", 1)
+    affs.append(a)
+    return affs
 
 class WireGadget:
     def __init__(self, dir, len, start_x, start_y):
@@ -69,16 +98,16 @@ class WireGadget:
 
         for i in range(len(data_string)):
             if self.direction == "N":
-                temptile = uc.Tile(
+                temptile = Tile(
                     data_string[i].state, self.end_x, self.end_y - i)
             elif self.direction == "S":
-                temptile = uc.Tile(
+                temptile = Tile(
                     data_string[i].state, self.end_x, self.end_y + i)
             elif self.direction == "W":
-                temptile = uc.Tile(
+                temptile = Tile(
                     data_string[i].state, self.end_x + i, self.end_y)
             elif self.direction == "E":
-                temptile = uc.Tile(
+                temptile = Tile(
                     data_string[i].state, self.end_x + i, self.end_y)
             self.test_data_tile_list.append(temptile)
             if data_string[i].state not in self.states_used:
