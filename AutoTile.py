@@ -23,6 +23,7 @@ from util.loaders import assemblyLoader
 # Global Variables
 # Note: currentSystem is still global but had to be moved into the loading method
 currentAssemblyHistory = []
+dpi = 90
 # General Seeded TA Simulator
 
 
@@ -298,7 +299,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             # Expand menu
             newWidth = 200
             canvas = QtGui.QPixmap(
-                self.geometry().width() - 200, self.geometry().height() - 45)
+                self.geometry().width() - 200, self.geometry().height() - int(dpi/2))
             canvas.fill(Qt.white)
 
             self.slide_menu_container.setMaximumWidth(newWidth)
@@ -311,7 +312,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.slide_menu_container.setMaximumWidth(newWidth)
 
             canvas = QtGui.QPixmap(
-                self.geometry().width(), self.geometry().height() - 45)
+                self.geometry().width(), self.geometry().height() - int(dpi/2))
             canvas.fill(Qt.white)
             self.label.setPixmap(canvas)
 
@@ -333,13 +334,13 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
     def resizeEvent(self, event):
         # If left menu is closed
+        
         if self.slide_menu_container.width() == 0:
-            canvas = QtGui.QPixmap(
-                self.geometry().width(), self.geometry().height() - 45)
+            canvas = QtGui.QPixmap(self.geometry().width(), self.geometry().height() - int(dpi/2))
         else:
             # prevents a bug that happens if menus open
             canvas = QtGui.QPixmap(
-                self.geometry().width() - 200, self.geometry().height() - 45)
+                self.geometry().width() - 200, self.geometry().height() - int(dpi/2))
 
         canvas.fill(Qt.white)
         self.label.setPixmap(canvas)
@@ -2377,6 +2378,8 @@ class Move(QWidget):
 if __name__ == "__main__":
     # App Stuff
     app = QApplication(sys.argv)
+    screen = app.screens()[0]
+    dpi = screen.physicalDotsPerInch()
     w = Ui_MainWindow()
     w.show()
     sys.exit(app.exec_())
