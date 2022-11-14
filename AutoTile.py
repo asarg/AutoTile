@@ -2378,7 +2378,7 @@ if __name__ == "__main__":
     # App Stuff
     app = QApplication(sys.argv)
     screen = app.screens()[0]
-    dpi = screen.physicalDotsPerInch()
+    dpi = screen.logicalDotsPerInch()
     w = Ui_MainWindow()
     w.show()
     sys.exit(app.exec_())
