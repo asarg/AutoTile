@@ -18,7 +18,8 @@ CompleteStateSet = []  # All states in the system
 seed_assembly = Assembly()
 
 
-def readxml(file):
+
+def readxml(file, returnSysDict=False):
     tree = ET.parse(file)
     treeroot = tree.getroot()
 
@@ -132,3 +133,19 @@ def readxml(file):
 
         tempRule = AffinityRule(label1, label2, "h", strength)
         HorizontalAffinityRules.append(tempRule)
+    if returnSysDict == True:
+        returnSystem()
+
+def returnSystem():
+    sys_dict = {
+        "States": CompleteStateSet,
+        "InitialStates": InitialStateSet,
+        "SeedStates": SeedStateSet,
+        "VerticalAffinities": VerticalAffinityRules,
+        "HorizontalAffinities": HorizontalAffinityRules,
+        "VerticalTransitions": VerticalTransitionRules,
+        "HorizontalTransitions": HorizontalTransitionRules,
+        "SeedAssembly": seed_assembly,
+        "Temp": Temp
+        }
+    return sys_dict

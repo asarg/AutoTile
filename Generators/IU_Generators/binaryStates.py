@@ -241,7 +241,28 @@ endcap_door_west_reset = State("EndcapDoorWestReset", waiting_color, "↺◨", "
 endcap_door_west_handle_reset = State("EndCapDoorHandleWestReset", waiting_color, "↺◨~🔒", "black")
 endcap_door_west_handle_reset_waiting = State("EndCapDoorHandleWestResetWaiting", waiting_color, "↺⏱◨~", "black")
 endcap_door_west_reset_waiting = State("EndcapDoorWestResetWaiting", waiting_color, "↺⏱◨", "black")
+endcap_doors_west_list = [endcap_door_west_inactive, endcap_door_west_handle_inactive, endcap_door_west_active, endcap_door_west_handle_active, endcap_door_west_stop, endcap_door_west_handle_stop, endcap_door_west_reset, endcap_door_west_handle_reset, endcap_door_west_handle_reset_waiting, endcap_door_west_reset_waiting]
 
+## Endcap Doors East
+endcap_door_east_inactive = State("EndcapDoorEastInactive", grey, "◨", "black")
+endcap_door_east_handle_inactive = State(
+    "EndCapDoorHandleEastInactive", grey, "◨~🔒", "black")
+endcap_door_east_active = State(
+    "EndcapDoorEastActive", persian_green, "◨", "black")
+endcap_door_east_handle_active = State(
+    "EndCapDoorHandleEastActive", persian_green, "◨~🔓", "black")
+endcap_door_east_stop = State("EndcapDoorEastStop", Venetian_Red, "◨", "black")
+endcap_door_east_handle_stop = State(
+    "EndCapDoorEastHandleStop", Venetian_Red, "◨~🔒", "black")
+endcap_door_east_reset = State(
+    "EndcapDoorEastReset", waiting_color, "↺◨", "black")
+endcap_door_east_handle_reset = State(
+    "EndCapDoorHandleEastReset", waiting_color, "↺◨~🔒", "black")
+endcap_door_east_handle_reset_waiting = State(
+    "EndCapDoorHandleEastResetWaiting", waiting_color, "↺⏱◨~", "black")
+endcap_door_east_reset_waiting = State(
+    "EndcapDoorEastResetWaiting", waiting_color, "↺⏱◨", "black")
+endcap_doors_east_list = [endcap_door_east_inactive, endcap_door_east_handle_inactive, endcap_door_east_active, endcap_door_east_handle_active, endcap_door_east_stop, endcap_door_east_handle_stop, endcap_door_east_reset, endcap_door_east_handle_reset, endcap_door_east_handle_reset_waiting, endcap_door_east_reset_waiting]
 ### Single Doors
 signal_door_inactive = State("LockedSignalDoorInactive", grey, "🔒▦", "black")
 signal_door_handle_inactive = State("LockedSignalDoorHandleInactive", grey, "🗝~", "black")
