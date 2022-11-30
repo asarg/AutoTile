@@ -142,3 +142,18 @@ def readxml(file):
 
         tempRule = AffinityRule(label1, label2, "h", strength)
         HorizontalAffinityRules.append(tempRule)
+
+def returnSystemLoadXML(file):
+    readxml(file)
+    sys_dict = {
+        "States": CompleteStateSet,
+        "InitialStates": InitialStateSet,
+        "SeedStates": SeedStateSet,
+        "VerticalAffinities": VerticalAffinityRules,
+        "HorizontalAffinities": HorizontalAffinityRules,
+        "VerticalTransitions": VerticalTransitionRules,
+        "HorizontalTransitions": HorizontalTransitionRules,
+        "SeedAssembly": seed_assembly,
+        "Temp": Temp
+    }
+    return sys_dict

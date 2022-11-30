@@ -1,7 +1,7 @@
 import LoadFile
 import SaveFile
 import util.loaders.assemblyLoader as assemblyLoader
-from UniversalClasses import *
+from UniversalClasses import Tile, Assembly
 import math
 
 def shift_tiles(tiles, amount_x=0, amount_y=0):
@@ -23,6 +23,7 @@ def verify_no_overlap(a1, a2):
                 overlaps_list.append(overlapping_tile_pair)
                 no_overlaps_bool = False
     return no_overlaps_bool, overlaps_list
+
 
 def double_assembly(a1, dir):
     a1_tiles = a1.returnTiles()
@@ -61,8 +62,6 @@ def double_assembly(a1, dir):
 
 
 if __name__ == "__main__":
-    #system_dict = LoadFile.readxml("uniaryPunchTwoCells.xml")
+
     system_dict = assemblyLoader.returnSystemLoadXML("uniaryPunchTwoCells.xml")
     seed_assembly = system_dict["seedAssembly"]
-
-    #double_assembly = seed_assembly

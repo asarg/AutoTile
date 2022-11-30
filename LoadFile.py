@@ -243,6 +243,7 @@ def returnSystemLoadXML(file):
         tempRule = AffinityRule(label1, label2, "h", strength)
         HorizontalAffinityRules.append(tempRule)
 
+
     sys_dict = {
         "States": CompleteStateSet,
         "InitialStates": InitialStateSet,

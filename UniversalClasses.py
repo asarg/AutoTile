@@ -343,6 +343,7 @@ class Assembly:
                 tile = tileI
             else:
                 print("Error: tile is not a state or tile")
+                return
 
             c = "(" + str(tile.x) + "," + str(tile.y) + ")"
 
