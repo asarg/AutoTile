@@ -1,4 +1,62 @@
-from UniversalClasses import State, AffinityRule, TransitionRule, System
+from UniversalClasses import State, AffinityRule, TransitionRule, System, Assembly, Tile
+
+
+def seed_states_label_change(states_list, symbol):
+    new_states_list = []
+    for state in states_list:
+        state.label += symbol
+        new_states_list.append(state)
+    return new_states_list
+
+
+def seed_assembly_shift_tiles(starting_assembly, old_x, old_y, new_x, new_y, symbol=None):
+    assembly_tiles = starting_assembly.tiles
+    new_assembly_tiles = []
+
+    offset_x = new_x - old_x
+    offset_y = new_y - old_y
+
+    for tile in assembly_tiles:
+        tile.x += offset_x
+        tile.y += offset_y
+        if symbol is not None:
+            tile.state.label += symbol
+        new_assembly_tiles.append(tile)
+
+    return new_assembly_tiles
+
+
+def combineSeedAssemblies(sys1, sys1_comboPointPair, sys2, sys2_comboPointPair, comboPointOffsetPair, symbol=None):
+    sys1_seed_assembly = sys1.seed_assembly
+    sys2_seed_assembly = sys2.seed_assembly
+    new_assembly = Assembly()
+
+    sys1_x, sys1_y = sys1_comboPointPair
+    sys2_x, sys2_y = sys2_comboPointPair
+
+    given_offset_x, given_offset_y = comboPointOffsetPair
+
+    sys2_new_x = sys1_x + given_offset_x
+    sys2_new_y = sys1_y + given_offset_y
+
+    sys2_new_tiles = seed_assembly_shift_tiles(
+        sys2_seed_assembly, sys2_x, sys2_y, sys2_new_x, sys2_new_y)
+    combined_tiles = sys1_seed_assembly.tiles + sys2_new_tiles
+
+    new_assembly.setTiles(combined_tiles)
+
+    return new_assembly
+
+
+def combineSystemsAndSeedAssemblies(sys1, sys1_comboPointPair, sys2, sys2_comboPointPair, comboPointOffsetPair, symbol=None):
+    new_sys = main(sys1, sys2, symbol)
+    new_seed_assembly = combineSeedAssemblies(
+        sys1, sys1_comboPointPair, sys2, sys2_comboPointPair, comboPointOffsetPair, symbol)
+    new_sys.setSeedAssembly(new_seed_assembly)
+    new_seed_states = sys1.seed_states + \
+        seed_states_label_change(sys2.seed_states, symbol)
+    new_sys.setSeedStates(new_seed_states)
+    return new_sys
 
 
 def main(currentSystem, secondSystem, symbol=None):
