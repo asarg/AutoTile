@@ -67,7 +67,7 @@ def readxml(file):
             display_label_font = "Nerd Font"
 
 
-        tempState = State(label, color, display_label, display_label_color,display_label_font)
+        tempState = State(label, color, display_label, display_label_color, display_label_font)
 
 
         InitialStateSet.append(tempState)
