@@ -3,7 +3,11 @@ from Generators.IU_Generators.binaryStates import eastWire, end_data_string, ds_
 import SaveFile
 import LoadFile
 import sys
-
+from util.loaders.assemblyLoader import returnSystemLoadXML
+from Assets.colors import waiting_color, inactive_color, inactive_waiting_color, active_color, active_waiting_color
+from Assets.colors import reset_color, intermediate_accept_color, reject_color, complete_color
+from Assets.colors import door_color, wire_color, writing_color, writing_inactive_color, border_color
+import Generators.IU_Generators.binary_symbols_colors as symbols
 
 
 def make_east_wires():
@@ -34,5 +38,13 @@ class UniaryTable:
 
 
 if __name__ == "__main__":
-    system = make_system()
-    SaveFile.main(system, ["uniaryWiresIUTest.xml"])
+    file = "Generators/IU_Generators/SpecGadgetGenerators/uniaryPunchTwoCells.xml"
+    sysdict = returnSystemLoadXML(file)
+    states_dict = sysdict["States"]
+    initial_states_dict = sysdict["InitialStates"]
+    seed_states_dict = sysdict["SeedStates"]
+    vert_aff_rules_dict = sysdict["VerticalAffinityRules"]
+    hori_aff_rules_dict = sysdict["HorizontalAffinityRules"]
+    vert_tr_rules_dict = sysdict["VerticalTransitionRules"]
+    hori_tr_rules_dict = sysdict["HorizontalTransitionRules"]
+    seed_assembly_dict = sysdict["SeedAssembly"]

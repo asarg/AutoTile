@@ -50,13 +50,11 @@ def double_assembly(a1, dir):
         return None
 
 
-
-
-
-
-
-
-
+def returnLoadedSystem(file):
+    seed = assemblyLoader.returnSystemLoadXML(file)
+    seed_assembly = system_dict["seedAssembly"]
+    double_assembly = seed_assembly
+    return double_assembly
 
 
 
