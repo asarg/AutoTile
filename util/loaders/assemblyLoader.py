@@ -143,7 +143,7 @@ def readxml(file):
         tempRule = AffinityRule(label1, label2, "h", strength)
         HorizontalAffinityRules.append(tempRule)
 
-def returnSystemLoadXML(file):
+def returnSystemLoadXML_load_edit_py_file(file):
     readxml(file)
     sys_dict = {
         "States": CompleteStateSet,

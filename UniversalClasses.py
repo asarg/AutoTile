@@ -80,8 +80,6 @@ class State:
 
 
 
-
-
 class Tile:
     # label
     # # changes or list of changes (start num)
