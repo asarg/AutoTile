@@ -950,7 +950,7 @@ class WireGadget(Gadget):
 # What do I need to do for eq gadget?
 ## 1. Create a list of all states
 ### Border
-border_state = State("Border", outer_space_crayola, " ", "black")
+border_state = State("Border", outer_space_crayola, " ")
 
 ### Wires
 northWire = State("NorthWire", Blue_Sapphire, "🡹")
@@ -965,117 +965,117 @@ eastCopyWire = State("EastCopyWire", light_blue, "⇉")
 
 wireWriterSouth_Inavtive = State("WireWriterSouth_Inactive", light_blue, "🡻")
 ### Check Equality
-check_equal_S_start_state = State("Check=S(", mid_pink, "↧=₍", "black")
-check_equal_S_end_state = State("Check=S)", mid_pink, "↧=₎", "black")
-check_equal_S_any_num_state = State("Check=S*", mid_pink, "↧⩮", "black")
+check_equal_S_start_state = State("Check=S(", mid_pink, "↧=₍")
+check_equal_S_end_state = State("Check=S)", mid_pink, "↧=₎")
+check_equal_S_any_num_state = State("Check=S*", mid_pink, "↧⩮")
 
 check_equal_S_start_state_inactive = State(
-    "IN_Check=S(Inactive", grey_pink, "↧=₍", "black")
+    "IN_Check=S(Inactive", grey_pink, "↧=₍")
 check_equal_S_end_state_inactive = State(
-    "Check=S)Inactive", grey_pink, "↧=₎", "black")
+    "Check=S)Inactive", grey_pink, "↧=₎")
 check_equal_S_any_num_state_inactive = State(
-    "IN_Check=S*Inactive", grey_pink, "↧⩮", "black")
+    "IN_Check=S*Inactive", grey_pink, "↧⩮")
 
-confirm_equal_S_start_state = State("(=S(", mid_pink, "↧₍=₍", "black")
-confirm_equal_S_end_state = State(")=S)", mid_pink, "↧₎=₎", "black")
-confirm_equal_S_any_state = State("*=S*", mid_pink, "↧*⩮", "black")
-confirm_equal_S_any_0_state = State("0=S*", mid_pink, "↧0⩮", "black")
-confirm_equal_S_any_1_state = State("1=S*", mid_pink, "↧1⩮", "black")
-confirm_equal_S_any_2_state = State("2=S*", mid_pink, "↧2⩮", "black")
-confirm_equal_S_any_3_state = State("3=S*", mid_pink, "↧3⩮", "black")
-confirm_equal_S_any_4_state = State("4=S*", mid_pink, "↧4⩮", "black")
-confirm_equal_S_any_5_state = State("5=S*", mid_pink, "↧5⩮", "black")
-confirm_equal_S_any_6_state = State("6=S*", mid_pink, "↧6⩮", "black")
-confirm_equal_S_any_7_state = State("7=S*", mid_pink, "↧7⩮", "black")
-confirm_equal_S_any_8_state = State("8=S*", mid_pink, "↧8⩮", "black")
-confirm_equal_S_any_9_state = State("9=S*", mid_pink, "↧9⩮", "black")
+confirm_equal_S_start_state = State("(=S(", mid_pink, "↧₍=₍")
+confirm_equal_S_end_state = State(")=S)", mid_pink, "↧₎=₎")
+confirm_equal_S_any_state = State("*=S*", mid_pink, "↧*⩮")
+confirm_equal_S_any_0_state = State("0=S*", mid_pink, "↧0⩮")
+confirm_equal_S_any_1_state = State("1=S*", mid_pink, "↧1⩮")
+confirm_equal_S_any_2_state = State("2=S*", mid_pink, "↧2⩮")
+confirm_equal_S_any_3_state = State("3=S*", mid_pink, "↧3⩮")
+confirm_equal_S_any_4_state = State("4=S*", mid_pink, "↧4⩮")
+confirm_equal_S_any_5_state = State("5=S*", mid_pink, "↧5⩮")
+confirm_equal_S_any_6_state = State("6=S*", mid_pink, "↧6⩮")
+confirm_equal_S_any_7_state = State("7=S*", mid_pink, "↧7⩮")
+confirm_equal_S_any_8_state = State("8=S*", mid_pink, "↧8⩮")
+confirm_equal_S_any_9_state = State("9=S*", mid_pink, "↧9⩮")
 
 ### Doors
 endcap_door_west_inactive = State(
-    "EndcapDoorWestInactive", grey, "◨", "black")
+    "EndcapDoorWestInactive", grey, "◨")
 endcap_door_west_handle_inactive = State(
-    "EndCapDoorHandleWestInactive", grey, "◨🔒", "black")
+    "EndCapDoorHandleWestInactive", grey, "◨🔒")
 endcap_door_west_active = State(
-    "EndcapDoorWestActive", persian_green, "◨", "black")
+    "EndcapDoorWestActive", persian_green, "◨")
 endcap_door_west_handle_active = State(
-    "EndCapDoorHandleWestActive", persian_green, "◨🔓", "black")
+    "EndCapDoorHandleWestActive", persian_green, "◨🔓")
 endcap_door_west_stop = State(
-    "EndcapDoorWestStop", Venetian_Red, "◨", "black")
+    "EndcapDoorWestStop", Venetian_Red, "◨")
 endcap_door_west_handle_stop = State(
-    "EndCapDoorWestHandleStop", Venetian_Red, "◨🔒", "black")
+    "EndCapDoorWestHandleStop", Venetian_Red, "◨🔒")
 endcap_door_west_reset = State(
-    "EndcapDoorWestReset", mango_tango, "↺◨", "black")
+    "EndcapDoorWestReset", mango_tango, "↺◨")
 endcap_door_west_handle_reset = State(
-    "EndCapDoorHandleWestReset", mango_tango, "↺◨🔒", "black")
+    "EndCapDoorHandleWestReset", mango_tango, "↺◨🔒")
 endcap_door_west_handle_reset_waiting = State(
-    "EndCapDoorHandleWestResetWaiting", mango_tango, "↺⏱◨🔒", "black")
+    "EndCapDoorHandleWestResetWaiting", mango_tango, "↺⏱◨🔒")
 endcap_door_west_reset_waiting = State(
-    "EndcapDoorWestResetWaiting", mango_tango, "↺⏱◨", "black")
+    "EndcapDoorWestResetWaiting", mango_tango, "↺⏱◨")
 
 signal_door_inactive = State(
-    "LockedSignalDoorInactive", grey, "🔒▦", "black")
+    "LockedSignalDoorInactive", grey, "🔒▦")
 signal_door_handle_inactive = State(
-    "LockedSignalDoorHandleInactive", grey, "🗝", "black")
+    "LockedSignalDoorHandleInactive", grey, "🗝")
 signal_door_handle_reset = State(
-    "SignalDoorHandleReset", mango_tango, "↺🗝", "black")
-signal_door_open = State("SignalDoorOpen", persian_green, "🔓▦", "black")
+    "SignalDoorHandleReset", mango_tango, "↺🗝")
+signal_door_open = State("SignalDoorOpen", persian_green, "🔓▦")
 signal_door_handle_open = State(
-    "SignalDoorHandleOpen", persian_green, "🗝", "black")
+    "SignalDoorHandleOpen", persian_green, "🗝")
 
 signal_door_propped_open = State(
-    "SignalDoorProppedOpen", persian_green, "🔓", "black")
-signal_door_reset = State("SignalDoorReset", mango_tango, "↺▦", "black")
+    "SignalDoorProppedOpen", persian_green, "🔓")
+signal_door_reset = State("SignalDoorReset", mango_tango, "↺▦")
 signal_door_reset_walk = State(
-    "SignalDoorResetWalk", mango_tango, "↺▦◃", "black")
+    "SignalDoorResetWalk", mango_tango, "↺▦◃")
 signal_door_send_confirmed_transmission = State(
-    "SignalDoorSendConfirmedTransmission", mango_tango, "▦⇉✅", "black")
+    "SignalDoorSendConfirmedTransmission", mango_tango, "▦⇉✅")
 reset_confirmed_transmission_westWire = State(
-    "ResetConfirmedTransmissionWest", mango_tango, "↺✅⇉", "black")
+    "ResetConfirmedTransmissionWest", mango_tango, "↺✅⇉")
 
 
 ### Signal Checks
 closed_endcap_door_check_signal = State(
-    "ClosedEndcapDoorCheckSignal", grey, "✅", "black")
+    "ClosedEndcapDoorCheckSignal", grey, "✅")
 closed_endcap_door_check_signal_inactive = State(
-    "ClosedEndcapDoorCheckSignalInactive", grey, "❌", "black")
+    "ClosedEndcapDoorCheckSignalInactive", grey, "❌")
 
 signal_transmitter_turn_down_inactive = State(
-    "SignalTransmitterTurnDownInactive", grey, "⮮", "black")
+    "SignalTransmitterTurnDownInactive", grey, "⮮")
 signal_transmitter_turn_down_active = State(
-    "SignalTransmitterTurnDownActive", persian_green, "⮮", "black")
+    "SignalTransmitterTurnDownActive", persian_green, "⮮")
 signal_transmitter_turn_down_open = State(
-    "SignalTransmitterTurnDownOpen", persian_green, "⮮", "black")
+    "SignalTransmitterTurnDownOpen", persian_green, "⮮")
 signal_transmitter_turn_down_reset = State(
-    "SignalTransmitterTurnDownReset", mango_tango, "↺⮮", "black")
+    "SignalTransmitterTurnDownReset", mango_tango, "↺⮮")
 
 signal_transmitter_turn_up_inactive = State(
-    "SignalTransmitterTurnUpInactive", grey, "⮲", "black")
+    "SignalTransmitterTurnUpInactive", grey, "⮲")
 signal_transmitter_turn_up_active = State(
-    "SignalTransmitterTurnUpActive", persian_green, "⮲", "black")
+    "SignalTransmitterTurnUpActive", persian_green, "⮲")
 signal_transmitter_turn_up_reset = State(
-    "SignalTransmitterTurnUpReset", mango_tango, "↺⮲", "black")
+    "SignalTransmitterTurnUpReset", mango_tango, "↺⮲")
 
 row_signal_positive_inactive = State(
-    "RowSignalPositiveInactive", grey, "⊝", "black")
+    "RowSignalPositiveInactive", grey, "⊝")
 
 row_signal_positive_start_inactive = State(
-    "RowSignalPositiveStartInactive", green_yellow_crayola, "⊝", "black")
+    "RowSignalPositiveStartInactive", green_yellow_crayola, "⊝")
 
 row_signal_positive_start_waiting = State(
-    "RowSignalPositiveStartWaiting", green_yellow_crayola, "⊝⏱", "black")
+    "RowSignalPositiveStartWaiting", green_yellow_crayola, "⊝⏱")
 
 row_signal_positive_waiting = State(
-    "RowSignalPositiveWaiting", green_yellow_crayola, "⏱", "black")
+    "RowSignalPositiveWaiting", green_yellow_crayola, "⏱")
 row_signal_positive_full_accept = State(
     "RowSignalPositiveFullAccept", Viridian_Green, "✅")
 row_signal_intermediate_accept = State(
     "RowSignalPositiveInterimAccept", pistachio, "✅")
 row_signal_positive_reset = State(
-    "RowSignalPositiveReset", mango_tango, "↺", "black")
+    "RowSignalPositiveReset", mango_tango, "↺")
 
 
 ### Trap Doors
-trap_door_inactive = State("TrapDoorInactive", Barn_Red, "TD", "black")
+trap_door_inactive = State("TrapDoorInactive", Barn_Red, "TD")
 ### Data States
 ds_1 = State("1", Papaya_Whip, "①")
 ds_2 = State("2", Papaya_Whip, "②")
@@ -1090,14 +1090,14 @@ ds_0 = State("0", Papaya_Whip, "⓪")
 data_states_list_nums_only = [ds_0, ds_1, ds_2,
                               ds_3, ds_4, ds_5, ds_6, ds_7, ds_8, ds_9]
 
-start_state = State("EndcapDSOpen", Papaya_Whip, "(", "black")
-end_state = State("EndcapDSClosed", Papaya_Whip, ")", "black")
+start_state = State("EndcapDSOpen", Papaya_Whip, "(")
+end_state = State("EndcapDSClosed", Papaya_Whip, ")")
 data_states_list_all = [start_state] + data_states_list_nums_only + [end_state]
 
 #data_state = State("1", Papaya_Whip, "1")
 ## Reprograamming Equality Gadget by sending a reset start cap then a data string and flip the equlities
 reprogram_verifier_eq_gadget = State(
-    "ReprogramEqGadgetVerifier", Papaya_Whip, "", "black")
+    "ReprogramEqGadgetVerifier", Papaya_Whip, "")
 ### Transition Rules
 #transition = TransitionRule("WestWire", ds.label, ds.label, "WestWire", "h")
 

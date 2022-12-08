@@ -14,8 +14,8 @@ class StateTypeBuilder:
 class UnitState(State):
     def __init__(self):
         self.short_name
-    def __init__(self, label, color, display_label=None, display_color=None, display_label_font=None):
-        State.__init__(self, label, color, display_label, display_color, display_label_font)
+    def __init__(self, label, color, display_label=None):
+        State.__init__(self, label, color, display_label)
         self.short_name
         self.category
 

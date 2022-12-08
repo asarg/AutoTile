@@ -32,20 +32,11 @@ def readxml(file):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
         display_label = state_tag.get("DisplayLabel")
-        display_label_color = state_tag.get("DisplayLabelColor")
-        display_label_font = state_tag.get("DisplayLabelFont")
-
-
 
         if display_label is None:
             display_label = label
-        if display_label_color is None:
-            display_label_color = "black"
-        if display_label_font is None:
-            display_label_font = "Nerd Font"
 
-
-        tempState = State(label, color, display_label, display_label_color, display_label_font)
+        tempState = State(label, color, display_label)
 
 
         CompleteStateSet.append(tempState)
@@ -55,20 +46,11 @@ def readxml(file):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
         display_label = state_tag.get("DisplayLabel")
-        display_label_color = state_tag.get("DisplayLabelColor")
-        display_label_font = state_tag.get("DisplayLabelFont")
-
 
         if display_label is None:
             display_label = label
-        if display_label_color is None:
-            display_label_color = "black"
-        if display_label_font is None:
-            display_label_font = "Nerd Font"
 
-
-        tempState = State(label, color, display_label, display_label_color, display_label_font)
-
+        tempState = State(label, color, display_label)
 
         InitialStateSet.append(tempState)
 
@@ -77,19 +59,11 @@ def readxml(file):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
         display_label = state_tag.get("DisplayLabel")
-        display_label_color = state_tag.get("DisplayLabelColor")
-        display_label_font = state_tag.get("DisplayLabelFont")
-
 
         if display_label is None:
             display_label = label
-        if display_label_color is None:
-            display_label_color = "black"
-        if display_label_font is None:
-            display_label_font = "Nerd Font"
 
-
-        tempState = State(label, color, display_label, display_label_color, display_label_font)
+        tempState = State(label, color, display_label)
 
         SeedStateSet.append(tempState)
 
@@ -148,18 +122,12 @@ def returnSystemLoadXML(file):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
         display_label = state_tag.get("DisplayLabel")
-        display_label_color = state_tag.get("DisplayLabelColor")
-        display_label_font = state_tag.get("DisplayLabelFont")
+
 
         if display_label is None:
             display_label = label
-        if display_label_color is None:
-            display_label_color = "black"
-        if display_label_font is None:
-            display_label_font = "Nerd Font"
 
-        tempState = State(label, color, display_label,
-                          display_label_color, display_label_font)
+        tempState = State(label, color, display_label)
 
         CompleteStateSet.append(tempState)
 
@@ -168,18 +136,11 @@ def returnSystemLoadXML(file):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
         display_label = state_tag.get("DisplayLabel")
-        display_label_color = state_tag.get("DisplayLabelColor")
-        display_label_font = state_tag.get("DisplayLabelFont")
 
         if display_label is None:
             display_label = label
-        if display_label_color is None:
-            display_label_color = "black"
-        if display_label_font is None:
-            display_label_font = "Nerd Font"
 
-        tempState = State(label, color, display_label,
-                          display_label_color, display_label_font)
+        tempState = State(label, color, display_label)
 
         InitialStateSet.append(tempState)
 
@@ -188,18 +149,13 @@ def returnSystemLoadXML(file):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
         display_label = state_tag.get("DisplayLabel")
-        display_label_color = state_tag.get("DisplayLabelColor")
-        display_label_font = state_tag.get("DisplayLabelFont")
+
 
         if display_label is None:
             display_label = label
-        if display_label_color is None:
-            display_label_color = "black"
-        if display_label_font is None:
-            display_label_font = "Nerd Font"
 
-        tempState = State(label, color, display_label,
-                          display_label_color, display_label_font)
+
+        tempState = State(label, color, display_label)
 
         SeedStateSet.append(tempState)
 

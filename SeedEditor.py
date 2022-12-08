@@ -46,22 +46,22 @@ class TableScene(QtWidgets.QGraphicsScene):
             painter.drawText(rect, Qt.AlignCenter, "")
             return
         else:
-            decoded_display_label = state.display_label
+            display_label = state.display_label
 
         if self.tileSize > 10:
             fm = QtGui.QFontMetrics(painter.font())
-            txt_width = fm.width(decoded_display_label)
+            txt_width = fm.width(display_label)
 
-            if decoded_display_label is None:
+            if display_label is None:
                 if len(state.label) > 4:
                     painter.drawText(rect, Qt.AlignCenter, state.label[0:3])
                 else:
                     painter.drawText(rect, Qt.AlignCenter, state.label)
-            elif len(decoded_display_label) > 4:
+            elif len(display_label) > 4:
 
-                painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
+                painter.drawText(rect, Qt.AlignCenter, display_label[0:3])
             else:
-                painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
+                painter.drawText(rect, Qt.AlignCenter, display_label)
 
     def mouseReleaseEvent(self, e):
         x = e.scenePos().x()
@@ -183,22 +183,22 @@ class SeedScene(QtWidgets.QGraphicsScene):
             painter.drawText(rect, Qt.AlignCenter, "")
             return
         else:
-            decoded_display_label = state.display_label
+            display_label = state.display_label
 
         if self.tileSize > 10:
             fm = QtGui.QFontMetrics(painter.font())
-            txt_width = fm.width(decoded_display_label)
+            txt_width = fm.width(display_label)
 
-            if decoded_display_label is None:
+            if display_label is None:
                 if len(state.label) > 4:
                     painter.drawText(rect, Qt.AlignCenter, state.label[0:3])
                 else:
                     painter.drawText(rect, Qt.AlignCenter, state.label)
-            elif len(decoded_display_label) > 4:
+            elif len(display_label) > 4:
 
-                painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
+                painter.drawText(rect, Qt.AlignCenter, display_label[0:3])
             else:
-                painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
+                painter.drawText(rect, Qt.AlignCenter, display_label)
 
     def draw_assembly(self):
         painter = QtGui.QPainter(self.canvas)
@@ -230,7 +230,7 @@ class SeedScene(QtWidgets.QGraphicsScene):
 
         self.scenePixmapItem.setPixmap(self.canvas)
         self.update()
-    
+
     def getAssembly(self):
         return self.assembly
 

@@ -34,16 +34,14 @@ def main(system, fileName):
         label = state.returnLabel()
         color = state.returnColor()
         display_label = state.returnDisplayLabel()
-        display_label_color = state.returnDisplayLabelColor()
-        display_label_font = state.returnDisplayLabelFont()
+
 
 
         state_tag = ET.SubElement(all_states_tag, "State")
         state_tag.set('Label', label)
         state_tag.set('Color', color)
         state_tag.set('DisplayLabel', display_label)
-        state_tag.set('DisplayLabelFont', display_label_font)
-        state_tag.set('DisplayLabelColor', display_label_color)
+
 
 
     # Add all inital states
@@ -53,16 +51,15 @@ def main(system, fileName):
         label = state.returnLabel()
         color = state.returnColor()
         display_label = state.returnDisplayLabel()
-        display_label_color = state.returnDisplayLabelColor()
-        display_label_font = state.returnDisplayLabelFont()
+
+
 
 
         state_tag = ET.SubElement(initial_states_tag, "State")
         state_tag.set('Label', label)
         state_tag.set('Color', color)
         state_tag.set('DisplayLabel', display_label)
-        state_tag.set('DisplayLabelFont', display_label_font)
-        state_tag.set('DisplayLabelColor', display_label_color)
+
 
 
     # Add all seed states
@@ -72,16 +69,15 @@ def main(system, fileName):
         label = state.returnLabel()
         color = state.returnColor()
         display_label = state.returnDisplayLabel()
-        display_label_color = state.returnDisplayLabelColor()
-        display_label_font = state.returnDisplayLabelFont()
+
+
 
 
         state_tag = ET.SubElement(seed_states_tag, "State")
         state_tag.set('Label', label)
         state_tag.set('Color', color)
         state_tag.set('DisplayLabel', display_label)
-        state_tag.set('DisplayLabelFont', display_label_font)
-        state_tag.set('DisplayLabelColor', display_label_color)
+
 
     # Add all Tiles
     tiles_tag = ET.Element("Tiles")
@@ -92,8 +88,8 @@ def main(system, fileName):
         x = str(tile.getX())
         y = str(tile.getY())
         display_label = tile.returnDisplayLabel()
-        display_label_color = tile.returnDisplayLabelColor()
-        display_label_font = tile.returnDisplayLabelFont()
+
+
 
         state_tag = ET.SubElement(tiles_tag, "Tile")
         state_tag.set('Label', label)
@@ -101,8 +97,7 @@ def main(system, fileName):
         state_tag.set('x', x)
         state_tag.set('y', y)
         state_tag.set('DisplayLabel', display_label)
-        state_tag.set('DisplayLabelFont', display_label_font)
-        state_tag.set('DisplayLabelColor', display_label_color)
+
 
 
     # Add vertical transition rules

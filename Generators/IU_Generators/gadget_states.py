@@ -15,22 +15,22 @@ signal_conditional_full_reject = State("SignalConditionalFullReject", signal_rej
 signal_enter_states = [signal_enter_active, signal_enter_inactive]
 signal_exit_states = [signal_exit_accept, signal_exit_inactive]
 signal_checkpoint_states = [signal_checkpoint_inactive, signal_checkpoint_active, signal_checkpoint_reject, signal_checkpoint_accept]
-signal_receiver_inactive = State("SignalReceiverInactive", signal_inactive_color, "⎆", "black")
-signal_received_accept = State("SignalReceivedAccept", signal_full_accept_color, "⚡✔✔", "black")
-signal_received_reject = State("SignalReceivedReject", reject_color, "✖⚡", "black")
-signal_receiver_passed = State("SignalReceiverPassed", signal_full_accept_color, "⚡⇉", "black")
-signal_receiver_reset = State("SignalReceiverReset", waiting_color, "⚡↺", "black")
+signal_receiver_inactive = State("SignalReceiverInactive", signal_inactive_color, "⎆")
+signal_received_accept = State("SignalReceivedAccept", signal_full_accept_color, "⚡✔✔")
+signal_received_reject = State("SignalReceivedReject", reject_color, "✖⚡")
+signal_receiver_passed = State("SignalReceiverPassed", signal_full_accept_color, "⚡⇉")
+signal_receiver_reset = State("SignalReceiverReset", waiting_color, "⚡↺")
 signal_receiver_states = [signal_receiver_inactive, signal_received_accept, signal_received_reject, signal_receiver_passed, signal_receiver_reset]
 
-signal_transmitter = State("SignalTransmitter", signal_active_color, "⇉⍼", "black")
-signal_transmitter_inactive = State("SignalTransmitterInactive", signal_inactive_color, "⍼", "black")
-signal_transmitter_reset = State("SignalTransmitterReset", reset_color, "⍼↺", "black")
-signal_transmitter_accept = State("SignalTransmitterAccept", signal_full_accept_color, "⍼✔", "black")
-signal_transmitter_reject = State("SignalTransmitterReject", reject_color, "⍼✖ ", "black")
+signal_transmitter = State("SignalTransmitter", signal_active_color, "⇉⍼")
+signal_transmitter_inactive = State("SignalTransmitterInactive", signal_inactive_color, "⍼")
+signal_transmitter_reset = State("SignalTransmitterReset", reset_color, "⍼↺")
+signal_transmitter_accept = State("SignalTransmitterAccept", signal_full_accept_color, "⍼✔")
+signal_transmitter_reject = State("SignalTransmitterReject", reject_color, "⍼✖ ")
 signal_transmitter_states = [signal_transmitter, signal_transmitter_reset,
                              signal_transmitter_inactive, signal_transmitter_accept, signal_transmitter_reject]
-signal_wire_inactive = State("SignalWireInactive", signal_inactive_color, "⚡⇉", "black")
-signal_wire_active = State("SignalWireActive", signal_active_color, "⚡⇉", "black")
+signal_wire_inactive = State("SignalWireInactive", signal_inactive_color, "⚡⇉")
+signal_wire_active = State("SignalWireActive", signal_active_color, "⚡⇉")
 
 signal_wire_states = [signal_wire_inactive, signal_wire_active]
 

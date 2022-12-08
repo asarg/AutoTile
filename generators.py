@@ -913,7 +913,7 @@ class IUTable:
     def table_outline(self):
         for i in range(0, 4):
             i_label = str(i) + "_digit"
-            i_state = uc.State(i_label, white, i, display_label_color=black)
+            i_state = uc.State(i_label, white, i)
             self.genSys.addState(i_state)
             self.genSys.addInitialState(i_state)
 

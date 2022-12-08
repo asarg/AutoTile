@@ -807,37 +807,30 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         painter.drawRect(rect)
         painter.save()
-        #painter.setFont(QFont(state.display_label_font))
-        #painter.setPen(QColor(state.display_label_color))
-        #decoded_display_label = state.returnDisplayLabel()
+
         if state == "":
             painter.drawText(rect, Qt.AlignCenter, "")
             return
         else:
-            decoded_display_label = state.display_label
+            display_label = state.display_label
 
         if self.tileSize > 10:
             fm = QtGui.QFontMetrics(painter.font())
-            txt_width = fm.width(decoded_display_label)
+            txt_width = fm.width(display_label)
 
-            if decoded_display_label == None:
+            if display_label == None:
                 if len(state.label) > 4:
                     painter.drawText(rect, Qt.AlignCenter, state.label[0:3])
                 else:
                     painter.drawText(rect, Qt.AlignCenter, state.label)
-            elif len(decoded_display_label) > 4:
-                decoded_display_label = decoded_display_label[0:3]
+            elif len(display_label) > 4:
+                display_label = display_label[0:3]
             else:
                 fira_code = QFont(
                     "Fira Code Regular Nerd Font Complete.tff", 12)
                 painter.setFont(fira_code)
 
-                painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
-
-
-
-
-
+                painter.drawText(rect, Qt.AlignCenter, display_label)
 
         painter.restore()
 

@@ -8,7 +8,7 @@ from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
 def toCoords(x, y):
     return "(" + str(x) + "," + str(y) + ")"
 class State:
-    def __init__(self, label, color, display_label=None, display_label_font="Fira Code Regular Nerd Font Complete Mono", display_label_color ="black", xCoordinate = 0, yCoordinate = 0):
+    def __init__(self, label, color, display_label=None, xCoordinate = 0, yCoordinate = 0):
         self.label = label
         self.color = color
         self.display_label = display_label
@@ -16,16 +16,7 @@ class State:
         if display_label is None:
             self.display_label = label
 
-        if display_label_font is str:
-            self.display_label_font = QFont(display_label_font)
 
-        else:
-            self.display_label_font = display_label_font
-
-        if display_label_color is str:
-            self.display_label_color = QColor(display_label_color)
-
-        else: self.display_label_color = display_label_color
 
     # Getters
     def returnLabel(self):
@@ -41,30 +32,9 @@ class State:
             return self.returnLabel()
 
 
-    def returnDisplayLabelColor(self):
-        if self.display_label_color is str:
-            return self.display_label_color
-        else:
-            return self.returnColor()
-
-    def returnDisplayLabelFont(self):
-        return self.display_label_font
-
     def setDisplayLabel(self, display_label):
         self.display_label = display_label
-        #self.display_label = display_label.encode('utf-8')
 
-    def setDisplayLabelFont(self, display_label_font):
-        if display_label_font is str:
-            self.display_label_font = QFont(display_label_font)
-        else:
-            self.display_label_font = display_label_font
-
-    def setDisplayLabelColor(self, display_label_color):
-        if display_label_color is str:
-            self.display_label_color = QColor(display_label_color)
-        else:
-            self.display_label_color = display_label_color
 
 
     def __eq__(self, other):
@@ -105,17 +75,7 @@ class Tile:
         except Exception as e:
             raise e
 
-    def setDisplayLabelFont(self, display_label_font):
-        try:
-            self.state.setDisplayLabelFont(display_label_font)
-        except Exception as e:
-            raise e
 
-    def setDisplayLabelColor(self, display_label_color):
-        try:
-            self.state.setDisplayLabelColor(display_label_color)
-        except Exception as e:
-            raise e
     def returnColor(self):
         return self.state.returnColor()
     def returnLabel(self):
@@ -124,10 +84,6 @@ class Tile:
         return self.state
     def returnDisplayLabel(self):
         return self.state.returnDisplayLabel()
-    def returnDisplayLabelColor(self):
-        return self.state.returnDisplayLabelColor()
-    def returnDisplayLabelFont(self):
-        return self.state.returnDisplayLabelFont()
 
     def getX(self):
         return self.x
@@ -608,8 +564,6 @@ class TransitionRule:
 
         self.label1Final = label1Final
         self.label2Final = label2Final
-
-
 
         self.dir = dir
 
