@@ -131,8 +131,7 @@ def main(currentSystem, secondSystem, symbol=None):
                 rule_duplicated = True
                 break
         if(not rule_duplicated):
-            tempRule = TransitionRule(
-                second_label1, second_label2, second_label1Final, second_label2Final, "v")
+            tempRule = TransitionRule(second_label1, second_label2, second_label1Final, second_label2Final, "v")
             current_VerticalTransitionRules.append(tempRule)
         rule_duplicated = False
 
@@ -148,8 +147,7 @@ def main(currentSystem, secondSystem, symbol=None):
                 rule_duplicated = True
                 break
         if(not rule_duplicated):
-            tempRule = TransitionRule(
-                second_label1, second_label2, second_label1Final, second_label2Final, "h")
+            tempRule = TransitionRule(second_label1, second_label2, second_label1Final, second_label2Final, "h")
             current_HorizontalTransitionRules.append(tempRule)
         rule_duplicated = False
 
@@ -164,8 +162,7 @@ def main(currentSystem, secondSystem, symbol=None):
                 rule_duplicated = True
                 break
         if(not rule_duplicated):
-            tempRule = AffinityRule(
-                second_label1, second_label2, "v", second_strength)
+            tempRule = AffinityRule(second_label1, second_label2, "v", second_strength)
             current_VerticalAffinityRules.append(tempRule)
 
     # Horizontal Affinities
@@ -179,8 +176,7 @@ def main(currentSystem, secondSystem, symbol=None):
                 rule_duplicated = True
                 break
         if(not rule_duplicated):
-            tempRule = AffinityRule(
-                second_label1, second_label2, "h", second_strength)
+            tempRule = AffinityRule(second_label1, second_label2, "h", second_strength)
             current_HorizontalAffinityRules.append(tempRule)
 
     return System(current_temp, current_CompleteStateSet, current_InitialStateSet, current_SeedStateSet, current_VerticalAffinityRules, current_HorizontalAffinityRules, current_VerticalTransitionRules, current_HorizontalTransitionRules)

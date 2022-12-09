@@ -100,8 +100,7 @@ def main(currentSystem, file):
                 rule_duplicated = True
                 break
         if(not rule_duplicated):
-            tempRule = TransitionRule(
-                label1, label2, label1Final, label2Final, "v")
+            tempRule = TransitionRule(label1, label2, label1Final, label2Final, "v")
             current_VerticalTransitionRules.append(tempRule)
         rule_duplicated = False
 
@@ -128,8 +127,7 @@ def main(currentSystem, file):
                 rule_duplicated = True
                 break
         if(not rule_duplicated):
-            tempRule = TransitionRule(
-                label1, label2, label1Final, label2Final, "v")
+            tempRule = TransitionRule(label1, label2, label1Final, label2Final, "v")
             current_HorizontalTransitionRules.append(tempRule)
         rule_duplicated = False
 

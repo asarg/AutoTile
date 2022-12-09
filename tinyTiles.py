@@ -139,8 +139,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
     def Click_FileSearch(self, id):
         self.stop_sequence()
         self.SysLoaded = False
-        file = QFileDialog.getOpenFileName(
-            self, "Select XML Document", "", "XML Files (*.xml)")
+        file = QFileDialog.getOpenFileName(self, "Select XML Document", "", "XML Files (*.xml)")
         if file[0] != '':
             # Simulator must clear all of LoadFile's global variables when the user attempts to load something.
             LoadFile.HorizontalAffinityRules.clear()
@@ -214,8 +213,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             currentSystem = System(temp, states, inital_states, seed_states, vertical_affinities,
                                    horizontal_affinities, vertical_transitions, horizontal_transitions)
 
-            fileName = QFileDialog.getSaveFileName(
-                self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
+            fileName = QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
 
             if(fileName[0] != ''):
                 SaveFile.main(currentSystem, fileName)
@@ -264,8 +262,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
                 loop = QtCore.QEventLoop()
                 if self.Engine.currentIndex != 0:
-                    QtCore.QTimer.singleShot(
-                        int(self.delay * self.Engine.timeTaken()), loop.quit)
+                    QtCore.QTimer.singleShot(int(self.delay * self.Engine.timeTaken()), loop.quit)
                 else:
                     QtCore.QTimer.singleShot(self.delay, loop.quit)
                 loop.exec_()

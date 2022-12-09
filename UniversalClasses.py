@@ -148,25 +148,21 @@ class Assembly:
                     attStr = 0
 
                     if(neighborN != None):
-                        stren = v_rules.get(
-                            (neighborN.returnLabel(), iTile.returnLabel()))
+                        stren = v_rules.get(    (neighborN.returnLabel(), iTile.returnLabel()))
                         if(stren != None):
                             attStr += int(stren)
                     if(neighborS != None):
-                        stren = v_rules.get(
-                            (iTile.returnLabel(), neighborS.returnLabel()))
+                        stren = v_rules.get(    (iTile.returnLabel(), neighborS.returnLabel()))
                         if(stren != None):
                             attStr += int(stren)
                     if(neighborE != None):
-                        stren = h_rules.get(
-                            (iTile.returnLabel(), neighborE.returnLabel()))
+                        stren = h_rules.get(    (iTile.returnLabel(), neighborE.returnLabel()))
                         if(stren != None):
                             attStr += int(stren)
                     # else:
                     #    print("East of "+ str(iX) + " : " + str(iY) + " is empty")
                     if(neighborW != None):
-                        stren = h_rules.get(
-                            (neighborW.returnLabel(), iTile.returnLabel()))
+                        stren = h_rules.get(    (neighborW.returnLabel(), iTile.returnLabel()))
                         if(stren != None):
                             attStr += int(stren)
                     # else:
@@ -238,8 +234,7 @@ class Assembly:
             if(neighborS != None):
                 # second dictionary
                 # rules = iVTranRules.get(neighborS.returnLabel())
-                rules = sys_v_tr.get(
-                    (iTile.returnLabel(), neighborS.returnLabel()))
+                rules = sys_v_tr.get(    (iTile.returnLabel(), neighborS.returnLabel()))
                 # rules.append(iVTranRules)
                 if rules != None:
                     for i in range(0, len(rules), 2):
@@ -250,16 +245,13 @@ class Assembly:
                         move["state1"] = iTile.returnState()
                         move["state2"] = neighborS.returnState()
 
-                        move["state1Final"] = sy.returnState(
-                            rules[i])  # .returnLabel1Final()
-                        move["state2Final"] = sy.returnState(
-                            rules[i + 1])  # .returnLabel2Final()
+                        move["state1Final"] = sy.returnState(      rules[i])  # .returnLabel1Final()
+                        move["state2Final"] = sy.returnState(      rules[i + 1])  # .returnLabel2Final()
                         transitions_list.append(move)
 
             if(neighborE != None):
                 #rules = iHTranRules[neighborE.returnLabel()]
-                rules = sys_h_tr.get(
-                    (iTile.returnLabel(), neighborE.returnLabel()))
+                rules = sys_h_tr.get(    (iTile.returnLabel(), neighborE.returnLabel()))
                 # print(sys_h_tr)
                 # rules.append(iHTranRules)
 
@@ -273,10 +265,8 @@ class Assembly:
                         move["state1"] = iTile.returnState()
                         move["state2"] = neighborE.returnState()
 
-                        move["state1Final"] = sy.returnState(
-                            rules[i])  # .returnLabel1Final()
-                        move["state2Final"] = sy.returnState(
-                            rules[i + 1])  # .returnLabel2Final()
+                        move["state1Final"] = sy.returnState(      rules[i])  # .returnLabel1Final()
+                        move["state2Final"] = sy.returnState(      rules[i + 1])  # .returnLabel2Final()
                         transitions_list.append(move)
 
         return transitions_list
@@ -367,8 +357,7 @@ class Assembly:
         # print(a.tiles[change])
         #print(trans["state2Final"].returnLabel())
         #print(trans["type"])
-        self.coords[toCoords(trans["x"], trans["y"])].setState(
-            trans["state1Final"])
+        self.coords[toCoords(trans["x"], trans["y"])].setState(trans["state1Final"])
         # a.tiles[trans["x"]][trans["y"]].setState(trans["state1Final"])
         if(trans["dir"] == "v"):
             self.coords[toCoords(trans["x"], trans["y"] - 1)].setState(trans["state2Final"])
@@ -435,25 +424,21 @@ class Assembly:
             attStr = 0
 
             if(neighborN != None):
-                stren = v_rules.get(
-                    (neighborN.returnLabel(), iTile.returnLabel()))
+                stren = v_rules.get(    (neighborN.returnLabel(), iTile.returnLabel()))
                 if(stren != None):
                     attStr += int(stren)
             if(neighborS != None):
-                stren = v_rules.get(
-                    (iTile.returnLabel(), neighborS.returnLabel()))
+                stren = v_rules.get(    (iTile.returnLabel(), neighborS.returnLabel()))
                 if(stren != None):
                     attStr += int(stren)
             if(neighborE != None):
-                stren = h_rules.get(
-                    (iTile.returnLabel(), neighborE.returnLabel()))
+                stren = h_rules.get(    (iTile.returnLabel(), neighborE.returnLabel()))
                 if(stren != None):
                     attStr += int(stren)
             # else:
             #    print("East of "+ str(iX) + " : " + str(iY) + " is empty")
             if(neighborW != None):
-                stren = h_rules.get(
-                    (neighborW.returnLabel(), iTile.returnLabel()))
+                stren = h_rules.get(    (neighborW.returnLabel(), iTile.returnLabel()))
                 if(stren != None):
                     attStr += int(stren)
             # else:
@@ -489,8 +474,7 @@ class Assembly:
             if(neighborS != None):
                     # second dictionary
                     # rules = iVTranRules.get(neighborS.returnLabel())
-                    rules = sys_v_tr.get(
-                        (iTile.returnLabel(), neighborS.returnLabel()))
+                    rules = sys_v_tr.get((iTile.returnLabel(), neighborS.returnLabel()))
                     # rules.append(iVTranRules)
                     if rules != None:
                         for i in range(0, len(rules), 2):
@@ -501,10 +485,8 @@ class Assembly:
                             move["state1"] = iTile.returnState()
                             move["state2"] = neighborS.returnState()
 
-                            move["state1Final"] = sy.returnState(
-                                rules[i])  # .returnLabel1Final()
-                            move["state2Final"] = sy.returnState(
-                                rules[i + 1])  # .returnLabel2Final()
+                            move["state1Final"] = sy.returnState(          rules[i])  # .returnLabel1Final()
+                            move["state2Final"] = sy.returnState(          rules[i + 1])  # .returnLabel2Final()
                             transitions_list.append(move)
 
 
@@ -512,8 +494,7 @@ class Assembly:
             if(neighborE != None):
                     # second dictionary
                     # rules = iVTranRules.get(neighborS.returnLabel())
-                    rules = sys_h_tr.get(
-                        (iTile.returnLabel(), neighborE.returnLabel()))
+                    rules = sys_h_tr.get((iTile.returnLabel(), neighborE.returnLabel()))
                     # rules.append(iVTranRules)
                     if rules != None:
                         for i in range(0, len(rules), 2):
@@ -524,10 +505,8 @@ class Assembly:
                             move["state1"] = iTile.returnState()
                             move["state2"] = neighborE.returnState()
 
-                            move["state1Final"] = sy.returnState(
-                                rules[i])  # .returnLabel1Final()
-                            move["state2Final"] = sy.returnState(
-                                rules[i + 1])  # .returnLabel2Final()
+                            move["state1Final"] = sy.returnState(          rules[i])  # .returnLabel1Final()
+                            move["state2Final"] = sy.returnState(          rules[i + 1])  # .returnLabel2Final()
                             transitions_list.append(move)
 
         return transitions_list
@@ -650,11 +629,9 @@ class System:
             key = (label1, label2)
             transition = (label1Final, label2Final)
 
-            self.add_values_in_dict(
-                self.vertical_transitions_dict, key, transition)
+            self.add_values_in_dict(self.vertical_transitions_dict, key, transition)
 
-            # self.vertical_transitions_dict[label1, label2] = (
-            #    label1Final, label2Final)
+            # self.vertical_transitions_dict[label1, label2] = (#    label1Final, label2Final)
         for rule in self.horizontal_transitions_list:
             label1 = rule.returnLabel1()
             label2 = rule.returnLabel2()
@@ -664,10 +641,8 @@ class System:
             key = (label1, label2)
             transition = (label1Final, label2Final)
 
-            self.add_values_in_dict(
-                self.horizontal_transitions_dict, key, transition)
-            # self.horizontal_transitions_dict[label1, label2] = (
-            #    label1Final, label2Final)
+            self.add_values_in_dict(self.horizontal_transitions_dict, key, transition)
+            # self.horizontal_transitions_dict[label1, label2] = (#    label1Final, label2Final)
 
 
     def add_values_in_dict(self, dict, key, list_of_values):
@@ -788,12 +763,10 @@ class System:
         self.horizontal_affinities_dict[label1, label2] = value
 
     def appendVerticalTransitionDict(self, label1, label2, label1Final, label2Final):
-        self.vertical_transitions_dict[label1, label2] = (
-            label1Final, label2Final)
+        self.vertical_transitions_dict[label1, label2] = (label1Final, label2Final)
 
     def appendHorizontalTransitionDict(self, label1, label2, label1Final, label2Final):
-        self.horizontal_transitions_dict[label1, label2] = (
-            label1Final, label2Final)
+        self.horizontal_transitions_dict[label1, label2] = (label1Final, label2Final)
 
     # TO DO Update these to write to a dictionary, and to use lists of objects from universalClasses.py
 

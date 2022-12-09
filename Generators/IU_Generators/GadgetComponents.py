@@ -64,23 +64,20 @@ class WireGadget:
                 if southWire not in self.states_used:
                     self.states_used.append(southWire)
             elif self.direction == "W":
-                self.wire_list.append(
-                    Tile(westWire, self.start_x + i, self.start_y))
+                self.wire_list.append(    Tile(westWire, self.start_x + i, self.start_y))
                 self.end_x = self.start_x + i
                 self.end_y = self.start_y
                 if westWire not in self.states_used:
                     self.states_used.append(westWire)
             elif self.direction == "E":
-                self.wire_list.append(
-                    Tile(eastWire, self.start_x + i, self.start_y))
+                self.wire_list.append(    Tile(eastWire, self.start_x + i, self.start_y))
                 self.end_x = self.start_x + i
                 self.end_y = self.start_y
                 if eastWire not in self.states_used:
                     self.states_used.append(eastWire)
 
         self.wire.setTiles(self.wire_list)
-        print("Wire made from ({},{}) to {}".format(
-            self.start_x, self.start_y, self.wire_list[-1].returnPosition()))
+        print("Wire made from ({},{}) to {}".format(self.start_x, self.start_y, self.wire_list[-1].returnPosition()))
 
     def returnWireTileList(self):
         return self.wire_list
@@ -98,17 +95,13 @@ class WireGadget:
 
         for i in range(len(data_string)):
             if self.direction == "N":
-                temptile = Tile(
-                    data_string[i].state, self.end_x, self.end_y - i)
+                temptile = Tile(    data_string[i].state, self.end_x, self.end_y - i)
             elif self.direction == "S":
-                temptile = Tile(
-                    data_string[i].state, self.end_x, self.end_y + i)
+                temptile = Tile(    data_string[i].state, self.end_x, self.end_y + i)
             elif self.direction == "W":
-                temptile = Tile(
-                    data_string[i].state, self.end_x + i, self.end_y)
+                temptile = Tile(    data_string[i].state, self.end_x + i, self.end_y)
             elif self.direction == "E":
-                temptile = Tile(
-                    data_string[i].state, self.end_x + i, self.end_y)
+                temptile = Tile(    data_string[i].state, self.end_x + i, self.end_y)
             self.test_data_tile_list.append(temptile)
             if data_string[i].state not in self.states_used:
                 self.states_used.append(data_string[i].state)

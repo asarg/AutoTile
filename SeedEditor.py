@@ -68,8 +68,7 @@ class TableScene(QtWidgets.QGraphicsScene):
         y = e.scenePos().y()
         section_y = int(y / (self.tileSize + 20))
 
-        if (
-            y >= ((section_y * (self.tileSize + 20)) + 20)
+        if (y >= ((section_y * (self.tileSize + 20)) + 20)
             and y <= ((section_y + 1) * (self.tileSize + 20))
             and x >= int(self.width / 2 - (self.tileSize / 2))
             and x <= int(self.width / 2 + (self.tileSize / 2))

@@ -117,22 +117,18 @@ def genDoubleIndexStates(vLen):
 
         # Rule for A state reaches bottom of the column to increment
         if i < sqrtLen - 1:
-            trIncA = uc.TransitionRule(
-                "A", str(i) + "A'", str(i + 1) + "A", str(i) + "A'", "v")
+            trIncA = uc.TransitionRule("A", str(i) + "A'", str(i + 1) + "A", str(i) + "A'", "v")
             genSys.addTransitionRule(trIncA)
 
         # Rules for propagating the A index upward
-        propUp = uc.TransitionRule(
-            "A", str(i) + "A", str(i) + "A", str(i) + "A", "v")
+        propUp = uc.TransitionRule("A", str(i) + "A", str(i) + "A", str(i) + "A", "v")
         genSys.addTransitionRule(propUp)
-        propUpPrime = uc.TransitionRule(
-            "A'", str(i) + "A", str(i) + "A'", str(i) + "A", "v")
+        propUpPrime = uc.TransitionRule("A'", str(i) + "A", str(i) + "A'", str(i) + "A", "v")
         genSys.addTransitionRule(propUpPrime)
 
         # Rule allowing B column to start the next section
         if i < sqrtLen - 1:
-            trGrowB = uc.TransitionRule(str(
-                i) + "A'", str(sqrtLen - 1) + "B", str(i) + "A'", str(sqrtLen - 1) + "B'", "h")
+            trGrowB = uc.TransitionRule(str(i) + "A'", str(sqrtLen - 1) + "B", str(i) + "A'", str(sqrtLen - 1) + "B'", "h")
             genSys.addTransitionRule(trGrowB)
 
         trBPrime = uc.TransitionRule("0B", str(sqrtLen - 1) + "B'", "0B", str(sqrtLen - 1) + "B''", "v")
@@ -217,8 +213,7 @@ def genSqrtBaseBString(value, base):
         stateI = uc.State(str(i) + "s", color)
         genSys.addState(stateI)
 
-        trBPrimeI = uc.TransitionRule(
-            str(i) + "s", str(sqrtLen - 1) + "B'", str(i) + "s", str(sqrtLen - 1) + "B''", "v")
+        trBPrimeI = uc.TransitionRule(str(i) + "s", str(sqrtLen - 1) + "B'", str(i) + "s", str(sqrtLen - 1) + "B''", "v")
         genSys.addTransitionRule(trBPrimeI)
 
         trBPrimeI = uc.TransitionRule(str(i) + "s", str(sqrtLen - 1) + "B'", str(i) + "s", str(sqrtLen - 1) + "B''", "v")

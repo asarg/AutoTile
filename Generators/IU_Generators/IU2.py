@@ -2,8 +2,6 @@ import UniversalClasses as uc
 from Assets.colors import *
 import sys
 
-
-
 class DataString: # Takes in a list of data objects and
     def __init__(self, data, color):
         self.data = data
@@ -92,8 +90,7 @@ class IUGenerators:
         asb, seed_states, seed_tiles = self.basicWireSeedAssembly2()
 
         #System takes in temp, states, initial states, seed states, vertical_affinitys, horizontal_affinitys, vert transitions, horiz transitions, tile vertical transitions, tile horizontal transitions, seed assembly
-        self.genSys = uc.System(
-            1, seed_states, [], seed_states,  [], [], [], [], [], [], asb)
+        self.genSys = uc.System(1, seed_states, [], seed_states,  [], [], [], [], [], [], asb)
 
         for i in self.example_states_data2:
             aff = uc.AffinityRule(westWire.label, i.label, "h", 1)
@@ -102,8 +99,7 @@ class IUGenerators:
             aff = uc.AffinityRule(i.label, westWire.label, "h", 1)
             self.genSys.addAffinity(aff)
             self.all_aff.append(aff)
-            tr = uc.TransitionRule(
-                westWire.label, i.label, i.label, westWire.label, "h")
+            tr = uc.TransitionRule(westWire.label, i.label, i.label, westWire.label, "h")
             self.genSys.addTransitionRule(tr)
             self.all_tr.append(tr)
 
@@ -148,8 +144,7 @@ class IUGenerators:
             if i != end_state:
                 endcap_genSys.addTransitionRule(uc.TransitionRule(endcap_door_west_active.label, i.label, i.label, endcap_door_west_active.label, "h"))
             else:
-                endcap_genSys.addTransitionRule(uc.TransitionRule(
-                    endcap_door_west_active.label, i.label, i.label, endcap_door_west_stop.label, "h"))
+                endcap_genSys.addTransitionRule(uc.TransitionRule(    endcap_door_west_active.label, i.label, i.label, endcap_door_west_stop.label, "h"))
 
         endcap_genSys.addTransitionRule(uc.TransitionRule(endcap_door_west_inactive.label, start_state.label, endcap_door_west_active.label, start_state.label, "h"))
 
@@ -178,37 +173,26 @@ class IUGenerators:
         endcap_genSys = uc.System(1, endcap_states, [], endcap_all_seed_states, [
         ], horizontal_affinities, [], horizontal_transitions, [], [], end_cap_asb)
 
-        endcap_genSys.addAffinity(uc.AffinityRule(
-            endcap_door_west_inactive.label, westWire.label, "h", 1))
+        endcap_genSys.addAffinity(uc.AffinityRule(endcap_door_west_inactive.label, westWire.label, "h", 1))
 
-        endcap_genSys.addAffinity(uc.AffinityRule(
-            endcap_door_west_inactive.label, north_prefix.label, "h", 1))
+        endcap_genSys.addAffinity(uc.AffinityRule(endcap_door_west_inactive.label, north_prefix.label, "h", 1))
 
-        endcap_genSys.addAffinity(uc.AffinityRule(
-            endcap_door_west_stop.label, end_state.label, "h", 1))
+        endcap_genSys.addAffinity(uc.AffinityRule(endcap_door_west_stop.label, end_state.label, "h", 1))
 
-        endcap_genSys.addAffinity(uc.AffinityRule(
-            endcap_door_west_stop.label, westWire.label, "h", 1))
-        endcap_genSys.addAffinity(uc.AffinityRule(
-            westWire.label, endcap_door_west_stop.label, "h", 1))
+        endcap_genSys.addAffinity(uc.AffinityRule(endcap_door_west_stop.label, westWire.label, "h", 1))
+        endcap_genSys.addAffinity(uc.AffinityRule(westWire.label, endcap_door_west_stop.label, "h", 1))
 
         for i in self.example_states_data2:
-            endcap_genSys.addAffinity(uc.AffinityRule(
-                endcap_door_west_active.label, i.label, "h", 1))
-            endcap_genSys.addAffinity(uc.AffinityRule(
-                i.label, endcap_door_west_active.label, "h", 1))
+            endcap_genSys.addAffinity(uc.AffinityRule(endcap_door_west_active.label, i.label, "h", 1))
+            endcap_genSys.addAffinity(uc.AffinityRule(i.label, endcap_door_west_active.label, "h", 1))
             if i != end_state:
-                endcap_genSys.addTransitionRule(uc.TransitionRule(
-                    endcap_door_west_active.label, i.label, i.label, endcap_door_west_active.label, "h"))
+                endcap_genSys.addTransitionRule(uc.TransitionRule(    endcap_door_west_active.label, i.label, i.label, endcap_door_west_active.label, "h"))
             else:
-                endcap_genSys.addTransitionRule(uc.TransitionRule(
-                    endcap_door_west_active.label, i.label, i.label, endcap_door_west_stop.label, "h"))
+                endcap_genSys.addTransitionRule(uc.TransitionRule(    endcap_door_west_active.label, i.label, i.label, endcap_door_west_stop.label, "h"))
 
-        endcap_genSys.addTransitionRule(uc.TransitionRule(
-            endcap_door_west_inactive.label, north_prefix.label, endcap_door_west_active.label, north_prefix.label, "h"))
+        endcap_genSys.addTransitionRule(uc.TransitionRule(endcap_door_west_inactive.label, north_prefix.label, endcap_door_west_active.label, north_prefix.label, "h"))
 
-        endcap_genSys.addTransitionRule(uc.TransitionRule(
-            westWire.label, endcap_door_west_stop.label, endcap_door_west_stop.label, westWire.label, "h"))
+        endcap_genSys.addTransitionRule(uc.TransitionRule(westWire.label, endcap_door_west_stop.label, endcap_door_west_stop.label, westWire.label, "h"))
         self.all_sys["endCapBasic"] = endcap_genSys
         return endcap_genSys
 
@@ -238,37 +222,26 @@ class IUGenerators:
         endcap_genSys = uc.System(1, endcap_states, [], endcap_all_seed_states, [
         ], horizontal_affinities, [], horizontal_transitions, [], [], end_cap_asb)
 
-        endcap_genSys.addAffinity(uc.AffinityRule(
-            endcap_door_west_inactive.label, westWire.label, "h", 1))
+        endcap_genSys.addAffinity(uc.AffinityRule(endcap_door_west_inactive.label, westWire.label, "h", 1))
 
-        endcap_genSys.addAffinity(uc.AffinityRule(
-            endcap_door_west_inactive.label, north_prefix.label, "h", 1))
+        endcap_genSys.addAffinity(uc.AffinityRule(endcap_door_west_inactive.label, north_prefix.label, "h", 1))
 
-        endcap_genSys.addAffinity(uc.AffinityRule(
-            endcap_door_west_stop.label, end_state.label, "h", 1))
+        endcap_genSys.addAffinity(uc.AffinityRule(endcap_door_west_stop.label, end_state.label, "h", 1))
 
-        endcap_genSys.addAffinity(uc.AffinityRule(
-            endcap_door_west_stop.label, westWire.label, "h", 1))
-        endcap_genSys.addAffinity(uc.AffinityRule(
-            westWire.label, endcap_door_west_stop.label, "h", 1))
+        endcap_genSys.addAffinity(uc.AffinityRule(endcap_door_west_stop.label, westWire.label, "h", 1))
+        endcap_genSys.addAffinity(uc.AffinityRule(westWire.label, endcap_door_west_stop.label, "h", 1))
 
         for i in self.example_states_data2:
-            endcap_genSys.addAffinity(uc.AffinityRule(
-                endcap_door_west_active.label, i.label, "h", 1))
-            endcap_genSys.addAffinity(uc.AffinityRule(
-                i.label, endcap_door_west_active.label, "h", 1))
+            endcap_genSys.addAffinity(uc.AffinityRule(endcap_door_west_active.label, i.label, "h", 1))
+            endcap_genSys.addAffinity(uc.AffinityRule(i.label, endcap_door_west_active.label, "h", 1))
             if i != end_state:
-                endcap_genSys.addTransitionRule(uc.TransitionRule(
-                    endcap_door_west_active.label, i.label, i.label, endcap_door_west_active.label, "h"))
+                endcap_genSys.addTransitionRule(uc.TransitionRule(    endcap_door_west_active.label, i.label, i.label, endcap_door_west_active.label, "h"))
             else:
-                endcap_genSys.addTransitionRule(uc.TransitionRule(
-                    endcap_door_west_active.label, i.label, i.label, endcap_door_west_stop.label, "h"))
+                endcap_genSys.addTransitionRule(uc.TransitionRule(    endcap_door_west_active.label, i.label, i.label, endcap_door_west_stop.label, "h"))
 
-        endcap_genSys.addTransitionRule(uc.TransitionRule(
-            endcap_door_west_inactive.label, north_prefix.label, endcap_door_west_active.label, north_prefix.label, "h"))
+        endcap_genSys.addTransitionRule(uc.TransitionRule(endcap_door_west_inactive.label, north_prefix.label, endcap_door_west_active.label, north_prefix.label, "h"))
 
-        endcap_genSys.addTransitionRule(uc.TransitionRule(
-            westWire.label, endcap_door_west_stop.label, endcap_door_west_stop.label, westWire.label, "h"))
+        endcap_genSys.addTransitionRule(uc.TransitionRule(westWire.label, endcap_door_west_stop.label, endcap_door_west_stop.label, westWire.label, "h"))
         self.all_sys["endCapBasic"] = endcap_genSys
         return endcap_genSys
     def wireGeneratorWithEndcapDoorSignalGadget(self):
@@ -301,20 +274,15 @@ class IUGenerators:
         endcap_horizontal_affinities = endcap_no_signal_sys.returnHorizontalAffinityList()
         endcap_asb = endcap_no_signal_sys.returnSeedAssembly()
 
-        endcap_asb.setTiles(
-            [uc.Tile(endcap_door_west_handle_inactive, -1, 1)])
+        endcap_asb.setTiles([uc.Tile(endcap_door_west_handle_inactive, -1, 1)])
         #System takes in temp, states, initial states, seed states, vertical_affinitys, horizontal_affinitys, vert transitions, horiz transitions, tile vertical transitions, tile horizontal transitions, seed assembly
         endcap_signal_genSys = uc.System(1, endcap_gadget_states, [], endcap_gadget_seed_states,  [
         ], endcap_horizontal_affinities, [], endcap_horizontal_transitions, [],  [], endcap_asb)
 
-        endcap_signal_genSys.addAffinity(uc.AffinityRule(
-            endcap_door_west_handle_inactive.label, endcap_door_west_inactive.label, "v", 1))
-        endcap_signal_genSys.addAffinity(uc.AffinityRule(
-            endcap_door_west_handle_inactive.label, endcap_door_west_active.label, "v", 1))
-        endcap_signal_genSys.addAffinity(uc.AffinityRule(
-            endcap_door_west_handle_active.label, endcap_door_west_active.label, "v", 1))
-        endcap_signal_genSys.addAffinity(uc.AffinityRule(
-            endcap_door_west_handle_inactive.label, endcap_door_west_stop.label, "v", 1))
+        endcap_signal_genSys.addAffinity(uc.AffinityRule(endcap_door_west_handle_inactive.label, endcap_door_west_inactive.label, "v", 1))
+        endcap_signal_genSys.addAffinity(uc.AffinityRule(endcap_door_west_handle_inactive.label, endcap_door_west_active.label, "v", 1))
+        endcap_signal_genSys.addAffinity(uc.AffinityRule(endcap_door_west_handle_active.label, endcap_door_west_active.label, "v", 1))
+        endcap_signal_genSys.addAffinity(uc.AffinityRule(endcap_door_west_handle_inactive.label, endcap_door_west_stop.label, "v", 1))
         return endcap_signal_genSys
 
     def EqualityGadgetGenerator(self):
@@ -431,8 +399,7 @@ class IUGenerators:
                                signal_transmitter_turn_down_active.label, row_signal_positive_full_accept.label, "h")
         endcap_equality_gadget_sys.addTransitionRule(tr)
 
-        tr = uc.TransitionRule(
-            row_signal_positive_start_inactive.label, signal_transmitter_turn_up_active.label, row_signal_positive_start_waiting.label, signal_transmitter_turn_up_active.label, "h")
+        tr = uc.TransitionRule(row_signal_positive_start_inactive.label, signal_transmitter_turn_up_active.label, row_signal_positive_start_waiting.label, signal_transmitter_turn_up_active.label, "h")
         endcap_equality_gadget_sys.addTransitionRule(tr)
 
         tr = uc.TransitionRule(row_signal_positive_inactive.label, row_signal_positive_start_waiting.label,
@@ -707,8 +674,7 @@ class IUGenerators:
 
         endcap_equality_gadget_sys.addTransitionRule(self.combine_affs_for_tr(aff1, aff2, "h"))
 
-        aff1 = uc.AffinityRule(
-            signal_transmitter_turn_down_active.label, row_signal_positive_reset.label, "h", 1)
+        aff1 = uc.AffinityRule(signal_transmitter_turn_down_active.label, row_signal_positive_reset.label, "h", 1)
         endcap_equality_gadget_sys.addAffinity(aff1)
 
         aff2 = uc.AffinityRule(signal_transmitter_turn_down_reset.label, row_signal_positive_inactive.label, "h", 1)
@@ -716,15 +682,13 @@ class IUGenerators:
 
         endcap_equality_gadget_sys.addTransitionRule(self.combine_affs_for_tr(aff1, aff2, "h"))
 
-        aff1 = uc.AffinityRule(
-            signal_transmitter_turn_down_reset.label, signal_door_handle_open.label, "v", 1)
+        aff1 = uc.AffinityRule(signal_transmitter_turn_down_reset.label, signal_door_handle_open.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff1)
 
         aff2 = uc.AffinityRule(signal_transmitter_turn_down_inactive.label, signal_door_handle_reset.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff2)
 
-        endcap_equality_gadget_sys.addTransitionRule(
-            self.combine_affs_for_tr(aff1, aff2, "v"))
+        endcap_equality_gadget_sys.addTransitionRule(self.combine_affs_for_tr(aff1, aff2, "v"))
 
         ### Signal Door Walk Reset
         aff1 = uc.AffinityRule(confirm_equal_S_end_state.label, signal_door_reset.label, "v", 1)
@@ -741,8 +705,7 @@ class IUGenerators:
         aff2 = uc.AffinityRule(signal_door_reset.label, westWire.label, "h", 1)
         endcap_equality_gadget_sys.addAffinity(aff2)
 
-        endcap_equality_gadget_sys.addTransitionRule(
-            self.combine_affs_for_tr(aff1, aff2, "h"))
+        endcap_equality_gadget_sys.addTransitionRule(self.combine_affs_for_tr(aff1, aff2, "h"))
 
         aff1 = uc.AffinityRule(confirm_equal_S_any_state.label, signal_door_reset.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff1)
@@ -752,12 +715,10 @@ class IUGenerators:
 
         endcap_equality_gadget_sys.addTransitionRule(self.combine_affs_for_tr(aff1, aff2, "v"))
 
-        aff1 = uc.AffinityRule(
-            confirm_equal_S_start_state.label, signal_door_reset.label, "v", 1)
+        aff1 = uc.AffinityRule(confirm_equal_S_start_state.label, signal_door_reset.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff1)
 
-        aff2 = uc.AffinityRule(
-            check_equal_S_start_state_inactive.label, signal_door_reset_walk.label, "v", 1)
+        aff2 = uc.AffinityRule(check_equal_S_start_state_inactive.label, signal_door_reset_walk.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff2)
 
         endcap_equality_gadget_sys.addTransitionRule(self.combine_affs_for_tr(aff1, aff2, "v"))
@@ -769,11 +730,9 @@ class IUGenerators:
                                signal_door_send_confirmed_transmission.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff2)
 
-        endcap_equality_gadget_sys.addTransitionRule(
-            self.combine_affs_for_tr(aff1, aff2, "v"))
+        endcap_equality_gadget_sys.addTransitionRule(self.combine_affs_for_tr(aff1, aff2, "v"))
 
-        aff1 = uc.AffinityRule(
-            signal_door_send_confirmed_transmission.label, westWire.label, "h", 1)
+        aff1 = uc.AffinityRule(signal_door_send_confirmed_transmission.label, westWire.label, "h", 1)
         endcap_equality_gadget_sys.addAffinity(aff1)
 
         aff2 = uc.AffinityRule(signal_door_inactive.label,
@@ -782,12 +741,10 @@ class IUGenerators:
 
         endcap_equality_gadget_sys.addTransitionRule(self.combine_affs_for_tr(aff1, aff2, "h"))
 
-        aff1 = uc.AffinityRule(
-            reset_confirmed_transmission_westWire.label, westWire.label, "h", 1)
+        aff1 = uc.AffinityRule(reset_confirmed_transmission_westWire.label, westWire.label, "h", 1)
         endcap_equality_gadget_sys.addAffinity(aff1)
 
-        aff2 = uc.AffinityRule(
-            westWire.label, reset_confirmed_transmission_westWire.label, "h", 1)
+        aff2 = uc.AffinityRule(westWire.label, reset_confirmed_transmission_westWire.label, "h", 1)
         endcap_equality_gadget_sys.addAffinity(aff2)
 
         endcap_equality_gadget_sys.addTransitionRule(self.combine_affs_for_tr(aff1, aff2, "h"))
@@ -796,12 +753,10 @@ class IUGenerators:
                                endcap_door_west_reset_waiting.label, "h", 1)
         endcap_equality_gadget_sys.addAffinity(aff1)
 
-        aff2 = uc.AffinityRule(
-            westWire.label, endcap_door_west_inactive.label, "h", 1)
+        aff2 = uc.AffinityRule(westWire.label, endcap_door_west_inactive.label, "h", 1)
         endcap_equality_gadget_sys.addAffinity(aff2)
 
-        endcap_equality_gadget_sys.addTransitionRule(
-            self.combine_affs_for_tr(aff1, aff2, "h"))
+        endcap_equality_gadget_sys.addTransitionRule(self.combine_affs_for_tr(aff1, aff2, "h"))
 
         print("Endcap Equality Gadget System States Number: " + str(len(endcap_equality_gadget_sys.states)))
 
@@ -899,14 +854,11 @@ class IUGenerators:
         endcap_equality_gadget_sys.addState(endcap_door_west_reset_waiting)
         endcap_equality_gadget_sys.addState(signal_transmitter_turn_down_reset)
         endcap_equality_gadget_sys.addState(signal_transmitter_turn_up_reset)
-        endcap_equality_gadget_sys.addState(
-            endcap_door_west_handle_reset_waiting)
+        endcap_equality_gadget_sys.addState(endcap_door_west_handle_reset_waiting)
         endcap_equality_gadget_sys.addState(row_signal_positive_reset)
         endcap_equality_gadget_sys.addState(signal_door_handle_reset)
-        endcap_equality_gadget_sys.addState(
-            signal_door_send_confirmed_transmission)
-        endcap_equality_gadget_sys.addState(
-            reset_confirmed_transmission_westWire)
+        endcap_equality_gadget_sys.addState(signal_door_send_confirmed_transmission)
+        endcap_equality_gadget_sys.addState(reset_confirmed_transmission_westWire)
         endcap_equality_gadget_sys.addState(signal_door_handle_inactive)
         endcap_equality_gadget_sys.addState(signal_door_inactive)
     ### Purely Signal Arc
@@ -974,8 +926,7 @@ class IUGenerators:
                                signal_transmitter_turn_down_active.label, row_signal_positive_full_accept.label, "h")
         endcap_equality_gadget_sys.addTransitionRule(tr)
 
-        tr = uc.TransitionRule(
-            row_signal_positive_start_inactive.label, signal_transmitter_turn_up_active.label, row_signal_positive_start_waiting.label, signal_transmitter_turn_up_active.label, "h")
+        tr = uc.TransitionRule(row_signal_positive_start_inactive.label, signal_transmitter_turn_up_active.label, row_signal_positive_start_waiting.label, signal_transmitter_turn_up_active.label, "h")
         endcap_equality_gadget_sys.addTransitionRule(tr)
 
         tr = uc.TransitionRule(row_signal_positive_inactive.label, row_signal_positive_start_waiting.label,
@@ -999,8 +950,7 @@ class IUGenerators:
                               check_equal_S_end_state.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            row_signal_positive_start_inactive.label, check_equal_S_end_state.label, "v", 1)
+        aff = uc.AffinityRule(row_signal_positive_start_inactive.label, check_equal_S_end_state.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
 
@@ -1047,12 +997,10 @@ class IUGenerators:
                                confirm_equal_S_end_state.label, end_state.label, "v")
         endcap_equality_gadget_sys.addTransitionRule(tr)
 
-        aff = uc.AffinityRule(
-            row_signal_positive_start_waiting.label, confirm_equal_S_end_state.label, "v", 1)
+        aff = uc.AffinityRule(row_signal_positive_start_waiting.label, confirm_equal_S_end_state.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            row_signal_positive_full_accept.label, confirm_equal_S_end_state.label, "v", 1)
+        aff = uc.AffinityRule(row_signal_positive_full_accept.label, confirm_equal_S_end_state.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
         tr = uc.TransitionRule(row_signal_positive_start_waiting.label, confirm_equal_S_end_state.label,
@@ -1063,110 +1011,85 @@ class IUGenerators:
 
         ### Equality Tiles Any Number Equality
 
-        aff = uc.AffinityRule(
-            check_equal_S_any_num_state.label, ds_0.label, "v", 1)
+        aff = uc.AffinityRule(check_equal_S_any_num_state.label, ds_0.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            check_equal_S_any_num_state.label, ds_1.label, "v", 1)
+        aff = uc.AffinityRule(check_equal_S_any_num_state.label, ds_1.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            check_equal_S_any_num_state.label, ds_2.label, "v", 1)
+        aff = uc.AffinityRule(check_equal_S_any_num_state.label, ds_2.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            check_equal_S_any_num_state.label, ds_3.label, "v", 1)
+        aff = uc.AffinityRule(check_equal_S_any_num_state.label, ds_3.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            check_equal_S_any_num_state.label, ds_4.label, "v", 1)
+        aff = uc.AffinityRule(check_equal_S_any_num_state.label, ds_4.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            check_equal_S_any_num_state.label, ds_5.label, "v", 1)
+        aff = uc.AffinityRule(check_equal_S_any_num_state.label, ds_5.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            check_equal_S_any_num_state.label, ds_6.label, "v", 1)
+        aff = uc.AffinityRule(check_equal_S_any_num_state.label, ds_6.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            check_equal_S_any_num_state.label, ds_7.label, "v", 1)
+        aff = uc.AffinityRule(check_equal_S_any_num_state.label, ds_7.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            check_equal_S_any_num_state.label, ds_8.label, "v", 1)
+        aff = uc.AffinityRule(check_equal_S_any_num_state.label, ds_8.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            check_equal_S_any_num_state.label, ds_9.label, "v", 1)
+        aff = uc.AffinityRule(check_equal_S_any_num_state.label, ds_9.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
         ### Added Prefix Equality
-        aff = uc.AffinityRule(
-            check_equal_S_NorthPrefix_inactive.label, north_prefix.label, "v", 1)
+        aff = uc.AffinityRule(check_equal_S_NorthPrefix_inactive.label, north_prefix.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            check_equal_S_NorthPrefix.label, north_prefix.label, "v", 1)
+        aff = uc.AffinityRule(check_equal_S_NorthPrefix.label, north_prefix.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
 
 
         ### Confirm Equality Aff with Data String
-        aff = uc.AffinityRule(
-            confirm_equal_S_any_state.label, ds_0.label, "v", 1)
+        aff = uc.AffinityRule(confirm_equal_S_any_state.label, ds_0.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            confirm_equal_S_any_state.label, ds_1.label, "v", 1)
+        aff = uc.AffinityRule(confirm_equal_S_any_state.label, ds_1.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            confirm_equal_S_any_state.label, ds_2.label, "v", 1)
+        aff = uc.AffinityRule(confirm_equal_S_any_state.label, ds_2.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            confirm_equal_S_any_state.label, ds_3.label, "v", 1)
+        aff = uc.AffinityRule(confirm_equal_S_any_state.label, ds_3.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            confirm_equal_S_any_state.label, ds_4.label, "v", 1)
+        aff = uc.AffinityRule(confirm_equal_S_any_state.label, ds_4.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            confirm_equal_S_any_state.label, ds_5.label, "v", 1)
+        aff = uc.AffinityRule(confirm_equal_S_any_state.label, ds_5.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            confirm_equal_S_any_state.label, ds_6.label, "v", 1)
+        aff = uc.AffinityRule(confirm_equal_S_any_state.label, ds_6.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            confirm_equal_S_any_state.label, ds_7.label, "v", 1)
+        aff = uc.AffinityRule(confirm_equal_S_any_state.label, ds_7.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            confirm_equal_S_any_state.label, ds_8.label, "v", 1)
+        aff = uc.AffinityRule(confirm_equal_S_any_state.label, ds_8.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            confirm_equal_S_any_state.label, ds_9.label, "v", 1)
+        aff = uc.AffinityRule(confirm_equal_S_any_state.label, ds_9.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            confirm_equal_S_prefixN_state.label, north_prefix.label, "v", 1)
+        aff = uc.AffinityRule(confirm_equal_S_prefixN_state.label, north_prefix.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
 
         ### Equality Tiles Start State Check Equality
-        aff = uc.AffinityRule(
-            check_equal_S_start_state.label, start_state.label, "v", 1)
+        aff = uc.AffinityRule(check_equal_S_start_state.label, start_state.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
-        aff = uc.AffinityRule(
-            confirm_equal_S_start_state.label, start_state.label, "v", 1)
+        aff = uc.AffinityRule(confirm_equal_S_start_state.label, start_state.label, "v", 1)
         endcap_equality_gadget_sys.addAffinity(aff)
 
         tr = uc.TransitionRule(check_equal_S_start_state.label, start_state.label,
@@ -1279,8 +1202,7 @@ class IU_Gadget_Generator:
                     r1t = uc.Tile(check_equal_S_start_state_inactive.label, i, 1)
                     tr1.append(r1t)
                 elif i > 6 and i < 10:
-                    r1t = uc.Tile(
-                        check_equal_S_any_num_state_inactive.label, i, 1)
+                    r1t = uc.Tile(check_equal_S_any_num_state_inactive.label, i, 1)
                     tr1.append(r1t)
                 elif i == 10:
                     r1t = uc.Tile(check_equal_S_end_state_inactive.label, i, 1)
@@ -1547,9 +1469,6 @@ check_for_equality_six_inactive = uc.State("CheckEqualityForSix_Inactive", grey_
 check_for_equality_seven_inactive = uc.State("CheckForEqualitySeven_Inactive", grey_pink, "=7")
 check_for_equality_eight_inactive = uc.State("CheckForEqualityEight_Inactive", grey_pink, "=8")
 check_for_equality_nine_inactive = uc.State("CheckForEqualityNine_Inactive", grey_pink, "=9")
-
-
-
 
 ### Trap Doors
 trap_door_inactive = uc.State("TrapDoorInactive", Barn_Red, "TD")

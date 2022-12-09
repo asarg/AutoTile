@@ -1,4 +1,5 @@
 import UniversalClasses as uc
+from UniversalClasses import State, Tile, Assembly, AffinityRule, TransitionRule, System
 from Assets.colors import *
 import sys
 from Generators.IU_Generators.states import GeneratedStates, ds_2, ds_3, ds_4, ds_5, ds_6, ds_7, ds_8, ds_9
@@ -37,9 +38,9 @@ class IUGenerators_EC:
 
         for i in range(0, len(self.example_states_data)):
             if dir == "V" or dir == "N" or dir == "S":
-                self.sampleTiles.append(uc.Tile(self.example_states_data[i], x, y + i))
+                self.sampleTiles.append(Tile(self.example_states_data[i], x, y + i))
             else:
-                self.sampleTiles.append(uc.Tile(self.example_states_data[i], x + i, y))
+                self.sampleTiles.append(Tile(self.example_states_data[i], x + i, y))
 
         return self.sampleTiles
 
@@ -71,16 +72,16 @@ class IUGenerators_EC:
 
         if start_x == end_x:
             for i in range(start_y, end_y + 1):
-                wa_seed_tiles.append(uc.Tile(wireState, start_x, i))
+                wa_seed_tiles.append(Tile(wireState, start_x, i))
             example_tiles = self.setSampleDataStartCoords(end_x, end_y + 1, "V")
         elif start_y == end_y:
             for i in range(start_x, end_x + 1):
-                wa_seed_tiles.append(uc.Tile(wireState, i, start_y))
+                wa_seed_tiles.append(Tile(wireState, i, start_y))
             example_tiles = self.setSampleDataStartCoords(end_x + 1, end_y, "H")
 
         wa_seed_tiles = wa_seed_tiles + example_tiles
 
-        asb = uc.Assembly()
+        asb = Assembly()
         asb.setTiles(wa_seed_tiles)
         return asb, wa_seed_states, wa_seed_tiles
 
@@ -88,7 +89,7 @@ class IUGenerators_EC:
         asb, wa_seed_states, wa_seed_tiles = self.basicWireSeedAssembly()
 
         #System takes in temp, states, initial states, seed states, vertical_affinitys, horizontal_affinitys, vert transitions, horiz transitions, tile vertical transitions, tile horizontal transitions, seed assembly
-        genSys = uc.System(1, wa_seed_states, [], wa_seed_states,  [], [], [], [], [], [], asb)
+        genSys = System(1, wa_seed_states, [], wa_seed_states,  [], [], [], [], [], [], asb)
         wire_stuff = self.wireAffinities()
 
         wire_tr = wire_stuff[0]
@@ -133,161 +134,155 @@ class IUGenerators_EC:
                     gsys.addSeedState(i)
 
                     if i.label == "westWire" or i.label == "westProtectedWire":
-                        aff = uc.AffinityRule(i.label, i.label, "h", 1)
+                        aff = AffinityRule(i.label, i.label, "h", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
-                        aff = uc.AffinityRule(i.label, ds.label, "h", 1)
+                        aff = AffinityRule(i.label, ds.label, "h", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
-                        aff = uc.AffinityRule(ds.label, i.label, "h", 1)
+                        aff = AffinityRule(ds.label, i.label, "h", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
-                        tr = uc.TransitionRule(i.label, ds.label, ds.label, i.label, "h")
+                        tr = TransitionRule(i.label, ds.label, ds.label, i.label, "h")
                         wire_tr.append(tr)
                         gsys.addTransitionRule(tr)
                         if "Protected" in i.label:
-                            aff = uc.AffinityRule(
-                                i.label, border_state.label, "v", 1)
+                            aff = AffinityRule(i.label, border_state.label, "v", 1)
                             wire_affs.append(aff)
                             gsys.addAffinity(aff)
-                            aff = uc.AffinityRule(
-                                border_state.label, i.label,  "v", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "v", 1)
                             wire_affs.append(aff)
                             gsys.addAffinity(aff)
                     elif i.label == "eastWire" or i.label == "eastProtectedWire":
-                        aff = uc.AffinityRule(i.label, i.label, "h", 1)
+                        aff = AffinityRule(i.label, i.label, "h", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
-                        aff = uc.AffinityRule(i.label, ds.label, "h", 1)
+                        aff = AffinityRule(i.label, ds.label, "h", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
-                        aff = uc.AffinityRule(ds.label, i.label, "h", 1)
+                        aff = AffinityRule(ds.label, i.label, "h", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
-                        tr = uc.TransitionRule(ds.label, i.label, i.label, ds.label, "h")
+                        tr = TransitionRule(ds.label, i.label, i.label, ds.label, "h")
                         wire_tr.append(tr)
                         gsys.addTransitionRule(tr)
 
                         if "Protected" in i.label:
-                            aff = uc.AffinityRule(
-                                i.label, border_state.label, "v", 1)
+                            aff = AffinityRule(i.label, border_state.label, "v", 1)
                             wire_affs.append(aff)
                             gsys.addAffinity(aff)
-                            aff = uc.AffinityRule(
-                                border_state.label, i.label,  "v", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "v", 1)
                             wire_affs.append(aff)
                             gsys.addAffinity(aff)
                     elif i.label == "northWire" or i.label == "northProtectedWire":
-                        aff = uc.AffinityRule(i.label, i.label, "v", 1)
+                        aff = AffinityRule(i.label, i.label, "v", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
-                        aff = uc.AffinityRule(i.label, ds.label, "v", 1)
+                        aff = AffinityRule(i.label, ds.label, "v", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
-                        aff = uc.AffinityRule(ds.label, i.label, "v", 1)
+                        aff = AffinityRule(ds.label, i.label, "v", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
-                        tr = uc.TransitionRule(i.label, ds.label, ds.label, i.label, "v")
+                        tr = TransitionRule(i.label, ds.label, ds.label, i.label, "v")
                         wire_tr.append(tr)
                         gsys.addTransitionRule(tr)
 
                         if "Protected" in i.label:
-                            aff = uc.AffinityRule(
-                                i.label, border_state.label, "h", 1)
+                            aff = AffinityRule(i.label, border_state.label, "h", 1)
                             wire_affs.append(aff)
                             gsys.addAffinity(aff)
-                            aff = uc.AffinityRule(
-                                border_state.label, i.label,  "h", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "h", 1)
                             wire_affs.append(aff)
                             gsys.addAffinity(aff)
 
                     elif i.label == "southWire" or i.label == "southProtectedWire":
-                        aff = uc.AffinityRule(i.label, i.label, "v", 1)
+                        aff = AffinityRule(i.label, i.label, "v", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
-                        aff = uc.AffinityRule(i.label, ds.label, "v", 1)
+                        aff = AffinityRule(i.label, ds.label, "v", 1)
                         wire_affs.append(aff)
-                        aff = uc.AffinityRule(ds.label, i.label, "v", 1)
+                        aff = AffinityRule(ds.label, i.label, "v", 1)
                         wire_affs.append(aff)
-                        tr = uc.TransitionRule(ds.label, i.label, i.label, ds.label, "v")
+                        tr = TransitionRule(ds.label, i.label, i.label, ds.label, "v")
                         wire_tr.append(tr)
                         gsys.addTransitionRule(tr)
 
                         if "Protected" in i.label:
-                            aff = uc.AffinityRule(i.label, border_state.label, "h", 1)
+                            aff = AffinityRule(i.label, border_state.label, "h", 1)
                             wire_affs.append(aff)
                             gsys.addAffinity(aff)
-                            aff = uc.AffinityRule(border_state.label, i.label,  "h", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "h", 1)
                             wire_affs.append(aff)
                             gsys.addAffinity(aff)
 
                     elif i.label == "northEastWire" or i.label == "northEastProtectedWire":
-                        aff = uc.AffinityRule(i.label, northWire.label, "v", 1)
+                        aff = AffinityRule(i.label, northWire.label, "v", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
 
-                        aff = uc.AffinityRule(i.label, eastWire.label, "h", 1)
+                        aff = AffinityRule(i.label, eastWire.label, "h", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
 
-                        aff = uc.AffinityRule(i.label, ds.label, "v", 1)
+                        aff = AffinityRule(i.label, ds.label, "v", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
 
-                        aff = uc.AffinityRule(i.label, ds.label, "h", 1)
+                        aff = AffinityRule(i.label, ds.label, "h", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
 
-                        aff = uc.AffinityRule(eastWire.label, i.label, "v", 1)
+                        aff = AffinityRule(eastWire.label, i.label, "v", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
 
-                        tr = uc.TransitionRule(eastWire.label, i.label, i.label, northWire.label, "v")
+                        tr = TransitionRule(eastWire.label, i.label, i.label, northWire.label, "v")
                         wire_tr.append(tr)
                         gsys.addTransitionRule(tr)
 
                         if "Protected" in i.label:
-                            aff = uc.AffinityRule(border_state.label, i.label,  "h", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "h", 1)
                             wire_affs.append(aff)
                             gsys.addAffinity(aff)
-                            aff = uc.AffinityRule(border_state.label, i.label,  "v", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "v", 1)
                             wire_affs.append(aff)
                             gsys.addAffinity(aff)
 
                     elif i.label == "northWestWire" or i.label == "northWestProtectedWire":
-                        aff = uc.AffinityRule(i.label, northWire.label, "v", 1)
+                        aff = AffinityRule(i.label, northWire.label, "v", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
 
-                        aff = uc.AffinityRule(westWire.label, i.label, "h", 1)
+                        aff = AffinityRule(westWire.label, i.label, "h", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
 
-                        aff = uc.AffinityRule(i.label, ds.label, "v", 1)
+                        aff = AffinityRule(i.label, ds.label, "v", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
 
-                        aff = uc.AffinityRule(ds.label, i.label, "h", 1)
+                        aff = AffinityRule(ds.label, i.label, "h", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
 
-                        aff = uc.AffinityRule(westWire.label, i.label, "v", 1)
+                        aff = AffinityRule(westWire.label, i.label, "v", 1)
                         wire_affs.append(aff)
                         gsys.addAffinity(aff)
 
-                        tr = uc.TransitionRule(westWire.label, i.label, i.label, northWire.label, "v")
+                        tr = TransitionRule(westWire.label, i.label, i.label, northWire.label, "v")
                         wire_tr.append(tr)
                         gsys.addTransitionRule(tr)
 
-                        """ tr = uc.TransitionRule(i.label, westWire.label, i.label, northWire.label, "v")
+                        """ tr = TransitionRule(i.label, westWire.label, i.label, northWire.label, "v")
                         wire_tr.append(tr)
                         self.genSys.addTransitionRule(tr) """
 
                         if "Protected" in i.label:
-                            aff = uc.AffinityRule(i.label, border_state.label, "h", 1)
+                            aff = AffinityRule(i.label, border_state.label, "h", 1)
                             wire_affs.append(aff)
                             gsys.addAffinity(aff)
-                            aff = uc.AffinityRule(border_state.label, i.label,  "v", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "v", 1)
                             wire_affs.append(aff)
                             gsys.addAffinity(aff)
 
@@ -305,167 +300,152 @@ class IUGenerators_EC:
                     print(i.label)
                     if i.label == "WestWire" or i.label == "WestProtectedWire":
                         print("This Works")
-                        aff = uc.AffinityRule(i.label, i.label, "h", 1)
+                        aff = AffinityRule(i.label, i.label, "h", 1)
                         wire_affs.append(aff)
 
-                        aff = uc.AffinityRule(i.label, ds.label, "h", 1)
+                        aff = AffinityRule(i.label, ds.label, "h", 1)
                         wire_affs.append(aff)
 
-                        aff = uc.AffinityRule(ds.label, i.label, "h", 1)
+                        aff = AffinityRule(ds.label, i.label, "h", 1)
                         wire_affs.append(aff)
 
-                        tr = uc.TransitionRule(i.label, ds.label, ds.label, i.label, "h")
+                        tr = TransitionRule(i.label, ds.label, ds.label, i.label, "h")
                         wire_tr.append(tr)
 
                         if "Protected" in i.label:
-                            aff = uc.AffinityRule(i.label, border_state.label, "v", 1)
+                            aff = AffinityRule(i.label, border_state.label, "v", 1)
                             wire_affs.append(aff)
 
-                            aff = uc.AffinityRule(border_state.label, i.label,  "v", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "v", 1)
                             wire_affs.append(aff)
 
                     elif i.label == "EastWire" or i.label == "EastProtectedWire":
-                        aff = uc.AffinityRule(i.label, i.label, "h", 1)
+                        aff = AffinityRule(i.label, i.label, "h", 1)
                         wire_affs.append(aff)
 
-                        aff = uc.AffinityRule(i.label, ds.label, "h", 1)
+                        aff = AffinityRule(i.label, ds.label, "h", 1)
                         wire_affs.append(aff)
 
-                        aff = uc.AffinityRule(ds.label, i.label, "h", 1)
+                        aff = AffinityRule(ds.label, i.label, "h", 1)
                         wire_affs.append(aff)
 
-                        tr = uc.TransitionRule(
-                            ds.label, i.label, i.label, ds.label, "h")
+                        tr = TransitionRule(ds.label, i.label, i.label, ds.label, "h")
                         wire_tr.append(tr)
 
 
                         if "Protected" in i.label:
-                            aff = uc.AffinityRule(
-                                i.label, border_state.label, "v", 1)
+                            aff = AffinityRule(i.label, border_state.label, "v", 1)
                             wire_affs.append(aff)
 
-                            aff = uc.AffinityRule(
-                                border_state.label, i.label,  "v", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "v", 1)
                             wire_affs.append(aff)
 
                     elif i.label == "NorthWire" or i.label == "NorthProtectedWire":
-                        aff = uc.AffinityRule(i.label, i.label, "v", 1)
+                        aff = AffinityRule(i.label, i.label, "v", 1)
                         wire_affs.append(aff)
 
-                        aff = uc.AffinityRule(i.label, ds.label, "v", 1)
+                        aff = AffinityRule(i.label, ds.label, "v", 1)
                         wire_affs.append(aff)
 
-                        aff = uc.AffinityRule(ds.label, i.label, "v", 1)
+                        aff = AffinityRule(ds.label, i.label, "v", 1)
                         wire_affs.append(aff)
 
-                        tr = uc.TransitionRule(
-                            i.label, ds.label, ds.label, i.label, "v")
+                        tr = TransitionRule(i.label, ds.label, ds.label, i.label, "v")
                         wire_tr.append(tr)
 
 
                         if "Protected" in i.label:
-                            aff = uc.AffinityRule(
-                                i.label, border_state.label, "h", 1)
+                            aff = AffinityRule(i.label, border_state.label, "h", 1)
                             wire_affs.append(aff)
 
-                            aff = uc.AffinityRule(
-                                border_state.label, i.label,  "h", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "h", 1)
                             wire_affs.append(aff)
 
 
                     elif i.label == "SouthWire" or i.label == "SouthProtectedWire":
-                        aff = uc.AffinityRule(i.label, i.label, "v", 1)
+                        aff = AffinityRule(i.label, i.label, "v", 1)
                         wire_affs.append(aff)
 
-                        aff = uc.AffinityRule(i.label, ds.label, "v", 1)
+                        aff = AffinityRule(i.label, ds.label, "v", 1)
                         wire_affs.append(aff)
-                        aff = uc.AffinityRule(ds.label, i.label, "v", 1)
+                        aff = AffinityRule(ds.label, i.label, "v", 1)
                         wire_affs.append(aff)
-                        tr = uc.TransitionRule(
-                            ds.label, i.label, i.label, ds.label, "v")
+                        tr = TransitionRule(ds.label, i.label, i.label, ds.label, "v")
                         wire_tr.append(tr)
 
 
                         if "Protected" in i.label:
-                            aff = uc.AffinityRule(
-                                i.label, border_state.label, "h", 1)
+                            aff = AffinityRule(i.label, border_state.label, "h", 1)
                             wire_affs.append(aff)
 
-                            aff = uc.AffinityRule(
-                                border_state.label, i.label,  "h", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "h", 1)
                             wire_affs.append(aff)
 
 
                     """ elif i.label == "NorthEastWire" or i.label == "NorthEastProtectedWire":
-                        aff = uc.AffinityRule(i.label, northWire.label, "v", 1)
+                        aff = AffinityRule(i.label, northWire.label, "v", 1)
                         wire_affs.append(aff)
 
 
-                        aff = uc.AffinityRule(i.label, eastWire.label, "h", 1)
+                        aff = AffinityRule(i.label, eastWire.label, "h", 1)
                         wire_affs.append(aff)
 
 
-                        aff = uc.AffinityRule(i.label, ds.label, "v", 1)
+                        aff = AffinityRule(i.label, ds.label, "v", 1)
                         wire_affs.append(aff)
 
 
-                        aff = uc.AffinityRule(i.label, ds.label, "h", 1)
+                        aff = AffinityRule(i.label, ds.label, "h", 1)
                         wire_affs.append(aff)
 
 
-                        aff = uc.AffinityRule(eastWire.label, i.label, "v", 1)
+                        aff = AffinityRule(eastWire.label, i.label, "v", 1)
                         wire_affs.append(aff)
 
 
-                        tr = uc.TransitionRule(
-                            eastWire.label, i.label, i.label, northWire.label, "v")
+                        tr = TransitionRule(eastWire.label, i.label, i.label, northWire.label, "v")
                         wire_tr.append(tr)
 
 
                         if "Protected" in i.label:
-                            aff = uc.AffinityRule(
-                                border_state.label, i.label,  "h", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "h", 1)
                             wire_affs.append(aff)
 
-                            aff = uc.AffinityRule(
-                                border_state.label, i.label,  "v", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "v", 1)
                             wire_affs.append(aff)
  """
 
                     """ elif i.label == "NorthWestWire" or i.label == "NorthWestProtectedWire":
-                        aff = uc.AffinityRule(i.label, northWire.label, "v", 1)
+                        aff = AffinityRule(i.label, northWire.label, "v", 1)
                         wire_affs.append(aff)
 
 
-                        aff = uc.AffinityRule(westWire.label, i.label, "h", 1)
+                        aff = AffinityRule(westWire.label, i.label, "h", 1)
                         wire_affs.append(aff)
 
 
-                        aff = uc.AffinityRule(i.label, ds.label, "v", 1)
+                        aff = AffinityRule(i.label, ds.label, "v", 1)
                         wire_affs.append(aff)
 
-                        aff = uc.AffinityRule(ds.label, i.label, "h", 1)
-                        wire_affs.append(aff)
-
-
-                        aff = uc.AffinityRule(westWire.label, i.label, "v", 1)
+                        aff = AffinityRule(ds.label, i.label, "h", 1)
                         wire_affs.append(aff)
 
 
-                        tr = uc.TransitionRule(
-                            westWire.label, i.label, i.label, northWire.label, "v")
+                        aff = AffinityRule(westWire.label, i.label, "v", 1)
+                        wire_affs.append(aff)
+
+
+                        tr = TransitionRule(westWire.label, i.label, i.label, northWire.label, "v")
                         wire_tr.append(tr)
 
 
 
 
                         if "Protected" in i.label:
-                            aff = uc.AffinityRule(
-                                i.label, border_state.label, "h", 1)
+                            aff = AffinityRule(i.label, border_state.label, "h", 1)
                             wire_affs.append(aff)
 
-                            aff = uc.AffinityRule(
-                                border_state.label, i.label,  "v", 1)
+                            aff = AffinityRule(border_state.label, i.label,  "v", 1)
                             wire_affs.append(aff) """
 
             print("Wires Other")
@@ -487,40 +467,40 @@ class IUGenerators_EC:
         for d in ds_used:
             for w in wires_used:
                 if dirs[0] in w.label.lower(): #North
-                    aff = uc.AffinityRule(w.label, w.label, "v", 1)
+                    aff = AffinityRule(w.label, w.label, "v", 1)
                     wire_aff.append(aff)
-                    aff = uc.AffinityRule(w.label, d.label, "v", 1)
+                    aff = AffinityRule(w.label, d.label, "v", 1)
                     wire_aff.append(aff)
-                    aff = uc.AffinityRule(d.label, w.label, "v", 1)
+                    aff = AffinityRule(d.label, w.label, "v", 1)
                     wire_aff.append(aff)
-                    tr = uc.TransitionRule(w.label, d.label, d.label, w.label, "v") #North
+                    tr = TransitionRule(w.label, d.label, d.label, w.label, "v") #North
                     wire_tr.append(tr)
                 elif dirs[1] in w.label.lower(): #South
-                    aff = uc.AffinityRule(w.label, w.label, "v", 1)
+                    aff = AffinityRule(w.label, w.label, "v", 1)
                     wire_aff.append(aff)
-                    aff = uc.AffinityRule(w.label, d.label, "v", 1)
+                    aff = AffinityRule(w.label, d.label, "v", 1)
                     wire_aff.append(aff)
-                    aff = uc.AffinityRule(d.label, w.label, "v", 1)
+                    aff = AffinityRule(d.label, w.label, "v", 1)
                     wire_aff.append(aff)
-                    tr = uc.TransitionRule( d.label, w.label, w.label, d.label, "v") #South
+                    tr = TransitionRule( d.label, w.label, w.label, d.label, "v") #South
                     wire_tr.append(tr)
                 elif dirs[2] in w.label.lower(): #East
-                    aff = uc.AffinityRule(w.label, w.label, "h", 1)
+                    aff = AffinityRule(w.label, w.label, "h", 1)
                     wire_aff.append(aff)
-                    aff = uc.AffinityRule(w.label, d.label, "h", 1)
+                    aff = AffinityRule(w.label, d.label, "h", 1)
                     wire_aff.append(aff)
-                    aff = uc.AffinityRule(d.label, w.label, "h", 1)
+                    aff = AffinityRule(d.label, w.label, "h", 1)
                     wire_aff.append(aff)
-                    tr = uc.TransitionRule( d.label, w.label, w.label, d.label, "h") #East ->
+                    tr = TransitionRule( d.label, w.label, w.label, d.label, "h") #East ->
                     wire_tr.append(tr)
                 elif dirs[3] in w.label.lower():
-                    aff = uc.AffinityRule(w.label, w.label, "h", 1)
+                    aff = AffinityRule(w.label, w.label, "h", 1)
                     wire_aff.append(aff)
-                    aff = uc.AffinityRule(w.label, d.label, "h", 1)
+                    aff = AffinityRule(w.label, d.label, "h", 1)
                     wire_aff.append(aff)
-                    aff = uc.AffinityRule(d.label, w.label, "h", 1)
+                    aff = AffinityRule(d.label, w.label, "h", 1)
                     wire_aff.append(aff)
-                    tr = uc.TransitionRule( w.label,  d.label, d.label, w.label, "h") #West <-
+                    tr = TransitionRule( w.label,  d.label, d.label, w.label, "h") #West <-
                     wire_tr.append(tr)
                 else:
                     print("Error in wireAffinitiesTrOnlyUsed")
@@ -565,48 +545,47 @@ class IUGenerators_EC:
 
         ds = [start_state_pair, north_prefix, start_state, ds_0, ds_1, ds_0, end_state,
               south_prefix, start_state, start_state_pair, end_state_pair]
-        seed_states_used_cg = ds + [northCopyWire, northCopyDoorInactive, northCopyDoorHandleInactive,
-                                       endcap_door_west_inactive, border_state, westWire, southWire, verticalMacroCellDoorOpenSignal]
+        seed_states_used_cg = ds + [northCopyWire, northCopyDoorInactive, northCopyDoorHandleInactive,         endcap_door_west_inactive, border_state, westWire, southWire, verticalMacroCellDoorOpenSignal]
 
         for i in range(0, 16):
             if i < 15 and i > 0:
-                t = uc.Tile(northCopyWire, i, 0)
+                t = Tile(northCopyWire, i, 0)
                 tile_list_cg.append(t)
 
-                t = uc.Tile(northCopyDoorInactive, i, -1)
+                t = Tile(northCopyDoorInactive, i, -1)
                 tile_list_cg.append(t)
 
-                d = uc.Tile(ds[i-1], i, -2)
+                d = Tile(ds[i-1], i, -2)
                 tile_list_cg.append(d)
 
             else:
-                h = uc.Tile(northCopyDoorHandleInactive, i, -1)
+                h = Tile(northCopyDoorHandleInactive, i, -1)
                 tile_list_cg.append(h)
 
                 if i == 0:
-                    d = uc.Tile(endcap_door_west_inactive, i, 0)
+                    d = Tile(endcap_door_west_inactive, i, 0)
                     tile_list_cg.append(d)
                 elif i == 15:
-                    b = uc.Tile(check_for_any_end_cap, i, 0)
+                    b = Tile(check_for_any_end_cap, i, 0)
                     tile_list_cg.append(b)
-                b = uc.Tile(border_state, i, -2)
+                b = Tile(border_state, i, -2)
                 tile_list_cg.append(b)
 
-            b = uc.Tile(border_state, i, -3)
+            b = Tile(border_state, i, -3)
             tile_list_cg.append(b)
 
-            b = uc.Tile(border_state, i, 1)
+            b = Tile(border_state, i, 1)
             tile_list_cg.append(b)
 
 
-        t = uc.Tile(verticalMacroCellDoorOpenSignal, -1, -1)
+        t = Tile(verticalMacroCellDoorOpenSignal, -1, -1)
         tile_list_cg.append(t)
 
         for i in range(1, 4):
-            t = uc.Tile(southWire, -1, i)
+            t = Tile(southWire, -1, i)
             tile_list_cg.append(t)
 
-            t = uc.Tile(westWire, -i, 0)
+            t = Tile(westWire, -i, 0)
             tile_list_cg.append(t)
 
         return tile_list_cg, seed_states_used_cg
@@ -617,63 +596,57 @@ class IUGenerators_EC:
         ds_used = [u for u in states if u in data_states_list_all_with_prefixes_no_order]
 
         for ds_state in ds_used:
-            aff = uc.AffinityRule(northCopyWire.label, ds_state.label, "v", 1)
+            aff = AffinityRule(northCopyWire.label, ds_state.label, "v", 1)
             affs.append(aff)
-            aff = uc.AffinityRule(ds_state.label, northCopyWire.label, "v", 1)
+            aff = AffinityRule(ds_state.label, northCopyWire.label, "v", 1)
             affs.append(aff)
 
-            tr = uc.TransitionRule(northCopyWire.label, ds_state.label, ds_state.label, ds_state.label, "v")
+            tr = TransitionRule(northCopyWire.label, ds_state.label, ds_state.label, ds_state.label, "v")
             trs.append(tr)
 
-            aff = uc.AffinityRule(northCopyDoor.label, ds_state.label, "v", 1)
+            aff = AffinityRule(northCopyDoor.label, ds_state.label, "v", 1)
             affs.append(aff)
 
-            aff = uc.AffinityRule(
-                northCopyDoorInactive.label, ds_state.label, "v", 1)
+            aff = AffinityRule(northCopyDoorInactive.label, ds_state.label, "v", 1)
             affs.append(aff)
 
-            tr = uc.TransitionRule(northCopyDoor.label,
-                                   ds_state.label, ds_state.label, ds_state.label, "v")
+            tr = TransitionRule(northCopyDoor.label,     ds_state.label, ds_state.label, ds_state.label, "v")
             trs.append(tr)
 
 
-        aff = uc.AffinityRule(northCopyDoorHandle.label,
-                              northCopyDoor.label, "h", 1)
+        aff = AffinityRule(northCopyDoorHandle.label,northCopyDoor.label, "h", 1)
         affs.append(aff)
 
-        aff = uc.AffinityRule(northCopyDoorHandle.label,
-                              northCopyDoorInactive.label, "h", 1)
+        aff = AffinityRule(northCopyDoorHandle.label,northCopyDoorInactive.label, "h", 1)
         affs.append(aff)
 
-        aff = uc.AffinityRule(northCopyDoorHandle.label, northCopySeriesCheckEast.label, "h", 1)
+        aff = AffinityRule(northCopyDoorHandle.label, northCopySeriesCheckEast.label, "h", 1)
         affs.append(aff)
 
-        aff = uc.AffinityRule(northCopySeriesCheckEast.label, northCopyDoorInactive.label, "h", 1)
+        aff = AffinityRule(northCopySeriesCheckEast.label, northCopyDoorInactive.label, "h", 1)
         affs.append(aff)
 
-        aff = uc.AffinityRule(northCopyDoor.label, northCopySeriesCheckEast.label, "h", 1)
+        aff = AffinityRule(northCopyDoor.label, northCopySeriesCheckEast.label, "h", 1)
         affs.append(aff)
 
 
-        tr = uc.TransitionRule(northCopyDoorHandle.label, northCopyDoorInactive.label, northCopyDoorHandle.label, northCopySeriesCheckEast.label, "h")
+        tr = TransitionRule(northCopyDoorHandle.label, northCopyDoorInactive.label, northCopyDoorHandle.label, northCopySeriesCheckEast.label, "h")
         trs.append(tr)
 
-        tr = uc.TransitionRule(northCopySeriesCheckEast.label, northCopyDoorInactive.label,
-                               northCopyDoor.label, northCopySeriesCheckEast.label, "h")
+        tr = TransitionRule(northCopySeriesCheckEast.label, northCopyDoorInactive.label, northCopyDoor.label, northCopySeriesCheckEast.label, "h")
         trs.append(tr)
 
 
-        aff = uc.AffinityRule(northCopyDoorHandleInactive.label, northCopyDoorInactive.label, "h", 1)
+        aff = AffinityRule(northCopyDoorHandleInactive.label, northCopyDoorInactive.label, "h", 1)
         affs.append(aff)
 
-        aff = uc.AffinityRule(verticalMacroCellDoorOpenSignal.label, northCopyDoorHandleInactive.label, "h", 1)
+        aff = AffinityRule(verticalMacroCellDoorOpenSignal.label, northCopyDoorHandleInactive.label, "h", 1)
         affs.append(aff)
 
-        aff = uc.AffinityRule(verticalMacroCellDoorOpenSignal.label, northCopyDoorHandle.label, "h", 1)
+        aff = AffinityRule(verticalMacroCellDoorOpenSignal.label, northCopyDoorHandle.label, "h", 1)
         affs.append(aff)
 
-        tr = uc.TransitionRule(verticalMacroCellDoorOpenSignal.label, northCopyDoorHandleInactive.label,
-                               verticalMacroCellDoorOpenSignal.label, northCopyDoorHandle.label, "h")
+        tr = TransitionRule(verticalMacroCellDoorOpenSignal.label, northCopyDoorHandleInactive.label, verticalMacroCellDoorOpenSignal.label, northCopyDoorHandle.label, "h")
         trs.append(tr)
 
         return [affs, trs]
@@ -692,35 +665,35 @@ class IUGenerators_EC:
         for i in range(0, 16):
             if i < 15:
                 if i == 0:
-                    d = uc.Tile(endcap_door_west_inactive, i-1, 0)
+                    d = Tile(endcap_door_west_inactive, i-1, 0)
                     tile_list_cg.append(d)
 
                 else:
-                    t = uc.Tile(westWire, i, 0)
+                    t = Tile(westWire, i, 0)
                     tile_list_cg.append(t)
 
-                t = uc.Tile(ds_write_states[i], i, -1)
+                t = Tile(ds_write_states[i], i, -1)
                 tile_list_cg.append(t)
 
             else:
-                b = uc.Tile(check_for_any_end_cap, i, 0)
+                b = Tile(check_for_any_end_cap, i, 0)
                 tile_list_cg.append(b)
 
-                b = uc.Tile(border_state, i, -1)
+                b = Tile(border_state, i, -1)
                 tile_list_cg.append(b)
 
 
-            b = uc.Tile(border_state, i, -2)
+            b = Tile(border_state, i, -2)
             tile_list_cg.append(b)
 
-            b = uc.Tile(border_state, i, 1)
+            b = Tile(border_state, i, 1)
             tile_list_cg.append(b)
 
         for i in range(2, 4):
-            t = uc.Tile(southWire, -1, i)
+            t = Tile(southWire, -1, i)
             tile_list_cg.append(t)
 
-            t = uc.Tile(westWire, -i, 0)
+            t = Tile(westWire, -i, 0)
             tile_list_cg.append(t)
 
         return tile_list_cg, seed_states_used_cg
@@ -738,9 +711,9 @@ class IUGenerators_EC:
         affs = self.macroCellCopyNorthAffsTrs(states)[0]
         trs = self.macroCellCopyNorthAffsTrs(states)[1]
 
-        assm = uc.Assembly()
+        assm = Assembly()
         assm.setTiles(tiles)
-        genSystem = uc.System(1, states, [], seed_states, [], [], [], [], [], [], assm)
+        genSystem = System(1, states, [], seed_states, [], [], [], [], [], [], assm)
 
 
         for a in affs:
@@ -782,5 +755,4 @@ class IUGenerators_EC:
 ### 5. Fan-out
 
 
-data_states_list_nums_only = [ds_0, ds_1, ds_2,
-                              ds_3, ds_4, ds_5, ds_6, ds_7, ds_8, ds_9]
+data_states_list_nums_only = [ds_0, ds_1, ds_2,ds_3, ds_4, ds_5, ds_6, ds_7, ds_8, ds_9]

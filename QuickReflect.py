@@ -46,8 +46,7 @@ def reflect_across_x(currentSystem):
         label2Final = rule.returnLabel2Final()
         dir = "v"
 
-        tempRule = TransitionRule(
-            label2, label1, label2Final, label1Final, dir)
+        tempRule = TransitionRule(label2, label1, label2Final, label1Final, dir)
         tempVTransitionList.append(tempRule)
 
     # Translate tempSystem's lists into dictionaries
@@ -97,8 +96,7 @@ def reflect_across_y(currentSystem):
         label2Final = rule.returnLabel2Final()
         dir = "h"
 
-        tempRule = TransitionRule(
-            label2, label1, label2Final, label1Final, dir)
+        tempRule = TransitionRule(label2, label1, label2Final, label1Final, dir)
         tempHTransitionList.append(tempRule)
 
     # Translate tempSystem's lists into dictionaries

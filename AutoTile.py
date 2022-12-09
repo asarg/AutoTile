@@ -75,23 +75,19 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         ### Minimize window ######
         self.minimize_button.clicked.connect(lambda: self.showMinimized())
-        self.minimize_button.setIcon(QtGui.QIcon(
-            'Icons/Programming-Minimize-Window-icon.png'))
+        self.minimize_button.setIcon(QtGui.QIcon('Icons/Programming-Minimize-Window-icon.png'))
 
         ### Close window ####
         self.close_button.clicked.connect(lambda: self.close())
         self.close_button.setIcon(QtGui.QIcon('Icons/X-icon.jpg'))
 
         ### Restore/Maximize window ####
-        self.maximize_button.clicked.connect(
-            lambda: self.restore_or_maximize_window())
-        self.maximize_button.setIcon(QtGui.QIcon(
-            'Icons/Programming-Maximize-Window-icon.png'))
+        self.maximize_button.clicked.connect(lambda: self.restore_or_maximize_window())
+        self.maximize_button.setIcon(QtGui.QIcon('Icons/Programming-Maximize-Window-icon.png'))
 
         ### Window Size grip to resize window ###
         QtWidgets.QSizeGrip(self.sizeDrag_Button)
-        self.sizeDrag_Button.setIcon(
-            QtGui.QIcon('Icons/tabler-icon-resize.png'))
+        self.sizeDrag_Button.setIcon(QtGui.QIcon('Icons/tabler-icon-resize.png'))
 
         # Left Menu toggle button
         self.Menu_button.clicked.connect(lambda: self.slideLeftMenu())
@@ -114,24 +110,19 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.SaveAs_button.setIcon(QtGui.QIcon('Icons/save-icon.png'))
 
         self.First_button.clicked.connect(self.first_step)
-        self.First_button.setIcon(QtGui.QIcon(
-            'Icons/tabler-icon-player-skip-back.png'))
+        self.First_button.setIcon(QtGui.QIcon('Icons/tabler-icon-player-skip-back.png'))
 
         self.Prev_button.clicked.connect(self.prev_step)
-        self.Prev_button.setIcon(QtGui.QIcon(
-            'Icons/tabler-icon-player-track-prev.png'))
+        self.Prev_button.setIcon(QtGui.QIcon('Icons/tabler-icon-player-track-prev.png'))
 
         self.Play_button.clicked.connect(self.play_sequence)
-        self.Play_button.setIcon(QtGui.QIcon(
-            'Icons/tabler-icon-player-play.png'))
+        self.Play_button.setIcon(QtGui.QIcon('Icons/tabler-icon-player-play.png'))
 
         self.Next_button.clicked.connect(self.next_step)
-        self.Next_button.setIcon(QtGui.QIcon(
-            'Icons/tabler-icon-player-track-next.png'))
+        self.Next_button.setIcon(QtGui.QIcon('Icons/tabler-icon-player-track-next.png'))
 
         self.Last_button.clicked.connect(self.last_step)
-        self.Last_button.setIcon(QtGui.QIcon(
-            'Icons/tabler-icon-player-skip-forward.png'))
+        self.Last_button.setIcon(QtGui.QIcon('Icons/tabler-icon-player-skip-forward.png'))
 
         self.Edit_button.clicked.connect(self.Click_EditFile)
         # "Quick Rotate"
@@ -250,8 +241,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.color_flag = 2
         self.seedX = self.geometry().width() / 2
         self.seedY = self.geometry().height() / 2
-        self.clickPosition = QtCore.QPoint(
-            self.geometry().x(), self.geometry().y())
+        self.clickPosition = QtCore.QPoint(self.geometry().x(), self.geometry().y())
 
         self.tileSize = 40
         self.textSize = int(self.tileSize / 3)
@@ -296,8 +286,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         if width == 0:
             # Expand menu
             newWidth = 200
-            canvas = QtGui.QPixmap(
-                self.geometry().width() - 200, self.geometry().height() - 45)
+            canvas = QtGui.QPixmap(self.geometry().width() - 200, self.geometry().height() - 45)
             canvas.fill(Qt.white)
 
             self.slide_menu_container.setMaximumWidth(newWidth)
@@ -309,8 +298,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
             self.slide_menu_container.setMaximumWidth(newWidth)
 
-            canvas = QtGui.QPixmap(
-                self.geometry().width(), self.geometry().height() - 45)
+            canvas = QtGui.QPixmap(self.geometry().width(), self.geometry().height() - 45)
             canvas.fill(Qt.white)
             self.label.setPixmap(canvas)
 
@@ -333,12 +321,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
     def resizeEvent(self, event):
         # If left menu is closed
         if self.slide_menu_container.width() == 0:
-            canvas = QtGui.QPixmap(
-                self.geometry().width(), self.geometry().height() - 45)
+            canvas = QtGui.QPixmap(self.geometry().width(), self.geometry().height() - 45)
         else:
             # prevents a bug that happens if menus open
-            canvas = QtGui.QPixmap(
-                self.geometry().width() - 200, self.geometry().height() - 45)
+            canvas = QtGui.QPixmap(self.geometry().width() - 200, self.geometry().height() - 45)
 
         canvas.fill(Qt.white)
         self.label.setPixmap(canvas)
@@ -600,41 +586,32 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 pen.setColor(QtGui.QColor("black"))
                 painter.setPen(pen)
 
-                neighborN = assembly.coords.get(
-                    "(" + str(move['x']) + "," + str(move['y'] + 1) + ")")
-                neighborS = assembly.coords.get(
-                    "(" + str(move['x']) + "," + str(move['y'] - 1) + ")")
-                neighborE = assembly.coords.get(
-                    "(" + str(move['x'] + 1) + "," + str(move['y']) + ")")
-                neighborW = assembly.coords.get(
-                    "(" + str(move['x'] - 1) + "," + str(move['y']) + ")")
+                neighborN = assembly.coords.get(    "(" + str(move['x']) + "," + str(move['y'] + 1) + ")")
+                neighborS = assembly.coords.get(    "(" + str(move['x']) + "," + str(move['y'] - 1) + ")")
+                neighborE = assembly.coords.get(    "(" + str(move['x'] + 1) + "," + str(move['y']) + ")")
+                neighborW = assembly.coords.get(    "(" + str(move['x'] - 1) + "," + str(move['y']) + ")")
 
                 if neighborN != None:
                     if self.onScreen_check(move['x'], move['y'] + 1) != 1:
                         brush.setColor(QtGui.QColor("#" + neighborN.returnColor()))
-                        self.draw_to_screen(
-                            move['x'], move['y'] + 1, neighborN.returnState(), painter, brush)
+                        self.draw_to_screen(    move['x'], move['y'] + 1, neighborN.returnState(), painter, brush)
                 if neighborS != None:
                     if self.onScreen_check(move['x'], move['y'] - 1) != 1:
                         brush.setColor(QtGui.QColor("#" + neighborS.returnColor()))
-                        self.draw_to_screen(
-                            move['x'], move['y'] - 1, neighborS.returnState(), painter, brush)
+                        self.draw_to_screen(    move['x'], move['y'] - 1, neighborS.returnState(), painter, brush)
                 if neighborE != None:
                     if self.onScreen_check(move['x'] + 1, move['y']) != 1:
                         brush.setColor(QtGui.QColor("#" + neighborE.returnColor()))
-                        self.draw_to_screen(
-                            move['x'] + 1, move['y'], neighborE.returnState(), painter, brush)
+                        self.draw_to_screen(    move['x'] + 1, move['y'], neighborE.returnState(), painter, brush)
                 if neighborW != None:
                     if self.onScreen_check(move['x'] - 1, move['y']) != 1:
                         brush.setColor(QtGui.QColor("#" + neighborW.returnColor()))
-                        self.draw_to_screen(
-                            move['x'] - 1, move['y'], neighborW.returnState(), painter, brush)
+                        self.draw_to_screen(    move['x'] - 1, move['y'], neighborW.returnState(), painter, brush)
 
             # reversing transition on screen
             # (type, x, y, dir, state1, state2, state1Final, state2Final)
             elif move['type'] == 't' and forward == 0:
-                self.transition_draw_function(
-                    move, move['state1'], move['state2'], painter, brush)
+                self.transition_draw_function(    move, move['state1'], move['state2'], painter, brush)
         except:
             print("There are no valid attachments.")
 
@@ -685,8 +662,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 self.highlight_move(self.Engine.getLastMove(),
                                     self.color_flag, painter, brush, pen)
             elif self.color_flag == 1:
-                self.highlight_move(self.Engine.getCurrentMove(
-                ), self.color_flag, painter, brush, pen)
+                self.highlight_move(self.Engine.getCurrentMove(), self.color_flag, painter, brush, pen)
 
         painter.end()
 
@@ -771,8 +747,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         # attachment highlight
         if move['type'] == 'a' and color_flag == 1:  # (type, x, y, state1)
             if self.onScreen_check(move['x'], move['y']) != 1:
-                brush.setColor(QtGui.QColor(
-                    "#" + move['state1'].returnColor()))
+                brush.setColor(QtGui.QColor(    "#" + move['state1'].returnColor()))
                 pen.setColor(QtGui.QColor("blue"))
                 painter.setPen(pen)
                 self.draw_to_screen(move['x'], move['y'], move['state1'], painter, brush)
@@ -788,8 +763,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         elif move['type'] == 't' and color_flag == 0:
             pen.setColor(QtGui.QColor("red"))
             painter.setPen(pen)
-            self.transition_draw_function(
-                move, move['state1'], move['state2'], painter, brush)
+            self.transition_draw_function(move, move['state1'], move['state2'], painter, brush)
 
     def display_tile_list(self):
         curr = self.Engine.getCurrentAssembly()
@@ -826,8 +800,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             elif len(display_label) > 4:
                 display_label = display_label[0:3]
             else:
-                fira_code = QFont(
-                    "Fira Code Regular Nerd Font Complete.tff", 12)
+                fira_code = QFont(    "Fira Code Regular Nerd Font Complete.tff", 12)
                 painter.setFont(fira_code)
 
                 painter.drawText(rect, Qt.AlignCenter, display_label)
@@ -881,16 +854,14 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
     def Click_FileSearch(self, id):
         self.stop_sequence()
-        file = QFileDialog.getOpenFileName(
-            self, "Select XML Document", "", "XML Files (*.xml)")
+        file = QFileDialog.getOpenFileName(self, "Select XML Document", "", "XML Files (*.xml)")
         if file[0] != '':
             self.SysLoaded = False
             self.Load_File(file[0])
 
     def Click_FileSearchSeeded(self, id):
         self.stop_sequence()
-        file = QFileDialog.getOpenFileName(
-            self, "Select XML Document", "", "XML Files (*.xml)")
+        file = QFileDialog.getOpenFileName(self, "Select XML Document", "", "XML Files (*.xml)")
         if file[0] != '':
             self.SysLoaded = False
             self.loadAssembly(file[0])
@@ -1042,8 +1013,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
     def Click_SaveFile(self):
         # Creating a System object from data read.
         if(self.SysLoaded == True):
-            fileName = QFileDialog.getSaveFileName(
-                self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
+            fileName = QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
 
             if(fileName[0] != ''):
                 SaveFile.main(currentSystem, fileName)
@@ -1062,8 +1032,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
     def Click_QuickCombine(self):
         if(self.SysLoaded == True):
             global currentSystem
-            file = QFileDialog.getOpenFileName(
-                self, "Select XML Document", "", "XML Files (*.xml)")
+            file = QFileDialog.getOpenFileName(self, "Select XML Document", "", "XML Files (*.xml)")
             if file[0] != '':
                 QuickCombine.main(currentSystem, file[0])
             currentSystem.clearVerticalTransitionDict()
@@ -1297,8 +1266,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 self.workerlast.finished.connect(self.workerlast.deleteLater)
 
                 self.threadlast.finished.connect(lambda: self.draw_assembly(self.Engine.getCurrentAssembly()))
-                self.threadlast.finished.connect(
-                    lambda: self.Update_available_moves())
+                self.threadlast.finished.connect(    lambda: self.Update_available_moves())
 
                 self.threadlast.start()
 
@@ -1307,8 +1275,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             if self.play == False:
                 self.play = True
 
-                self.Play_button.setIcon(QtGui.QIcon(
-                    'Icons/tabler-icon-player-pause.png'))
+                self.Play_button.setIcon(QtGui.QIcon(    'Icons/tabler-icon-player-pause.png'))
 
                 if self.color_flag == 0:
                     if self.Engine.currentIndex > 0:
@@ -1333,12 +1300,9 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 self.worker.finished.connect(self.thread.quit)
                 self.worker.finished.connect(self.worker.deleteLater)
 
-                self.thread.finished.connect(
-                    lambda: self.draw_assembly(self.Engine.getCurrentAssembly()))
-                self.thread.finished.connect(
-                    lambda: self.Update_available_moves())
-                self.thread.finished.connect(lambda: self.Play_button.setIcon(
-                    QtGui.QIcon('Icons/tabler-icon-player-play.png')))
+                self.thread.finished.connect(    lambda: self.draw_assembly(self.Engine.getCurrentAssembly()))
+                self.thread.finished.connect(    lambda: self.Update_available_moves())
+                self.thread.finished.connect(lambda: self.Play_button.setIcon(    QtGui.QIcon('Icons/tabler-icon-player-play.png')))
 
                 self.thread.start()
 
@@ -1382,15 +1346,12 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         # set row count affinity table
         self.newAffinityIndex = (len(self.system.vertical_affinities_list)) + \
             (len(self.system.horizontal_affinities_list))
-        self.tableWidget_2.setRowCount(len(
-            self.system.vertical_affinities_list) + len(self.system.horizontal_affinities_list))
+        self.tableWidget_2.setRowCount(len(self.system.vertical_affinities_list) + len(self.system.horizontal_affinities_list))
         print(len(self.system.vertical_affinities_list) +
               len(self.system.horizontal_affinities_list))
         # set row count transition table
-        self.newTransitionIndex = (len(
-            self.system.vertical_transitions_list)) + (len(self.system.horizontal_transitions_list))
-        self.tableWidget_3.setRowCount(len(
-            self.system.vertical_transitions_list) + len(self.system.horizontal_transitions_list))
+        self.newTransitionIndex = (len(self.system.vertical_transitions_list)) + (len(self.system.horizontal_transitions_list))
+        self.tableWidget_3.setRowCount(len(self.system.vertical_transitions_list) + len(self.system.horizontal_transitions_list))
         print(len(self.system.vertical_transitions_list) +
               len(self.system.horizontal_transitions_list))
 
@@ -1681,18 +1642,15 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
 
         # only delete if there is something in the table, and if there is something selected
         if self.tableWidget.rowCount() > 0 and len(self.tableWidget.selectedIndexes()) > 0:
-            self.tableWidget.removeRow(
-                self.tableWidget.selectedIndexes()[0].row())
+            self.tableWidget.removeRow(self.tableWidget.selectedIndexes()[0].row())
 
     def click_removeRowAff(self):
         if self.tableWidget_2.rowCount() > 0 and len(self.tableWidget_2.selectedIndexes()) > 0:
-            self.tableWidget_2.removeRow(
-                self.tableWidget_2.selectedIndexes()[0].row())
+            self.tableWidget_2.removeRow(self.tableWidget_2.selectedIndexes()[0].row())
 
     def click_removeRowTran(self):
         if self.tableWidget_3.rowCount() > 0 and len(self.tableWidget_3.selectedIndexes()) > 0:
-            self.tableWidget_3.removeRow(
-                self.tableWidget_3.selectedIndexes()[0].row())
+            self.tableWidget_3.removeRow(self.tableWidget_3.selectedIndexes()[0].row())
 
     # new_w is not copying checked state if w is checked
     # new_w not aligned in cells
@@ -1920,8 +1878,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
     def Click_EditSaveAs(self):
         # TODO call save as
         print("Save As button clicked")
-        fileName = QFileDialog.getSaveFileName(
-            self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
+        fileName = QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
 
 
         currentSystem.setSeedAssembly(self.s.getAssembly())
@@ -2120,13 +2077,11 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
 
         # only delete if there is something in the table, and if there is something selected
         if self.tableWidget.rowCount() > 0 and len(self.tableWidget.selectedIndexes()) > 0:
-            self.tableWidget.removeRow(
-                self.tableWidget.selectedIndexes()[0].row())
+            self.tableWidget.removeRow(self.tableWidget.selectedIndexes()[0].row())
 
     def click_removeRowTran(self):
         if self.tableWidget_3.rowCount() > 0 and len(self.tableWidget_3.selectedIndexes()) > 0:
-            self.tableWidget_3.removeRow(
-                self.tableWidget_3.selectedIndexes()[0].row())
+            self.tableWidget_3.removeRow(self.tableWidget_3.selectedIndexes()[0].row())
 
 
     def copy_widget(self, w):
@@ -2313,8 +2268,7 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
 
     def Click_EditSaveAs(self):
         print("Save As button clicked")
-        fileName = QFileDialog.getSaveFileName(
-            self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
+        fileName = QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
 
         currentSystem.setSeedAssembly(self.s.getAssembly())
         if(fileName[0] != ''):
@@ -2367,8 +2321,7 @@ class Move(QWidget):
             return
 
         if self.move["type"] == "a":
-            moveText = "Attach\n" + self.move["state1"].returnLabel() + " at " + str(
-                self.move["x"]) + " , " + str(self.move["y"])
+            moveText = "Attach\n" + self.move["state1"].returnLabel() + " at " + str(self.move["x"]) + " , " + str(self.move["y"])
         elif self.move["type"] == "t":
             if self.move["state1Final"] != None and self.move["state2Final"] != None:
                 # Add Transition Direction
@@ -2376,8 +2329,7 @@ class Move(QWidget):
                     moveText = "V "
                 else:
                     moveText = "H "
-                moveText += "Transition\n" + self.move["state1"].returnLabel() + ", " + self.move["state2"].returnLabel(
-                ) + " to " + self.move["state1Final"].returnLabel() + ", " + self.move["state2Final"].returnLabel()
+                moveText += "Transition\n" + self.move["state1"].returnLabel() + ", " + self.move["state2"].returnLabel() + " to " + self.move["state1Final"].returnLabel() + ", " + self.move["state2Final"].returnLabel()
             else:
                 moveText = "Error:\n state doesn't exist"
 

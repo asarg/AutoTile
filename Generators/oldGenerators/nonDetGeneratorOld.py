@@ -192,34 +192,25 @@ def genQuadIndexStates(vLen):
     for i in range(rt4Len):
 
         # Rules for propagating the A index upward
-        propUpA = uc.TransitionRule(
-            "A", str(i) + "A", str(i) + "As", str(i) + "A", "v")
+        propUpA = uc.TransitionRule("A", str(i) + "A", str(i) + "As", str(i) + "A", "v")
         genSys.addTransitionRule(propUpA)
-        propUpAs = uc.TransitionRule(
-            "A", str(i) + "As", str(i) + "A", str(i) + "As", "v")
+        propUpAs = uc.TransitionRule("A", str(i) + "As", str(i) + "A", str(i) + "As", "v")
         genSys.addTransitionRule(propUpAs)
-        propUpPrimeA = uc.TransitionRule(
-            "A'", str(i) + "As", str(i) + "A'", str(i) + "As", "v")
+        propUpPrimeA = uc.TransitionRule("A'", str(i) + "As", str(i) + "A'", str(i) + "As", "v")
         genSys.addTransitionRule(propUpPrimeA)
 
-        propUpB = uc.TransitionRule(
-            "B", str(i) + "B", str(i) + "Bs", str(i) + "B", "v")
+        propUpB = uc.TransitionRule("B", str(i) + "B", str(i) + "Bs", str(i) + "B", "v")
         genSys.addTransitionRule(propUpB)
-        propUpBs = uc.TransitionRule(
-            "B", str(i) + "Bs", str(i) + "B", str(i) + "Bs", "v")
+        propUpBs = uc.TransitionRule("B", str(i) + "Bs", str(i) + "B", str(i) + "Bs", "v")
         genSys.addTransitionRule(propUpBs)
-        propUpPrimeB = uc.TransitionRule(
-            "B'", str(i) + "Bs", str(i) + "B'", str(i) + "Bs", "v")
+        propUpPrimeB = uc.TransitionRule("B'", str(i) + "Bs", str(i) + "B'", str(i) + "Bs", "v")
         genSys.addTransitionRule(propUpPrimeB)
 
-        propUpC = uc.TransitionRule(
-            "C", str(i) + "C", str(i) + "Cs", str(i) + "C", "v")
+        propUpC = uc.TransitionRule("C", str(i) + "C", str(i) + "Cs", str(i) + "C", "v")
         genSys.addTransitionRule(propUpC)
-        propUpCs = uc.TransitionRule(
-            "C", str(i) + "Cs", str(i) + "C", str(i) + "Cs", "v")
+        propUpCs = uc.TransitionRule("C", str(i) + "Cs", str(i) + "C", str(i) + "Cs", "v")
         genSys.addTransitionRule(propUpCs)
-        propUpPrimeC = uc.TransitionRule(
-            "C'", str(i) + "Cs", str(i) + "C'", str(i) + "Cs", "v")
+        propUpPrimeC = uc.TransitionRule("C'", str(i) + "Cs", str(i) + "C'", str(i) + "Cs", "v")
         genSys.addTransitionRule(propUpPrimeC)
 
         # Once the B index reaches the top transition the a and b columns

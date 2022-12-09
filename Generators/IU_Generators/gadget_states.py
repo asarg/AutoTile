@@ -41,16 +41,11 @@ signal_end_checks_accept = State("SignalEndChecksAccept", signal_full_accept_col
 signal_end_checks_reject = State("SignalEndChecksReject", reject_color, "✖")
 signal_checks_states = [signal_start_checks_inactive, signal_start_checks_active, signal_end_checks_inactive, signal_end_checks_accept, signal_end_checks_reject]
 
-signal_conditional_inactive = State(
-    "SignalConditionalInactive", signal_inactive_color, "⍼⏱")
-signal_conditional_waiting = State(
-    "SignalConditionalWaiting", waiting_color, "⍼⏱")
-signal_conditional_intermediate_accept = State(
-    "SignalConditionalInterimAccept", activate_next_color, "⍼✔")
-signal_conditional_full_accept = State(
-    "SignalConditionalFullAccept", full_accept_color, "⍼✔✔")
-signal_conditional_reject = State(
-    "SignalConditionalReject", reject_color, "⍼✖")
+signal_conditional_inactive = State("SignalConditionalInactive", signal_inactive_color, "⍼⏱")
+signal_conditional_waiting = State("SignalConditionalWaiting", waiting_color, "⍼⏱")
+signal_conditional_intermediate_accept = State("SignalConditionalInterimAccept", activate_next_color, "⍼✔")
+signal_conditional_full_accept = State("SignalConditionalFullAccept", full_accept_color, "⍼✔✔")
+signal_conditional_reject = State("SignalConditionalReject", reject_color, "⍼✖")
 signal_conditional_reset = State("SignalConditionalReset", reset_color, "⍼↺")
 
 signal_conditional_states = [signal_conditional_inactive, signal_conditional_waiting, signal_conditional_intermediate_accept, signal_conditional_full_accept, signal_conditional_reject, signal_conditional_reset]

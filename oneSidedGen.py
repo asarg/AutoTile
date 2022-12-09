@@ -180,11 +180,9 @@ def genTripleIndexStates(vLen):
     for i in range(cbrtLen):
         # Rule for A state reaches bottom of the column to increment
         if i < cbrtLen - 1:
-            trIncA = uc.TransitionRule(
-                "A", str(i) + "An'", str(i + 1) + "A", str(i) + "An'", "v")
+            trIncA = uc.TransitionRule("A", str(i) + "An'", str(i + 1) + "A", str(i) + "An'", "v")
             genSys.addTransitionRule(trIncA)
-            trIncB = uc.TransitionRule(
-                "B", str(i) + "Bn'", str(i + 1) + "B", str(i) + "Bn'", "v")
+            trIncB = uc.TransitionRule("B", str(i) + "Bn'", str(i + 1) + "B", str(i) + "Bn'", "v")
             genSys.addTransitionRule(trIncB)
             # Rule allowing B column to start the next section
             trGrowC = uc.TransitionRule(str(i) + "Bn'", str(cbrtLen - 1) + "Cn", str(i) + "Bn'", str(cbrtLen - 1) + "Cn'", "h")
@@ -195,24 +193,18 @@ def genTripleIndexStates(vLen):
 
 
         # Rules for propagating the A index upward
-        propUpA = uc.TransitionRule(
-            "A", str(i) + "An", str(i) + "A", str(i) + "An", "v")
+        propUpA = uc.TransitionRule("A", str(i) + "An", str(i) + "A", str(i) + "An", "v")
         genSys.addTransitionRule(propUpA)
-        propUpAs = uc.TransitionRule(
-            "A", str(i) + "A", str(i) + "An", str(i) + "A", "v")
+        propUpAs = uc.TransitionRule("A", str(i) + "A", str(i) + "An", str(i) + "A", "v")
         genSys.addTransitionRule(propUpAs)
-        propUpPrimeA = uc.TransitionRule(
-            "A'", str(i) + "A", str(i) + "An'", str(i) + "A", "v")
+        propUpPrimeA = uc.TransitionRule("A'", str(i) + "A", str(i) + "An'", str(i) + "A", "v")
         genSys.addTransitionRule(propUpPrimeA)
 
-        propUpB = uc.TransitionRule(
-            "B", str(i) + "Bn", str(i) + "B", str(i) + "Bn", "v")
+        propUpB = uc.TransitionRule("B", str(i) + "Bn", str(i) + "B", str(i) + "Bn", "v")
         genSys.addTransitionRule(propUpB)
-        propUpAs = uc.TransitionRule(
-            "B", str(i) + "B", str(i) + "Bn", str(i) + "B", "v")
+        propUpAs = uc.TransitionRule("B", str(i) + "B", str(i) + "Bn", str(i) + "B", "v")
         genSys.addTransitionRule(propUpAs)
-        propUpPrimeB = uc.TransitionRule(
-            "B'", str(i) + "B", str(i) + "Bn'", str(i) + "B", "v")
+        propUpPrimeB = uc.TransitionRule("B'", str(i) + "B", str(i) + "Bn'", str(i) + "B", "v")
         genSys.addTransitionRule(propUpPrimeB)
 
         # Rule allowing B to start next section after A increments

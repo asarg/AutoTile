@@ -25,8 +25,7 @@ def make_system():
     seed_a.tiles = east_wires
     states_list = [eastWire, ds_1] + endcap_doors_east_list
     affinity_rules = [AffinityRule(eastWire.label, ds_1.label, "h", 1), AffinityRule(ds_1.label, eastWire.label, "h", 1),
-                      AffinityRule(eastWire.label, eastWire.label, "h", 1), AffinityRule(ds_1.label, ds_1.label, "h", 1), AffinityRule(
-                          eastWire.label, end_data_string.label, "h", 1), AffinityRule(end_data_string.label, eastWire.label, "h", 1),
+                      AffinityRule(eastWire.label, eastWire.label, "h", 1), AffinityRule(ds_1.label, ds_1.label, "h", 1), AffinityRule(  eastWire.label, end_data_string.label, "h", 1), AffinityRule(end_data_string.label, eastWire.label, "h", 1),
                       AffinityRule(end_data_string.label, ds_1.label, "h", 1), AffinityRule(ds_1.label, endcap_door_east_inactive.label, "h", 1)]
     transition_rules = [TransitionRule(ds_1.label, eastWire.label, eastWire.label, ds_1.label, "h")]
     return System(1, states_list, [], states_list, [], affinity_rules, [], transition_rules, [], [], seed_a)

@@ -2,10 +2,6 @@
 from UniversalClasses import State
 from Assets.colors import *
 
-
-
-
-
 # Border
 border_state = State("Border", rosy_brown, " ")
 
@@ -89,19 +85,15 @@ writeStartStateInactive = State("WriteStartStateInactive", inactive_color, "(✑
 writeEndStateInactive = State("WriteEndStateInactive", inactive_color, ")✑")
 writeStartStatePairInactive = State("WriteStartStatePairInactive", inactive_color, "[✑")
 writeEndStatePairInactive = State("WriteEndStatePairInactive", inactive_color, "]✑")
-writeStateDataStringInactive = State(
-    "WriteStateDataStringInactive", inactive_color, "✑❲")
-writeEndDataStringInactive = State(
-    "WriteEndDataStringInactive", inactive_color, "✑❳")
+writeStateDataStringInactive = State("WriteStateDataStringInactive", inactive_color, "✑❲")
+writeEndDataStringInactive = State("WriteEndDataStringInactive", inactive_color, "✑❳")
 
 writeStartStateActivateNext = State("WriteStartStateActivateNext", activate_next_color, "(✑")
 writeEndStateActivateNext = State("WriteEndStateActivateNext", activate_next_color, ")✑")
 writeStartStatePairActivateNext = State("WriteStartStatePairActivateNext", activate_next_color, "[✑")
 writeEndStatePairActivateNext = State("WriteEndStatePairActivateNext", activate_next_color, "]✑")
-writeStartDataStringActivateNext = State(
-    "WriteStartDataStringActivateNext", activate_next_color, "✑❲")
-writeEndDataStringActivateNext = State(
-    "WriteEndDataStringActivateNext", activate_next_color, "✑❳")
+writeStartDataStringActivateNext = State("WriteStartDataStringActivateNext", activate_next_color, "✑❲")
+writeEndDataStringActivateNext = State("WriteEndDataStringActivateNext", activate_next_color, "✑❳")
 
 writeStartStateWaiting = State("WriteStartStateWaiting", waiting_color, "(✑")
 writeEndStateWaiting = State("WriteEndStateWaiting", waiting_color, ")✑")
@@ -245,23 +237,15 @@ endcap_doors_west_list = [endcap_door_west_inactive, endcap_door_west_handle_ina
 
 ## Endcap Doors East
 endcap_door_east_inactive = State("EndcapDoorEastInactive", grey, "◨")
-endcap_door_east_handle_inactive = State(
-    "EndCapDoorHandleEastInactive", grey, "◨~🔒")
-endcap_door_east_active = State(
-    "EndcapDoorEastActive", persian_green, "◨")
-endcap_door_east_handle_active = State(
-    "EndCapDoorHandleEastActive", persian_green, "◨~🔓")
+endcap_door_east_handle_inactive = State("EndCapDoorHandleEastInactive", grey, "◨~🔒")
+endcap_door_east_active = State("EndcapDoorEastActive", persian_green, "◨")
+endcap_door_east_handle_active = State("EndCapDoorHandleEastActive", persian_green, "◨~🔓")
 endcap_door_east_stop = State("EndcapDoorEastStop", Venetian_Red, "◨")
-endcap_door_east_handle_stop = State(
-    "EndCapDoorEastHandleStop", Venetian_Red, "◨~🔒")
-endcap_door_east_reset = State(
-    "EndcapDoorEastReset", waiting_color, "↺◨")
-endcap_door_east_handle_reset = State(
-    "EndCapDoorHandleEastReset", waiting_color, "↺◨~🔒")
-endcap_door_east_handle_reset_waiting = State(
-    "EndCapDoorHandleEastResetWaiting", waiting_color, "↺⏱◨~")
-endcap_door_east_reset_waiting = State(
-    "EndcapDoorEastResetWaiting", waiting_color, "↺⏱◨")
+endcap_door_east_handle_stop = State("EndCapDoorEastHandleStop", Venetian_Red, "◨~🔒")
+endcap_door_east_reset = State("EndcapDoorEastReset", waiting_color, "↺◨")
+endcap_door_east_handle_reset = State("EndCapDoorHandleEastReset", waiting_color, "↺◨~🔒")
+endcap_door_east_handle_reset_waiting = State("EndCapDoorHandleEastResetWaiting", waiting_color, "↺⏱◨~")
+endcap_door_east_reset_waiting = State("EndcapDoorEastResetWaiting", waiting_color, "↺⏱◨")
 endcap_doors_east_list = [endcap_door_east_inactive, endcap_door_east_handle_inactive, endcap_door_east_active, endcap_door_east_handle_active, endcap_door_east_stop, endcap_door_east_handle_stop, endcap_door_east_reset, endcap_door_east_handle_reset, endcap_door_east_handle_reset_waiting, endcap_door_east_reset_waiting]
 ### Single Doors
 signal_door_inactive = State("LockedSignalDoorInactive", grey, "🔒▦")
@@ -364,48 +348,6 @@ data_states_list_prefixes = [north_prefix, south_prefix, east_prefix, west_prefi
 data_states_list_all_with_prefixes_no_order = data_states_list_prefixes + data_states_list_binary_nums_only
 copy_wire_states = [northCopyWire, southCopyWire, eastCopyWire, westCopyWire]
 
-# Loops
-for i in ds_states:
-    # Write the state name
-    # Write Inactive
-    # Write Writing
-    # Write Reading
-    # Write Activate Next State
-    # Write Deactivate Next State
-    # Write Next State Activated
-    # Write Reset
-    print("Done")
-
-def writeResetStateToFile(name, additional_display_text=""):
-    reset_color = waiting_color
-    state_var = "reset_{}".format(name)
-    state_name = "Reset" + name
-    reset_symbol = "↺"
-    reset_display_text = reset_symbol + additional_display_text
-
-
-
-
-    return State(state_name + "Reset", waiting_color, "↺")
-
-def writeToFile(state_string):
-    file_name = "binaryStates.txt"
-    f = open(file_name, "w")
-
-
-
-
-    return
-def makeStateInFile(category, name, additional_display_text=""):
-    if category == "reset":
-        writeResetStateToFile(name, additional_display_text)
-
-    state_var = "{}".format(name)
-    state_name = name
-
-class IUState:
-    def __init__(self) -> None:
-        pass
 # Potential Symbols
 # ⍼
 # ⟥ , ⭤ ⟥, ⭥⟥, ⟥

@@ -67,8 +67,7 @@ class SeedAssemblyEqualityWire:
     def createWireTransitions(self, test_data_states):
         wire_transitions = []
         for ds in test_data_states:
-            transition = uc.TransitionRule(
-                "WestWire", ds.label, ds.label, "WestWire", "h")
+            transition = uc.TransitionRule("WestWire", ds.label, ds.label, "WestWire", "h")
             wire_transitions.append(transition)
         return wire_transitions
 
@@ -78,8 +77,7 @@ class IUSeedAssemblyGenerator:
 
         self.seedA = uc.Assembly()
         self.st = []
-        self.border_state = uc.State(
-            "Border", Papaya_Whip, " ")
+        self.border_state = uc.State("Border", Papaya_Whip, " ", "black", "Arial")
         self.st.append(self.border_state)
         self.equalityGadget(self)
 
@@ -91,14 +89,11 @@ class IUSeedAssemblyGenerator:
             print("Seed Assembly Generated")
 
     def equalityGadget(self):
-        check_equal_S_para = uc.State(
-            "CheckEqualS(", pink, "=(")
+        check_equal_S_para = uc.State("CheckEqualS(", pink, "=(", "black", "Arial")
         self.st.append(check_equal_S_para)
-        check_equal_S_any = uc.State(
-            "CheckEqualS*", pink, "=*")
+        check_equal_S_any = uc.State("CheckEqualS*", pink, "=*", "black", "Arial")
         self.st.append(check_equal_S_any)
-        check_equal_S_rpara = uc.State(
-            "CheckEqualS)", pink, "=)")
+        check_equal_S_rpara = uc.State("CheckEqualS)", pink, "=)", "black", "Arial")
         self.st.append(check_equal_S_rpara)
 
         eq_list = []
@@ -279,37 +274,32 @@ class WireGadget:
 
         for i in range(self.wire_length):
             if self.direction == "N":
-                self.wire_list.append(
-                    uc.Tile(self.northWire, self.start_x, self.start_y + i))
+                self.wire_list.append(    uc.Tile(self.northWire, self.start_x, self.start_y + i))
                 self.end_y = self.start_y + i
                 self.end_x = self.start_x
                 if self.northWire not in self.states_used:
                     self.states_used.append(self.northWire)
             elif self.direction == "S":
-                self.wire_list.append(
-                    uc.Tile(self.southWire, self.start_x, self.start_y + i))
+                self.wire_list.append(    uc.Tile(self.southWire, self.start_x, self.start_y + i))
                 self.end_y = self.start_y + i
                 self.end_x = self.start_x
                 if self.southWire not in self.states_used:
                     self.states_used.append(self.southWire)
             elif self.direction == "W":
-                self.wire_list.append(
-                    uc.Tile(self.westWire, self.start_x + i, self.start_y))
+                self.wire_list.append(    uc.Tile(self.westWire, self.start_x + i, self.start_y))
                 self.end_x = self.start_x + i
                 self.end_y = self.start_y
                 if self.westWire not in self.states_used:
                     self.states_used.append(self.westWire)
             elif self.direction == "E":
-                self.wire_list.append(
-                    uc.Tile(self.eastWire, self.start_x + i, self.start_y))
+                self.wire_list.append(    uc.Tile(self.eastWire, self.start_x + i, self.start_y))
                 self.end_x = self.start_x + i
                 self.end_y = self.start_y
                 if self.eastWire not in self.states_used:
                     self.states_used.append(self.eastWire)
 
         self.wire.setTiles(self.wire_list)
-        print("Wire made from ({},{}) to {}".format(
-            self.start_x, self.start_y, self.wire_list[-1].returnPosition()))
+        print("Wire made from ({},{}) to {}".format(self.start_x, self.start_y, self.wire_list[-1].returnPosition()))
 
     def returnWireTileList(self):
         return self.wire_list
@@ -327,17 +317,13 @@ class WireGadget:
 
         for i in range(len(data_string)):
             if self.direction == "N":
-                temptile = uc.Tile(
-                    data_string[i].state, self.end_x, self.end_y - i)
+                temptile = uc.Tile(    data_string[i].state, self.end_x, self.end_y - i)
             elif self.direction == "S":
-                temptile = uc.Tile(
-                    data_string[i].state, self.end_x, self.end_y + i)
+                temptile = uc.Tile(    data_string[i].state, self.end_x, self.end_y + i)
             elif self.direction == "W":
-                temptile = uc.Tile(
-                    data_string[i].state, self.end_x + i, self.end_y)
+                temptile = uc.Tile(    data_string[i].state, self.end_x + i, self.end_y)
             elif self.direction == "E":
-                temptile = uc.Tile(
-                    data_string[i].state, self.end_x + i, self.end_y)
+                temptile = uc.Tile(    data_string[i].state, self.end_x + i, self.end_y)
             self.test_data_tile_list.append(temptile)
             if data_string[i].state not in self.states_used:
                 self.states_used.append(data_string[i].state)
@@ -361,15 +347,12 @@ class EqualityGadget:
         self.states_used = []
 
     def make_equality_any_gadget(self, start_x, start_y, len_to_check):
-        self.eq_list.append(
-            uc.Tile(self.check_equal_S_start_state, start_x, start_y))
+        self.eq_list.append(uc.Tile(self.check_equal_S_start_state, start_x, start_y))
         self.states_used.append(self.check_equal_S_start_state)
         for i in range(1, len_to_check - 2):
-            self.eq_list.append(
-                uc.Tile(self.check_equal_S_any_num_state, start_x + i, start_y))
+            self.eq_list.append(uc.Tile(self.check_equal_S_any_num_state, start_x + i, start_y))
         self.states_used.append(self.check_equal_S_any_num_state)
-        self.eq_list.append(
-            uc.Tile(self.check_equal_S_end_state, start_x + 2, start_y))
+        self.eq_list.append(uc.Tile(self.check_equal_S_end_state, start_x + 2, start_y))
         self.states_used.append(self.check_equal_S_end_state)
         self.eq.addTilesFromList(self.eq_list)
         print("Equality Gadget Generated")

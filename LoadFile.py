@@ -75,8 +75,7 @@ def readxml(file):
         label1Final = rule_tag.get("Label1Final")
         label2Final = rule_tag.get("Label2Final")
 
-        tempRule = TransitionRule(
-            label1, label2, label1Final, label2Final, "v")
+        tempRule = TransitionRule(label1, label2, label1Final, label2Final, "v")
         VerticalTransitionRules.append(tempRule)
 
     # Record Horizontal Transitions
@@ -86,8 +85,7 @@ def readxml(file):
         label1Final = rule_tag.get("Label1Final")
         label2Final = rule_tag.get("Label2Final")
 
-        tempRule = TransitionRule(
-            label1, label2, label1Final, label2Final, "h")
+        tempRule = TransitionRule(label1, label2, label1Final, label2Final, "h")
         HorizontalTransitionRules.append(tempRule)
 
     # Record Vertical Affinities
@@ -166,8 +164,7 @@ def returnSystemLoadXML(file):
         label1Final = rule_tag.get("Label1Final")
         label2Final = rule_tag.get("Label2Final")
 
-        tempRule = TransitionRule(
-            label1, label2, label1Final, label2Final, "v")
+        tempRule = TransitionRule(label1, label2, label1Final, label2Final, "v")
         VerticalTransitionRules.append(tempRule)
 
     # Record Horizontal Transitions
@@ -177,8 +174,7 @@ def returnSystemLoadXML(file):
         label1Final = rule_tag.get("Label1Final")
         label2Final = rule_tag.get("Label2Final")
 
-        tempRule = TransitionRule(
-            label1, label2, label1Final, label2Final, "h")
+        tempRule = TransitionRule(label1, label2, label1Final, label2Final, "h")
         HorizontalTransitionRules.append(tempRule)
 
     # Record Vertical Affinities

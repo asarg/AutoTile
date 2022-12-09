@@ -29,12 +29,10 @@ class Ui_EditorWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
         self.editFrame = QtWidgets.QFrame(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.editFrame.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(self.editFrame.sizePolicy().hasHeightForWidth())
         self.editFrame.setSizePolicy(sizePolicy)
         self.editFrame.setMaximumSize(QtCore.QSize(16777215, 500))
         self.editFrame.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -184,27 +182,22 @@ class Ui_EditorWindow(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame_2)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.pushButton = QtWidgets.QPushButton(self.frame_2)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.pushButton.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
         self.pushButton.setSizePolicy(sizePolicy)
         self.pushButton.setObjectName("pushButton")
         self.horizontalLayout.addWidget(self.pushButton)
         self.pushButton_2 = QtWidgets.QPushButton(self.frame_2)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.pushButton_2.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
         self.pushButton_2.setSizePolicy(sizePolicy)
         self.pushButton_2.setObjectName("pushButton_2")
         self.horizontalLayout.addWidget(self.pushButton_2)
-        self.verticalLayout.addWidget(
-            self.frame_2, 0, QtCore.Qt.AlignRight | QtCore.Qt.AlignBottom)
+        self.verticalLayout.addWidget(self.frame_2, 0, QtCore.Qt.AlignRight | QtCore.Qt.AlignBottom)
         EditorWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(EditorWindow)
@@ -219,14 +212,10 @@ class Ui_EditorWindow(object):
         _translate = QtCore.QCoreApplication.translate
         EditorWindow.setWindowTitle(_translate("EditorWindow", "Editor "))
         self.label.setText(_translate("EditorWindow", "System Temperature:"))
-        self.toolBox.setItemText(self.toolBox.indexOf(
-            self.page), _translate("EditorWindow", "General Settings"))
-        self.toolBox.setItemText(self.toolBox.indexOf(
-            self.page_2), _translate("EditorWindow", "Add State"))
-        self.toolBox.setItemText(self.toolBox.indexOf(
-            self.page_3), _translate("EditorWindow", "Add Affinity Rule"))
-        self.toolBox.setItemText(self.toolBox.indexOf(
-            self.page_4), _translate("EditorWindow", "Add Transition Rule"))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page), _translate("EditorWindow", "General Settings"))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), _translate("EditorWindow", "Add State"))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page_3), _translate("EditorWindow", "Add Affinity Rule"))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page_4), _translate("EditorWindow", "Add Transition Rule"))
         self.pushButton.setText(_translate("EditorWindow", "Apply"))
         self.pushButton_2.setText(_translate("EditorWindow", "Save as"))
         self.pushButton_3.setText(_translate("EditorWindow", "Add Row"))
@@ -238,10 +227,8 @@ class Ui_EditorWindow(object):
         self.pushButton_9.setText(_translate("EditorWindow", "Delete Row"))
         self.pushButton_10.setText(_translate("EditorWindow", "Delete Row"))
         self.pushButton_11.setText(_translate("EditorWindow", "Delete Row"))
-        self.pushButton_12.setText(_translate(
-            "EditorWindow", "Freezing Check"))
-        self.label2.setText(_translate(
-            "EditorWindow", is_system_freezing))
+        self.pushButton_12.setText(_translate("EditorWindow", "Freezing Check"))
+        self.label2.setText(_translate("EditorWindow", is_system_freezing))
         self.pushButton_12.clicked.connect(self.Click_FreezingCheck)
 
 

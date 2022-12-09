@@ -68,8 +68,7 @@ def rotate(currentSystem):
         label2Final = rule.returnLabel2Final()
         dir = "v"
 
-        tempRule = TransitionRule(
-            label2, label1, label2Final, label1Final, dir)
+        tempRule = TransitionRule(label2, label1, label2Final, label1Final, dir)
         tempHTransitionList.append(tempRule)
 
     # And the same thing for horizontal transitions.
@@ -80,8 +79,7 @@ def rotate(currentSystem):
         label2Final = rule.returnLabel2Final()
         dir = "h"
 
-        tempRule = TransitionRule(
-            label1, label2, label1Final, label2Final, dir)
+        tempRule = TransitionRule(label1, label2, label1Final, label2Final, dir)
         tempVTransitionList.append(tempRule)
 
     # Translate tempSystem's lists into dictionaries
