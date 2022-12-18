@@ -4,7 +4,8 @@ from Assets.colors import *
 
 # Border
 border_state = State("Border", rosy_brown, " ")
-
+northCorner = State("NorthCorner", rosy_brown, "╔")
+southCorner = State("SouthCorner", rosy_brown, "╚")
 # Wires
 northWire = State("NorthWire", wire_color, "🡹")
 southWire = State("SouthWire", wire_color, "🡻")
@@ -223,12 +224,12 @@ trap_door_inactive = State("TrapDoorInactive", copper_rose, "▩")
 trap_door_active = State("TrapDoorActive", Barn_Red, "▩")
 
 ## Endcap Doors
-endcap_door_west_inactive = State("EndcapDoorWestInactive", grey, "◨")
-endcap_door_west_handle_inactive = State("EndCapDoorHandleWestInactive", grey, "◨~🔒")
-endcap_door_west_active = State("EndcapDoorWestActive", persian_green, "◨")
-endcap_door_west_handle_active = State("EndCapDoorHandleWestActive", persian_green, "◨~🔓")
-endcap_door_west_stop = State("EndcapDoorWestStop", Venetian_Red, "◨")
-endcap_door_west_handle_stop = State("EndCapDoorWestHandleStop", Venetian_Red, "◨~🔒")
+endcap_door_west_inactive = State("EndcapDoorWestInactive", inactive_color, "◨")
+endcap_door_west_handle_inactive = State("EndCapDoorHandleWestInactive", inactive_color, "◨~🔒")
+endcap_door_west_active = State("EndcapDoorWestActive", full_accept_color, "◨")
+endcap_door_west_handle_active = State("EndCapDoorHandleWestActive", full_accept_color, "◨~🔓")
+endcap_door_west_stop = State("EndcapDoorWestStop", reject_color, "◨")
+endcap_door_west_handle_stop = State("EndCapDoorWestHandleStop", reject_color, "◨~🔒")
 endcap_door_west_reset = State("EndcapDoorWestReset", waiting_color, "↺◨")
 endcap_door_west_handle_reset = State("EndCapDoorHandleWestReset", waiting_color, "↺◨~🔒")
 endcap_door_west_handle_reset_waiting = State("EndCapDoorHandleWestResetWaiting", waiting_color, "↺⏱◨~")
@@ -236,104 +237,143 @@ endcap_door_west_reset_waiting = State("EndcapDoorWestResetWaiting", waiting_col
 endcap_doors_west_list = [endcap_door_west_inactive, endcap_door_west_handle_inactive, endcap_door_west_active, endcap_door_west_handle_active, endcap_door_west_stop, endcap_door_west_handle_stop, endcap_door_west_reset, endcap_door_west_handle_reset, endcap_door_west_handle_reset_waiting, endcap_door_west_reset_waiting]
 
 ## Endcap Doors East
-endcap_door_east_inactive = State("EndcapDoorEastInactive", grey, "◨")
-endcap_door_east_handle_inactive = State("EndCapDoorHandleEastInactive", grey, "◨~🔒")
-endcap_door_east_active = State("EndcapDoorEastActive", persian_green, "◨")
-endcap_door_east_handle_active = State("EndCapDoorHandleEastActive", persian_green, "◨~🔓")
-endcap_door_east_stop = State("EndcapDoorEastStop", Venetian_Red, "◨")
-endcap_door_east_handle_stop = State("EndCapDoorEastHandleStop", Venetian_Red, "◨~🔒")
+endcap_door_east_inactive = State("EndcapDoorEastInactive", inactive_color, "◨")
+endcap_door_east_handle_inactive = State("EndCapDoorHandleEastInactive", inactive_color, "◨~🔒")
+endcap_door_east_active = State("EndcapDoorEastActive", full_accept_color, "◨")
+endcap_door_east_handle_active = State("EndCapDoorHandleEastActive", full_accept_color, "◨~🔓")
+endcap_door_east_stop = State("EndcapDoorEastStop", reject_color, "◨")
+endcap_door_east_handle_stop = State("EndCapDoorEastHandleStop", reject_color, "◨~🔒")
 endcap_door_east_reset = State("EndcapDoorEastReset", waiting_color, "↺◨")
 endcap_door_east_handle_reset = State("EndCapDoorHandleEastReset", waiting_color, "↺◨~🔒")
 endcap_door_east_handle_reset_waiting = State("EndCapDoorHandleEastResetWaiting", waiting_color, "↺⏱◨~")
 endcap_door_east_reset_waiting = State("EndcapDoorEastResetWaiting", waiting_color, "↺⏱◨")
 endcap_doors_east_list = [endcap_door_east_inactive, endcap_door_east_handle_inactive, endcap_door_east_active, endcap_door_east_handle_active, endcap_door_east_stop, endcap_door_east_handle_stop, endcap_door_east_reset, endcap_door_east_handle_reset, endcap_door_east_handle_reset_waiting, endcap_door_east_reset_waiting]
-### Single Doors
-signal_door_inactive = State("LockedSignalDoorInactive", grey, "🔒▦")
-signal_door_handle_inactive = State("LockedSignalDoorHandleInactive", grey, "🗝~")
-signal_door_handle_reset = State("SignalDoorHandleReset", waiting_color, "↺🗝~")
-signal_door_open = State("SignalDoorOpen", persian_green, "🔓▦")
-signal_door_handle_open = State("SignalDoorHandleOpen", persian_green, "🗝~")
+### Signal Doors
+signal_door_inactive = State("LockedSignalDoorInactive", inactive_color, "🔒◨")
+signal_door_inactive_east = State("LockedSignalDoorInactiveEast", inactive_color, "◨⇉")
+signal_door_intermediate_accept = State("SignalDoorIntermediateAccept", intermediate_accept_color, "◨↯")
+signal_door_open = State("SignalDoorOpen", full_accept_color, "🔓◨")
+signal_door_transmit = State("SignalDoorTransmit", waiting_color, "◨↯")
+signal_door_active_waiting_east = State("SignalDoorActiveWaitingEast", waiting_color, "◨⇉⏱")
+signal_door_handle_inactive = State("LockedSignalDoorHandleInactive", inactive_color, "🗝~")
+signal_door_handle_reset = State("SignalDoorHandleReset", reset_color, "↺🗝~")
 
-signal_door_propped_open = State("SignalDoorProppedOpen", persian_green, "🔓")
-signal_door_reset = State("SignalDoorReset", waiting_color, "↺▦")
-signal_door_reset_walk = State("SignalDoorResetWalk", waiting_color, "↺▦◃")
+
+signal_door_handle_open = State("SignalDoorHandleOpen", full_accept_color, "🗝~")
+signal_door_handle_active_waiting = State("SignalDoorHandleActiveWaiting", waiting_color, "⏱🗝~")
+signal_door_handle_inactive_waiting = State("SignalDoorHandleInactiveWaiting", inactive_waiting_color, "⏱🗝~")
+signal_door_handle_accept = State("SignalDoorHandleAccept", full_accept_color, "🗝~")
+signal_door_handle_intermediate_accept = State("SignalDoorHandleIntermediateAccept", intermediate_accept_color, "🗝~")
+signal_door_handle_pass_accept_south = State("SignalDoorHandlePassAcceptSouth", intermediate_accept_color, "🗝~↧↯")
+signal_door_handle_pass_accept_north = State("SignalDoorHandlePassAcceptNorth", intermediate_accept_color, "🗝~↥↯")
+signal_door_handle_find_corner_north = State("SignalDoorHandleFindCornerNorth", waiting_color, "🗝~↥↯")
+signal_door_handle_find_corner_south = State("SignalDoorHandleFindCornerSouth", waiting_color, "🗝~↧↯")
+signal_door_handle_pass_find_corner_north = State("SignalDoorHandlePassFindCornerNorth", waiting_color, "🗝~↥↯")
+signal_door_handle_pass_find_corner_south = State("SignalDoorHandlePassFindCornerSouth", waiting_color, "🗝~↧↯")
+
+
+signal_door_pass_accept_south = State("SignalDoorPassAcceptSouth", intermediate_accept_color, "◨↧↯")
+signal_door_pass_accept_north = State("SignalDoorPassAcceptNorth", intermediate_accept_color, "◨↥↯")
+signal_door_pass_find_corner_north = State("SignalDoorPassFindCornerNorth", waiting_color, "◨↥↯")
+signal_door_pass_find_corner_south = State("SignalDoorPassFindCornerSouth", waiting_color, "◨↧↯")
+
+signal_door_find_corner_north = State("SignalDoorFindCornerNorth", inactive_waiting_color, "◨↥↯")
+signal_door_find_corner_south = State("SignalDoorFindCornerSouth", inactive_waiting_color, "◨↧↯")
+
+signal_door_propped_open = State("SignalDoorProppedOpen", full_accept_color, "🔓")
+signal_door_reset = State("SignalDoorReset", reset_color, "↺▦")
+signal_door_east_reset = State("SignalDoorEastReset", reset_color, "↺⇉▦")
+signal_door_east_stop = State("SignalDoorEastStop", reject_color, "⇉▦")
+signal_door_reset_walk = State("SignalDoorResetWalk", reset_color, "↺▦◃")
+signal_door_east_reset_walk = State(
+    "SignalDoorEastResetWalk", reset_color, "↺⇉▦◃")
 signal_door_send_confirmed_transmission = State("SignalDoorSendConfirmedTransmission", waiting_color, "▦⇉✅")
 reset_confirmed_transmission_westWire = State("ResetConfirmedTransmissionWest", waiting_color, "↺✅⇉")
 
 
 ### Signal Door Checks
-closed_endcap_door_check_signal = State("ClosedEndcapDoorCheckSignal", grey, "✅")
-closed_endcap_door_check_signal_inactive = State("ClosedEndcapDoorCheckSignalInactive", grey, "❌")
+closed_endcap_door_check_signal = State("ClosedEndcapDoorCheckSignal", inactive_color, "✅")
+closed_endcap_door_check_signal_inactive = State("ClosedEndcapDoorCheckSignalInactive", inactive_color, "❌")
 
-signal_transmitter_turn_down_inactive = State("SignalTransmitterTurnDownInactive", grey, "⮮")
-signal_transmitter_turn_down_active = State("SignalTransmitterTurnDownActive", persian_green, "⮮")
-signal_transmitter_turn_down_open = State("SignalTransmitterTurnDownOpen", persian_green, "⮮")
+signal_transmitter_turn_down_inactive = State("SignalTransmitterTurnDownInactive", inactive_color, "⮮")
+signal_transmitter_turn_down_active = State("SignalTransmitterTurnDownActive", full_accept_color, "⮮")
+signal_transmitter_turn_down_open = State("SignalTransmitterTurnDownOpen", full_accept_color, "⮮")
 signal_transmitter_turn_down_reset = State("SignalTransmitterTurnDownReset", waiting_color, "↺⮮")
 
-signal_transmitter_turn_up_inactive = State("SignalTransmitterTurnUpInactive", grey, "⮲")
-signal_transmitter_turn_up_active = State("SignalTransmitterTurnUpActive", persian_green, "⮲")
+signal_transmitter_turn_up_inactive = State("SignalTransmitterTurnUpInactive", inactive_color, "⮲")
+signal_transmitter_turn_up_active = State("SignalTransmitterTurnUpActive", full_accept_color, "⮲")
 signal_transmitter_turn_up_reset = State("SignalTransmitterTurnUpReset", waiting_color, "↺⮲")
 
-row_signal_positive_inactive = State("RowSignalPositiveInactive", grey, "⊝")
+row_signal_positive_inactive = State("RowSignalPositiveInactive", inactive_color, "⊝")
 
-row_signal_positive_start_inactive = State("RowSignalPositiveStartInactive", green_yellow_crayola, "⊝")
+row_signal_positive_start_inactive = State("RowSignalPositiveStartInactive", waiting_color, "⊝")
 
-row_signal_positive_start_waiting = State("RowSignalPositiveStartWaiting", green_yellow_crayola, "⊝⏱")
+row_signal_positive_start_waiting = State("RowSignalPositiveStartWaiting", waiting_color, "⊝⏱")
 
-row_signal_positive_waiting = State("RowSignalPositiveWaiting", green_yellow_crayola, "⏱")
-row_signal_positive_full_accept = State("RowSignalPositiveFullAccept", Viridian_Green, "✅")
+row_signal_positive_waiting = State("RowSignalPositiveWaiting", waiting_color, "⏱")
+row_signal_positive_full_accept = State("RowSignalPositiveFullAccept", full_accept_color, "✅")
 row_signal_intermediate_accept = State("RowSignalPositiveInterimAccept", activate_next_color, "✅")
 row_signal_positive_reset = State("RowSignalPositiveReset", waiting_color, "↺")
 
 signal_inactive_color = grey
-signal_receiver_inactive = State("SignalReceiverInactive", grey, "⊝")
-signal_received_accept = State("SignalReceivedAccept", persian_green, "✔✔")
-signal_recieved_reject = State("SignalReceivedReject", Venetian_Red, "✖")
-signal_receiver_passed = State("SignalReceiverPassed", persian_green, "⇉")
+signal_receiver_inactive = State("SignalReceiverInactive", inactive_color, "⊝")
+signal_received_accept = State("SignalReceivedAccept", full_accept_color, "✔✔")
+signal_received_reject = State("SignalReceivedReject", reject_color, "✖")
+signal_receiver_passed = State("SignalReceiverPassed", full_accept_color, "⇉")
 signal_receiver_reset = State("SignalReceiverReset", waiting_color, "↺")
+signal_receiver_pass_find_corner_north = State("SignalReceiverPassFindCornerNorth", waiting_color, "?↥↯")
+signal_receiver_pass_find_corner_south = State("SignalReceiverPassFindCornerSouth", waiting_color, "?↧↯")
+signal_receiver_pass_accept_north = State("SignalReceiverPassAcceptNorth", full_accept_color, "✔↥↯")
+signal_receiver_pass_accept_south = State("SignalReceiverPassAcceptSouth", full_accept_color, "✔↧↯")
 
-signal_transmitter = State("SignalTransmitter", persian_green, "⇉⍼")
-signal_transmitter_inactive = State("SignalTransmitterInactive", grey, "⍼")
+signal_transmitter = State("SignalTransmitter", full_accept_color, "⇉⍼")
+signal_transmitter_inactive = State("SignalTransmitterInactive", inactive_color, "⍼")
 signal_transmitter_reset = State( "SignalTransmitterReset", waiting_color, "⍼↺")
-signal_transmitter_accept = State("SignalTransmitterAccept", persian_green, "⍼✔")
-signal_transmitter_reject = State("SignalTransmitterReject", Venetian_Red, "⍼✖ ")
+signal_transmitter_accept = State("SignalTransmitterAccept", full_accept_color, "⍼✔")
+signal_transmitter_reject = State("SignalTransmitterReject", reject_color, "⍼✖ ")
+signal_transmitter_pass_find_corner_north = State("SignalTransmitterPassFindCornerNorth", waiting_color, "?↥⍼")
+signal_transmitter_pass_find_corner_south = State("SignalTransmitterPassFindCornerSouth", waiting_color, "?↧⍼")
+signal_transmitter_pass_accept_north = State(
+    "SignalTransmitterPassAcceptNorth", intermediate_accept_color, "◨↥⍼")
+signal_transmitter_pass_accept_south = State(
+    "SignalTransmitterPassAcceptSouth", intermediate_accept_color, "◨↧⍼")
 
-signal_wire_inactive = State("SignalWireInactive", grey, "⇉")
-signal_wire_active = State("SignalWireActive", persian_green, "⇉")
+signal_wire_inactive = State("SignalWireInactive", inactive_color, "⇉")
+signal_wire_active = State("SignalWireActive", full_accept_color, "⇉")
 
-signal_start_checks_inactive = State("SignalStartChecksInactive", grey, "⏯")
-signal_start_checks_active = State("SignalStartChecksActive", persian_green, "⏯")
-signal_end_checks_inactive = State("SignalEndChecksInactive", grey, "⏱")
-signal_end_checks_accept = State("SignalEndChecksAccept", persian_green, "✔✔")
-signal_end_checks_reject = State("SignalEndChecksReject", Venetian_Red, "✖")
+signal_start_checks_inactive = State("SignalStartChecksInactive", inactive_color, "⏯")
+signal_start_checks_active = State("SignalStartChecksActive", full_accept_color, "⏯")
+signal_end_checks_inactive = State("SignalEndChecksInactive", inactive_color, "⏱")
+signal_end_checks_accept = State("SignalEndChecksAccept", full_accept_color, "✔✔")
+signal_end_checks_reject = State("SignalEndChecksReject", reject_color, "✖")
 
-signal_conditional_inactive = State("SignalConditionalInactive", grey, "⏱")
-signal_conditional_waiting = State("SignalConditionalWaiting", green_yellow_crayola, "⏱")
+signal_conditional_inactive = State("SignalConditionalInactive", inactive_color, "⏱")
+signal_conditional_waiting = State("SignalConditionalWaiting", waiting_color, "⏱")
 signal_conditional_intermediate_accept = State("SignalConditionalInterimAccept", activate_next_color, "✔")
-signal_conditional_full_accept = State("SignalConditionalFullAccept", Viridian_Green, "✔✔")
-signal_conditional_reject = State("SignalConditionalReject", Venetian_Red, "✖")
+signal_conditional_full_accept = State("SignalConditionalFullAccept", full_accept_color, "✔✔")
+signal_conditional_reject = State("SignalConditionalReject", reject_color, "✖")
 signal_conditional_reset = State("SignalConditionalReset", waiting_color, "↺")
 
 
 ### Data States
-ds_1 = State("1", Papaya_Whip)
-ds_0 = State("0", Papaya_Whip)
+ds_1 = State("1", data_color)
+ds_0 = State("0", data_color)
 
-start_state = State("StartState", Papaya_Whip, "(")
-end_state = State("EndState", Papaya_Whip, ")")
+start_state = State("StartState", data_color, "(")
+end_state = State("EndState", data_color, ")")
 
-start_state_pair = State("StartStatePair", Papaya_Whip, "[")
-end_state_pair = State("EndStatePair", Papaya_Whip, "]")
+start_state_pair = State("StartStatePair", data_color, "[")
+end_state_pair = State("EndStatePair", data_color, "]")
 
-start_data_string = State("StartDataString", Papaya_Whip, "❲")
-end_data_string = State("EndDataString", Papaya_Whip, "❳")
+start_data_string = State("StartDataString", data_color, "{")
+end_data_string = State("EndDataString", data_color, "}")
 
-north_prefix =  State("NorthPrefix", Papaya_Whip, "𝗡")
-south_prefix =  State("SouthPrefix", Papaya_Whip, "𝗦")
-east_prefix =  State("EastPrefix", Papaya_Whip, "𝗘")
-west_prefix =  State("WestPrefix", Papaya_Whip, "𝗪")
-program_prefix =  State("ProgramPrefix", Papaya_Whip, "</>")
-reset_prefix =  State("ResetPrefix", Papaya_Whip, "⭯")
+north_prefix =  State("NorthPrefix", data_color, "𝗡")
+south_prefix =  State("SouthPrefix", data_color, "𝗦")
+east_prefix =  State("EastPrefix", data_color, "𝗘")
+west_prefix =  State("WestPrefix", data_color, "𝗪")
+program_prefix =  State("ProgramPrefix", data_color, "</>")
+reset_prefix =  State("ResetPrefix", data_color, "⭯")
 
 
 ds_states = [ds_0, ds_1, start_state, end_state, start_state_pair, end_state_pair, start_data_string, end_data_string, north_prefix, south_prefix, east_prefix, west_prefix, program_prefix, reset_prefix]
