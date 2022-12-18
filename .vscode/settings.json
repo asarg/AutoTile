@@ -6,5 +6,17 @@
     "prettier.useTabs": true,
     "cSpell.words": [
         "Mauvelous"
+    ],
+    "editor.defaultFormatter": "ms-python.python",
+    "lldb.launch.relativePathBase": "${workspaceFolder}",
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.importFormat": "relative",
+    "python.analysis.include": [
+        "**"
+    ],
+    "python.analysis.indexing": true,
+    "python.analysis.autoImportUserSymbols": true,
+    "python.analysis.disabled": [
+        "unresolved-import",
     ]
 }

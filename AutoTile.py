@@ -17,6 +17,7 @@ import Generators.IU_Generators.IntrinsicUniversality as IU
 import Generators.IU_Generators.IU2 as IU2
 import Generators.IU_Generators.IUEqualityChanges as IUEC
 from Generators.IU_Generators import IUSampleGen
+import uninaryIUSprint as IUSprint
 
 from util.loaders import assemblyLoader
 
@@ -268,13 +269,13 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.thread = QThread()
         self.threadlast = QThread()
         #self.loadAssembly("XML Files/IUActiveState.xml")
-        #self.Begin_IU_Example()
+        self.Begin_IU_Example()
 
-        print(len(sys.argv))
+        """ print(len(sys.argv))
         if len(sys.argv) == 2:
             self.Load_File(sys.argv[1])
         else:
-            self.Load_File("XML Files/seededExample.xml")
+            self.Load_File("XML Files/seededExample.xml") """
 
 
     # Slide left menu function
@@ -1143,8 +1144,9 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         #genS = IU2.IUGenerators()
         #genSystem = genS.EqualityGadgetGenerator()
-        gS = IUEC.IUGenerators_EC()
-        genSystem = gS.macroCellCopyNorthTest()
+        #gS = IUEC.IUGenerators_EC()
+        gs = IUSprint.TableGadget()
+        genSystem = gs.makeEastEdge(3)
 
 
         #genSystem = genS.basicWireGenerator2()

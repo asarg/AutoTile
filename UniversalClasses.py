@@ -49,7 +49,6 @@ class State:
             return self.display_label == other.display_label and self.color == other.color and self.label == other.label
 
 
-
 class Tile:
     # label
     # # changes or list of changes (start num)
