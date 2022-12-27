@@ -1,0 +1,1694 @@
+{
+  "currentIndex": 52,
+  "history": [
+    {
+      "type": "t",
+      "x": -4,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -5,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -6,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -3,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -4,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -2,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -3,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -5,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -1,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "LockedSignalDoorInactiveEast",
+        "color": "FFDDD2"
+      },
+      "state1Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2Final": {
+        "label": "SignalDoorFindCornerNorth",
+        "color": "E9D7AF"
+      }
+    },
+    {
+      "type": "t",
+      "x": -4,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 5,
+      "dir": "v",
+      "state1": {
+        "label": "LockedSignalDoorHandleInactive",
+        "color": "FFDDD2"
+      },
+      "state2": {
+        "label": "SignalDoorFindCornerNorth",
+        "color": "E9D7AF"
+      },
+      "state1Final": {
+        "label": "SignalDoorHandleFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state2Final": {
+        "label": "SignalDoorFindCornerSouth",
+        "color": "E9D7AF"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 6,
+      "dir": "v",
+      "state1": {
+        "label": "SignalTransmitterInactive",
+        "color": "FFDDD2"
+      },
+      "state2": {
+        "label": "SignalDoorHandleFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state1Final": {
+        "label": "SignalTransmitterPassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state2Final": {
+        "label": "SignalDoorHandleFindCornerNorth",
+        "color": "F2F79E"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 4,
+      "dir": "v",
+      "state1": {
+        "label": "SignalDoorFindCornerSouth",
+        "color": "E9D7AF"
+      },
+      "state2": {
+        "label": "SignalReceiverInactive",
+        "color": "FFDDD2"
+      },
+      "state1Final": {
+        "label": "SignalDoorActiveWaitingEast",
+        "color": "F2F79E"
+      },
+      "state2Final": {
+        "label": "SignalReceiverPassFindCornerSouth",
+        "color": "F2F79E"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 7,
+      "dir": "v",
+      "state1": {
+        "label": "SignalReceiverInactive",
+        "color": "FFDDD2"
+      },
+      "state2": {
+        "label": "SignalTransmitterPassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state1Final": {
+        "label": "SignalReceiverPassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state2Final": {
+        "label": "SignalTransmitterPassFindCornerNorth",
+        "color": "F2F79E"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 8,
+      "dir": "v",
+      "state1": {
+        "label": "LockedSignalDoorInactiveEast",
+        "color": "FFDDD2"
+      },
+      "state2": {
+        "label": "SignalReceiverPassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state1Final": {
+        "label": "SignalDoorPassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state2Final": {
+        "label": "SignalReceiverPassFindCornerNorth",
+        "color": "F2F79E"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 9,
+      "dir": "v",
+      "state1": {
+        "label": "LockedSignalDoorHandleInactive",
+        "color": "FFDDD2"
+      },
+      "state2": {
+        "label": "SignalDoorPassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state1Final": {
+        "label": "SignalDoorHandlePassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state2Final": {
+        "label": "SignalDoorPassFindCornerNorth",
+        "color": "F2F79E"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 10,
+      "dir": "v",
+      "state1": {
+        "label": "SignalTransmitterInactive",
+        "color": "FFDDD2"
+      },
+      "state2": {
+        "label": "SignalDoorHandlePassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state1Final": {
+        "label": "SignalTransmitterPassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state2Final": {
+        "label": "SignalDoorHandlePassFindCornerNorth",
+        "color": "F2F79E"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 11,
+      "dir": "v",
+      "state1": {
+        "label": "NorthCorner",
+        "color": "CC978E"
+      },
+      "state2": {
+        "label": "SignalTransmitterPassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state1Final": {
+        "label": "NorthCorner",
+        "color": "CC978E"
+      },
+      "state2Final": {
+        "label": "SignalTransmitterPassAcceptNorth",
+        "color": "C2EFB3"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 3,
+      "dir": "v",
+      "state1": {
+        "label": "SignalReceiverPassFindCornerSouth",
+        "color": "F2F79E"
+      },
+      "state2": {
+        "label": "SignalTransmitterInactive",
+        "color": "FFDDD2"
+      },
+      "state1Final": {
+        "label": "SignalReceiverPassFindCornerSouth",
+        "color": "F2F79E"
+      },
+      "state2Final": {
+        "label": "SignalTransmitterPassFindCornerSouth",
+        "color": "F2F79E"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 2,
+      "dir": "v",
+      "state1": {
+        "label": "SignalTransmitterPassFindCornerSouth",
+        "color": "F2F79E"
+      },
+      "state2": {
+        "label": "LockedSignalDoorHandleInactive",
+        "color": "FFDDD2"
+      },
+      "state1Final": {
+        "label": "SignalTransmitterPassFindCornerSouth",
+        "color": "F2F79E"
+      },
+      "state2Final": {
+        "label": "SignalDoorHandlePassFindCornerSouth",
+        "color": "F2F79E"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 1,
+      "dir": "v",
+      "state1": {
+        "label": "SignalDoorHandlePassFindCornerSouth",
+        "color": "F2F79E"
+      },
+      "state2": {
+        "label": "LockedSignalDoorInactiveEast",
+        "color": "FFDDD2"
+      },
+      "state1Final": {
+        "label": "SignalDoorHandlePassFindCornerSouth",
+        "color": "F2F79E"
+      },
+      "state2Final": {
+        "label": "SignalDoorPassFindCornerSouth",
+        "color": "F2F79E"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 10,
+      "dir": "v",
+      "state1": {
+        "label": "SignalTransmitterPassAcceptNorth",
+        "color": "C2EFB3"
+      },
+      "state2": {
+        "label": "SignalDoorHandlePassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state1Final": {
+        "label": "SignalTransmitterPassAcceptNorth",
+        "color": "C2EFB3"
+      },
+      "state2Final": {
+        "label": "SignalDoorHandlePassAcceptNorth",
+        "color": "C2EFB3"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 9,
+      "dir": "v",
+      "state1": {
+        "label": "SignalDoorHandlePassAcceptNorth",
+        "color": "C2EFB3"
+      },
+      "state2": {
+        "label": "SignalDoorPassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state1Final": {
+        "label": "SignalDoorHandlePassAcceptNorth",
+        "color": "C2EFB3"
+      },
+      "state2Final": {
+        "label": "SignalDoorPassAcceptNorth",
+        "color": "C2EFB3"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 0,
+      "dir": "v",
+      "state1": {
+        "label": "SignalDoorPassFindCornerSouth",
+        "color": "F2F79E"
+      },
+      "state2": {
+        "label": "SignalReceiverInactive",
+        "color": "FFDDD2"
+      },
+      "state1Final": {
+        "label": "SignalDoorPassFindCornerSouth",
+        "color": "F2F79E"
+      },
+      "state2Final": {
+        "label": "SignalReceiverPassFindCornerSouth",
+        "color": "F2F79E"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": -1,
+      "dir": "v",
+      "state1": {
+        "label": "SignalReceiverPassFindCornerSouth",
+        "color": "F2F79E"
+      },
+      "state2": {
+        "label": "SouthCorner",
+        "color": "CC978E"
+      },
+      "state1Final": {
+        "label": "SignalReceiverPassAcceptSouth",
+        "color": "0A9396"
+      },
+      "state2Final": {
+        "label": "SouthCorner",
+        "color": "CC978E"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 8,
+      "dir": "v",
+      "state1": {
+        "label": "SignalDoorPassAcceptNorth",
+        "color": "C2EFB3"
+      },
+      "state2": {
+        "label": "SignalReceiverPassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state1Final": {
+        "label": "SignalDoorPassAcceptNorth",
+        "color": "C2EFB3"
+      },
+      "state2Final": {
+        "label": "SignalReceiverPassAcceptNorth",
+        "color": "0A9396"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 0,
+      "dir": "v",
+      "state1": {
+        "label": "SignalDoorPassFindCornerSouth",
+        "color": "F2F79E"
+      },
+      "state2": {
+        "label": "SignalReceiverPassAcceptSouth",
+        "color": "0A9396"
+      },
+      "state1Final": {
+        "label": "SignalDoorPassAcceptSouth",
+        "color": "C2EFB3"
+      },
+      "state2Final": {
+        "label": "SignalReceiverPassAcceptSouth",
+        "color": "0A9396"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 1,
+      "dir": "v",
+      "state1": {
+        "label": "SignalDoorHandlePassFindCornerSouth",
+        "color": "F2F79E"
+      },
+      "state2": {
+        "label": "SignalDoorPassAcceptSouth",
+        "color": "C2EFB3"
+      },
+      "state1Final": {
+        "label": "SignalDoorHandlePassAcceptSouth",
+        "color": "C2EFB3"
+      },
+      "state2Final": {
+        "label": "SignalDoorPassAcceptSouth",
+        "color": "C2EFB3"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 2,
+      "dir": "v",
+      "state1": {
+        "label": "SignalTransmitterPassFindCornerSouth",
+        "color": "F2F79E"
+      },
+      "state2": {
+        "label": "SignalDoorHandlePassAcceptSouth",
+        "color": "C2EFB3"
+      },
+      "state1Final": {
+        "label": "SignalTransmitterPassAcceptSouth",
+        "color": "C2EFB3"
+      },
+      "state2Final": {
+        "label": "SignalDoorHandlePassAcceptSouth",
+        "color": "C2EFB3"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 7,
+      "dir": "v",
+      "state1": {
+        "label": "SignalReceiverPassAcceptNorth",
+        "color": "0A9396"
+      },
+      "state2": {
+        "label": "SignalTransmitterPassFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state1Final": {
+        "label": "SignalReceiverPassAcceptNorth",
+        "color": "0A9396"
+      },
+      "state2Final": {
+        "label": "SignalTransmitterPassAcceptNorth",
+        "color": "C2EFB3"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 6,
+      "dir": "v",
+      "state1": {
+        "label": "SignalTransmitterPassAcceptNorth",
+        "color": "C2EFB3"
+      },
+      "state2": {
+        "label": "SignalDoorHandleFindCornerNorth",
+        "color": "F2F79E"
+      },
+      "state1Final": {
+        "label": "SignalTransmitterPassAcceptNorth",
+        "color": "C2EFB3"
+      },
+      "state2Final": {
+        "label": "SignalDoorHandleAcceptNorth",
+        "color": "0A9396"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 3,
+      "dir": "v",
+      "state1": {
+        "label": "SignalReceiverPassFindCornerSouth",
+        "color": "F2F79E"
+      },
+      "state2": {
+        "label": "SignalTransmitterPassAcceptSouth",
+        "color": "C2EFB3"
+      },
+      "state1Final": {
+        "label": "SignalReceiverPassAcceptSouth",
+        "color": "0A9396"
+      },
+      "state2Final": {
+        "label": "SignalTransmitterPassAcceptSouth",
+        "color": "C2EFB3"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 5,
+      "dir": "v",
+      "state1": {
+        "label": "SignalDoorHandleAcceptNorth",
+        "color": "0A9396"
+      },
+      "state2": {
+        "label": "SignalDoorActiveWaitingEast",
+        "color": "F2F79E"
+      },
+      "state1Final": {
+        "label": "SignalDoorHandleAcceptNorth",
+        "color": "0A9396"
+      },
+      "state2Final": {
+        "label": "SignalDoorIntermediateAccept",
+        "color": "C2EFB3"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 4,
+      "dir": "v",
+      "state1": {
+        "label": "SignalDoorIntermediateAccept",
+        "color": "C2EFB3"
+      },
+      "state2": {
+        "label": "SignalReceiverPassAcceptSouth",
+        "color": "0A9396"
+      },
+      "state1Final": {
+        "label": "SignalDoorOpen",
+        "color": "0A9396"
+      },
+      "state2Final": {
+        "label": "SignalReceiverPassAcceptSouth",
+        "color": "0A9396"
+      }
+    },
+    {
+      "type": "t",
+      "x": -1,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "SignalDoorOpen",
+        "color": "0A9396"
+      },
+      "state1Final": {
+        "label": "SignalDoorOpen",
+        "color": "0A9396"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -2,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "SignalDoorOpen",
+        "color": "0A9396"
+      },
+      "state1Final": {
+        "label": "SignalDoorOpen",
+        "color": "0A9396"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": 1,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": 2,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -3,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "SignalDoorOpen",
+        "color": "0A9396"
+      },
+      "state1Final": {
+        "label": "SignalDoorEastStop",
+        "color": "FC6471"
+      },
+      "state2Final": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -1,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -2,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -3,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "SignalDoorEastStop",
+        "color": "FC6471"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "SignalDoorEastReset",
+        "color": "F9844A"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": 1,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "1",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "1",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -2,
+      "y": 4,
+      "dir": "v",
+      "state1": {
+        "label": "SignalDoorEastReset",
+        "color": "F9844A"
+      },
+      "state2": {
+        "label": "SignalDoorEastResetWalkBorder",
+        "color": "E5E0DC"
+      },
+      "state1Final": {
+        "label": "SignalDoorEastResetWalk",
+        "color": "F9844A"
+      },
+      "state2Final": {
+        "label": "SignalDoorEastResetWalkBorder",
+        "color": "E5E0DC"
+      }
+    },
+    {
+      "type": "t",
+      "x": -1,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -2,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "SignalDoorEastResetWalk",
+        "color": "F9844A"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "SignalDoorEastReset",
+        "color": "F9844A"
+      }
+    },
+    {
+      "type": "t",
+      "x": -1,
+      "y": 4,
+      "dir": "v",
+      "state1": {
+        "label": "SignalDoorEastReset",
+        "color": "F9844A"
+      },
+      "state2": {
+        "label": "SignalDoorEastResetWalkBorder",
+        "color": "E5E0DC"
+      },
+      "state1Final": {
+        "label": "SignalDoorEastResetWalk",
+        "color": "F9844A"
+      },
+      "state2Final": {
+        "label": "SignalDoorEastResetWalkBorder",
+        "color": "E5E0DC"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "StartStatePair",
+        "color": "FDF0D5"
+      }
+    },
+    {
+      "type": "t",
+      "x": -1,
+      "y": 4,
+      "dir": "h",
+      "state1": {
+        "label": "SignalDoorEastResetWalk",
+        "color": "F9844A"
+      },
+      "state2": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state1Final": {
+        "label": "EastWire",
+        "color": "005F73"
+      },
+      "state2Final": {
+        "label": "SignalDoorEastReset",
+        "color": "F9844A"
+      }
+    },
+    {
+      "type": "t",
+      "x": 0,
+      "y": 5,
+      "dir": "v",
+      "state1": {
+        "label": "SignalDoorHandleAcceptNorth",
+        "color": "0A9396"
+      },
+      "state2": {
+        "label": "SignalDoorEastReset",
+        "color": "F9844A"
+      },
+      "state1Final": {
+        "label": "SignalDoorHandleAcceptNorth",
+        "color": "0A9396"
+      },
+      "state2Final": {
+        "label": "SignalDoorProppedOpen",
+        "color": "0A9396"
+      }
+    }
+  ],
+  "assembly": {
+    "label": "T EastWire1T EastWire1T EastWireStartStatePairT EastWire1T EastWire1T EastWire1T EastWire1T EastWireStartStatePairT 1SignalDoorFindCornerNorthT EastWireStartStatePairT SignalDoorHandleFindCornerNorthSignalDoorFindCornerSouthT SignalTransmitterPassFindCornerNorthSignalDoorHandleFindCornerNorthT SignalDoorActiveWaitingEastSignalReceiverPassFindCornerSouthT SignalReceiverPassFindCornerNorthSignalTransmitterPassFindCornerNorthT SignalDoorPassFindCornerNorthSignalReceiverPassFindCornerNorthT SignalDoorHandlePassFindCornerNorthSignalDoorPassFindCornerNorthT SignalTransmitterPassFindCornerNorthSignalDoorHandlePassFindCornerNorthT NorthCornerSignalTransmitterPassAcceptNorthT SignalReceiverPassFindCornerSouthSignalTransmitterPassFindCornerSouthT SignalTransmitterPassFindCornerSouthSignalDoorHandlePassFindCornerSouthT SignalDoorHandlePassFindCornerSouthSignalDoorPassFindCornerSouthT SignalTransmitterPassAcceptNorthSignalDoorHandlePassAcceptNorthT SignalDoorHandlePassAcceptNorthSignalDoorPassAcceptNorthT SignalDoorPassFindCornerSouthSignalReceiverPassFindCornerSouthT SignalReceiverPassAcceptSouthSouthCornerT SignalDoorPassAcceptNorthSignalReceiverPassAcceptNorthT SignalDoorPassAcceptSouthSignalReceiverPassAcceptSouthT SignalDoorHandlePassAcceptSouthSignalDoorPassAcceptSouthT SignalTransmitterPassAcceptSouthSignalDoorHandlePassAcceptSouthT SignalReceiverPassAcceptNorthSignalTransmitterPassAcceptNorthT SignalTransmitterPassAcceptNorthSignalDoorHandleAcceptNorthT SignalReceiverPassAcceptSouthSignalTransmitterPassAcceptSouthT SignalDoorHandleAcceptNorthSignalDoorIntermediateAcceptT SignalDoorOpenSignalReceiverPassAcceptSouthT SignalDoorOpen1T SignalDoorOpen1T EastWire1T EastWire1T EastWire1T SignalDoorEastStopStartStatePairT EastWire1T EastWireStartStatePairT EastWireSignalDoorEastResetT EastWire1T EastWire1T SignalDoorEastResetWalkSignalDoorEastResetWalkBorderT EastWireStartStatePairT EastWireSignalDoorEastResetT SignalDoorEastResetWalkSignalDoorEastResetWalkBorderT EastWireStartStatePairT EastWireSignalDoorEastResetT SignalDoorHandleAcceptNorthSignalDoorProppedOpen",
+    "tiles": [
+      {
+        "state": {
+          "label": "LockedSignalDoorInactiveEast",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 0
+      },
+      {
+        "state": {
+          "label": "LockedSignalDoorHandleInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 1
+      },
+      {
+        "state": {
+          "label": "SignalTransmitterInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 2
+      },
+      {
+        "state": {
+          "label": "SignalReceiverInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": -1
+      },
+      {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": 1,
+        "y": 0
+      },
+      {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": -1,
+        "y": 0
+      },
+      {
+        "state": {
+          "label": "LockedSignalDoorInactiveEast",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 4
+      },
+      {
+        "state": {
+          "label": "LockedSignalDoorHandleInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 5
+      },
+      {
+        "state": {
+          "label": "SignalTransmitterInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 6
+      },
+      {
+        "state": {
+          "label": "SignalReceiverInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 3
+      },
+      {
+        "state": {
+          "label": "LockedSignalDoorInactiveEast",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 8
+      },
+      {
+        "state": {
+          "label": "LockedSignalDoorHandleInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 9
+      },
+      {
+        "state": {
+          "label": "SignalTransmitterInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 10
+      },
+      {
+        "state": {
+          "label": "SignalReceiverInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 7
+      },
+      {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": 1,
+        "y": 8
+      },
+      {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": -1,
+        "y": 8
+      },
+      {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": 1,
+        "y": 4
+      },
+      {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": -1,
+        "y": 4
+      },
+      {
+        "state": {
+          "label": "SignalDoorEastResetWalkBorder",
+          "color": "E5E0DC"
+        },
+        "x": -1,
+        "y": 3
+      },
+      {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": 2,
+        "y": 4
+      },
+      {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": -2,
+        "y": 4
+      },
+      {
+        "state": {
+          "label": "SignalDoorEastResetWalkBorder",
+          "color": "E5E0DC"
+        },
+        "x": -2,
+        "y": 3
+      },
+      {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": 3,
+        "y": 4
+      },
+      {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": -3,
+        "y": 4
+      },
+      {
+        "state": {
+          "label": "SignalDoorEastResetWalkBorder",
+          "color": "E5E0DC"
+        },
+        "x": -3,
+        "y": 3
+      },
+      {
+        "state": {
+          "label": "1",
+          "color": "FDF0D5"
+        },
+        "x": -4,
+        "y": 4
+      },
+      {
+        "state": {
+          "label": "1",
+          "color": "FDF0D5"
+        },
+        "x": -5,
+        "y": 4
+      },
+      {
+        "state": {
+          "label": "StartStatePair",
+          "color": "FDF0D5"
+        },
+        "x": -6,
+        "y": 4
+      },
+      {
+        "state": {
+          "label": "NorthCorner",
+          "color": "CC978E"
+        },
+        "x": 0,
+        "y": 11
+      },
+      {
+        "state": {
+          "label": "SouthCorner",
+          "color": "CC978E"
+        },
+        "x": 0,
+        "y": -2
+      }
+    ],
+    "coords": {
+      "(0,0)": {
+        "state": {
+          "label": "LockedSignalDoorInactiveEast",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 0
+      },
+      "(0,1)": {
+        "state": {
+          "label": "LockedSignalDoorHandleInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 1
+      },
+      "(0,2)": {
+        "state": {
+          "label": "SignalTransmitterInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 2
+      },
+      "(0,-1)": {
+        "state": {
+          "label": "SignalReceiverInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": -1
+      },
+      "(1,0)": {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": 1,
+        "y": 0
+      },
+      "(-1,0)": {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": -1,
+        "y": 0
+      },
+      "(0,4)": {
+        "state": {
+          "label": "LockedSignalDoorInactiveEast",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 4
+      },
+      "(0,5)": {
+        "state": {
+          "label": "LockedSignalDoorHandleInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 5
+      },
+      "(0,6)": {
+        "state": {
+          "label": "SignalTransmitterInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 6
+      },
+      "(0,3)": {
+        "state": {
+          "label": "SignalReceiverInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 3
+      },
+      "(1,4)": {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": 1,
+        "y": 4
+      },
+      "(-1,4)": {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": -1,
+        "y": 4
+      },
+      "(0,8)": {
+        "state": {
+          "label": "LockedSignalDoorInactiveEast",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 8
+      },
+      "(0,9)": {
+        "state": {
+          "label": "LockedSignalDoorHandleInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 9
+      },
+      "(0,10)": {
+        "state": {
+          "label": "SignalTransmitterInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 10
+      },
+      "(0,7)": {
+        "state": {
+          "label": "SignalReceiverInactive",
+          "color": "FFDDD2"
+        },
+        "x": 0,
+        "y": 7
+      },
+      "(1,8)": {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": 1,
+        "y": 8
+      },
+      "(-1,8)": {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": -1,
+        "y": 8
+      },
+      "(-1,3)": {
+        "state": {
+          "label": "SignalDoorEastResetWalkBorder",
+          "color": "E5E0DC"
+        },
+        "x": -1,
+        "y": 3
+      },
+      "(2,4)": {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": 2,
+        "y": 4
+      },
+      "(-2,4)": {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": -2,
+        "y": 4
+      },
+      "(-2,3)": {
+        "state": {
+          "label": "SignalDoorEastResetWalkBorder",
+          "color": "E5E0DC"
+        },
+        "x": -2,
+        "y": 3
+      },
+      "(3,4)": {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": 3,
+        "y": 4
+      },
+      "(-3,4)": {
+        "state": {
+          "label": "EastWire",
+          "color": "005F73"
+        },
+        "x": -3,
+        "y": 4
+      },
+      "(-3,3)": {
+        "state": {
+          "label": "SignalDoorEastResetWalkBorder",
+          "color": "E5E0DC"
+        },
+        "x": -3,
+        "y": 3
+      },
+      "(-4,4)": {
+        "state": {
+          "label": "1",
+          "color": "FDF0D5"
+        },
+        "x": -4,
+        "y": 4
+      },
+      "(-5,4)": {
+        "state": {
+          "label": "1",
+          "color": "FDF0D5"
+        },
+        "x": -5,
+        "y": 4
+      },
+      "(-6,4)": {
+        "state": {
+          "label": "StartStatePair",
+          "color": "FDF0D5"
+        },
+        "x": -6,
+        "y": 4
+      },
+      "(0,11)": {
+        "state": {
+          "label": "NorthCorner",
+          "color": "CC978E"
+        },
+        "x": 0,
+        "y": 11
+      },
+      "(0,-2)": {
+        "state": {
+          "label": "SouthCorner",
+          "color": "CC978E"
+        },
+        "x": 0,
+        "y": -2
+      }
+    },
+    "leftMost": -6,
+    "rightMost": 3,
+    "upMost": 11,
+    "downMost": -2
+  },
+  "timetaken": [
+    1,
+    2,
+    2,
+    1,
+    2,
+    2,
+    3,
+    2,
+    2,
+    2,
+    1,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    1,
+    1,
+    1,
+    2,
+    2,
+    3,
+    3,
+    2,
+    1,
+    2,
+    2,
+    2,
+    3,
+    2,
+    1,
+    2,
+    2,
+    1,
+    1,
+    1
+  ]
+}

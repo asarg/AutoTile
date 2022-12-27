@@ -6,6 +6,9 @@ from Assets.colors import *
 border_state = State("Border", rosy_brown, " ")
 northCorner = State("NorthCorner", rosy_brown, "╔")
 southCorner = State("SouthCorner", rosy_brown, "╚")
+activeStateColumnNorthEdge = State("ActiveStateColumnNorthEdge", rosy_brown, "╦")
+activeStateColumnSouthEdge = State("ActiveStateColumnSouthEdge", rosy_brown, "╩")
+
 # Wires
 northWire = State("NorthWire", wire_color, "🡹")
 southWire = State("SouthWire", wire_color, "🡻")
@@ -196,6 +199,28 @@ check_for_end_state_pair_cap_inactive = State("CheckForEndStatePairCapInactive",
 check_for_start_string_inactive = State("CheckForStartStringInactive", grey_pink, "=﹝")
 check_for_end_string_inactive = State("CheckForEndStringInactive", grey_pink, "=﹞")
 
+# Macrocell Components
+punch_down_ds_active = State("PunchDownDSActive", punch_down_color, "V")
+punch_down_ds_end_found = State("PunchDownDSEndFound", punch_down_color, "V*")
+punch_down_ds_inactive = State("PunchDownDSInactive", inactive_punch_down_color, "V")
+punch_down_ds_neg_active = State("PunchDownNegActive", neg_punch_down_color, "V")
+punch_down_ds_neg_inactive = State("PunchDownNegInactive", inactive_neg_punch_down_color, "V")
+punch_down_ds_neg_end_found = State("PunchDownNegEndFound", neg_punch_down_color, "V*")
+mc_door_east_positive_inactive = State("MCDoorEast+Inactive", inactive_punch_down_color, "+⬓")
+mc_door_handle_east_positive_inactive = State("MCDoorHandleEast+Inactive", inactive_punch_down_color, "+~")
+mc_door_east_negative_inactive = State("MCDoorEast-Inactive", inactive_neg_punch_down_color, "-⬓")
+mc_door_handle_east_negative_inactive = State("MCDoorHandleEast-Inactive", inactive_neg_punch_down_color, "-~")
+mc_door_east_positive_active = State("MCDoorEast+Active", punch_down_color, "+⬓")
+mc_door_handle_east_positive_active = State("MCDoorHandleEast+Active", punch_down_color, "+~")
+mc_door_east_negative_active = State("MCDoorEast-Active", neg_punch_down_color, "-⬓")
+mc_door_handle_current_state_active = State("MCDoorHandleCurrentStateActive", punch_down_color, "~")
+mc_door_current_state_active = State("MCDoorCurrentStateActive", punch_down_color, "⬓")
+mc_door_current_state_inactive = State("MCDoorCurrentStateInactive", inactive_punch_down_color, "⬓")
+mc_door_handle_current_state_inactive = State("MCDoorHandleCurrentStateInactive", inactive_punch_down_color, "~")
+mc_door_trigger_transition = State("MCDoorTriggerTransition", punch_down_color, "⬓**")
+mc_door_handle_trigger_transition = State("MCDoorHandleTriggerTransition", punch_down_color, "~**")
+
+
 # Doors
 
 ## Copy Doors
@@ -248,6 +273,11 @@ endcap_door_east_handle_reset = State("EndCapDoorHandleEastReset", waiting_color
 endcap_door_east_handle_reset_waiting = State("EndCapDoorHandleEastResetWaiting", waiting_color, "↺⏱◨~")
 endcap_door_east_reset_waiting = State("EndcapDoorEastResetWaiting", waiting_color, "↺⏱◨")
 endcap_doors_east_list = [endcap_door_east_inactive, endcap_door_east_handle_inactive, endcap_door_east_active, endcap_door_east_handle_active, endcap_door_east_stop, endcap_door_east_handle_stop, endcap_door_east_reset, endcap_door_east_handle_reset, endcap_door_east_handle_reset_waiting, endcap_door_east_reset_waiting]
+
+
+
+
+
 ### Signal Doors
 signal_door_inactive = State("LockedSignalDoorInactive", inactive_color, "🔒◨")
 signal_door_inactive_east = State("LockedSignalDoorInactiveEast", inactive_color, "◨⇉")
@@ -270,7 +300,8 @@ signal_door_handle_find_corner_north = State("SignalDoorHandleFindCornerNorth", 
 signal_door_handle_find_corner_south = State("SignalDoorHandleFindCornerSouth", waiting_color, "🗝~↧↯")
 signal_door_handle_pass_find_corner_north = State("SignalDoorHandlePassFindCornerNorth", waiting_color, "🗝~↥↯")
 signal_door_handle_pass_find_corner_south = State("SignalDoorHandlePassFindCornerSouth", waiting_color, "🗝~↧↯")
-
+signal_door_handle_accept_north = State("SignalDoorHandleAcceptNorth", full_accept_color, "🗝~↥↯")
+signal_door_handle_accept_south = State("SignalDoorHandleAcceptSouth", full_accept_color, "🗝~↧↯")
 
 signal_door_pass_accept_south = State("SignalDoorPassAcceptSouth", intermediate_accept_color, "◨↧↯")
 signal_door_pass_accept_north = State("SignalDoorPassAcceptNorth", intermediate_accept_color, "◨↥↯")
@@ -285,8 +316,8 @@ signal_door_reset = State("SignalDoorReset", reset_color, "↺▦")
 signal_door_east_reset = State("SignalDoorEastReset", reset_color, "↺⇉▦")
 signal_door_east_stop = State("SignalDoorEastStop", reject_color, "⇉▦")
 signal_door_reset_walk = State("SignalDoorResetWalk", reset_color, "↺▦◃")
-signal_door_east_reset_walk = State(
-    "SignalDoorEastResetWalk", reset_color, "↺⇉▦◃")
+signal_door_east_reset_walk = State("SignalDoorEastResetWalk", reset_color, "↺⇉▦◃")
+signal_door_east_reset_walk_border = State("SignalDoorEastResetWalkBorder", border_color, "↺◃")
 signal_door_send_confirmed_transmission = State("SignalDoorSendConfirmedTransmission", waiting_color, "▦⇉✅")
 reset_confirmed_transmission_westWire = State("ResetConfirmedTransmissionWest", waiting_color, "↺✅⇉")
 
@@ -357,13 +388,22 @@ signal_conditional_reset = State("SignalConditionalReset", waiting_color, "↺")
 
 ### Data States
 ds_1 = State("1", data_color)
+ds_1_inactive_mc = State("1InactiveMC", inactive_data_color, "1")
 ds_0 = State("0", data_color)
+neg_ds_1 = State("-1", neg_data_color, "-1")
+neg_ds_1_inactive_mc = State("-1InactiveMC", neg_inactive_data_color, "-1")
+
 
 start_state = State("StartState", data_color, "(")
 end_state = State("EndState", data_color, ")")
 
 start_state_pair = State("StartStatePair", data_color, "[")
 end_state_pair = State("EndStatePair", data_color, "]")
+ds_right_bracket = State("DsRightBracket", data_color, "]")
+ds_left_bracket = State("DsLeftBracket", data_color, "[")
+ds_neg_right_bracket = State("DsNegRightBracket", neg_data_color, "]")
+ds_neg_left_bracket = State("DsNegLeftBracket", neg_data_color, "[")
+
 
 start_data_string = State("StartDataString", data_color, "{")
 end_data_string = State("EndDataString", data_color, "}")

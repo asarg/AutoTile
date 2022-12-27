@@ -63,7 +63,7 @@ tyrian_purple = "700548"  # dark purple
 copper_rose = "A07178"  # Dark Pink Purple Grey Brown
 
 # Pinks
-amaranth_pink = "F49FBC"  # mid-light grey/purple/pink
+amaranth_pink = "F49FBC"
 light_pink = "F4ACB7"
 pink = light_pink  # Light pink
 Mauvelous_Pink = "F5A3AB"
@@ -74,6 +74,8 @@ unbleached_silk = "FFDDD2"
 apricot = "FFCDB3"
 #ffcdb3
 # Reds
+tuscany = "C49799"  # Dark Red Brown
+silver_pink = "B9A2A3"
 fuzzy_wuzzy = "C1666B"  # Dark Red
 Red_Salsa = "F94144" # Bright Red
 Darker_Red_Salsa = "F03A47"
@@ -83,6 +85,7 @@ Ruby_Red = "9B2226"  # Dark Brown Red
 Barn_Red = "780000"
 Venetian_Red = "C1121F"
 firey_rose = "FC6471" # Mid-Light Red Pink
+solid_darkred_pink = "92374D" # Dark Red Pink
 
 
 # Oranges
@@ -105,6 +108,7 @@ terra_cotta = "E9BEBE"  # nice medium orange red
 
 # Yellows
 Papaya_Whip = "FDF0D5"
+alabaster = "F0EBE0"  # Desaturated Papaya Whip -61
 Medium_Champagne = "E9D8A6"  # light yellow
 Marigold = "F3A712"  # Bright Yellow Orange
 yellow = Marigold  # Marigold
@@ -126,7 +130,7 @@ jungle_green = "43AA8B"
 ming = "3C6E71"  # dark blue green grey terquoise inactive
 Middle_Blue_Green = "94D2BD"  # Pale-ish blue/green/aquamarine
 illuminating_emerald = "23967F"  # Nice Green
-
+green_sheen = "80BAAF" # Grey Illiminating Emerald -50 saturation + 40 brightness
 ## Colors
 dutch_white = "E9D7AF" # less saturated than peach
 peach = "F6DCA2"
@@ -140,6 +144,7 @@ activate_next_color = pistachio
 border_color = platinum
 complete_color = tea_green
 data_color = Papaya_Whip
+inactive_data_color = alabaster
 door_color = roman_silver
 full_accept_color = Viridian_Green
 inactive_color = unbleached_silk
@@ -156,3 +161,14 @@ waiting_color = lemon_yellow_crayola
 wire_color = Blue_Sapphire
 writing_color = cornflower_blue
 writing_inactive_color = Beau_Blue
+neg_data_color = tuscany
+neg_inactive_data_color = silver_pink
+punch_down_color = illuminating_emerald
+inactive_punch_down_color = green_sheen
+mc_posi_door_color = Viridian_Green
+mc_posi_inactive_door_color = green_sheen
+mc_neg_door_color = firey_rose
+mc_neg_inactive_door_color = grey_pink
+
+neg_punch_down_color = solid_darkred_pink
+inactive_neg_punch_down_color = grey_pink

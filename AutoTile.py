@@ -1145,7 +1145,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         #genS = IU2.IUGenerators()
         #genSystem = genS.EqualityGadgetGenerator()
         #gS = IUEC.IUGenerators_EC()
-        gs = IUSprint.TableGadget()
+        gs = IUSprint.TableGadget(3)
         genSystem = gs.makeEastEdge(3)
 
 
@@ -1253,6 +1253,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             if self.play:
                 self.stop_sequence()
                 self.thread.finished.connect(self.last_step)
+
             elif not self.threadlast.isRunning():
 
                 self.threadlast.deleteLater()
