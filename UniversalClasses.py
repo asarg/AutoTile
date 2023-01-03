@@ -436,8 +436,12 @@ class Assembly:
     def setTransition(self, trans):
         # a = Assembly()
         # originally trans[2][0] + trans[2][1]
-        self.label = self.label + "T " + \
-            trans["state1Final"].returnLabel() + trans["state2Final"].returnLabel()
+        if trans["dir"] == "s":
+            self.label = self.label + "single T " + \
+                trans["state1Final"].returnLabel()
+        else:
+            self.label = self.label + "T " + \
+                trans["state1Final"].returnLabel() + trans["state2Final"].returnLabel()
         # self.setTiles(self.tiles.copy())
         #change = trans["type"]
 

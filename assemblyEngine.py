@@ -178,8 +178,9 @@ class Engine:
             if move["state1Final"] == None:
                 errorState += self.findProblemTile(move["state1"], move["state2"], move["dir"], 1)
 
-            if move["state2Final"] == None:
-                errorState += self.findProblemTile(move["state1"], move["state2"], move["dir"], 2)
+            if move["dir"] != "s":
+                if move["state2Final"] == None:
+                    errorState += self.findProblemTile(move["state1"], move["state2"], move["dir"], 2)
 
             if errorState != "":
                #self.validMoves = 0

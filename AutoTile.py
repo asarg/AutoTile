@@ -586,7 +586,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             # showing transition on screen
             # (type, x, y, dir, state1, state2, state1Final, state2Final)
             elif move['type'] == 't' and forward == 1:
-                self.transition_draw_function(move, move['state1Final'], move['state2Final'], painter, brush)
+                if move['dir'] == "s":
+                    self.transition_draw_function(move, move['state1Final'], None, painter, brush)
+                else:
+                    self.transition_draw_function(move, move['state1Final'], move['state2Final'], painter, brush)
 
             # getting rid of attachment on screen
             elif move['type'] == 'a' and forward == 0:  # (type, x, y, state1)
@@ -634,8 +637,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             # reversing transition on screen
             # (type, x, y, dir, state1, state2, state1Final, state2Final)
             elif move['type'] == 't' and forward == 0:
-                self.transition_draw_function(
-                    move, move['state1'], move['state2'], painter, brush)
+                if move['dir'] == "s":
+                    self.transition_draw_function(move, move['state1'], None, painter, brush)
+                else:
+                    self.transition_draw_function(move, move['state1'], move['state2'], painter, brush)
         except:
             print("There are no valid attachments.")
 
@@ -783,14 +788,19 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         elif move['type'] == 't' and color_flag == 1:
             pen.setColor(QtGui.QColor("blue"))
             painter.setPen(pen)
-            self.transition_draw_function(move, move['state1Final'], move['state2Final'], painter, brush)
+            if move["dir"] == "s":
+                self.transition_draw_function(move, move['state1Final'], None, painter, brush)
+            else:
+                self.transition_draw_function(move, move['state1Final'], move['state2Final'], painter, brush)
 
         # (type, x, y, dir, state1, state2, state1Final, state2Final)
         elif move['type'] == 't' and color_flag == 0:
             pen.setColor(QtGui.QColor("red"))
             painter.setPen(pen)
-            self.transition_draw_function(
-                move, move['state1'], move['state2'], painter, brush)
+            if move["dir"] == "s":
+                self.transition_draw_function(move, move['state1'], None, painter, brush)
+            else:
+                self.transition_draw_function(move, move['state1'], move['state2'], painter, brush)
 
     def display_tile_list(self):
         curr = self.Engine.getCurrentAssembly()
@@ -845,7 +855,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             brush.setColor(QtGui.QColor("#" + state1.returnColor()))
             self.draw_to_screen(move['x'], move['y'], state1, painter, brush)
 
-        if self.onScreen_check(move['x'] + horizontal, move['y'] + vertical) != 1:
+        if self.onScreen_check(move['x'] + horizontal, move['y'] + vertical) != 1 and move["dir"] != "s":
             brush.setColor(QtGui.QColor("white"))
             self.draw_to_screen(move['x'] + horizontal, move['y'] + vertical, "", painter, brush)
             brush.setColor(QtGui.QColor("#" + state2.returnColor()))
