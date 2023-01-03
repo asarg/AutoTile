@@ -556,6 +556,7 @@ class Assembly:
         transitions_list = []
         sys_h_tr = sy.returnHorizontalTransitionDict()
         sys_v_tr = sy.returnVerticalTransitionDict()
+        sys_s_tr = sy.returnSingleTransitionDict()
 
         iTile = self.coords.get(toCoords(x, y))
 
@@ -568,48 +569,60 @@ class Assembly:
 
         if dir == None or dir == "v":
             if(neighborS != None):
-                    # second dictionary
-                    # rules = iVTranRules.get(neighborS.returnLabel())
-                    rules = sys_v_tr.get(
-                        (iTile.returnLabel(), neighborS.returnLabel()))
-                    # rules.append(iVTranRules)
-                    if rules != None:
-                        for i in range(0, len(rules), 2):
-                            move = {"type": "t"}
-                            move["x"] = iTile.x
-                            move["y"] = iTile.y
-                            move["dir"] = "v"
-                            move["state1"] = iTile.returnState()
-                            move["state2"] = neighborS.returnState()
+                # second dictionary
+                # rules = iVTranRules.get(neighborS.returnLabel())
+                rules = sys_v_tr.get(
+                    (iTile.returnLabel(), neighborS.returnLabel()))
+                # rules.append(iVTranRules)
+                if rules != None:
+                    for i in range(0, len(rules), 2):
+                        move = {"type": "t"}
+                        move["x"] = iTile.x
+                        move["y"] = iTile.y
+                        move["dir"] = "v"
+                        move["state1"] = iTile.returnState()
+                        move["state2"] = neighborS.returnState()
 
-                            move["state1Final"] = sy.returnState(
-                                rules[i])  # .returnLabel1Final()
-                            move["state2Final"] = sy.returnState(
-                                rules[i + 1])  # .returnLabel2Final()
-                            transitions_list.append(move)
+                        move["state1Final"] = sy.returnState(
+                            rules[i])  # .returnLabel1Final()
+                        move["state2Final"] = sy.returnState(
+                            rules[i + 1])  # .returnLabel2Final()
+                        transitions_list.append(move)
 
 
         if dir == None or dir == "h":
             if(neighborE != None):
-                    # second dictionary
-                    # rules = iVTranRules.get(neighborS.returnLabel())
-                    rules = sys_h_tr.get(
-                        (iTile.returnLabel(), neighborE.returnLabel()))
-                    # rules.append(iVTranRules)
-                    if rules != None:
-                        for i in range(0, len(rules), 2):
-                            move = {"type": "t"}
-                            move["x"] = iTile.x
-                            move["y"] = iTile.y
-                            move["dir"] = "h"
-                            move["state1"] = iTile.returnState()
-                            move["state2"] = neighborE.returnState()
+                # second dictionary
+                # rules = iVTranRules.get(neighborS.returnLabel())
+                rules = sys_h_tr.get(
+                    (iTile.returnLabel(), neighborE.returnLabel()))
+                # rules.append(iVTranRules)
+                if rules != None:
+                    for i in range(0, len(rules), 2):
+                        move = {"type": "t"}
+                        move["x"] = iTile.x
+                        move["y"] = iTile.y
+                        move["dir"] = "h"
+                        move["state1"] = iTile.returnState()
+                        move["state2"] = neighborE.returnState()
 
-                            move["state1Final"] = sy.returnState(
-                                rules[i])  # .returnLabel1Final()
-                            move["state2Final"] = sy.returnState(
-                                rules[i + 1])  # .returnLabel2Final()
-                            transitions_list.append(move)
+                        move["state1Final"] = sy.returnState(
+                            rules[i])  # .returnLabel1Final()
+                        move["state2Final"] = sy.returnState(
+                            rules[i + 1])  # .returnLabel2Final()
+                        transitions_list.append(move)
+
+        rules = sys_s_tr.get(iTile.returnLabel())
+        if rules != None:
+            for i in range(0, len(rules)):
+                move = {"type": "t"}
+                move["x"] = iTile.x
+                move["y"] = iTile.y
+                move["dir"] = "s"
+                move["state1"] = iTile.returnState()
+
+                move["state1Final"] = sy.returnState(rules[i])  # .returnLabel1Final()
+                transitions_list.append(move)
 
         return transitions_list
 
