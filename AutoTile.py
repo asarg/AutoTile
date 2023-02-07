@@ -13,12 +13,12 @@ from Historian import Historian
 from assemblyEngine import Engine
 from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
 import TAMainWindow, EditorWindow16, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen, sCRNEditorWindow, EditorWindow
-import Generators.IU_Generators.IntrinsicUniversality as IU
-import Generators.IU_Generators.IU2 as IU2
-import Generators.IU_Generators.IUEqualityChanges as IUEC
-from Generators.IU_Generators import IUSampleGen
-import uninaryIUSprint as IUSprint
-
+#import Generators.IU_Generators.IntrinsicUniversality as IU
+#import Generators.IU_Generators.IU2 as IU2
+#import Generators.IU_Generators.IUEqualityChanges as IUEC
+#from Generators.IU_Generators import IUSampleGen
+#import uninaryIUSprint as IUSprint
+import IntrinsticUniversality
 from util.loaders import assemblyLoader
 
 
@@ -1145,16 +1145,13 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         #genS = IU2.IUGenerators()
         #genSystem = genS.EqualityGadgetGenerator()
         #gS = IUEC.IUGenerators_EC()
-        gs = IUSprint.TableGadget(3)
-        genSystem = gs.makeEastEdge(3)
+        iuGenSystem = IntrinsticUniversality.IU_System("TableBorder")
+        genSystem = iuGenSystem.returnIUsystem()
 
 
         #genSystem = genS.basicWireGenerator2()
         #genSystem = genS.wireGeneratorWithEndcapDoorNoSignalGadget2()
         #genSystem = genS.equality_gadget_with_prefixes()
-
-
-
 
 
         if type(genSystem) == System:

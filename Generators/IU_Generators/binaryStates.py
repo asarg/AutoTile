@@ -4,10 +4,14 @@ from Assets.colors import *
 
 # Border
 border_state = State("Border", rosy_brown, " ")
-northCorner = State("NorthCorner", rosy_brown, "╔")
-southCorner = State("SouthCorner", rosy_brown, "╚")
+northWestCorner = State("NorthCorner", rosy_brown, "╔")
+southWestCorner = State("SouthCorner", rosy_brown, "╚")
+northEastCorner = State("NorthEastCorner", rosy_brown, "╗")
+southEastCorner = State("SouthEastCorner", rosy_brown, "╝")
 activeStateColumnNorthEdge = State("ActiveStateColumnNorthEdge", rosy_brown, "╦")
 activeStateColumnSouthEdge = State("ActiveStateColumnSouthEdge", rosy_brown, "╩")
+row_border = State("RowBorder", rosy_brown, "═")
+
 
 # Wires
 northWire = State("NorthWire", wire_color, "🡹")
