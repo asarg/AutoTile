@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 
 from AutoTile import System
 from UniversalClasses import State
-from UniversalClasses import SeedAssemblyTile
+
 from UniversalClasses import AffinityRule
 from UniversalClasses import TransitionRule
 
@@ -20,6 +20,8 @@ def main(system, fileName):
     horizontal_affinities = system.returnHorizontalAffinityDict()
     vertical_transitions = system.returnVerticalTransitionDict()
     horizontal_transitions = system.returnHorizontalTransitionDict()
+    tiles = system.returnTiles()
+
 
     # Establish root and add temperature value
     root = ET.Element("System")
@@ -31,10 +33,16 @@ def main(system, fileName):
     for state in states:
         label = state.returnLabel()
         color = state.returnColor()
+        display_label = state.returnDisplayLabel()
+        display_label_color = state.returnDisplayLabelColor()
+        display_label_font = state.returnDisplayLabelFont()
 
         state_tag = ET.SubElement(all_states_tag, "State")
         state_tag.set('Label', label)
         state_tag.set('Color', color)
+        state_tag.set('DisplayLabel', display_label)
+        state_tag.set('DisplayLabelFont', display_label_font)
+        state_tag.set('DisplayLabelColor', display_label_color)
 
     # Add all inital states
     initial_states_tag = ET.Element("InitialStates")
@@ -42,10 +50,16 @@ def main(system, fileName):
     for state in initial_states:
         label = state.returnLabel()
         color = state.returnColor()
+        display_label = state.returnDisplayLabel()
+        display_label_color = state.returnDisplayLabelColor()
+        display_label_font = state.returnDisplayLabelFont()
 
         state_tag = ET.SubElement(initial_states_tag, "State")
         state_tag.set('Label', label)
         state_tag.set('Color', color)
+        state_tag.set('DisplayLabel', display_label)
+        state_tag.set('DisplayLabelFont', display_label_font)
+        state_tag.set('DisplayLabelColor', display_label_color)
 
     # Add all seed states
     seed_states_tag = ET.Element("SeedStates")
@@ -53,10 +67,38 @@ def main(system, fileName):
     for state in seed_states:
         label = state.returnLabel()
         color = state.returnColor()
+        display_label = state.returnDisplayLabel()
+        display_label_color = state.returnDisplayLabelColor()
+        display_label_font = state.returnDisplayLabelFont()
 
         state_tag = ET.SubElement(seed_states_tag, "State")
         state_tag.set('Label', label)
         state_tag.set('Color', color)
+        state_tag.set('DisplayLabel', display_label)
+        state_tag.set('DisplayLabelFont', display_label_font)
+        state_tag.set('DisplayLabelColor', display_label_color)
+    
+    # Add all Tiles
+    tiles_tag = ET.Element("Tiles")
+    root.append(tiles_tag)
+    for tile in tiles:
+        label = tile.returnLabel()
+        color = tile.returnColor()
+        x = str(tile.getX())
+        y = str(tile.getY())
+        display_label = tile.returnDisplayLabel()
+        display_label_color = tile.returnDisplayLabelColor()
+        display_label_font = tile.returnDisplayLabelFont()
+
+        state_tag = ET.SubElement(tiles_tag, "Tile")
+        state_tag.set('Label', label)
+        state_tag.set('Color', color)
+        state_tag.set('x', x)
+        state_tag.set('y', y)
+        state_tag.set('DisplayLabel', display_label)
+        state_tag.set('DisplayLabelFont', display_label_font)
+        state_tag.set('DisplayLabelColor', display_label_color)
+        
 
     # Add vertical transition rules
     vertical_transitions_tag = ET.Element("VerticalTransitions")

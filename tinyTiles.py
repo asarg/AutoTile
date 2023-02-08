@@ -104,7 +104,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         for tile in assembly.tiles:
             # print(tile[0].color)
             pen.setColor(QtGui.QColor("black"))
-            brush.setColor(QtGui.QColor("#" + tile.get_color()))
+            brush.setColor(QtGui.QColor("#" + tile.returnColor()))
 
             painter.setPen(pen)
             painter.setBrush(brush)

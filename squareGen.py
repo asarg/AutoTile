@@ -19,7 +19,7 @@ light_blue = "C2DCFE"
 
 def genSquare(value, model):
     rectSys = ""
-    
+
     if model == "Deterministic":
         rectSys = detGen.genRect(value)
 
@@ -41,35 +41,35 @@ def genSquare(value, model):
     squareSys = DirectCombine.main(squareSys, rectSysD, "$")
 
 
-    squareSys.add_State(State("pA", black))
-    squareSys.add_State(State("pB", black))
-    squareSys.add_State(State("pC", black))
+    squareSys.addState(State("pA", black))
+    squareSys.addState(State("pB", black))
+    squareSys.addState(State("pC", black))
 
-    squareSys.add_transition_rule(TransitionRule("N", "c", "N", "pA", "h"))
-    squareSys.add_affinity(AffinityRule("pA", "SA*", "h", 1))
+    squareSys.addTransitionRule(TransitionRule("N", "c", "N", "pA", "h"))
+    squareSys.addAffinity(AffinityRule("pA", "SA*", "h", 1))
 
-    squareSys.add_transition_rule(TransitionRule("N*", "c*", "N*", "pB", "v"))
-    squareSys.add_affinity(AffinityRule("pB", "SA#", "v", 1))
+    squareSys.addTransitionRule(TransitionRule("N*", "c*", "N*", "pB", "v"))
+    squareSys.addAffinity(AffinityRule("pB", "SA#", "v", 1))
 
-    squareSys.add_transition_rule(TransitionRule("c#", "N#", "pC", "N#", "h"))
-    squareSys.add_affinity(AffinityRule("SA$", "pC", "h", 1))
+    squareSys.addTransitionRule(TransitionRule("c#", "N#", "pC", "N#", "h"))
+    squareSys.addAffinity(AffinityRule("SA$", "pC", "h", 1))
 
-    squareSys.add_Initial_State(State("SA*", black))
-    squareSys.add_Initial_State(State("SA#", black))
-    squareSys.add_Initial_State(State("SA$", black))
+    squareSys.addInitialState(State("SA*", black))
+    squareSys.addInitialState(State("SA#", black))
+    squareSys.addInitialState(State("SA$", black))
 
-    squareSys.add_State(State("pD", black))
-    squareSys.add_transition_rule(TransitionRule("c$", "N$", "pD", "N$", "v"))
-    squareSys.add_transition_rule(TransitionRule("pD", "0c$", "pD", "pD", "h"))
-    squareSys.add_transition_rule(TransitionRule("pD", "0cn$", "pD", "pD", "h"))
-    squareSys.add_transition_rule(TransitionRule("pD", "+$", "pD", "pD", "h"))
+    squareSys.addState(State("pD", black))
+    squareSys.addTransitionRule(TransitionRule("c$", "N$", "pD", "N$", "v"))
+    squareSys.addTransitionRule(TransitionRule("pD", "0c$", "pD", "pD", "h"))
+    squareSys.addTransitionRule(TransitionRule("pD", "0cn$", "pD", "pD", "h"))
+    squareSys.addTransitionRule(TransitionRule("pD", "+$", "pD", "pD", "h"))
 
-    squareSys.add_State(State("f", light_blue))
-    squareSys.add_Initial_State(State("f", light_blue))
-    squareSys.add_affinity(AffinityRule("pD", "f", "h", 1))
-    squareSys.add_affinity(AffinityRule("f", "f", "h", 1))
-    squareSys.add_affinity(AffinityRule("f", "f", "v", 1))
-    
+    squareSys.addState(State("f", light_blue))
+    squareSys.addInitialState(State("f", light_blue))
+    squareSys.addAffinity(AffinityRule("pD", "f", "h", 1))
+    squareSys.addAffinity(AffinityRule("f", "f", "h", 1))
+    squareSys.addAffinity(AffinityRule("f", "f", "v", 1))
+
 
     return squareSys
 

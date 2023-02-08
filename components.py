@@ -1,3 +1,39 @@
+import unicodedata
+
+
+class UnicodeIcons:
+    unicode_dictionary = {} # Dictionary of unicode characters and their names all ever used
+    other_icon_dictionary = {} # Dictionary of other icons and their names
+    # Maybe add fonts to dictionary that include that unicode character or icon for each unicode character/icon
+    # Should probably index by unicode character/other icon codepoint and return the names and font names
+    def __init__(self):
+        self.instance_set = self.addInstanceSet()
+
+
+    def addInstanceSet(self, instance_set={}):
+        #Dictionary that can have self defined display state names for unicode characters
+        #Returns a dictionary for each unicode character/icons used with an instance display state name
+        return instance_set #Idk
+
+    def addInstanceItem(self, name, instance_item):
+        self.unicode_dictionary[name] = instance_item
+        self.other_icon_dictionary[name] = instance_item
+        self.instance_set[name] = instance_item
+
+    def addUnicodeItem(self, name, unicode_char):
+        self.unicode_dictionary[name] = unicode_char
+        self.other_icon_dictionary[name] = unicode_char
+    def addIcon(self, name, icon):
+        self.unicode_dictionary[name] = icon
+        self.other_icon_dictionary[name] = icon
+    def returnAllIcons(self):
+        return self.unicode_dictionary
+
+
+
+
+
+
 def increment_string(stri):
     strings = ""
     num = ""

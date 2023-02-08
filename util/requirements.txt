@@ -1,0 +1,4 @@
+# Dependancies for the build
+PyQt5
+networkx
+matplotlib

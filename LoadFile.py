@@ -30,26 +30,59 @@ def readxml(file):
     for state_tag in treeroot.findall('AllStates/State'):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
+        display_label = state_tag.get("DisplayLabel")
+        display_label_color = state_tag.get("DisplayLabelColor")
+        display_label_font = state_tag.get("DisplayLabelFont")
 
-        tempState = State(label, color)
+        if display_label is None:
+            tempState = State(label, color)
+        else:
+            if display_label_font is None:
+                tempState = State(label, color, display_label, display_label_color)
+            else:
+                tempState = State(label, color, display_label, display_label_color, display_label_font)
+
+
         CompleteStateSet.append(tempState)
 
     # Record Initial States
     for state_tag in treeroot.findall("InitialStates/State"):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
+        display_label = state_tag.get("DisplayLabel")
+        display_label_color = state_tag.get("DisplayLabelColor")
+        display_label_font = state_tag.get("DisplayLabelFont")
 
-        tempState = State(label, color)
+        if display_label is None:
+            tempState = State(label, color)
+        else:
+            if display_label_font is None:
+                tempState = State(label, color, display_label, display_label_color)
+            else:
+                tempState = State(label, color, display_label, display_label_color, display_label_font)
+
+
         InitialStateSet.append(tempState)
 
     # Record Seed States
     for state_tag in treeroot.findall("SeedStates/State"):
         label = state_tag.get("Label")
         color = state_tag.get("Color")
+        display_label = state_tag.get("DisplayLabel")
+        display_label_color = state_tag.get("DisplayLabelColor")
+        display_label_font = state_tag.get("DisplayLabelFont")
 
-        tempState = State(label, color)
+        if display_label is None:
+            tempState = State(label, color)
+        else:
+            if display_label_font is None:
+                tempState = State(label, color, display_label, display_label_color)
+            else:
+                tempState = State(label, color, display_label, display_label_color, display_label_font)
+
+
         SeedStateSet.append(tempState)
-        
+
 
     # Record Vertical Transitions
     for rule_tag in treeroot.findall("VerticalTransitions/Rule"):

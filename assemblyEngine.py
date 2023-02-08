@@ -6,11 +6,11 @@ from PyQt5.QtWidgets import QMessageBox
 # Debugging Functions
 def printMove(move):
     if move["type"] == "a":
-        print("Attach: ", move["state1"].get_label(),
+        print("Attach: ", move["state1"].returnLabel(),
               " at ", move["x"], ", ", move["y"])
     if move["type"] == "t":
-        print("Transition ", move["state1"].get_label(), ", ", move["state2"].get_label(
-        ), " to ", move["state1Final"].get_label(), ", ", move["state2Final"].get_label())
+        print("Transition ", move["state1"].returnLabel(), ", ", move["state2"].returnLabel(
+        ), " to ", move["state1Final"].returnLabel(), ", ", move["state2Final"].returnLabel())
         print(" at ", move["x"], ", ", move["y"])
 
 
@@ -24,17 +24,17 @@ class Engine:
         self.TimeTaken = []
         self.currentIndex = 0
         self.lastIndex = 0
-        self.errorStates = "" 
+        self.errorStates = ""
 
         #construct seed assembly from the seed states present in the respective system,
-        self.system.make_Seed_Assembly()
-        
+        self.system.makeSeedAssembly()
+
         #get resulting seed assembly
-        self.seedAssembly = self.system.get_seed_assembly()
+        self.seedAssembly = self.system.returnSeedAssembly()
         self.currentAssembly = self.seedAssembly
         self.currentAssembly = copy.deepcopy(self.seedAssembly)
 
-        self.validMoves = self.currentAssembly.getMoves(self.system)
+        self.validMoves = self.currentAssembly.returnMoves(self.system)
 
     def step(self, nextMove=None):
 
@@ -78,7 +78,7 @@ class Engine:
     def first(self):
         self.currentIndex = 0
         self.currentAssembly = copy.deepcopy(self.seedAssembly)
-        self.validMoves = self.currentAssembly.getMoves(self.system)
+        self.validMoves = self.currentAssembly.returnMoves(self.system)
 
     def last(self):
         while self.currentIndex < self.lastIndex:
@@ -101,7 +101,7 @@ class Engine:
             return self.moveList[self.getCurrentIndex()]
 
     def getCurrentBorders(self):
-        return self.currentAssembly.get_borders()
+        return self.currentAssembly.returnBorders()
 
     def build(self, nextMove=None, forwards=True):
 
@@ -178,11 +178,12 @@ class Engine:
             if move["state1Final"] == None:
                 errorState += self.findProblemTile(move["state1"], move["state2"], move["dir"], 1)
 
-            if move["state2Final"] == None:
-                errorState += self.findProblemTile(move["state1"], move["state2"], move["dir"], 2)
+            if move["dir"] != "s":
+                if move["state2Final"] == None:
+                    errorState += self.findProblemTile(move["state1"], move["state2"], move["dir"], 2)
 
             if errorState != "":
-               #self.validMoves = 0 
+               #self.validMoves = 0
                 msgBox = QMessageBox()
                 msgBox.setIcon(QMessageBox.Information)
                 msgBox.setText("The following states dont exist: \n" + errorState)
@@ -192,7 +193,7 @@ class Engine:
                 returnValue = msgBox.exec()
 
                 return -1
-            
+
 
             # Removing Moves
             # remove other move for self
@@ -450,21 +451,20 @@ class Engine:
         sys_v_tr = self.system.returnVerticalTransitionDict()
 
         if dir == "v":
-            rules = sys_v_tr.get((tile1.get_label(), tile2.get_label()))
-                  
+            rules = sys_v_tr.get((tile1.returnLabel(), tile2.returnLabel()))
+
         if dir == "h":
-            rules = sys_h_tr.get((tile1.get_label(), tile2.get_label()))
-            
+            rules = sys_h_tr.get((tile1.returnLabel(), tile2.returnLabel()))
+
         if rules != None:
             for i in range(0, len(rules), 2):
                 if problem == 1:
-                    if self.system.get_state(rules[i]) == None:
+                    if self.system.returnState(rules[i]) == None:
                         errorTile += rules[i]
                         errorTile += " "
                 elif problem == 2:
-                    if self.system.get_state(rules[i+1]) == None:
+                    if self.system.returnState(rules[i+1]) == None:
                         errorTile += rules[i + 1]
                         errorTile += " "
 
         return errorTile
-

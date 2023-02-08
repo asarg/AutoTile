@@ -1,33 +1,29 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox, QMessageBox
-from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont
-from PyQt5.QtCore import QObject, QThread, pyqtSignal
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QFileDialog, QPushButton, QWidget, QVBoxLayout, QTableWidgetItem, QCheckBox, QMessageBox, QButtonGroup
+from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
+from PyQt5.QtCore import QObject, QThread, Qt, pyqtSignal
 
-from PyQt5.QtCore import Qt
+from unicodedata import *
 from random import randrange
+import math, sys
+
 from Player import ComputeLast, Player
+from SeedEditor import SeedScene, TableScene
 from Historian import Historian
-
 from assemblyEngine import Engine
-from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
-import TAMainWindow
-import EditorWindow16
-import LoadFile
-import SaveFile
-import QuickRotate
-import QuickCombine
-import QuickReflect
-import math
-import FreezingCheck
-import sampleGen
+from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule, SingleTransitionRule
+import TAMainWindow, EditorWindow, sCRNEditorWindow, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
+#import Generators.IU_Generators.IntrinsicUniversality as IU
+#import Generators.IU_Generators.IU2 as IU2
+#from Generators.IU_Generators import IUSampleGen
 
-import sys
 from util.loaders import assemblyLoader
 
 
 # Global Variables
 # Note: currentSystem is still global but had to be moved into the loading method
 currentAssemblyHistory = []
+dpi = 90
 # General Seeded TA Simulator
 
 
@@ -150,6 +146,13 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         # "Quick Reflect-Y"
         self.Y_reflect_button.clicked.connect(self.Click_YReflect)
 
+
+        # Group for the radio buttons, this is so they can be checked independently.
+        self.group = QButtonGroup()
+        self.group.setExclusive(False)
+        self.group.addButton(self.SlowMode_button)
+        self.group.addButton(self.sCRN_button)
+
         self.SlowMode_button.clicked.connect(self.slowMode_toggle)
 
         # Available moves layout to place available moves
@@ -200,7 +203,16 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.moveWidgets.append(mGUI)
             self.movesLayout.addWidget(mGUI)
 
-        paper_options = ["SAND22"]
+        # Add fonts to database
+        # TODO :: add whole font folder here
+        fontdatabase = QtGui.QFontDatabase()
+        fontdatabase.addApplicationFont("fonts/Fira Code Regular Nerd Font Complete.tff")
+        fontdatabase.addApplicationFont("fonts/Fira Code Bold Nerd Font Complete.tff")
+        fontdatabase.addApplicationFont("fonts/MaterialIcons-Regular.tff")
+        fontdatabase.addApplicationFont("fonts/MaterialIcons-Outlined.tff")
+        #QFont("Fira Code", )
+
+        paper_options = ["SAND22", "IU"]
         self.GenPaper_Box.addItems(paper_options)
 
         shape_options = ["Strings", "Rectangle", "Squares"]
@@ -212,6 +224,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.InputLabel.setText("Enter a binary string.")
 
         self.GenShape_Box.currentIndexChanged.connect(self.exampleTextChange)
+        self.GenPaper_Box.currentIndexChanged.connect(self.paperTextChange)
 
         self.ExampleButton.clicked.connect(self.Begin_example)
 
@@ -264,7 +277,17 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         self.thread = QThread()
         self.threadlast = QThread()
-        self.loadAssembly("XML Files/seededExample.xml")
+        #self.loadAssembly("XML Files/IUActiveState.xml")
+        #self.Begin_IU_Example()
+
+        print(len(sys.argv))
+        if len(sys.argv) == 2:
+            self.Load_File(sys.argv[1])
+        elif len(sys.argv) == 3:
+            self.loadAssembly(sys.argv[1])
+        else:
+            self.Load_File("XML Files/seededExample.xml")
+
 
     # Slide left menu function
     def slideLeftMenu(self):
@@ -276,7 +299,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             # Expand menu
             newWidth = 200
             canvas = QtGui.QPixmap(
-                self.geometry().width() - 200, self.geometry().height() - 45)
+                self.geometry().width() - 200, self.geometry().height() - int(dpi/2))
             canvas.fill(Qt.white)
 
             self.slide_menu_container.setMaximumWidth(newWidth)
@@ -289,7 +312,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.slide_menu_container.setMaximumWidth(newWidth)
 
             canvas = QtGui.QPixmap(
-                self.geometry().width(), self.geometry().height() - 45)
+                self.geometry().width() - 10, self.geometry().height() - int(dpi/2))
             canvas.fill(Qt.white)
             self.label.setPixmap(canvas)
 
@@ -312,12 +335,11 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
     def resizeEvent(self, event):
         # If left menu is closed
         if self.slide_menu_container.width() == 0:
-            canvas = QtGui.QPixmap(
-                self.geometry().width(), self.geometry().height() - 45)
+            canvas = QtGui.QPixmap(self.geometry().width() - 10, self.geometry().height() - int(dpi/2))
         else:
             # prevents a bug that happens if menus open
             canvas = QtGui.QPixmap(
-                self.geometry().width() - 200, self.geometry().height() - 45)
+                self.geometry().width() - 200, self.geometry().height() - int(dpi/2))
 
         canvas.fill(Qt.white)
         self.label.setPixmap(canvas)
@@ -440,7 +462,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 y_num = 0
 
                 tile_increase = 10
-            
+
                 if self.tileSize < 10:
                     tile_increase = 5
 
@@ -470,14 +492,14 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                     tile_increase = -10
                     x_num = -4.2
                     y_num = -5
-                    
+
                 elif self.tileSize > 5:
                     tile_increase = -5
 
                 self.update_tileSize(tile_increase, x_num, y_num)
 
                 self.draw_assembly(self.Engine.getCurrentAssembly())
-                
+
 
     def wheelEvent(self, event):
         if self.play:
@@ -488,7 +510,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         #### Zoom in functions for the scroll wheel ####
         if event.angleDelta().y() == 120:
             tile_increase = 10
-            
+
             if self.tileSize < 10:
                 tile_increase = 5
 
@@ -509,7 +531,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 y_num = -6
 
             elif self.tileSize > 30:
-                tile_increase = -10 
+                tile_increase = -10
                 x_num = -4.1
                 y_num = -6
 
@@ -517,7 +539,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 tile_increase = -10
                 x_num = -3.4
                 y_num = -5
-                    
+
             elif self.tileSize > 5:
                 tile_increase = -5
 
@@ -558,16 +580,16 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         try:
             if move['type'] == 'a' and forward == 1:  # (type, x, y, state1)
                 if self.onScreen_check(move['x'], move['y']) != 1:
-                    brush.setColor(QtGui.QColor(
-                        "#" + move['state1'].returnColor()))
-                    self.draw_to_screen(
-                        move['x'], move['y'], move['state1'].get_label(), painter, brush)
+                    brush.setColor(QtGui.QColor( "#" + move['state1'].returnColor()))
+                    self.draw_to_screen(move['x'], move['y'], move['state1'], painter, brush)
 
             # showing transition on screen
             # (type, x, y, dir, state1, state2, state1Final, state2Final)
             elif move['type'] == 't' and forward == 1:
-                self.transition_draw_function(
-                    move, move['state1Final'], move['state2Final'], painter, brush)
+                if move['dir'] == "s":
+                    self.transition_draw_function(move, move['state1Final'], None, painter, brush)
+                else:
+                    self.transition_draw_function(move, move['state1Final'], move['state2Final'], painter, brush)
 
             # getting rid of attachment on screen
             elif move['type'] == 'a' and forward == 0:  # (type, x, y, state1)
@@ -593,30 +615,32 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
                 if neighborN != None:
                     if self.onScreen_check(move['x'], move['y'] + 1) != 1:
-                        brush.setColor(QtGui.QColor("#" + neighborN.get_color()))
+                        brush.setColor(QtGui.QColor("#" + neighborN.returnColor()))
                         self.draw_to_screen(
-                            move['x'], move['y'] + 1, neighborN.get_label(), painter, brush)
+                            move['x'], move['y'] + 1, neighborN.returnState(), painter, brush)
                 if neighborS != None:
                     if self.onScreen_check(move['x'], move['y'] - 1) != 1:
-                        brush.setColor(QtGui.QColor("#" + neighborS.get_color()))
+                        brush.setColor(QtGui.QColor("#" + neighborS.returnColor()))
                         self.draw_to_screen(
-                            move['x'], move['y'] - 1, neighborS.get_label(), painter, brush)
+                            move['x'], move['y'] - 1, neighborS.returnState(), painter, brush)
                 if neighborE != None:
                     if self.onScreen_check(move['x'] + 1, move['y']) != 1:
-                        brush.setColor(QtGui.QColor("#" + neighborE.get_color()))
+                        brush.setColor(QtGui.QColor("#" + neighborE.returnColor()))
                         self.draw_to_screen(
-                            move['x'] + 1, move['y'], neighborE.get_label(), painter, brush)
+                            move['x'] + 1, move['y'], neighborE.returnState(), painter, brush)
                 if neighborW != None:
                     if self.onScreen_check(move['x'] - 1, move['y']) != 1:
-                        brush.setColor(QtGui.QColor("#" + neighborW.get_color()))
+                        brush.setColor(QtGui.QColor("#" + neighborW.returnColor()))
                         self.draw_to_screen(
-                            move['x'] - 1, move['y'], neighborW.get_label(), painter, brush)
+                            move['x'] - 1, move['y'], neighborW.returnState(), painter, brush)
 
             # reversing transition on screen
             # (type, x, y, dir, state1, state2, state1Final, state2Final)
             elif move['type'] == 't' and forward == 0:
-                self.transition_draw_function(
-                    move, move['state1'], move['state2'], painter, brush)
+                if move['dir'] == "s":
+                    self.transition_draw_function(move, move['state1'], None, painter, brush)
+                else:
+                    self.transition_draw_function(move, move['state1'], move['state2'], painter, brush)
         except:
             print("There are no valid attachments.")
 
@@ -646,7 +670,8 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         painter.drawRect(0, 0, self.geometry().width(),
                          self.geometry().height())
 
-        font.setFamily("Times")
+        # Font
+        font.setFamily("Fira Code")
         font.setBold(True)
         font.setPixelSize(self.textSize)
         painter.setFont(font)
@@ -657,10 +682,9 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             if self.onScreen_check(tile.x, tile.y) == 1:
                 continue
 
-            brush.setColor(QtGui.QColor("#" + tile.get_color()))
+            brush.setColor(QtGui.QColor("#" + tile.returnColor()))
 
-            self.draw_to_screen(
-                tile.x, tile.y, tile.state.label, painter, brush)
+            self.draw_to_screen(tile.x, tile.y, tile.state, painter, brush)
 
         if self.Engine.currentIndex > 0:
             if self.color_flag == 0 and self.play != True and self.Engine.currentIndex < self.Engine.lastIndex:
@@ -757,35 +781,65 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                     "#" + move['state1'].returnColor()))
                 pen.setColor(QtGui.QColor("blue"))
                 painter.setPen(pen)
-                self.draw_to_screen(
-                    move['x'], move['y'], move['state1'].get_label(), painter, brush)
+                self.draw_to_screen(move['x'], move['y'], move['state1'], painter, brush)
 
         # transition highlight
         # (type, x, y, dir, state1, state2, state1Final, state2Final)
         elif move['type'] == 't' and color_flag == 1:
             pen.setColor(QtGui.QColor("blue"))
             painter.setPen(pen)
-            self.transition_draw_function(
-                move, move['state1Final'], move['state2Final'], painter, brush)
+            if move["dir"] == "s":
+                self.transition_draw_function(move, move['state1Final'], None, painter, brush)
+            else:
+                self.transition_draw_function(move, move['state1Final'], move['state2Final'], painter, brush)
 
         # (type, x, y, dir, state1, state2, state1Final, state2Final)
         elif move['type'] == 't' and color_flag == 0:
             pen.setColor(QtGui.QColor("red"))
             painter.setPen(pen)
-            self.transition_draw_function(
-                move, move['state1'], move['state2'], painter, brush)
+            if move["dir"] == "s":
+                self.transition_draw_function(move, move['state1'], None, painter, brush)
+            else:
+                self.transition_draw_function(move, move['state1'], move['state2'], painter, brush)
 
-    def draw_to_screen(self, x, y, label, painter, brush):
+    def display_tile_list(self):
+        curr = self.Engine.getCurrentAssembly()
+        tile_list = curr.returnTiles()
+        for t in tile_list:
+            print(t)
+
+
+    def draw_to_screen(self, x, y, state, painter, brush):
         painter.setBrush(brush)
+        ts = self.tileSize
+        ts_x = int(x*ts + self.seedX)
+        ts_y = int((y * -ts) + self.seedY)
+        rect = QtCore.QRect(ts_x, ts_y, ts, ts)
 
-        painter.drawRect(int((x * self.tileSize) + self.seedX),
-                         int((y * -self.tileSize) + self.seedY), self.tileSize, self.tileSize)
+        painter.drawRect(rect)
+
+        if state == "":
+            painter.drawText(rect, Qt.AlignCenter, "")
+            return
+        else:
+            decoded_display_label = state.display_label
 
         if self.tileSize > 10:
-            if len(label) > 4:
-                painter.drawText(int(x * self.tileSize) + int(self.textX), int(y * -self.tileSize) + int(self.textY), label[0:3])
+            fm = QtGui.QFontMetrics(painter.font())
+            txt_width = fm.width(decoded_display_label)
+
+            if decoded_display_label == None:
+                if len(state.label) > 4:
+                    painter.drawText(rect, Qt.AlignCenter, state.label[0:3])
+                else:
+                    painter.drawText(rect, Qt.AlignCenter, state.label)
+            elif len(decoded_display_label) > 4:
+
+                painter.drawText(rect, Qt.AlignCenter, decoded_display_label[0:3])
             else:
-                painter.drawText(int((x * self.tileSize) + int(self.textX)), int((y * -self.tileSize) + int(self.textY)), label)
+                painter.drawText(rect, Qt.AlignCenter, decoded_display_label)
+
+
 
     def transition_draw_function(self, move, state1, state2, painter, brush):
         horizontal = 0
@@ -799,16 +853,13 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         if self.onScreen_check(move['x'], move['y']) != 1:
             self.draw_to_screen(move['x'], move['y'], "", painter, brush)
             brush.setColor(QtGui.QColor("#" + state1.returnColor()))
-            self.draw_to_screen(move['x'], move['y'],
-                                state1.get_label(), painter, brush)
+            self.draw_to_screen(move['x'], move['y'], state1, painter, brush)
 
-        if self.onScreen_check(move['x'] + horizontal, move['y'] + vertical) != 1:
+        if self.onScreen_check(move['x'] + horizontal, move['y'] + vertical) != 1 and move["dir"] != "s":
             brush.setColor(QtGui.QColor("white"))
-            self.draw_to_screen(move['x'] + horizontal,
-                                move['y'] + vertical, "", painter, brush)
+            self.draw_to_screen(move['x'] + horizontal, move['y'] + vertical, "", painter, brush)
             brush.setColor(QtGui.QColor("#" + state2.returnColor()))
-            self.draw_to_screen(
-                move['x'] + horizontal, move['y'] + vertical, state2.get_label(), painter, brush)
+            self.draw_to_screen(move['x'] + horizontal, move['y'] + vertical, state2, painter, brush)
 
     # checks if a given tile is on screen by checking its coordinate, if not returns 1
     def onScreen_check(self, x, y):
@@ -819,8 +870,18 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         return 0
 
     def Click_newButton(self):
-        
-        self.e = Ui_EditorWindow(self.Engine, self)
+        global currentSystem
+
+        currentSystem = System(1, [], [], [], [], [], [], [], [], [], seed_assembly = Assembly(), empty=True)
+        seed = State("X", "ffffff")
+        currentSystem.addSeedState(seed)
+        currentSystem.addState(seed)
+        self.Engine = Engine(currentSystem)
+
+        if self.sCRN_button.isChecked():
+            self.e = Ui_sCRNEditorWindow(self.Engine, self)
+        else:
+            self.e = Ui_EditorWindow(self.Engine, self)
         self.e.show()
 
     def Click_FileSearch(self, id):
@@ -1049,11 +1110,22 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         else:
             self.delay = 0
 
+    def paperTextChange(self):
+        self.GenShape_Box.clear()
+        if self.GenPaper_Box.currentText() == "SAND22":
+            shape_options = ["Strings", "Rectangle", "Squares"]
+            self.GenShape_Box.addItems(shape_options)
+        else:
+            gadget_options = ["gadget1", "gadget2"]
+            self.GenShape_Box.addItems(gadget_options)
+
     def exampleTextChange(self):
         if self.GenShape_Box.currentText() == "Strings":
             self.InputLabel.setText("Enter a binary string.")
         elif self.GenShape_Box.currentText() == "Rectangle" or self.GenShape_Box.currentText() == "Squares":
             self.InputLabel.setText("Enter an integer.")
+        elif self.GenShape_Box.currentText() == "gadget1" or self.GenShape_Box.currentText() == "gadget2":
+            self.InputLabel.setText("No input. Press start.")
 
     def Begin_example(self):
         self.stop_sequence()
@@ -1100,12 +1172,42 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             self.draw_assembly(self.Engine.getCurrentAssembly())
             self.Update_available_moves()
 
+    """ def Begin_IU_Example(self):
+        self.stop_sequence()
+        self.play = False
+        global currentSystem
+
+        genS = IU2.IUGenerators()
+        genSystem = genS.EqualityGadgetGenerator()
+
+
+        if type(genSystem) == System:
+            #current system takes in an assembly,
+
+            self.SysLoaded = True
+            # the -150 is to account for the slide menu
+            self.seedX = (self.geometry().width() - 100) / 2
+            self.seedY = self.geometry().height() / 2
+
+            self.tileSize = 40
+            self.textSize = int(self.tileSize / 2)
+
+            self.time = 0
+            self.Engine = Engine(genSystem)
+            self.historian.set_engine(self.Engine)
+
+            currentSystem = genSystem
+
+            self.draw_assembly(self.Engine.getCurrentAssembly())
+            self.Update_available_moves() """
+
     def do_move(self, move):
         if not self.play:
             # Shouldn't need all this code but copying from next_step() anyways
             self.stop_sequence()
             if self.SysLoaded == True:
                 prev_move = self.Engine.getCurrentMove()
+                print("prev_move: " + str(prev_move))
                 if self.Engine.step(move) != -1:
                     self.color_flag = 1
                     if self.Engine.currentIndex > 1:
@@ -1185,8 +1287,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 self.workerlast.finished.connect(self.threadlast.quit)
                 self.workerlast.finished.connect(self.workerlast.deleteLater)
 
-                self.threadlast.finished.connect(
-                    lambda: self.draw_assembly(self.Engine.getCurrentAssembly()))
+                self.threadlast.finished.connect(lambda: self.draw_assembly(self.Engine.getCurrentAssembly()))
                 self.threadlast.finished.connect(
                     lambda: self.Update_available_moves())
 
@@ -1244,7 +1345,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
     def Click_EditFile(self):
         # if system loaded, open editorwindow
         if self.SysLoaded == True:
-            self.e = Ui_EditorWindow(self.Engine, self)
+            if self.sCRN_button.isChecked():
+                self.e = Ui_sCRNEditorWindow(self.Engine, self)
+            else:
+                self.e = Ui_EditorWindow(self.Engine, self)
             self.e.show()
         else:
             print("Please load a file to edit.")
@@ -1252,7 +1356,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 # engine has the system
 
 
-class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor window class
+class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor window class
     def __init__(self, engine, mainGUI):
         super().__init__()
         self.setupUi(self)
@@ -1260,6 +1364,8 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         self.mainGUI = mainGUI
         self.Engine = engine
         self.system = engine.system
+        self.t = TableScene()
+        self.s = SeedScene()
         # set row count state table
         self.newStateIndex = len(self.system.states)
         self.tableWidget.setRowCount(len(self.system.states))
@@ -1278,6 +1384,13 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             self.system.vertical_transitions_list) + len(self.system.horizontal_transitions_list))
         print(len(self.system.vertical_transitions_list) +
               len(self.system.horizontal_transitions_list))
+
+        self.tableWidget_3.setColumnWidth(0, 100)
+        self.tableWidget_3.setColumnWidth(1, 100)
+        self.tableWidget_3.setColumnWidth(2, 40)
+        self.tableWidget_3.setColumnWidth(3, 120)
+        self.tableWidget_3.setColumnWidth(4, 120)
+        self.tableWidget_3.setColumnWidth(5, 100)
 
         # set tempurature
         self.spinBox.setMinimum(1)
@@ -1382,14 +1495,14 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         r = 0
         for s in self.system.states:
             color_cell = QTableWidgetItem()
-            color_cell.setText(s.get_color())
+            color_cell.setText(s.returnColor())
             color_cell.setTextAlignment(Qt.AlignCenter)
-            color_cell.setForeground(QtGui.QColor("#" + s.get_color()))
-            color_cell.setBackground(QtGui.QColor("#" + s.get_color()))
+            color_cell.setForeground(QtGui.QColor("#" + s.returnColor()))
+            color_cell.setBackground(QtGui.QColor("#" + s.returnColor()))
             self.tableWidget.setItem(r, 0, color_cell)
 
             label_cell = QTableWidgetItem()
-            label_cell.setText(s.get_label())
+            label_cell.setText(s.returnLabel())
             label_cell.setTextAlignment(Qt.AlignCenter)
             self.tableWidget.setItem(r, 1, label_cell)
 
@@ -1401,7 +1514,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             seedChkLayout.setContentsMargins(0, 0, 0, 0)
             self.tableWidget.setCellWidget(r, 2, seedWidget)
             for sstate in self.system.seed_states:
-                if sstate.get_label() == s.get_label():
+                if sstate.returnLabel() == s.returnLabel():
                     seedCheckbox.setChecked(True)
 
             initialWidget = QtWidgets.QWidget()
@@ -1412,7 +1525,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             initialChkLayout.setContentsMargins(0, 0, 0, 0)
             self.tableWidget.setCellWidget(r, 3, initialWidget)
             for istate in self.system.initial_states:
-                if istate.get_label() == s.get_label():
+                if istate.returnLabel() == s.returnLabel():
                     initialCheckbox.setChecked(True)
 
             r += 1
@@ -1424,22 +1537,37 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         self.pushButton_3.clicked.connect(self.Click_AddRowStates)
         self.pushButton_4.clicked.connect(self.Click_AddRowAff)
         self.pushButton_5.clicked.connect(self.Click_AddRowTrans)
-        # user deletes state - currently only deletes state from
-        # state table.
-
-        self.pushButton_11.clicked.connect(self.click_removeRowState)
-        self.pushButton_10.clicked.connect(self.click_removeRowAff)
-        self.pushButton_9.clicked.connect(self.click_removeRowTran)
 
         # duplicate row
         self.pushButton_6.clicked.connect(self.click_duplicateRowState)
         self.pushButton_7.clicked.connect(self.click_duplicateRowAff)
         self.pushButton_8.clicked.connect(self.click_duplicateRowTrans)
 
+        # user deletes state - currently only deletes state from
+        # state table.
+        self.pushButton_9.clicked.connect(self.click_removeRowState)
+        self.pushButton_10.clicked.connect(self.click_removeRowAff)
+        self.pushButton_11.clicked.connect(self.click_removeRowTran)
+
         self.pushButton_12.clicked.connect(self.Click_freezingCheck)
 
-    # just need to fix this function
+        # Seed Editor
+        self.s.table = self.t
 
+        self.t.states.clear()
+        self.s.assembly = self.Engine.getCurrentAssembly()
+
+        for st in self.Engine.system.states:
+            self.t.states.append(st)
+
+        self.t.draw_table()
+        self.s.draw_assembly()
+
+        self.tableGraphicsView.setScene(self.t)
+        self.tableGraphicsView.centerOn(0, 0)
+        self.graphicsView.setScene(self.s)
+
+    # just need to fix this function
     def Click_freezingCheck(self):
         global currentSystem
         self.label2.setText(str(FreezingCheck.main(currentSystem)))
@@ -1636,11 +1764,10 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             self.copy_3(cells, currentRow+1)
 
     def Click_EditApply(self):
-
         global currentSystem
         newtemp = self.spinBox.value()
 
-        newsys = System(newtemp, [], [], [], [], [], [], [], [], [], seed_assembly = Assembly(), empty=True)
+        newsys = System(newtemp, [], [], [], [], [], [], [], [], [], seed_assembly = self.s.getAssembly(), empty=True)
         currentSystem = newsys
 
         available_states = []
@@ -1663,14 +1790,14 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             seed = seedCheckbox.layout().itemAt(0).widget().isChecked()
             s = State(label, color)
 
-            self.system.add_State(s)
+            self.system.addState(s)
 
             available_states.append(s)
 
             if initial:
-                self.system.add_Initial_State(s)
+                self.system.addInitialState(s)
             if seed:
-                self.system.add_Seed_State(s)
+                self.system.addSeedState(s)
 
         # affinity
         for row in range(0, self.tableWidget_2.rowCount()):
@@ -1687,7 +1814,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
 
             afRule = AffinityRule(lab1, lab2, dire, glu)
 
-            self.system.add_affinity(afRule)
+            self.system.addAffinity(afRule)
 
         # transitions
         for row in range(0, self.tableWidget_3.rowCount()):
@@ -1708,7 +1835,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
 
             trRule = TransitionRule(tLab1, tLab2, tFin1, tFin2, tDir)
 
-            self.system.add_transition_rule(trRule)
+            self.system.addTransitionRule(trRule)
 
         # Check here to see if states used in transitions exist
         states_not_used = self.StatesUsed_Exist(available_states, states_used)
@@ -1730,6 +1857,34 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
             if returnValue == QMessageBox.Cancel:
                 return
 
+        # assumes that the user is okay with their current system (they did not say cancel above)
+
+
+        # check if states were used
+        s_used = []
+        for t in self.s.assembly.tiles:
+            s_used.append(t.state.returnLabel())
+
+        states_not_used = self.StatesUsed_Exist(self.system.states, s_used)
+        if len(states_not_used) != 0:
+            error_states = ""
+            for state in states_not_used:
+                error_states += state
+                error_states += " "
+
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("The following states dont exist in the assembly: \n" + error_states + "\n Click Cancel to go back or Ok to apply anyway (generates random seed)")
+            msgBox.setWindowTitle("Missing states")
+            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+
+            returnValue = msgBox.exec()
+
+            if returnValue == QMessageBox.Ok:
+                self.system.setSeedAssembly(Assembly())
+            elif returnValue == QMessageBox.Cancel:
+                return
+
         # update the engine, and update the main GUI
         self.Engine.reset_engine(self.system)
 
@@ -1739,11 +1894,26 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         self.mainGUI.draw_assembly(self.Engine.getCurrentAssembly())
         self.mainGUI.Update_available_moves()
 
+        # update the seed editor
+        self.t.states.clear()
+        for st in self.Engine.system.states:
+            self.t.states.append(st)
+
+        self.s.assembly = self.Engine.getCurrentAssembly()
+
+        self.t.draw_table()
+        self.s.draw_assembly()
+
+
+
     def Click_EditSaveAs(self):
+        # TODO call save as
         print("Save As button clicked")
         fileName = QFileDialog.getSaveFileName(
             self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
 
+
+        currentSystem.setSeedAssembly(self.s.getAssembly())
         if(fileName[0] != ''):
             SaveFile.main(currentSystem, fileName)
 
@@ -1753,7 +1923,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
         for state in states_used:
             flag = 0
             for item in available_states:
-                if state == item.get_label():
+                if state == item.returnLabel():
                     flag = 1                     #flag means the state exist
                     break
 
@@ -1761,7 +1931,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
                 if item == state:
                     flag = 1
                     break
-                    
+
             if flag != 1:
                 states_not_used.append(state)
 
@@ -1770,6 +1940,435 @@ class Ui_EditorWindow(QMainWindow, EditorWindow16.Ui_EditorWindow): #the editor 
     def msgButtonClick(self, i):
         print("Button clicked is:",i.text())
 
+
+class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the sCRN editor window class
+    def __init__(self, engine, mainGUI):
+        super().__init__()
+        self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('Icons/Logo.png'))
+        self.mainGUI = mainGUI
+        self.Engine = engine
+        self.system = engine.system
+        self.t = TableScene()
+        self.s = SeedScene()
+        # set row count state table
+        self.newStateIndex = len(self.system.states)
+        self.tableWidget.setRowCount(len(self.system.states))
+
+        self.tableWidget.setColumnWidth(0, 274)
+        self.tableWidget.setColumnWidth(1, 274)
+
+        print(len(self.system.states))
+
+        # set row count transition table
+        self.tableWidget_3.setRowCount((len(self.system.horizontal_transitions_list) // 2) + len(self.system.single_transition_list))
+
+        self.tableWidget_3.setColumnWidth(0, 124)
+        self.tableWidget_3.setColumnWidth(1, 125)
+        self.tableWidget_3.setColumnWidth(2, 40)
+        self.tableWidget_3.setColumnWidth(3, 125)
+        self.tableWidget_3.setColumnWidth(4, 125)
+
+        # connect the color change
+        self.tableWidget.cellChanged.connect(self.cellchanged)
+
+        r = 0
+
+        # filling in table 3 with transitions, only looking at horizontal and filtering.
+        for trH in self.system.horizontal_transitions_list:
+            if r > 0:
+                if self.duplicateCRNRuleCheck(prevTR, trH):
+                    continue
+            stateHT1 = QTableWidgetItem()
+            stateHT1.setText(trH.returnLabel1())
+            stateHT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 0, stateHT1)
+            stateHT2 = QTableWidgetItem()
+            stateHT2.setText(trH.returnLabel2())
+            stateHT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 1, stateHT2)
+            finalHT1 = QTableWidgetItem()
+            finalHT1.setText(trH.returnLabel1Final())
+            finalHT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 3, finalHT1)
+            finalHT2 = QTableWidgetItem()
+            finalHT2.setText(trH.returnLabel2Final())
+            finalHT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 4, finalHT2)
+
+            prevTR = trH
+            r += 1
+
+        #if single transitions exist add them
+        for tr in self.system.single_transition_list:
+            stateHT1 = QTableWidgetItem()
+            stateHT1.setText(tr.returnLabel1())
+            stateHT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 0, stateHT1)
+            stateHT2 = QTableWidgetItem()
+            stateHT2.setText("")
+            stateHT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 1, stateHT2)
+            finalHT1 = QTableWidgetItem()
+            finalHT1.setText(tr.returnLabel1Final())
+            finalHT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 3, finalHT1)
+            finalHT2 = QTableWidgetItem()
+            finalHT2.setText("")
+            finalHT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 4, finalHT2)
+
+            r += 1
+
+        # filling in table 1 with states
+        r = 0
+        for s in self.system.states:
+            color_cell = QTableWidgetItem()
+            color_cell.setText(s.returnColor())
+            color_cell.setTextAlignment(Qt.AlignCenter)
+            color_cell.setForeground(QtGui.QColor("#" + s.returnColor()))
+            color_cell.setBackground(QtGui.QColor("#" + s.returnColor()))
+            self.tableWidget.setItem(r, 0, color_cell)
+
+            label_cell = QTableWidgetItem()
+            label_cell.setText(s.returnLabel())
+            label_cell.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget.setItem(r, 1, label_cell)
+
+            r += 1
+
+     # action for 'apply' the changes made to the side edit window to the view states side
+        self.pushButton.clicked.connect(self.Click_EditApply)
+        # action for 'save' the changes made to the side edit window to the XML file
+        self.pushButton_2.clicked.connect(self.Click_EditSaveAs)
+        self.pushButton_3.clicked.connect(self.Click_AddRowStates)
+        self.pushButton_5.clicked.connect(self.Click_AddRowTrans)
+
+        # duplicate row
+        self.pushButton_6.clicked.connect(self.click_duplicateRowState)
+        self.pushButton_8.clicked.connect(self.click_duplicateRowTrans)
+
+        # user deletes state - currently only deletes state from
+        # state table.
+        self.pushButton_9.clicked.connect(self.click_removeRowState)
+        self.pushButton_11.clicked.connect(self.click_removeRowTran)
+
+        # Seed Editor
+        self.s.table = self.t
+
+        self.t.states.clear()
+        self.s.assembly = self.Engine.getCurrentAssembly()
+
+        for st in engine.system.states:
+            self.t.states.append(st)
+
+        self.t.draw_table()
+        self.s.draw_assembly()
+
+        self.tableGraphicsView.setScene(self.t)
+        self.tableGraphicsView.centerOn(0, 0)
+        self.graphicsView.setScene(self.s)
+
+    # for 'add state'
+    def cellchanged(self, row, col):
+        # only do anything is we are in the color column (0)
+        if col == 0:
+
+            color_cell = self.tableWidget.item(row, col)
+            color = color_cell.text()
+            color_cell.setForeground(QtGui.QColor("#" + color))
+            color_cell.setBackground(QtGui.QColor("#" + color))
+
+    #a function to check if the rule has already been parsed, just in a different orientation
+    def duplicateCRNRuleCheck(self, rule1, rule2):
+        if (rule1.returnLabel1() == rule2.returnLabel2()) and (rule1.returnLabel2() == rule2.returnLabel1()):
+            if(rule1.returnLabel1Final() == rule2.returnLabel2Final()) and (rule1.returnLabel2Final() == rule2.returnLabel1Final()):
+                print("duplicate found")
+                return True
+
+        return False
+
+    def Click_AddRowStates(self):
+        newrow = self.tableWidget.rowCount()
+        self.tableWidget.setRowCount(newrow + 1)
+
+        color_cell = QTableWidgetItem()
+        color_cell.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget.setItem(newrow, 0, color_cell)
+
+        label_cell = QTableWidgetItem()
+        label_cell.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget.setItem(newrow, 1, label_cell)
+
+    def Click_AddRowTrans(self):
+        print("Add Row in Transitions clicked")
+        newrow = self.tableWidget_3.rowCount()
+        self.tableWidget_3.setRowCount(newrow + 1)
+
+        tLabel1 = QTableWidgetItem()
+        tLabel1.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget_3.setItem(newrow, 0, tLabel1)
+
+        tLabel2 = QTableWidgetItem()
+        tLabel2.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget_3.setItem(newrow, 1, tLabel2)
+
+        tFinal1 = QTableWidgetItem()
+        tFinal1.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget_3.setItem(newrow, 3, tFinal1)
+
+        tFinal2 = QTableWidgetItem()
+        tFinal2.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget_3.setItem(newrow, 4, tFinal2)
+
+    # remove/delete rows from state table
+    def click_removeRowState(self):
+        # only delete if there is something in the table, and if there is something selected
+        if self.tableWidget.rowCount() > 0 and len(self.tableWidget.selectedIndexes()) > 0:
+            self.tableWidget.removeRow(
+                self.tableWidget.selectedIndexes()[0].row())
+
+    def click_removeRowTran(self):
+        if self.tableWidget_3.rowCount() > 0 and len(self.tableWidget_3.selectedIndexes()) > 0:
+            self.tableWidget_3.removeRow(
+                self.tableWidget_3.selectedIndexes()[0].row())
+
+    def copy_widget(self, w):
+        if isinstance(w, QtWidgets.QWidget):
+            new_w = QCheckBox()
+            newWidget = QtWidgets.QWidget()
+            newChkLayout = QtWidgets.QHBoxLayout(newWidget)
+            newChkLayout.addWidget(new_w)
+            newChkLayout.setAlignment(Qt.AlignCenter)
+            newChkLayout.setContentsMargins(0, 0, 0, 0)
+            # copy values
+
+            for widget in w.children():
+                if isinstance(widget, QCheckBox):
+                    if widget.isChecked():
+                        new_w.setChecked(True)
+            # else:
+             #   new_w.setChecked(False)
+        return newWidget
+
+    def copy(self, cells, r):
+        self.tableWidget.insertRow(r)
+        for i, it in cells["items"]:
+            self.tableWidget.setItem(r, i, it)
+        for i, w in cells["widgets"]:
+            self.tableWidget.setCellWidget(r, i, w)
+
+    def copy_3(self, cells, r):
+        self.tableWidget_3.insertRow(r)
+        for i, it in cells["items"]:
+            self.tableWidget_3.setItem(r, i, it)
+
+    def click_duplicateRowState(self):
+        currentRow = self.tableWidget.currentRow()
+
+        if self.tableWidget.rowCount() > 0 and len(self.tableWidget.selectedIndexes()) > 0:
+            cells = {"items": [], "widgets": []}
+            for i in range(self.tableWidget.columnCount()):
+
+                it = self.tableWidget.item(currentRow, i)
+                if it:
+                    cells["items"].append((i, it.clone()))
+
+                w = self.tableWidget.cellWidget(currentRow, i)
+                print(w)
+                if w:
+                    cells["widgets"].append((i, self.copy_widget(w)))
+            self.copy(cells, currentRow+1)
+
+    def click_duplicateRowTrans(self):
+        currentRow = self.tableWidget_3.currentRow()
+
+        if self.tableWidget_3.rowCount() > 0 and len(self.tableWidget_3.selectedIndexes()) > 0:
+            cells = {"items": []}
+            for i in range(self.tableWidget_3.columnCount()):
+
+                it = self.tableWidget_3.item(currentRow, i)
+                if it:
+                    cells["items"].append((i, it.clone()))
+            self.copy_3(cells, currentRow+1)
+
+    def Click_EditApply(self):
+        global currentSystem
+        newtemp = 1
+
+        newsys = System(newtemp, [], [], [], [], [], [], [], [], [], seed_assembly = self.s.getAssembly(), empty=True)
+        currentSystem = newsys
+
+        available_states = []
+        states_used = []
+
+        self.system = newsys
+
+        # go through new rows, create states, add states to system
+        for row in range(0, self.tableWidget.rowCount()):
+            color_cell = self.tableWidget.item(row, 0)
+            label_cell = self.tableWidget.item(row, 1)
+            color = color_cell.text()
+            label = label_cell.text()
+
+            # print(initialCheckbox)
+            # 'apply as' works now
+            s = State(label, color)
+
+            self.system.addState(s)
+
+            available_states.append(s)
+
+            self.system.addSeedState(s)
+
+        # transitions
+        for row in range(0, self.tableWidget_3.rowCount()):
+            if ((self.tableWidget_3.item(row, 0).text() == "" and self.tableWidget_3.item(row, 1).text() == "") or (self.tableWidget_3.item(row, 3).text() == "" and self.tableWidget_3.item(row, 4).text() == "")):
+                continue
+
+            if self.tableWidget_3.item(row, 0).text() == "" and self.tableWidget_3.item(row, 1).text() != "":
+                self.tableWidget_3.item(row, 0).setText(self.tableWidget_3.item(row, 1).text())
+                self.tableWidget_3.item(row, 1).setText("")
+
+            if self.tableWidget_3.item(row, 0).text() != "" and self.tableWidget_3.item(row, 1).text() == "":
+                if self.tableWidget_3.item(row, 3).text() == "" and self.tableWidget_3.item(row, 4).text() != "":
+                    self.tableWidget_3.item(row, 3).setText(self.tableWidget_3.item(row, 4).text())
+                    self.tableWidget_3.item(row, 4).setText("")
+
+                if self.tableWidget_3.item(row, 3).text() != "" and self.tableWidget_3.item(row, 4).text() == "":
+                    tLabel1 = self.tableWidget_3.item(row, 0)
+                    tFinal1 = self.tableWidget_3.item(row, 3)
+
+                    tLab1 = tLabel1.text()
+                    tFin1 = tFinal1.text()
+                    
+                    states_used.append(tFin1)
+
+                    trRule = SingleTransitionRule(tLab1, tFin1)
+                    self.system.addSingleTransitionRule(trRule)
+            else:
+                tLabel1 = self.tableWidget_3.item(row, 0)
+                tLabel2 = self.tableWidget_3.item(row, 1)
+                tFinal1 = self.tableWidget_3.item(row, 3)
+                tFinal2 = self.tableWidget_3.item(row, 4)
+
+                tLab1 = tLabel1.text()
+                tLab2 = tLabel2.text()
+                tFin1 = tFinal1.text()
+                tFin2 = tFinal2.text()
+
+                states_used.append(tFin1)
+                states_used.append(tFin2)
+
+                trRule1 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "h")
+                trRule2 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "h")
+                trRule3 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "v")
+                trRule4 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "v")
+
+                self.system.addTransitionRule(trRule1)
+                self.system.addTransitionRule(trRule2)
+                self.system.addTransitionRule(trRule3)
+                self.system.addTransitionRule(trRule4)
+
+        # Check here to see if states used in transitions exist
+        states_not_used = self.StatesUsed_Exist(available_states, states_used)
+        if len(states_not_used) != 0:
+            error_states = ""
+            for state in states_not_used:
+                error_states += state
+                error_states += " "
+
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("The following states dont exist: \n" + error_states + "\n Click Cancel to go back or Ok to apply anyway")
+            msgBox.setWindowTitle("Missing states")
+            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            #msgBox.buttonClicked.connect(self.msgButtonClick)
+
+            returnValue = msgBox.exec()
+
+            if returnValue == QMessageBox.Cancel:
+                return
+
+        # assumes that the user is okay with their current system (they did not say cancel above)
+
+
+        # check if states were used
+        s_used = []
+        for t in self.s.assembly.tiles:
+            s_used.append(t.state.returnLabel())
+
+        states_not_used = self.StatesUsed_Exist(self.system.states, s_used)
+        if len(states_not_used) != 0:
+            error_states = ""
+            for state in states_not_used:
+                error_states += state
+                error_states += " "
+
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("The following states dont exist in the assembly: \n" + error_states + "\n Click Cancel to go back or Ok to apply anyway (generates random seed)")
+            msgBox.setWindowTitle("Missing states")
+            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+
+            returnValue = msgBox.exec()
+
+            if returnValue == QMessageBox.Ok:
+                self.system.setSeedAssembly(Assembly())
+            elif returnValue == QMessageBox.Cancel:
+                return
+
+
+        # update the engine, and update the main GUI
+        self.Engine.reset_engine(self.system)
+
+        self.mainGUI.SysLoaded = True
+        currentSystem = self.system
+
+        self.mainGUI.draw_assembly(self.Engine.getCurrentAssembly())
+        self.mainGUI.Update_available_moves()
+
+        # update the seed editor
+        self.t.states.clear()
+        self.s.assembly = self.Engine.getCurrentAssembly()
+
+        for st in self.Engine.system.states:
+            self.t.states.append(st)
+
+        self.t.draw_table()
+        self.s.draw_assembly()
+
+    def Click_EditSaveAs(self):
+        print("Save As button clicked")
+        fileName = QFileDialog.getSaveFileName(
+            self, "QFileDialog.getSaveFileName()", "", "XML Files (*.xml)")
+
+        currentSystem.setSeedAssembly(self.s.getAssembly())
+        if(fileName[0] != ''):
+            SaveFile.main(currentSystem, fileName)
+
+    #function to see if the states the user uses exist
+    def StatesUsed_Exist(self, available_states, states_used):
+        states_not_used = []
+        for state in states_used:
+            flag = 0
+            for item in available_states:
+                if state == item.returnLabel():
+                    flag = 1                     #flag means the state exist
+                    break
+
+            for item in states_not_used:     #if state has already been added we dont need to add it again
+                if item == state:
+                    flag = 1
+                    break
+
+            if flag != 1:
+                states_not_used.append(state)
+
+        return states_not_used
+
+    def msgButtonClick(self, i):
+        print("Button clicked is:",i.text())
 
 class Move(QWidget):
 
@@ -1795,19 +2394,22 @@ class Move(QWidget):
             return
 
         if self.move["type"] == "a":
-            moveText = "Attach\n" + self.move["state1"].get_label() + " at " + str(
+            moveText = "Attach\n" + self.move["state1"].returnLabel() + " at " + str(
                 self.move["x"]) + " , " + str(self.move["y"])
         elif self.move["type"] == "t":
-            if self.move["state1Final"] != None and self.move["state2Final"] != None:
-                # Add Transition Direction
-                if self.move["dir"] == "v":
-                    moveText = "V "
-                else:
-                    moveText = "H "
-                moveText += "Transition\n" + self.move["state1"].get_label() + ", " + self.move["state2"].get_label(
-                ) + " to " + self.move["state1Final"].get_label() + ", " + self.move["state2Final"].get_label()
+            if self.move["dir"] == "s":
+                moveText = "Single Transition\n" + self.move["state1"].returnLabel() + " to " + self.move["state1Final"].returnLabel()
             else:
-                moveText = "Error:\n state doesn't exist"
+                if self.move["state1Final"] != None and self.move["state2Final"] != None:
+                    # Add Transition Direction
+                    if self.move["dir"] == "v":
+                        moveText = "V "
+                    else:
+                        moveText = "H "
+                    moveText += "Transition\n" + self.move["state1"].returnLabel() + ", " + self.move["state2"].returnLabel(
+                    ) + " to " + self.move["state1Final"].returnLabel() + ", " + self.move["state2Final"].returnLabel()
+                else:
+                    moveText = "Error:\n state doesn't exist"
 
         pen = QApplication.palette().text().color()
         qp.setPen(pen)
@@ -1824,6 +2426,8 @@ class Move(QWidget):
 if __name__ == "__main__":
     # App Stuff
     app = QApplication(sys.argv)
+    screen = app.screens()[0]
+    dpi = screen.logicalDotsPerInch()
     w = Ui_MainWindow()
     w.show()
     sys.exit(app.exec_())
