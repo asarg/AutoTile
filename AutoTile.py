@@ -335,11 +335,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
     def resizeEvent(self, event):
         # If left menu is closed
         if self.slide_menu_container.width() == 0:
-            canvas = QtGui.QPixmap(self.geometry().width() - 10, self.geometry().height() - int(dpi/2))
+            canvas = QtGui.QPixmap(self.geometry().width() - 10, self.geometry().height() - int(dpi/1.5))
         else:
             # prevents a bug that happens if menus open
-            canvas = QtGui.QPixmap(
-                self.geometry().width() - 200, self.geometry().height() - int(dpi/2))
+            canvas = QtGui.QPixmap(self.geometry().width() - 200, self.geometry().height() - int(dpi/1.5))
 
         canvas.fill(Qt.white)
         self.label.setPixmap(canvas)
