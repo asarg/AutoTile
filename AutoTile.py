@@ -45,6 +45,17 @@ dpi = 90
 # Step button
 # Keep growing until their are no more rules that apply
 
+import subprocess
+import platform
+
+def check_macos_darkmode ():
+    cmd = 'defaults read -g AppleInterfaceStyle'
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    return bool(p.communicate()[0]) and platform.system() == "Darwin"
+
+# Since this is only called once, the icons won't change if the user changes the theme while the program is running
+icon_color_mode = "darkmode" if check_macos_darkmode() else "lightmode"
+
 class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -67,71 +78,71 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         self.centralwidget.setGraphicsEffect(self.shadow)
 
         ###Set window title and Icon####
-        self.setWindowIcon(QtGui.QIcon('Icons/Logo.png'))
+        self.setWindowIcon(QtGui.QIcon(f'Icons/{icon_color_mode}/Logo.png'))
         self.setWindowTitle("AutoTile")
-        pixmap = QtGui.QPixmap('Icons/Logo.png')
+        pixmap = QtGui.QPixmap(f'Icons/Logo.png')
 
         self.Logo_label.setPixmap(pixmap)
 
         ### Minimize window ######
         self.minimize_button.clicked.connect(lambda: self.showMinimized())
         self.minimize_button.setIcon(QtGui.QIcon(
-            'Icons/Programming-Minimize-Window-icon.png'))
+            f'Icons/{icon_color_mode}/Programming-Minimize-Window-icon.png'))
 
         ### Close window ####
         self.close_button.clicked.connect(lambda: self.close())
-        self.close_button.setIcon(QtGui.QIcon('Icons/X-icon.jpg'))
+        self.close_button.setIcon(QtGui.QIcon(f'Icons/{icon_color_mode}/X-icon.jpg'))
 
         ### Restore/Maximize window ####
         self.maximize_button.clicked.connect(
             lambda: self.restore_or_maximize_window())
         self.maximize_button.setIcon(QtGui.QIcon(
-            'Icons/Programming-Maximize-Window-icon.png'))
+            f'Icons/{icon_color_mode}/Programming-Maximize-Window-icon.png'))
 
         ### Window Size grip to resize window ###
         QtWidgets.QSizeGrip(self.sizeDrag_Button)
         self.sizeDrag_Button.setIcon(
-            QtGui.QIcon('Icons/tabler-icon-resize.png'))
+            QtGui.QIcon(f'Icons/{icon_color_mode}/tabler-icon-resize.png'))
 
         # Left Menu toggle button
         self.Menu_button.clicked.connect(lambda: self.slideLeftMenu())
-        self.Menu_button.setIcon(QtGui.QIcon('Icons/menu_icon.png'))
+        self.Menu_button.setIcon(QtGui.QIcon(f'Icons/{icon_color_mode}/menu_icon.png'))
         self.New_button.clicked.connect(self.Click_newButton)
 
         # "New" on the File menu
-        self.New_button.setIcon(QtGui.QIcon('Icons/tabler-icon-file.png'))
+        self.New_button.setIcon(QtGui.QIcon(f'Icons/{icon_color_mode}/tabler-icon-file.png'))
 
         # this is "Load" on the "File" menu
         self.Load_button.clicked.connect(self.Click_FileSearch)
-        self.Load_button.setIcon(QtGui.QIcon('Icons/tabler-icon-folder.png'))
+        self.Load_button.setIcon(QtGui.QIcon(f'Icons/{icon_color_mode}/tabler-icon-folder.png'))
 
         # this is "Load Assembly" on the "File" menu
         self.seededLoadButton.clicked.connect(self.Click_FileSearchSeeded)
-        self.seededLoadButton.setIcon(QtGui.QIcon('Icons/tabler-icon-folder.png'))
+        self.seededLoadButton.setIcon(QtGui.QIcon(f'Icons/{icon_color_mode}/tabler-icon-folder.png'))
 
         # "Save" from the "File" menu
         self.SaveAs_button.clicked.connect(self.Click_SaveFile)
-        self.SaveAs_button.setIcon(QtGui.QIcon('Icons/save-icon.png'))
+        self.SaveAs_button.setIcon(QtGui.QIcon(f'Icons/{icon_color_mode}/save-icon.png'))
 
         self.First_button.clicked.connect(self.first_step)
         self.First_button.setIcon(QtGui.QIcon(
-            'Icons/tabler-icon-player-skip-back.png'))
+            f'Icons/{icon_color_mode}/tabler-icon-player-skip-back.png'))
 
         self.Prev_button.clicked.connect(self.prev_step)
         self.Prev_button.setIcon(QtGui.QIcon(
-            'Icons/tabler-icon-player-track-prev.png'))
+            f'Icons/{icon_color_mode}/tabler-icon-player-track-prev.png'))
 
         self.Play_button.clicked.connect(self.play_sequence)
         self.Play_button.setIcon(QtGui.QIcon(
-            'Icons/tabler-icon-player-play.png'))
+            f'Icons/{icon_color_mode}/tabler-icon-player-play.png'))
 
         self.Next_button.clicked.connect(self.next_step)
         self.Next_button.setIcon(QtGui.QIcon(
-            'Icons/tabler-icon-player-track-next.png'))
+            f'Icons/{icon_color_mode}/tabler-icon-player-track-next.png'))
 
         self.Last_button.clicked.connect(self.last_step)
         self.Last_button.setIcon(QtGui.QIcon(
-            'Icons/tabler-icon-player-skip-forward.png'))
+            f'Icons/{icon_color_mode}/tabler-icon-player-skip-forward.png'))
 
         self.Edit_button.clicked.connect(self.Click_EditFile)
         # "Quick Rotate"
@@ -335,11 +346,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
     def resizeEvent(self, event):
         # If left menu is closed
         if self.slide_menu_container.width() == 0:
-            canvas = QtGui.QPixmap(self.geometry().width() - 10, self.geometry().height() - int(dpi/2))
+            canvas = QtGui.QPixmap(self.geometry().width() - 10, self.geometry().height() - int(dpi/1.5))
         else:
             # prevents a bug that happens if menus open
-            canvas = QtGui.QPixmap(
-                self.geometry().width() - 200, self.geometry().height() - int(dpi/2))
+            canvas = QtGui.QPixmap(self.geometry().width() - 200, self.geometry().height() - int(dpi/1.5))
 
         canvas.fill(Qt.white)
         self.label.setPixmap(canvas)
@@ -662,11 +672,15 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
         brush.setStyle(Qt.SolidPattern)
 
-        pen.setColor(QtGui.QColor("white"))
-        brush.setColor(QtGui.QColor("white"))
+        if check_macos_darkmode() == False:
+            pen.setColor(QtGui.QColor("white"))
+            brush.setColor(QtGui.QColor("white"))
+        else:
+            pen.setColor(QColor(30, 30, 30))
+            brush.setColor(QColor(30, 30, 30))
         painter.setPen(pen)
         painter.setBrush(brush)
-        # this block is drawing a big white rectangle across the screen to "clear" it
+        # this block is drawing a big rectangle across the screen to "clear" it
         painter.drawRect(0, 0, self.geometry().width(),
                          self.geometry().height())
 
@@ -1299,7 +1313,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 self.play = True
 
                 self.Play_button.setIcon(QtGui.QIcon(
-                    'Icons/tabler-icon-player-pause.png'))
+                    f'Icons/{icon_color_mode}/tabler-icon-player-pause.png'))
 
                 if self.color_flag == 0:
                     if self.Engine.currentIndex > 0:
@@ -1329,7 +1343,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
                 self.thread.finished.connect(
                     lambda: self.Update_available_moves())
                 self.thread.finished.connect(lambda: self.Play_button.setIcon(
-                    QtGui.QIcon('Icons/tabler-icon-player-play.png')))
+                    QtGui.QIcon(f'Icons/{icon_color_mode}/tabler-icon-player-play.png')))
 
                 self.thread.start()
 
@@ -1360,7 +1374,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
     def __init__(self, engine, mainGUI):
         super().__init__()
         self.setupUi(self)
-        self.setWindowIcon(QtGui.QIcon('Icons/Logo.png'))
+        self.setWindowIcon(QtGui.QIcon(f'Icons/{icon_color_mode}/Logo.png'))
         self.mainGUI = mainGUI
         self.Engine = engine
         self.system = engine.system
@@ -1945,7 +1959,7 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
     def __init__(self, engine, mainGUI):
         super().__init__()
         self.setupUi(self)
-        self.setWindowIcon(QtGui.QIcon('Icons/Logo.png'))
+        self.setWindowIcon(QtGui.QIcon(f'Icons/{icon_color_mode}/Logo.png'))
         self.mainGUI = mainGUI
         self.Engine = engine
         self.system = engine.system
@@ -2422,10 +2436,10 @@ class Move(QWidget):
 
         self.mw.do_move(self.move)
 
-
 if __name__ == "__main__":
     # App Stuff
     app = QApplication(sys.argv)
+
     screen = app.screens()[0]
     dpi = screen.logicalDotsPerInch()
     w = Ui_MainWindow()
