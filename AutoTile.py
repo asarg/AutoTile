@@ -1175,6 +1175,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
 
             currentSystem = genSystem
 
+
             self.draw_assembly(self.Engine.getCurrentAssembly())
             self.Update_available_moves()
 

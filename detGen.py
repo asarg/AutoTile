@@ -12,7 +12,7 @@ white = "DFE0E2"
 
 
 
-# Must be passed an interger
+# Must be passed an integer
 def genDoubleIndexStates(vLen):
     seedA = uc.State("SA", black)
     genSys = uc.System(1, [], [], [seedA], [], [], [], [])

@@ -3,16 +3,23 @@ from UniversalClasses import State
 from Assets.colors import *
 
 # Border
-border_state = State("Border", rosy_brown, " ")
-northWestCorner = State("NorthCorner", rosy_brown, "╔")
-southWestCorner = State("SouthCorner", rosy_brown, "╚")
-northEastCorner = State("NorthEastCorner", rosy_brown, "╗")
-southEastCorner = State("SouthEastCorner", rosy_brown, "╝")
-activeStateColumnNorthEdge = State("ActiveStateColumnNorthEdge", rosy_brown, "╦")
-activeStateColumnSouthEdge = State("ActiveStateColumnSouthEdge", rosy_brown, "╩")
-row_border = State("RowBorder", rosy_brown, "═")
 
-
+border_state = State("Border", border_color, " ")
+northWestCorner = State("NorthWestCorner", border_color, "╔")
+southWestCorner = State("SouthWestCorner", border_color, "╚")
+northEastCorner = State("NorthEastCorner", border_color, "╗")
+southEastCorner = State("SouthEastCorner", border_color, "╝")
+activeStateColumnNorthEdge = State(
+    "ActiveStateColumnNorthEdge", complete_color, "╦")
+activeStateColumnSouthEdge = State(
+    "ActiveStateColumnSouthEdge", complete_color, "╩")
+row_border = State("RowBorder", border_color, "═")
+columnStartMarkerTop = State("ColumnStartMarker", border_color, "╦")
+columnEndMarkerTop = State("ColumnEndMarkerTop", border_color, "╦*")
+rowStartMarker = State("RowStartMarker", border_color, "╠")
+blank_state = State("BlankState", border_color, " ")
+no_affinity_state = State("NoAffinityState", no_affinity_color, " ")
+nonDeterministicSelector = State("NonDeterministicSelector", signal_active_color, " ")
 # Wires
 northWire = State("NorthWire", wire_color, "🡹")
 southWire = State("SouthWire", wire_color, "🡻")
@@ -223,8 +230,9 @@ mc_door_current_state_inactive = State("MCDoorCurrentStateInactive", inactive_pu
 mc_door_handle_current_state_inactive = State("MCDoorHandleCurrentStateInactive", inactive_punch_down_color, "~")
 mc_door_trigger_transition = State("MCDoorTriggerTransition", punch_down_color, "⬓**")
 mc_door_handle_trigger_transition = State("MCDoorHandleTriggerTransition", punch_down_color, "~**")
-
-
+mc_check_transition_affinity_inactive = State("MCDoorCheckTransitionAffinityInactive", inactive_punch_down_color, "✑?")
+mc_check_transition_affinity_inactive_neg = State("MCDoorCheckTransitionAffinityInactiveNeg", inactive_neg_punch_down_color, "✑?")
+mc_door_neg_signal_transmitter = State("MCDoorNegSignalTransmitter", neg_punch_down_color, "✑")
 # Doors
 
 ## Copy Doors
@@ -373,10 +381,13 @@ signal_transmitter_pass_accept_north = State(
 signal_transmitter_pass_accept_south = State(
     "SignalTransmitterPassAcceptSouth", intermediate_accept_color, "◨↧⍼")
 
-signal_wire_inactive = State("SignalWireInactive", inactive_color, "⇉")
+signal_wire_inactive = State("SignalWireInactive", inactive_color, "⇇")
+signal_wire_ns = State("SignalWireNS", yellow_orange, "⭥⟥")
 signal_wire_active = State("SignalWireActive", full_accept_color, "⇉")
 
-signal_start_checks_inactive = State("SignalStartChecksInactive", inactive_color, "⏯")
+signal_start_checks_inactive = State(
+    "SignalStartChecksInactive", inactive_color, "⏯↧↯")
+
 signal_start_checks_active = State("SignalStartChecksActive", full_accept_color, "⏯")
 signal_end_checks_inactive = State("SignalEndChecksInactive", inactive_color, "⏱")
 signal_end_checks_accept = State("SignalEndChecksAccept", full_accept_color, "✔✔")
@@ -393,10 +404,11 @@ signal_conditional_reset = State("SignalConditionalReset", waiting_color, "↺")
 ### Data States
 ds_1 = State("1", data_color)
 ds_1_inactive_mc = State("1InactiveMC", inactive_data_color, "1")
+inactive_blank_pos_data = State("InactiveBlankPosData", inactive_data_color, " ")
 ds_0 = State("0", data_color)
 neg_ds_1 = State("-1", neg_data_color, "-1")
 neg_ds_1_inactive_mc = State("-1InactiveMC", neg_inactive_data_color, "-1")
-
+inactive_blank_neg_data = State("InactiveBlankNegData", neg_inactive_data_color, " ")
 
 start_state = State("StartState", data_color, "(")
 end_state = State("EndState", data_color, ")")

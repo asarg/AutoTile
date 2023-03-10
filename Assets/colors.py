@@ -141,7 +141,7 @@ inactive_waiting_color = dutch_white
 active_color = Middle_Blue_Green
 active_waiting_color = peach
 activate_next_color = pistachio
-border_color = platinum
+border_color = silver_metalic_blue
 complete_color = tea_green
 data_color = Papaya_Whip
 inactive_data_color = alabaster
@@ -169,6 +169,6 @@ mc_posi_door_color = Viridian_Green
 mc_posi_inactive_door_color = green_sheen
 mc_neg_door_color = firey_rose
 mc_neg_inactive_door_color = grey_pink
-
+no_affinity_color = Rich_Black_FOGRA
 neg_punch_down_color = solid_darkred_pink
 inactive_neg_punch_down_color = grey_pink
