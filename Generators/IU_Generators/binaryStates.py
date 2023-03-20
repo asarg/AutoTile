@@ -20,6 +20,10 @@ rowStartMarker = State("RowStartMarker", border_color, "╠")
 blank_state = State("BlankState", border_color, " ")
 no_affinity_state = State("NoAffinityState", no_affinity_color, " ")
 nonDeterministicSelector = State("NonDeterministicSelector", signal_active_color, " ")
+
+# Agents
+agent_state = State("Agent", agent_color, "👤")
+
 # Wires
 northWire = State("NorthWire", wire_color, "🡹")
 southWire = State("SouthWire", wire_color, "🡻")
@@ -260,6 +264,19 @@ southCopyDoorHandleInactive = State("SouthCopyDoorHandleInactive", ming, "⇊⬓
 ## Trap Doors
 trap_door_inactive = State("TrapDoorInactive", copper_rose, "▩")
 trap_door_active = State("TrapDoorActive", Barn_Red, "▩")
+trap_door_used = State("TrapDoorUsed", Barn_Red, "▩")
+
+## Toggle Lock Components
+# Signal Door
+toggle_lock_door_handle_north_inactive = State("ToggleLockDoorHandleNorthInactive", inactive_color, "⇈~")
+toggle_lock_door_handle_south_inactive = State("ToggleLockDoorHandleSouthInactive", inactive_color, "⇊~")
+toggle_lock_door_handle_north_active = State("ToggleLockDoorHandleNorthActive", full_accept_color, "⇈~")
+toggle_lock_door_handle_north_triggered = State("ToggleLockDoorHandleNorthTriggered", full_accept_color, "⇈~")
+toggle_lock_door_handle_north_reset = State("ToggleLockDoorHandleNorthReset", waiting_color, "↺⇈~")
+toggle_lock_door_handle_north_waiting = State("ToggleLockDoorHandleNorthWaiting", waiting_color, "⇈~")
+toggle_lock_door_handle_north_trigger_south = State("ToggleLockDoorHandleNorthTriggerSouth", waiting_color, "⇈*⇊")
+toggle_lock_door_handle_south_active = State("ToggleLockDoorHandleSouthActive", full_accept_color, "⇊~")
+toggle_lock_door_handle_south_trigger_north = State("ToggleLockDoorHandleSouthTriggerNorth", waiting_color, "⇊*⇈")
 
 ## Endcap Doors
 endcap_door_west_inactive = State("EndcapDoorWestInactive", inactive_color, "◨")

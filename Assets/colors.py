@@ -172,3 +172,4 @@ mc_neg_inactive_door_color = grey_pink
 no_affinity_color = Rich_Black_FOGRA
 neg_punch_down_color = solid_darkred_pink
 inactive_neg_punch_down_color = grey_pink
+agent_color = firey_rose
