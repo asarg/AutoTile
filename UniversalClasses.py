@@ -309,7 +309,6 @@ class Assembly:
             if(tile.x < self.leftMost):
                 self.leftMost = tile.x
 
-
     def setAttachments(self, att):  # tuple of ((type: ), (x: ), (y: ), (state1: ))
         # a = Assembly()
         #a.label = self.label + "A " + att["state1"]
@@ -509,6 +508,13 @@ class Assembly:
                             transitions_list.append(move)
 
         return transitions_list
+
+    def returnStates(self):
+        states = []
+        for s in self.tiles():
+            if s.state not in states:
+                states.append(s.state)
+        return states
 
 
 
