@@ -19,6 +19,7 @@ import TAMainWindow, EditorWindow16, LoadFile, SaveFile, QuickCombine, QuickRota
 #from Generators.IU_Generators import IUSampleGen
 #import uninaryIUSprint as IUSprint
 import IntrinsticUniversality
+import IU_Cleaned
 from util.loaders import assemblyLoader
 
 
@@ -1145,8 +1146,8 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         #genS = IU2.IUGenerators()
         #genSystem = genS.EqualityGadgetGenerator()
         #gS = IUEC.IUGenerators_EC()
-        iuGenSystem = IntrinsticUniversality.IU_System("TableBorder")
-        genSystem = iuGenSystem.returnIUsystem()
+        iuGenSystem = IU_Cleaned.IU_System()
+        genSystem = iuGenSystem.returnSystem()
 
 
         #genSystem = genS.basicWireGenerator2()

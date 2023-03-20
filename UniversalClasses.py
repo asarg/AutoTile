@@ -510,6 +510,8 @@ class Assembly:
 
         return transitions_list
 
+
+
 class AffinityRule:
     def __init__(self, label1, label2, dir, strength=None):
         self.label1 = label1  # Left/Upper label
