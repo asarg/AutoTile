@@ -20,6 +20,7 @@ import TAMainWindow, EditorWindow16, LoadFile, SaveFile, QuickCombine, QuickRota
 #import uninaryIUSprint as IUSprint
 import IntrinsticUniversality
 import IU_Cleaned
+import Generators.GadgetGenerators.xtremeDoorGenerator as xDoor
 from util.loaders import assemblyLoader
 
 
@@ -1147,8 +1148,9 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         #genSystem = genS.EqualityGadgetGenerator()
         #gS = IUEC.IUGenerators_EC()
         iuGenSystem = IU_Cleaned.IU_System()
-        genSystem = iuGenSystem.returnSystem()
-
+        xdoorSys = xDoor.Door()
+        #genSystem = iuGenSystem.returnSystem()
+        genSystem = xdoorSys.makeSys()
 
         #genSystem = genS.basicWireGenerator2()
         #genSystem = genS.wireGeneratorWithEndcapDoorNoSignalGadget2()

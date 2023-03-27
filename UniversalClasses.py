@@ -511,7 +511,9 @@ class Assembly:
 
     def returnStates(self):
         states = []
-        for s in self.tiles():
+        t = self.tiles
+
+        for s in t:
             if s.state not in states:
                 states.append(s.state)
         return states
