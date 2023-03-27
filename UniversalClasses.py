@@ -626,6 +626,15 @@ class Assembly:
 
         return transitions_list
 
+    def returnStates(self):
+        states = []
+        t = self.tiles
+
+        for s in t:
+            if s.state not in states:
+                states.append(s.state)
+        return states
+
 class AffinityRule:
     def __init__(self, label1, label2, dir, strength=None):
         self.label1 = label1  # Left/Upper label
