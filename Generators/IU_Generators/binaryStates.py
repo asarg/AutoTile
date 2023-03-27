@@ -31,10 +31,10 @@ westWire = State("WestWire", wire_color, "🡸")
 eastWire = State("EastWire", wire_color, "🡺")
 inactiveEastWire = State("InactiveEastWire", inactive_color, "🡺")
 
-northEastWire = State("NorthEastWire", wire_color, "🡹🡺")
-northWestWire = State("NorthWestWire", wire_color, "🡹🡸")
-southEastWire = State("SouthEastWire", wire_color, "🡻🡺")
-southWestWire = State("SouthWestWire", wire_color, "🡻🡸")
+northEastWire = State("NorthEastWire", wire_color, "🡽")
+northWestWire = State("NorthWestWire", wire_color, "🡼")
+southEastWire = State("SouthEastWire", wire_color, "🡾")
+southWestWire = State("SouthWestWire", wire_color, "🡿")
 
 northProtectedWire = State("NorthProtectedWire", wire_color, "|🡹|")
 southProtectedWire = State("SouthProtectedWire", wire_color, "|🡻|")
@@ -262,21 +262,33 @@ southCopyDoorHandle = State("SouthCopyDoorHandle", terquoise_blue, "⇊⬓~")
 southCopyDoorHandleInactive = State("SouthCopyDoorHandleInactive", ming, "⇊⬓~")
 
 ## Trap Doors
-trap_door_inactive = State("TrapDoorInactive", copper_rose, "▩")
-trap_door_active = State("TrapDoorActive", Barn_Red, "▩")
-trap_door_used = State("TrapDoorUsed", Barn_Red, "▩")
+trap_door_inactive = State("TrapDoorInactive", copper_rose, "⬓")  # 🚪 ▩
+trap_door_active = State("TrapDoorActive", Barn_Red, "⬓")
+trap_door_used = State("TrapDoorUsed", reset_color, "⬓")
+
 
 ## Toggle Lock Components
 # Signal Door
-toggle_lock_door_handle_north_inactive = State("ToggleLockDoorHandleNorthInactive", inactive_color, "⇈~")
-toggle_lock_door_handle_south_inactive = State("ToggleLockDoorHandleSouthInactive", inactive_color, "⇊~")
-toggle_lock_door_handle_north_active = State("ToggleLockDoorHandleNorthActive", full_accept_color, "⇈~")
-toggle_lock_door_handle_north_triggered = State("ToggleLockDoorHandleNorthTriggered", full_accept_color, "⇈~")
-toggle_lock_door_handle_north_reset = State("ToggleLockDoorHandleNorthReset", waiting_color, "↺⇈~")
-toggle_lock_door_handle_north_waiting = State("ToggleLockDoorHandleNorthWaiting", waiting_color, "⇈~")
-toggle_lock_door_handle_north_trigger_south = State("ToggleLockDoorHandleNorthTriggerSouth", waiting_color, "⇈*⇊")
-toggle_lock_door_handle_south_active = State("ToggleLockDoorHandleSouthActive", full_accept_color, "⇊~")
-toggle_lock_door_handle_south_trigger_north = State("ToggleLockDoorHandleSouthTriggerNorth", waiting_color, "⇊*⇈")
+toggle_lock_door_handle_north_inactive = State(
+    "ToggleLockDoorHandleNorthInactive", inactive_color, "𝗡~")
+toggle_lock_door_handle_south_inactive = State(
+    "ToggleLockDoorHandleSouthInactive", inactive_color, "𝗦~")
+toggle_lock_door_handle_north_active = State(
+    "ToggleLockDoorHandleNorthActive", full_accept_color, "𝗡~")
+toggle_lock_door_handle_north_triggered = State(
+    "ToggleLockDoorHandleNorthTriggered", full_accept_color, "𝗡~")
+toggle_lock_door_handle_north_reset = State(
+    "ToggleLockDoorHandleNorthReset", waiting_color, "↺𝗡~")
+toggle_lock_door_handle_north_waiting = State(
+    "ToggleLockDoorHandleNorthWaiting", waiting_color, "𝗡~")
+toggle_lock_door_handle_north_trigger_south = State(
+    "ToggleLockDoorHandleNorthTriggerSouth", waiting_color, "𝗡~⇊")
+toggle_lock_door_handle_south_active = State(
+    "ToggleLockDoorHandleSouthActive", full_accept_color, "𝗦~")
+toggle_lock_door_handle_south_trigger_north = State(
+    "ToggleLockDoorHandleSouthTriggerNorth", waiting_color, "𝗦~⇈")
+signal_door_pass_toggle_south = State("SignalDoorPassToggleSouth", waiting_color, "⇊*⇈")
+signal_door_pass_toggle_north = State("SignalDoorPassToggleNorth", waiting_color, "⇈*⇊")
 
 ## Endcap Doors
 endcap_door_west_inactive = State("EndcapDoorWestInactive", inactive_color, "◨")
@@ -309,14 +321,17 @@ endcap_doors_east_list = [endcap_door_east_inactive, endcap_door_east_handle_ina
 
 
 ### Signal Doors
-signal_door_inactive = State("LockedSignalDoorInactive", inactive_color, "🔒◨")
-signal_door_inactive_east = State("LockedSignalDoorInactiveEast", inactive_color, "◨⇉")
-signal_door_intermediate_accept = State("SignalDoorIntermediateAccept", intermediate_accept_color, "◨↯")
-signal_door_open = State("SignalDoorOpen", full_accept_color, "🔓◨")
-signal_door_transmit = State("SignalDoorTransmit", waiting_color, "◨↯")
-signal_door_active_waiting_east = State("SignalDoorActiveWaitingEast", waiting_color, "◨⇉⏱")
-signal_door_handle_inactive = State("LockedSignalDoorHandleInactive", inactive_color, "🗝~")
-signal_door_handle_reset = State("SignalDoorHandleReset", reset_color, "↺🗝~")
+signal_door_inactive = State(
+    "LockedSignalDoorInactive", inactive_color, "🔒🚪")  # 🚪 ◨
+signal_door_inactive_east = State(
+    "LockedSignalDoorInactiveEast", inactive_color, "🚪⇉")  # ◨⇉
+signal_door_intermediate_accept = State(
+    "SignalDoorIntermediateAccept", intermediate_accept_color, "🚪↯")  # ◨↯
+signal_door_open = State("SignalDoorOpen", full_accept_color, "🔓◨") # 🔓◨
+signal_door_transmit = State("SignalDoorTransmit", waiting_color, "◨↯") # ◨↯
+signal_door_active_waiting_east = State("SignalDoorActiveWaitingEast", waiting_color, "◨⇉⏱") # ◨⇉⏱
+signal_door_handle_inactive = State("LockedSignalDoorHandleInactive", inactive_color, "🗝~") # 🗝~
+signal_door_handle_reset = State("SignalDoorHandleReset", reset_color, "↺🗝~") # ↺🗝~
 
 
 
@@ -349,18 +364,26 @@ signal_door_pass_find_corner_south = State("SignalDoorPassFindCornerSouth", wait
 signal_door_find_corner_north = State("SignalDoorFindCornerNorth", inactive_waiting_color, "◨↥↯")
 signal_door_find_corner_south = State("SignalDoorFindCornerSouth", inactive_waiting_color, "◨↧↯")
 
-signal_door_propped_open = State("SignalDoorProppedOpen", full_accept_color, "🔓")
-signal_door_reset = State("SignalDoorReset", reset_color, "↺▦")
-signal_door_east_inactive = State("LockedSignalDoorEastInactive", inactive_color, "◨⇉")
+signal_door_propped_open = State(
+    "SignalDoorProppedOpen", full_accept_color, "🔓🚪")
+signal_door_reset = State("SignalDoorReset", reset_color, "↺🚪")  # ↺▦
+signal_door_east_inactive = State(
+    "LockedSignalDoorEastInactive", inactive_color, "🚪⇉")  # ◨⇉
 signal_door_handle_east_inactive = State("LockedSignalDoorHandleEastInactive", inactive_color, "🗝~⇉")
-signal_door_east_reset = State("SignalDoorEastReset", reset_color, "↺⇉▦")
-signal_door_east_stop = State("SignalDoorEastStop", reject_color, "⇉▦")
-signal_door_reset_walk = State("SignalDoorResetWalk", reset_color, "↺▦◃")
-signal_door_east_reset_walk = State("SignalDoorEastResetWalk", reset_color, "↺⇉▦◃")
-signal_door_east_reset_walk_border = State("SignalDoorEastResetWalkBorder", border_color, "↺◃")
-signal_door_send_confirmed_transmission = State("SignalDoorSendConfirmedTransmission", waiting_color, "▦⇉✅")
-reset_confirmed_transmission_westWire = State("ResetConfirmedTransmissionWest", waiting_color, "↺✅⇉")
-
+signal_door_east_reset = State(
+    "SignalDoorEastReset", reset_color, "↺⇉🚪")  # ↺⇉▦
+signal_door_east_stop = State("SignalDoorEastStop", reject_color, "⇉🚪")  # ⇉▦
+signal_door_reset_walk = State("SignalDoorResetWalk", reset_color, "↺🚪◃")  # ↺◃
+signal_door_east_reset_walk = State(
+    "SignalDoorEastResetWalk", reset_color, "↺🚪")  # ↺⇉◃
+signal_door_east_reset_walk_border = State(
+    "SignalDoorEastResetWalkBorder", border_color, "↺🚪*")  # ↺◃
+signal_door_send_confirmed_transmission = State(
+    "SignalDoorSendConfirmedTransmission", waiting_color, "🚪⇉✅")  # ▦⇉✅
+reset_confirmed_transmission_westWire = State("ResetConfirmedTransmissionWest", waiting_color, "↺✅⇉") # ↺✅⇉
+signal_door_east_active = State(
+    "SignalDoorEastActive", complete_color, "🚪⇉")  # ◨⇉
+signal_door_east_open = State("SignalDoorEastOpen", complete_color, "🚪*")  # ◨*
 
 ### Signal Door Checks
 closed_endcap_door_check_signal = State("ClosedEndcapDoorCheckSignal", inactive_color, "✅")

@@ -29,7 +29,7 @@ activate_color = mango_tango
 
 wire_sym = "⚪"
 wire_color = mango_tango
-
+door_symbol = "🚪"
 signal_sym = "⚡"
 signal_zig = "↯"
 transmit_sym = "📶"
