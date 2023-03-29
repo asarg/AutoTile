@@ -199,7 +199,7 @@ class TableEntranceDoor(Door):
         self.door_open_direction = 'E'
 
         self.super_state = super_state
-        self.incoming_dir = dir
+        self.incoming_dir = incoming_dir
 
         self.wire_attachment_points = [(x+1, y, "E"), (x-3, y, "W")]
         self.signal_control_attachment_points = [(x, y+2, "N"), (x, y-1, "S")]
@@ -210,6 +210,7 @@ class TableEntranceDoor(Door):
 
         self.relative_coords = self.coords
     def makeDoor(self):
+        print("making door")
         return self.makeTiles()
     def makeTiles(self):
         x = self.start_x
@@ -222,6 +223,9 @@ class TableEntranceDoor(Door):
                  Tile(endcap_door_east_inactive, x-2, y),
                  ]
         return tiles
+
+    def returnHeight(self):
+        return 3
 
 class DisplayRow(Gadget):
     def __init__(self, super_state_unary_string, max_state_unary_len=1, row_type = 'display', start_x=0, start_y=0):
@@ -271,7 +275,10 @@ class DisplayRow(Gadget):
 
 
 class Wire(Gadget):
-    pass
+    def __init__(self, id=-1, label=' ', wire_type='standard', x=0, y=0):
+        # We have the need to make the wire extend from the edge of the table to the edge of the tile
+        pass
+
 
 class SuperStateWire(CompoundGadget):
     def __init__(self, label, id, super_state, seed_gadget=None, other_gadgets=[], attachment_points=[]):
@@ -298,13 +305,14 @@ class MacroCell(CompoundGadget):
 class Column(CompoundGadget):
     # seed_gadget=None, other_gadgets=[], attachment_points=[]
     # , top_left_x_y, macrocell_dimensions, row_dimensions): label, id,
-    def __init__(self, super_state, max_state_len, label='col', id=-1):
+    def __init__(self, super_state, max_state_len, label='col', id=-1, width=5, height=5):
         #self.top_left_x = top_left_x_y[0]
         #self.top_left_y = top_left_x_y[1]
         #self.macrocell_dimensions = macrocell_dimensions
         #self.row_dimensions = row_dimensions
         self.super_state = super_state
         self.max_state_len = max_state_len
+        self.width = width
         self.seed_gadget = DisplayRow(super_state.unary_state_string, max_state_len, row_type='display')
         self.child_gadgets = []
         self.attachment_points = []
@@ -362,21 +370,35 @@ class Column(CompoundGadget):
         return tp.returnTiles()
 
 class Row(CompoundGadget):
-    def __init__(self, super_state, dir, x=0, y=-3, label='row', id=-1):
+    def __init__(self, super_state, incoming_dir, x=0, y=-3, label='row', id=-1):
         #super().__init__(label, id, seed_gadget, child_gadgets, attachment_points, padding)
-        self.seed_gadget = TableEntranceDoor(super_state, dir, x, y)
+        self.seed_gadget = TableEntranceDoor(super_state, incoming_dir, x, y)
         self.tiles = self.makeRowTiles()
+        self.incoming_dir = incoming_dir
+        self.x = x
+        self.y = y
+        self.super_state = super_state
 
     def makeRowTiles(self):
+
         t = self.seed_gadget.returnTiles()
         self.setTiles(t)
         return t
 
     def returnTiles(self):
-        return self.tiles
+        a = Assembly()
+        sg = TableEntranceDoor(
+            self.super_state, self.incoming_dir, self.x, self.y)
+        t = sg.returnTiles()
+        a.setTiles(sg.returnTiles())
+        self.tiles = self.makeRowTiles()
+        a = self.makeRowDoor()
+        return t
     def makeRowDoor(self):
-
-        pass
+        a = Assembly()
+        sg = TableEntranceDoor(self.super_state, self.incoming_dir, self.x, self.y)
+        a.setTiles(sg.returnTiles())
+        return a
 
 class Table(CompoundGadget):
     def __init__(self, label="table", id=1, super_states=None, input_system=None):
@@ -392,6 +414,7 @@ class Table(CompoundGadget):
         self.columns = self.makeColumns()
         self.rows = self.makeRows()
         seed_gadget = Assembly()
+        self.row_height = TableEntranceDoor(self.super_states[0], 'N', 0, -3).returnHeight()
 
 
         super().__init__(label, id, seed_gadget, [self.columns, self.rows])
@@ -413,17 +436,28 @@ class Table(CompoundGadget):
 
     def makeRows(self):
         print("Making rows")
-        return self.defineRows()
+        rows = self.defineRows()
+        t = []
+        for row in rows:
+            t1 = row.returnTiles()
+            t = t + t1
+
+        return t
 
     def defineRows(self):
         rows = []
         i = 0
-        for s in self.super_states:
-            for d in ['N', 'E', 'S', 'W']:
+
+        h = TableEntranceDoor(self.super_states[0], 'N', 0, -3).returnHeight()
+        x = 0
+        y = -3
+        for d in ['N', 'E', 'S', 'W']:
+            for s in self.super_states:
                 l = str(s.__str__)
                 l += "_row"
-                rows.append(Row(s, d, label=l, id=i))
+                rows.append(Row(s, d, x, y, label=l, id=i))
                 i += 1
+                y = y - h - self.padding_between_rows
         print("Rows Defined")
         return rows
     def returnAssembly(self):
@@ -433,7 +467,7 @@ class Table(CompoundGadget):
         print("Row tiles: ")
         for i in r:
             print(i.state.label)
-        tiles += self.rows[0].returnTiles()
+        tiles = tiles + r
 
 
         a = Assembly()

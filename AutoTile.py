@@ -1148,9 +1148,9 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         #genSystem = genS.EqualityGadgetGenerator()
         #gS = IUEC.IUGenerators_EC()
         iuGenSystem = IU_Cleaned.IU_System()
-        xdoorSys = xDoor.Door()
-        #genSystem = iuGenSystem.returnSystem()
-        genSystem = xdoorSys.makeSys()
+        #xdoorSys = xDoor.Door()
+        genSystem = iuGenSystem.returnSystem()
+        #genSystem = xdoorSys.makeSys()
 
         #genSystem = genS.basicWireGenerator2()
         #genSystem = genS.wireGeneratorWithEndcapDoorNoSignalGadget2()
