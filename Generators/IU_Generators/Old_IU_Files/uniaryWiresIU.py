@@ -4,7 +4,7 @@ import SaveFile
 import LoadFile
 import sys
 import re
-import Generators.IU_Generators.IntrinsicUniversality as IU
+import Generators.IU_Generators.Old_IU_Files.IntrinsicUniversality as IU
 from util.loaders.assemblyLoader import returnSystemLoadXML_load_edit_py_file
 from Assets.colors import waiting_color, inactive_color, inactive_waiting_color, active_color, active_waiting_color
 from Assets.colors import reset_color, intermediate_accept_color, reject_color, complete_color

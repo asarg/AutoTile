@@ -4,7 +4,7 @@ import detGen
 import oneSidedGen
 import nonDetGen
 import squareGen
-from Generators.IU_Generators import activeStateRegion as activeStateRegion
+from Generators.IU_Generators.Old_IU_Files import activeStateRegion as activeStateRegion
 
 
 red = "f03a47"

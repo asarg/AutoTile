@@ -1,10 +1,12 @@
 
+from numpy import tile
 from UniversalClasses import State
 from Assets.colors import *
 
 # Border
 
 border_state = State("Border", border_color, " ")
+
 northWestCorner = State("NorthWestCorner", border_color, "╔")
 southWestCorner = State("SouthWestCorner", border_color, "╚")
 northEastCorner = State("NorthEastCorner", border_color, "╗")
@@ -240,6 +242,21 @@ mc_check_transition_affinity_inactive_neg = State("MCDoorCheckTransitionAffinity
 mc_door_neg_signal_transmitter = State("MCDoorNegSignalTransmitter", neg_punch_down_color, "✑")
 # Doors
 
+## Macrotile Edge Doors
+tile_edge_center_handle_east_inactive = State("TileEdgeCenterHandleEastInactive", block_edge_handle_color, "╠ ⍨")  # ₑ
+tile_edge_center_handle_west_inactive = State("TileEdgeCenterHandleWestInactive", block_edge_handle_color, "⍨ ╣")  # ʷ ⬓
+tile_edge_center_handle_south_inactive = State("TileEdgeCenterHandleSouthInactive", block_edge_handle_color, "⍨ ╦")
+tile_edge_center_handle_north_inactive = State("TileEdgeCenterHandleNorthInactive", block_edge_handle_color, "╩ ⍨")
+
+tile_east_edge_door_out_wire_inactive = State("TileEastEdgeDoorOutWireInactive", block_edge_door_color, "╠ ⬓")
+tile_west_edge_door_out_wire_inactive = State("TileWestEdgeDoorOutWireInactive", block_edge_door_color, "⬓ ╣")
+tile_north_edge_door_out_wire_inactive = State("TileNorthEdgeDoorOutWireInactive", block_edge_door_color, "╩ ⬓")
+tile_south_edge_door_out_wire_inactive = State("TileSouthEdgeDoorOutWireInactive", block_edge_door_color, "⬓ ╦")
+
+tile_east_edge_door_out_wire_active = State("TileEastEdgeDoorOutWireActive", block_edge_door_color, "╠ ⬓")
+tile_east_edge_door_in_wire_active = State("TileEastEdgeDoorInWireActive", block_edge_door_color, "╠ ⬓")
+## Wire Copy Tile States
+
 ## Copy Doors
 northCopyDoor = State("NorthCopyDoor", light_blue, "⇈⬓")
 westCopyDoor = State("WestCopyDoor", light_blue, "⇇⬓")
@@ -269,24 +286,15 @@ trap_door_used = State("TrapDoorUsed", reset_color, "⬓")
 
 ## Toggle Lock Components
 # Signal Door
-toggle_lock_door_handle_north_inactive = State(
-    "ToggleLockDoorHandleNorthInactive", inactive_color, "𝗡~")
-toggle_lock_door_handle_south_inactive = State(
-    "ToggleLockDoorHandleSouthInactive", inactive_color, "𝗦~")
-toggle_lock_door_handle_north_active = State(
-    "ToggleLockDoorHandleNorthActive", full_accept_color, "𝗡~")
-toggle_lock_door_handle_north_triggered = State(
-    "ToggleLockDoorHandleNorthTriggered", full_accept_color, "𝗡~")
-toggle_lock_door_handle_north_reset = State(
-    "ToggleLockDoorHandleNorthReset", waiting_color, "↺𝗡~")
-toggle_lock_door_handle_north_waiting = State(
-    "ToggleLockDoorHandleNorthWaiting", waiting_color, "𝗡~")
-toggle_lock_door_handle_north_trigger_south = State(
-    "ToggleLockDoorHandleNorthTriggerSouth", waiting_color, "𝗡~⇊")
-toggle_lock_door_handle_south_active = State(
-    "ToggleLockDoorHandleSouthActive", full_accept_color, "𝗦~")
-toggle_lock_door_handle_south_trigger_north = State(
-    "ToggleLockDoorHandleSouthTriggerNorth", waiting_color, "𝗦~⇈")
+toggle_lock_door_handle_north_inactive = State("ToggleLockDoorHandleNorthInactive", inactive_color, "𝗡~")
+toggle_lock_door_handle_south_inactive = State("ToggleLockDoorHandleSouthInactive", inactive_color, "𝗦~")
+toggle_lock_door_handle_north_active = State("ToggleLockDoorHandleNorthActive", full_accept_color, "𝗡~")
+toggle_lock_door_handle_north_triggered = State("ToggleLockDoorHandleNorthTriggered", full_accept_color, "𝗡~")
+toggle_lock_door_handle_north_reset = State("ToggleLockDoorHandleNorthReset", waiting_color, "↺𝗡~")
+toggle_lock_door_handle_north_waiting = State("ToggleLockDoorHandleNorthWaiting", waiting_color, "𝗡~")
+toggle_lock_door_handle_north_trigger_south = State("ToggleLockDoorHandleNorthTriggerSouth", waiting_color, "𝗡~⇊")
+toggle_lock_door_handle_south_active = State("ToggleLockDoorHandleSouthActive", full_accept_color, "𝗦~")
+toggle_lock_door_handle_south_trigger_north = State("ToggleLockDoorHandleSouthTriggerNorth", waiting_color, "𝗦~⇈")
 signal_door_pass_toggle_south = State("SignalDoorPassToggleSouth", waiting_color, "⇊*⇈")
 signal_door_pass_toggle_north = State("SignalDoorPassToggleNorth", waiting_color, "⇈*⇊")
 
@@ -456,6 +464,7 @@ signal_conditional_reset = State("SignalConditionalReset", waiting_color, "↺")
 ### Data States
 ds_1 = State("1", data_color)
 ds_1_inactive_mc = State("1InactiveMC", inactive_data_color, "1")
+ds_pos_placeholder = State("PosPlaceholder", data_color, " ")
 inactive_blank_pos_data = State("InactiveBlankPosData", inactive_data_color, " ")
 ds_0 = State("0", data_color)
 neg_ds_1 = State("-1", neg_data_color, "-1")

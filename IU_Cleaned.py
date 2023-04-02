@@ -1,8 +1,12 @@
+from cProfile import label
+from tracemalloc import start
 from Generators.IU_Generators.binaryStates import *
 from UniversalClasses import State, TransitionRule, AffinityRule, System, Tile, Assembly
 from Assets.colors import *
 from Generators.IU_Generators.binaryStates import *
 import sys
+import Generators.IU_Generators.WireFunctions as wf
+import Generators.IU_Generators.ShapeGenerationFunctions as sf
 
 exSt = [State("A", active_color), State(
     "B", inactive_color), State("C", wire_color)]
@@ -66,11 +70,61 @@ class SuperState(State):
         self.unary_state_num = ''
         for i in range(state_num):
             self.unary_state_num += str(1)
-        print(self.unary_state_num)
 
         self.unary_state_string = '[' + self.unary_state_num + ']'
+        self.information_dictionary = { "Column": {"TopLeftCoords": None,
+                                                   "TopRightCoords": None,
+                                                   "BottomLeftCoords": None,
+                                                   "BottomRightCoords": None},
+                                        "Rows": {"North": {"TopLeftCoords": None,
+                                                           "TopRightCoords": None,
+                                                           "BottomLeftCoords": None,
+                                                           "BottomRightCoords": None},
+                                                 "South": {"TopLeftCoords": None,
+                                                           "TopRightCoords": None,
+                                                           "BottomLeftCoords": None,
+                                                           "BottomRightCoords": None},
+                                                 "East": {"TopLeftCoords": None,
+                                                          "TopRightCoords": None,
+                                                          "BottomLeftCoords": None,
+                                                          "BottomRightCoords": None},
+                                                 "West": {"TopLeftCoords": None,
+                                                          "TopRightCoords": None,
+                                                          "BottomLeftCoords": None,
+                                                          "BottomRightCoords": None}, },
+                                       "EdgeDoors": {"North": {"WireBorder": {"East": None,
+                                                                              "West": None,
+                                                                              "InternalBorder": None},
+                                                               "InWire": None,
+                                                               "InDoor": None,
+                                                               "OutWire": None,
+                                                               "OutDoor": None,},
+                                                     "South": {"WireBorder": {"East": None,
+                                                                              "West": None,
+                                                                              "InternalBorder": None},
+                                                               "InWire": None,
+                                                               "InDoor": None,
+                                                               "OutWire": None,
+                                                               "OutDoor": None, },
+                                                     "East": {"WireBorder": {"North": None,
+                                                                             "South": None,
+                                                                             "InternalBorder": None},
+                                                              "InWire": None,
+                                                              "InDoor": None,
+                                                              "OutWire": None,
+                                                              "OutDoor": None, },
+                                                     "West": {"WireBorder": {"North": None,
+                                                                             "South": None,
+                                                                             "InternalBorder": None},
+                                                              "InWire": None,
+                                                              "InDoor": None,
+                                                              "OutWire": None,
+                                                              "OutDoor": None}, },
+
+            }
     def __str__(self):
         return '{}_{}_superstate'.format(self.input_state.label, self.state_num)
+
 
     # def __repr__(self, include_python_variable_name=False):
     #     if include_python_variable_name:
@@ -404,17 +458,24 @@ class Table(CompoundGadget):
     def __init__(self, label="table", id=1, super_states=None, input_system=None):
         self.super_states = super_states
         self.input_system = input_system
-        self.padding_left = 1
-        self.padding_right = 1
-        self.padding_between_cols = 1
+        self.padding_left = 2
+        self.padding_right = 2
+        self.padding_between_cols = 2
         self.padding_top = 1
         self.padding_bottom = 1
         self.padding_between_rows = 1
         self.max_unary_state_len = len(self.input_system.returnStates())
-        self.columns = self.makeColumns()
+        self.columns = self.defineColumns()
         self.rows = self.makeRows()
         seed_gadget = Assembly()
+        self.macrocell_height = 9
         self.row_height = TableEntranceDoor(self.super_states[0], 'N', 0, -3).returnHeight()
+        self.row_height = self.row_height + (self.macrocell_height - self.row_height)
+
+        self.width = len(self.input_system.states) * (self.max_unary_state_len + 4) + (len(self.input_system.states) -1) * \
+            self.padding_between_cols + self.padding_left + self.padding_right + 2
+        self.height = len(self.input_system.states) * 4 * self.row_height + (len(self.input_system.states) - 1) * \
+            self.padding_between_rows + self.padding_top + self.padding_bottom + 2
 
 
         super().__init__(label, id, seed_gadget, [self.columns, self.rows])
@@ -448,7 +509,7 @@ class Table(CompoundGadget):
         rows = []
         i = 0
 
-        h = TableEntranceDoor(self.super_states[0], 'N', 0, -3).returnHeight()
+
         x = 0
         y = -3
         for d in ['N', 'E', 'S', 'W']:
@@ -457,17 +518,30 @@ class Table(CompoundGadget):
                 l += "_row"
                 rows.append(Row(s, d, x, y, label=l, id=i))
                 i += 1
-                y = y - h - self.padding_between_rows
+                y = y - self.h - self.padding_between_rows
         print("Rows Defined")
         return rows
+
+    def runCalculations(self):
+        print("Running calculations")
+        width = 0
+        self.columns = self.makeColumns()
+        self.rows = self.makeRows()
+
+    def calculateWidth(self, width_type="table"):
+        width = -1
+        if width_type == "table":
+            return self.width
+        print("Calculating width")
+        return self.width
     def returnAssembly(self):
         print("Returning assembly")
         tiles = self.columns[0].returnTiles()[0]
-        r = self.rows[0].returnTiles()
-        print("Row tiles: ")
-        for i in r:
-            print(i.state.label)
-        tiles = tiles + r
+        # r = self.rows.returnTiles()
+        # print("Row tiles: ")
+        # for i in r:
+        #     print(i.state.label)
+        # tiles = tiles + r
 
 
         a = Assembly()
@@ -513,17 +587,142 @@ class IU_System(System):
         st = [border_state, signal_door_east_inactive, signal_door_handle_east_inactive, punch_down_ds_inactive,
               ds_1_inactive_mc, start_state_pair, end_state_pair, inactiveEastWire, endcap_door_handle_east_inactive,
               endcap_door_east_inactive, eastWire, westWire, northWire, southWire, northWestCorner, northEastCorner,
-              southEastCorner, southWestCorner, columnStartMarkerTop, columnEndMarkerTop, row_border, rowStartMarker]
+              southEastCorner, southWestCorner, columnStartMarkerTop, columnEndMarkerTop, row_border, rowStartMarker,
+              tile_edge_center_handle_east_inactive, tile_east_edge_door_in_wire_active,
+              tile_east_edge_door_out_wire_active, tile_east_edge_door_out_wire_inactive ]
         return st
+
+    def makeAllTileWires(self, start_wx=0, start_wy=0, end_wx=None, end_wy=None,
+                         out_start_wx=None, out_start_wy=None, out_end_wx=None, out_end_wy=None, y_offset=5):
+        tiles = []
+        max_len = self.table.max_unary_state_len + 2
+
+
+        in_start_wire_coords = (start_wx, start_wy)
+        #in_start_wire_y = start_wy
+        if end_wx == None:
+            end_wx = start_wx + max_len
+        if end_wy == None:
+            end_wy = start_wy
+        if out_start_wx == None:
+            out_start_wx = start_wx
+        if out_start_wy == None:
+            out_start_wy = start_wy - y_offset
+        in_end_wire_coords = (end_wx, end_wy)
+        #in_end_wire_y = end_wy
+        out_start_wire_coords = (out_start_wx, out_start_wy)
+        out_end_wire_coords = (out_end_wx, out_end_wy)
+
+        direction_label_offset = 2
+        direction_label_coords = (start_wx, start_wy - direction_label_offset)
+
+        state_label_x_offset = 2
+        state_label_initial_x = direction_label_coords[0] - state_label_x_offset
+
+        in_wire_start_x = start_wx
+        in_wire_start_y = start_wy
+        out_wire_start_x = out_start_wx
+        out_wire_start_y = out_start_wy
+        in_wire_end_x = end_wx
+        in_wire_end_y = end_wy
+        out_wire_end_x = out_end_wx
+        out_wire_end_y = out_end_wy
+
+        direction_label_x = start_wx + 1
+        direction_label_y = start_wy - direction_label_offset
+        state_label_x = state_label_initial_x
+        state_label_y = start_wy - direction_label_offset
+
+        for d in ['N', 'E', 'W', 'S']:
+
+            for s in self.super_states:
+                if d == 'N' or d == 'S':
+                    pass
+                elif d == 'E' or d == 'W':
+
+                    tiles = tiles + wf.makeTableInOutWire((in_wire_end_x, in_wire_end_y), (in_wire_start_x, in_wire_start_y),
+                                                      (out_wire_end_x, out_wire_end_y), (out_wire_start_x, out_wire_end_y), d,
+                                                      (state_label_x,  s.unary_state_string ,
+                                                      self.temp))
+
+    def makeBlockOutline(self, height, width, starting_from="center", starting_coords=(0, 0)):
+        # t = [Tile(northWestCorner, ne_x, ne_y), Tile(northEastCorner, ne_x + width, ne_y),
+        #      Tile(southEastCorner, ne_x, ne_y - height), Tile(southEastCorner, ne_x + width, ne_y - height)]
+        # a = Assembly()
+        # y = ne_y - 1
+        # x = ne_x
+        # for i in range(y, y - height, -1):
+        #     if i == -1:
+        #         t.append(Tile(border_state, x, y))
+        #         t.append(Tile(border_state, x + width, y))
+        #     t.append(Tile(border_state, x, i))
+        #     t.append(Tile(border_state, x + width, i))
+
+        # for i in range(x + 1, x + width):
+
+        #     t.append(Tile(border_state, i, y + 1))
+        #     t.append(Tile(border_state, i, y - height + 1))
+
+        # a.setTiles(t)
+        # genSys = System(self.temp, self.states, self.initial_states, self.seed_states,
+        #                 self.vertical_transitions_dict, self.horizontal_transitions_dict,
+        #                 self.vertical_affinities_dict, self.horizontal_affinities_dict,
+        #                 seed_assembly=a)
+        if starting_from == "center":
+            center = starting_coords
+            tl = (starting_coords[0] - width//2, starting_coords[1] + height//2)
+            br = (starting_coords[0] + width//2, starting_coords[1] - height//2)
+        elif starting_from == "top_left":
+            center = (starting_coords[0] + width//2, starting_coords[1] - height//2)
+            tl = starting_coords
+            br = (starting_coords[0] + width, starting_coords[1] - height)
+        elif starting_from == "top_right":
+            center = (starting_coords[0] - width//2, starting_coords[1] - height//2)
+            tl = (starting_coords[0] - width, starting_coords[1])
+            br = starting_coords
+        elif starting_from == "bottom_left":
+            center = (starting_coords[0] + width//2, starting_coords[1] + height//2)
+            tl = (starting_coords[0], starting_coords[1] + height)
+            br = (starting_coords[0] + width, starting_coords[1])
+        else:
+            center = (starting_coords[0] - width//2, starting_coords[1] + height//2)
+            tl = (starting_coords[0] - width, starting_coords[1] + height)
+            br = starting_coords
+
+        a = sf.makeRectangleOutline(tl, br)
+
+        return a
+
+    def addOuterBlockWireDoors(self, assembly, number_of_states, table_order):
+
+        pass
+
+
+    def returnWireSystem(self):
+        tiles = []
+
+
     def returnSystem(self):
-        table_assm = self.table.returnAssembly()
 
-        col_assem = Assembly()
+        # table_assm = self.table.returnAssembly()
+        # width = self.table.width + (len(self.input_system.states) * 6 * 2) + 2
+        # height = -(self.table.height + (len(self.input_system.states) * 6 * 2) + 4)
+        # start_block_y = -self.table.height
+        # start_block_x = ((len(self.input_system.states) * 6) + 4) - 1
+        # num_states = len(self.input_system.states)
 
+        # outline_assm = self.makeBlockOutline(
+        #     height, width, len(self.input_system.states), start_block_x, start_block_y)
 
-        col_assem.setTiles(self.table.columns[1].tiles[0])
+        # col_assem = Assembly()
 
-        gen_sys = System(self.temp, self.states, self.initial_states, self.seed_states, self.vertical_transitions_dict, self.horizontal_transitions_dict, self.vertical_affinities_dict, self.horizontal_affinities_dict, seed_assembly=table_assm)
+        # outline_assm.setTiles(table_assm.returnTiles())
+        # col_assem.setTiles(self.table.columns[1].tiles[0])
+        a = self.makeBlockOutline(20, 20)
+
+        gen_sys = System(self.temp, self.states, self.initial_states, self.seed_states, self.vertical_transitions_dict,
+                         self.horizontal_transitions_dict, self.vertical_affinities_dict, self.horizontal_affinities_dict,
+                         seed_assembly=a)
 
         return gen_sys
 

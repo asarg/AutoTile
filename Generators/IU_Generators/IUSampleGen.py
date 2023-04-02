@@ -1,6 +1,6 @@
-import Generators.IU_Generators.activeStateRegion as asr
+import Generators.IU_Generators.Old_IU_Files.activeStateRegion as asr
 import UniversalClasses as uc
-import Generators.IU_Generators.IUEqualityChanges as iuec
+import Generators.IU_Generators.Old_IU_Files.IUEqualityChanges as iuec
 
 
 

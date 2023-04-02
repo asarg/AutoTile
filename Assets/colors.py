@@ -1,9 +1,30 @@
+#17 Color Palette
+tyrian_purple2 = "4A001F" # dark purple
+burgundy = "6D0A1E" # dark red
+carmine = "90131D" #  red
+sinopia = "BE522F"  # Dark Orange
+butter_scotch = "EC9041"  # Warm Orange
+jasmine = "FCDE73"  # Yellow
+peach_yellow = "FBDE9E"  # Yellowish
+champaign_pink = "F9DEC9"
+eggshell = "F0EAD6"
+light_blue_2 = "B1CECF"  # Light Blue Grey
+powder_blue = "99B8C8" # Light Blue Pastel
+air_superiority_blue_2 = "7995AC"  # Mid Light Blue
+paynes_grey = "59728F"  # Dark Blue Grey
+yinmn_blue = "2F4C74"  # Dark Blue
+dark_cyan = "328683"  # Dark Blue Green
+mint = "70C2A3" # Light Green
+zomp = "519E8A" # Mid Green
+
 # Whites
 
 gainsboro = "DFE0E2"  # Greyish
 white = gainsboro  # Gainsboro
+eggshell = "F0EAD6"
 #dfe0e2
 # Browns
+chamoisee = "8C705F"  # Dark Brown Grey
 sandy_brown = "F4A261"  # light brown/orange
 #F4A261
 rosy_brown = "CC978E"
@@ -30,6 +51,7 @@ charcoal = "264653" # dark blue grey
 roman_silver = "8A8698"
 silver_metalic_grey = "AFACAF"
 silver_metalic_blue = "B4B2BD"
+
 # Blues
 Light_Steel_Blue = "B0C4DE" # Light Blue Grey
 sky_blue_crayola = "4ED9F9"  # Light Blue
@@ -72,6 +94,7 @@ grey_pink = "EDCFD7" # queen pink
 Queen_Pink = "EDCFD7"
 unbleached_silk = "FFDDD2"
 apricot = "FFCDB3"
+champaign_pink = "F9DEC9"
 #ffcdb3
 # Reds
 tuscany = "C49799"  # Dark Red Brown
@@ -136,7 +159,8 @@ dutch_white = "E9D7AF" # less saturated than peach
 peach = "F6DCA2"
 
 cornflower_blue = "7699D4"
-
+block_edge_handle_color = cornflower_blue
+block_edge_door_color = dutch_white
 inactive_waiting_color = dutch_white
 active_color = Middle_Blue_Green
 active_waiting_color = peach

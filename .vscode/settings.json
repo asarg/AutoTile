@@ -18,5 +18,13 @@
     "python.analysis.autoImportUserSymbols": true,
     "python.analysis.disabled": [
         "unresolved-import",
-    ]
+    ],
+    "diffEditor.wordWrap": "off",
+    "C_Cpp.vcFormat.wrap.preserveBlocks": "never",
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.codeActionsOnSave": {
+
+    },
+    "C_Cpp.vcFormat.indent.multiLineRelativeTo": "outermostParenthesis",
+    "python.linting.lintOnSave": false
 }

@@ -2,11 +2,14 @@ from cgitb import lookup
 import unicodedata as ud
 import random
 from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QFont, QFontDatabase
+
 # These classes are used for Loading and Saving Files and Communicating with general_TA_simulator.
 
 
 def toCoords(x, y):
     return "(" + str(x) + "," + str(y) + ")"
+
+
 class State:
     def __init__(self, label, color, display_label=None, xCoordinate = 0, yCoordinate = 0):
         self.label = label
@@ -517,6 +520,12 @@ class Assembly:
             if s.state not in states:
                 states.append(s.state)
         return states
+
+    def checkInCoords(self, x, y):
+        if toCoords(x, y) in self.coords:
+            return True
+        else:
+            return False
 
 
 
