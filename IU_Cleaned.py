@@ -528,10 +528,9 @@ class Table(CompoundGadget):
         self.columns = self.makeColumns()
         self.rows = self.makeRows()
 
-    def calculateWidth(self, width_type="table"):
+    def calculateTableWidth(self):
         width = -1
-        if width_type == "table":
-            return self.width
+
         print("Calculating width")
         return self.width
     def returnAssembly(self):
