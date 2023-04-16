@@ -37,9 +37,12 @@ ds_1_inactive = State("1_Inactive", inactive_data_color, "1")
 ds_blank_active = State("DataBlankActive", data_color, " ")
 ds_blank_inactive = State("DataBlankInactive", inactive_data_color, " ")
 
-start_state = State("StartStatePair", data_color, start_state_pair_marker_sym)
+start_state = State("StartState", data_color, start_state_pair_marker_sym)
 start_state_inactive = State("StartStateInactive", inactive_data_color, start_state_pair_marker_sym)
-end_state = State("EndStatePair", data_color, end_state_pair_marker_sym)
+neg_start_state = State("NegStartState", neg_data_color, end_state_pair_marker_sym)
+neg_start_state_inactive = State("NegStartStateInactive", neg_inactive_data_color, end_state_pair_marker_sym)
+
+end_state = State("EndState", data_color, end_state_pair_marker_sym)
 end_state_inactive = State("EndStateInactive", inactive_data_color, end_state_pair_marker_sym)
 
 ds_1_inactive_mc = State("1InactiveMC", inactive_data_color, "1")
@@ -87,8 +90,8 @@ trap_door_used = State("TrapDoorUsed", reset_color, "⬓")
 signal_door_inactive = State("LockedSignalDoorInactive", signal_door_inactive_color, "🔒🚪")  # 🚪 ◨
 signal_door_intermediate_accept = State("SignalDoorIntermediateAccept", signal_door_inactive_color, "🚪↯")  # ◨↯
 signal_door_open = State("SignalDoorOpen", signal_door_accept_color, "🔓◨") # 🔓◨
-signal_door_transmit = State("SignalDoorTransmit", waiting_color, "◨↯") # ◨↯
-signal_door_active_waiting_east = State("SignalDoorActiveWaitingEast", waiting_color, "◨⇉⏱") # ◨⇉⏱
+signal_door_transmit = State("SignalDoorTransmit",signal_door_waiting_color, "◨↯") # ◨↯
+signal_door_active_waiting_east = State("SignalDoorActiveWaitingEast",signal_door_waiting_color, "◨⇉⏱") # ◨⇉⏱
 signal_door_handle_inactive = State("LockedSignalDoorHandleInactive", signal_door_inactive_color, "🗝~") # 🗝~
 signal_door_handle_reset = State("SignalDoorHandleReset", reset_color, "↺🗝~") # ↺🗝~
 signal_door_inactive_east = State("LockedSignalDoorInactiveEast", signal_door_inactive_color, "🚪⇉")  # ◨⇉
@@ -101,32 +104,32 @@ signal_door_handle_intermediate_accept = State("SignalDoorHandleIntermediateAcce
 signal_door_handle_pass_accept_south = State("SignalDoorHandlePassAcceptSouth", signal_door_color, "🗝~↧↯")
 signal_door_handle_pass_accept_north = State("SignalDoorHandlePassAcceptNorth", signal_door_color, "🗝~↥↯")
 signal_door_handle_find_corner_north=State("SignalDoorHandleFindCornerNorth", signal_door_waiting_color, "🗝~↥↯")
-signal_door_handle_find_corner_south = State("SignalDoorHandleFindCornerSouth", waiting_color, "🗝~↧↯")
-signal_door_handle_pass_find_corner_north = State("SignalDoorHandlePassFindCornerNorth", waiting_color, "🗝~↥↯")
-signal_door_handle_pass_find_corner_south = State("SignalDoorHandlePassFindCornerSouth", waiting_color, "🗝~↧↯")
+signal_door_handle_find_corner_south = State("SignalDoorHandleFindCornerSouth",signal_door_waiting_color, "🗝~↧↯")
+signal_door_handle_pass_find_corner_north = State("SignalDoorHandlePassFindCornerNorth",signal_door_waiting_color, "🗝~↥↯")
+signal_door_handle_pass_find_corner_south = State("SignalDoorHandlePassFindCornerSouth",signal_door_waiting_color, "🗝~↧↯")
 signal_door_handle_accept_north = State("SignalDoorHandleAcceptNorth", signal_door_accept_color, "🗝~↥↯")
 signal_door_handle_accept_south = State("SignalDoorHandleAcceptSouth", signal_door_accept_color, "🗝~↧↯")
 
 
 
 ##### Signal Receivers and Transmitters
-signal_receiver_inactive = State("SignalReceiverInactive", inactive_color, "⊝")
+signal_receiver_inactive = State("SignalReceiverInactive", signal_inactive_color, "⊝")
 signal_received_accept = State("SignalReceivedAccept", signal_accept_color, "✔✔")
 signal_received_reject = State("SignalReceivedReject", signal_reject_color, "✖")
 signal_receiver_passed = State("SignalReceiverPassed", signal_accept_color, "⇉")
-signal_receiver_reset = State("SignalReceiverReset", waiting_color, "↺")
-signal_receiver_pass_find_corner_north = State("SignalReceiverPassFindCornerNorth", waiting_color, "?↥↯")
-signal_receiver_pass_find_corner_south = State("SignalReceiverPassFindCornerSouth", waiting_color, "?↧↯")
+signal_receiver_reset = State("SignalReceiverReset", signal_receiver_color, "↺")
+signal_receiver_pass_find_corner_north = State("SignalReceiverPassFindCornerNorth", signal_waiting_color, "?↥↯")
+signal_receiver_pass_find_corner_south = State("SignalReceiverPassFindCornerSouth", signal_waiting_color, "?↧↯")
 signal_receiver_pass_accept_north = State("SignalReceiverPassAcceptNorth", signal_accept_color, "✔↥↯")
 signal_receiver_pass_accept_south = State("SignalReceiverPassAcceptSouth", signal_accept_color, "✔↧↯")
 
 signal_transmitter = State("SignalTransmitter", signal_accept_color, "⇉⍼")
-signal_transmitter_inactive = State("SignalTransmitterInactive", inactive_color, "⍼")
-signal_transmitter_reset = State( "SignalTransmitterReset", waiting_color, "⍼↺")
+signal_transmitter_inactive = State("SignalTransmitterInactive", signal_inactive_color, "⍼")
+signal_transmitter_reset = State( "SignalTransmitterReset", signal_waiting_color, "⍼↺")
 signal_transmitter_accept = State("SignalTransmitterAccept", signal_accept_color, "⍼✔")
 signal_transmitter_reject = State("SignalTransmitterReject", signal_reject_color, "⍼✖ ")
-signal_transmitter_pass_find_corner_north = State("SignalTransmitterPassFindCornerNorth", waiting_color, "?↥⍼")
-signal_transmitter_pass_find_corner_south = State("SignalTransmitterPassFindCornerSouth", waiting_color, "?↧⍼")
+signal_transmitter_pass_find_corner_north = State("SignalTransmitterPassFindCornerNorth", signal_waiting_color, "?↥⍼")
+signal_transmitter_pass_find_corner_south = State("SignalTransmitterPassFindCornerSouth", signal_waiting_color, "?↧⍼")
 signal_transmitter_pass_accept_north = State("SignalTransmitterPassAcceptNorth", signal_waiting_color, "◨↥⍼")
 signal_transmitter_pass_accept_south = State("SignalTransmitterPassAcceptSouth", signal_waiting_color, "◨↧⍼")
 

@@ -3,20 +3,20 @@ from Assets.colors import grey_pink
 
 ## Blues and Greens
 from Assets.colors import zomp, zomp_inactive, mint, columbia_blue, cornflower_blue, powder_blue, dark_cyan, \
-                            paynes_grey_blue, air_superiority_blue_2, Blue_Sapphire
+    paynes_grey_blue, air_superiority_blue_2, Blue_Sapphire, Light_Steel_Blue, Beau_Blue
 
 ### Reds, Oranges, and Yellows
 from Assets.colors import chamoisee, mango_tango,  butter_scotch, jasmine, peach_yellow, carmine, firey_rose, Red_Salsa, \
                         carmine_inactive
 
 ### Whites, Greys, and Blacks
-from Assets.colors import paynes_grey_grey, Papaya_Whip, dutch_white, Medium_Champagne, alabaster
+from Assets.colors import paynes_grey_grey, Papaya_Whip, dutch_white, Medium_Champagne, alabaster, french_grey, silver_metallic_blue
 standard_brown = chamoisee
 
 
 ## Border Colors
-border_color = standard_brown
-column_border_color = standard_brown
+border_color = french_grey
+column_border_color = french_grey
 
 ## Data Colors
 data_color = Papaya_Whip
@@ -40,8 +40,8 @@ wire_color = Blue_Sapphire
 trap_door_color = zomp
 trap_door_inactive_color = zomp_inactive
 
-signal_door_color = zomp
-signal_door_inactive_color = zomp_inactive
+signal_door_color = peach_yellow
+signal_door_inactive_color = silver_metallic_blue
 signal_door_accept_color = mint
 signal_door_waiting_color = jasmine
 
@@ -49,18 +49,19 @@ signal_door_waiting_color = jasmine
 ## Signal Colors
 signal_receiver_color = peach_yellow
 signal_receiver_inactive_color = alabaster
+signal_inactive_color = french_grey
 signal_accept_color = mint
 signal_waiting_color = jasmine
 signal_reject_color = carmine
 
 ## McDoor Colors
-punch_down_color = powder_blue
-inactive_punch_down_color = columbia_blue
+punch_down_color = Beau_Blue
+inactive_punch_down_color = Beau_Blue
 neg_punch_down_color = firey_rose
 inactive_neg_punch_down_color = grey_pink
 
-mc_posi_door_color = paynes_grey_blue
-mc_posi_inactive_door_color = paynes_grey_grey
+mc_posi_door_color = Beau_Blue
+mc_posi_inactive_door_color = Beau_Blue
 mc_neg_door_color = firey_rose
 mc_neg_inactive_door_color = grey_pink
 
@@ -72,7 +73,7 @@ column_bottom_sym = "╩"
 column_bottom_start_sym = "╩*"  # "╩ᵇ"
 column_bottom_end_sym = "*╩"
 
-column_marker_color = standard_brown
+column_marker_color = french_grey
 active_column_marker_color = butter_scotch
 
 ## CR Intersection Marker Color
@@ -86,7 +87,7 @@ row_start_bottom_sym = "╠*"
 row_end_top_sym = "*╣"
 row_end_bottom_sym = "╣*"
 
-row_marker_color = standard_brown
+row_marker_color = french_grey
 
 reset_sym = "↺"
 reset_color = mango_tango

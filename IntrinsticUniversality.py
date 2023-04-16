@@ -3,7 +3,7 @@ from UniversalClasses import State, TransitionRule, AffinityRule, System, Tile, 
 from Assets.colors import *
 import sys
 
-exSt = [State("A", active_color), State("B", inactive_color), State("C", wire_color), State("D", wire_color)]
+exSt = [State("A", active_color), State("B", inactive_color), State("C", wire_color)]
 xISt = [State("A", active_color), State("B", inactive_color), State("C", wire_color)]
 xSSt = [State("A", active_color)]
 vaff = [AffinityRule("A", "B", "v", 1), AffinityRule("C", "A", "v", 1), AffinityRule("C", "B", "v", 1)]
@@ -16,8 +16,6 @@ class Gadget(Assembly):
     def __init__(self):
         super().__init__()
 
-class Wire2(Gadget):
-    pass
 
 class Wire:
     def __init__(self, start_x, start_y, end_x, end_y, start_direction, label=None, input_state=None, input_state_dir=None, wire_len=-1):
@@ -113,7 +111,7 @@ class Row:
     def returnTiles(self):
         return self.tiles
 
-class MacroCell2:
+class MacroCell:
     def __init__(self, row_state, col_state, dir, affinity=None, transition=None, mc_size_dimensions={}):
 
         self.col_state = col_state
@@ -125,7 +123,7 @@ class MacroCell2:
 
 
 
-        # mc_size_dimensions={"uniaryNumLen": 1, "writeRowSize": 3, "unBorderedMacroCellWidth": 5, "borderedMacroCellWidth": 7, "borderedMacroCellWidthTrapDoor": 8, "borderedMacroCellWidthWithTDAndWirePadding": 8, "unborderedMacrocellHeight": 4, "borderedMacroCellHeight": 6}
+        # mc_size_dimensions={"unaryNumLen": 1, "writeRowSize": 3, "unBorderedMacroCellWidth": 5, "borderedMacroCellWidth": 7, "borderedMacroCellWidthTrapDoor": 8, "borderedMacroCellWidthWithTDAndWirePadding": 8, "unborderedMacrocellHeight": 4, "borderedMacroCellHeight": 6}
 
     def setAffinity(self, affinity):
         self.affinity = affinity
@@ -141,7 +139,7 @@ class MacroCell2:
         self.transition_col_change_num = transition_num
 
     def addMCDimensions(self, unaryNumLen=None, writeRowSize=None, unBorderedMacroCellWidth=None, borderedMacroCellWidth=None, borderedMacroCellWidthTrapDoor=None, borderedMacroCellWidthWithTDAndWirePadding=None, unborderedMacrocellHeight=None, borderedMacroCellHeight=None, mc_demensions={}):
-        #borderedMacroCellWidthWithTDAndWirePadding, borderedMacroCellHeight, unborderedMacrocellHeight, borderedMacroCellWidthTrapDoor, borderedMacroCellWidth, unBorderedMacroCellWidth, writeRowSize, uniaryNumLen
+        #borderedMacroCellWidthWithTDAndWirePadding, borderedMacroCellHeight, unborderedMacrocellHeight, borderedMacroCellWidthTrapDoor, borderedMacroCellWidth, unBorderedMacroCellWidth, writeRowSize, unaryNumLen
         if mc_demensions != {}:
             self.mc_size_dimensions = mc_demensions
         else:
@@ -208,7 +206,7 @@ class MacroCell2:
 
         elif self.transition_col_change_num < 0:
             write_row_tiles.append(
-                Tile(end_state_inactive, self.mc_pos_door_x - 1, self.mc_door_y - 1))
+                Tile(neg_start_state_inactive, self.mc_pos_door_x - 1, self.mc_door_y - 1))
             for i in range(self.mc_pos_door_x - 2, self.mc_neg_door_x, -1):
                 if dec > 0:
                     write_row_tiles.append(Tile(neg_ds_1_inactive_mc, i, self.mc_door_y - 1))
@@ -257,70 +255,7 @@ class MacroCell2:
 
 
 
-# class MacroCell:
-#     def __init__(self, col_start_x, col_end_x, row_wire_y, column_num, row_num, cell_len=6, transition_num=None, column_state_sim=None, row_state_sim=None, dir=None):
-#         # Starts at the neg door and ends at the pos door
-#         self.mc_start_x = col_start_x
-#         self.mc_start_y = row_wire_y + 1
-#         self.mc_end_x = col_end_x - 2
-#         self.mc_end_y = row_wire_y - 2
-#         self.mc_door_y = row_wire_y
-#         self.row_wire_y = row_wire_y
-#         self.column_state = column_num
-#         self.row_state = row_num
-#         self.simulated_column_state = column_state_sim
-#         self.simulated_row_state = row_state_sim
-#         self.dir = dir
-#         self.transition_num = transition_num
 
-#         self.cell_len = cell_len
-
-#         self.mc_states = [punch_down_ds_neg_active, punch_down_ds_active, punch_down_ds_neg_inactive,
-#                           punch_down_ds_inactive, punch_down_ds_neg_end_found, punch_down_ds_end_found]
-#         self.mc_seed_states = [punch_down_ds_neg_active, punch_down_ds_active, eastWire, mc_door_east_negative_inactive,
-#                                mc_door_east_positive_inactive, mc_door_handle_east_negative_inactive, mc_door_handle_east_positive_inactive, trap_door_inactive]
-#         self.mc_seed_assembly, self.mc_seed_tiles = self.makeSeedAssembly()
-
-#         # self.mc_horizontal_affinities, self.mc_horizontal_transitions, self.mc_vertical_affinities, self.mc_vertical_transitions = self.makeHorizontalAffinitiesTransitions()
-#     #def __init__(self, col_start_x, col_end_x, row_wire_y, column_num, row_num, cell_len=6, transition_num=None, column_state_sim=None, row_state_sim=None, dir=None):
-
-#     def makeSeedAssembly(self):
-#         mc_tiles = []
-
-#         mc_tiles.append(Tile(punch_down_ds_neg_active, self.mc_start_x + 1, self.mc_door_y + 1))
-#         mc_tiles.append(Tile(punch_down_ds_active, self.mc_end_x - 2, self.mc_door_y + 1))
-#         mc_tiles.append(Tile(mc_door_east_negative_inactive, self.mc_start_x, self.mc_door_y))
-#         mc_tiles.append(Tile(mc_door_handle_east_negative_inactive, self.mc_start_x, self.mc_door_y + 1))
-#         mc_tiles.append(Tile(mc_door_east_positive_inactive, self.mc_end_x - 1, self.mc_door_y))
-#         mc_tiles.append(Tile(mc_door_handle_east_positive_inactive, self.mc_end_x - 1, self.mc_door_y + 1))
-#         mc_tiles.append(Tile(trap_door_inactive, self.mc_end_x, self.mc_door_y - 1))
-#         mc_tiles.append(Tile(signal_end_checks_inactive, self.mc_start_x, self.mc_door_y - 1))
-#         mc_tiles.append(Tile(signal_start_checks_inactive, self.mc_end_x - 1, self.mc_door_y - 1))
-#         for i in (range(self.mc_start_x, self.mc_end_x)):
-#             mc_tiles.append(Tile(signal_conditional_inactive, i, self.mc_door_y - 2))
-
-
-#         seed_assembly = Assembly()
-#         seed_assembly.setTiles(mc_tiles)
-
-#         return seed_assembly, mc_tiles
-
-#     def returnSeedTiles(self):
-#         return self.mc_seed_tiles
-
-    # def makeHorizontalAffinitiesTransitions(self):
-    #     wire_aff_v, wire_tr_v = []
-    #     wire_aff_h, wire_tr_h = wireAffinities(self)
-    #     for i in wire_aff_h:
-    #         if i.dir == "v":
-    #             wire_aff_v.append(i)
-    #             wire_aff_h.remove(i)
-    #     for i in wire_tr_h:
-    #         if i.dir == "v":
-    #             wire_tr_v.append(i)
-    #             wire_tr_h.remove(i)
-
-    #     return wire_aff_h, wire_tr_h, wire_aff_v, wire_tr_v
 class Column:
     def __init__(self, input_state, start_x, start_y, row_height, input_system, rows_mapped_to_input_states_dirs={1:("A", "N"), 2:"B", 3:"C"}, macro_cells_in_column=None, column_height=-1):
         self.input_state = input_state
@@ -345,8 +280,6 @@ class Column:
         self.col_wire = self.makeColWire()
         self.macro_cells_in_column = macro_cells_in_column
         self.tiles = self.makeColTiles()
-
-
     def makeColWire(self):
         c_start_x = self.start_x + (self.column_width - 1)
         c_start_y = self.start_y
@@ -380,26 +313,8 @@ class Column:
         return self.tiles
 
 
-class Column2:
-    def __init__(self, input_state, col_num, tl_x_y, cw_x, macrocells, rows_mappings):
-        self.macrocells = macrocells
-        self.tl_x_y = tl_x_y
-        self.wire_x = cw_x
-        self.rows_to_input_states_dirs_map = rows_mappings
-        self.col_num = col_num
-        self.input_state = input_state
 
-    def makeColTopLabel(self):
-        top_label_tiles = []
-    def makeColTiles(self):
-        col_tiles = []
-        for i in self.macrocells:
-            col_tiles.append(i.returnTiles())
-        return col_tiles
-
-
-
-class Table2:
+class Table:
     def __init__(self, inputSystem, start_x=0, start_y=0):
         self.input_system = inputSystem
         self.input_system_states = inputSystem.returnStates()
@@ -494,13 +409,17 @@ class Table2:
         mc_top_size_with_border = 2
         begin_rows_y = self.tl_corner_x_y[1] - 1
         begin_rows_wires = begin_rows_y - mc_top_size_with_border - 1
+        begin_rows_out_wires = begin_rows_wires - 3
         rows_start_y_list = []
         rows_wires_y_list = []
+        row_out_wire_y_list = []
         rs = begin_rows_y
         rw = begin_rows_wires
+        rw_out = begin_rows_out_wires
         while rs > self.bl_corner_x_y[1]:
             rows_start_y_list.append(rs)
             rows_wires_y_list.append(rw)
+            row_out_wire_y_list.append(rw_out)
             rs -= mc_size["borderedMacroCellHeight"]
             rw -= mc_size["borderedMacroCellHeight"]
         return rows_start_y_list, rows_wires_y_list
@@ -522,19 +441,26 @@ class Table2:
 
         return start_intersections, wires_cols_start_intersections, row_col_intersections_dict
     def calculateMacroCellSize(self):
-        uniaryNumLen = len(self.input_system.returnStates())
-        writeRowSize = uniaryNumLen + 2 # 2 for the left and right write brackets
+        unaryNumLen = len(self.input_system.returnStates())
+        writeRowSize = unaryNumLen + 2  # 2 for the left and right write brackets
         unBorderedMacroCellWidth = writeRowSize + 2 # 2 for the doors
         borderedMacroCellWidth = unBorderedMacroCellWidth + 1 # 2 for the border
         borderedMacroCellWidthTrapDoor = borderedMacroCellWidth + 1 # 1 for the trap door and the column wire
         borderedMacroCellWidthWithTDAndWirePadding = borderedMacroCellWidthTrapDoor + 2 # 2 for the padding on each side
-        rowsNorthOfWire = 1
-        rowsSouthOfWire = 2
+        rowsNorthOfInWire = 1
+        rowsBetweenInAndOutWire = 3
+        rowsSouthOfOutWire = 2
+
         # wire & doors, data action row north,
 
-        unborderedMacrocellHeight = int(rowsNorthOfWire) + int(rowsSouthOfWire) + 1 # 1 for the wire
+        unborderedMacrocellHeight = int(rowsNorthOfInWire) + int(rowsBetweenInAndOutWire) + rowsSouthOfOutWire + 2  # 1 for the wire
         borderedMacroCellHeight = unborderedMacrocellHeight + 2 # 2 for the border
-        mc_size = {"unborderedMacroCellWidth": unBorderedMacroCellWidth, "borderedMacroCellWidth": borderedMacroCellWidth, "borderedMacroCellWidthTrapDoor": borderedMacroCellWidthTrapDoor, "borderedMacroCellWidthWithTDAndWirePadding": borderedMacroCellWidthWithTDAndWirePadding, "borderedMacroCellHeight": borderedMacroCellHeight, "unborderedMacrocellHeight": unborderedMacrocellHeight, "writeRowSize": writeRowSize, "uniaryNumLen": uniaryNumLen}
+        mc_size = {"unborderedMacroCellWidth": unBorderedMacroCellWidth, "borderedMacroCellWidth": borderedMacroCellWidth,
+                   "borderedMacroCellWidthTrapDoor": borderedMacroCellWidthTrapDoor,
+                   "borderedMacroCellWidthWithTDAndWirePadding": borderedMacroCellWidthWithTDAndWirePadding,
+                   "borderedMacroCellHeight": borderedMacroCellHeight, "unborderedMacrocellHeight": unborderedMacrocellHeight,
+                   "writeRowSize": writeRowSize, "unaryNumLen": unaryNumLen, "rowsNorthOfInWire": rowsNorthOfInWire,
+                   "rowsBetweenInAndOutWire": rowsBetweenInAndOutWire, "rowsSouthOfOutWire": rowsSouthOfOutWire}
 
         return mc_size
 
@@ -600,7 +526,7 @@ class Table2:
             print("Transition pair:", pair_label, "Transition:", tr, "Transition col lookup:", transition_col_lookup, "tr_col_change_num:", tr_col_change_num)
 
 
-        mc = MacroCell2(row_st, col_st, dir, aff, tr, mc_size)
+        mc = MacroCell(row_st, col_st, dir, aff, tr, mc_size)
 
         row_wire_col = self.macro_row_col_intersection_dict[(row_num, col_num)]
         print("row_wire_col", row_wire_col)
@@ -643,7 +569,7 @@ class Table2:
         pass
     def makeLeftEdge(self):
         left_x = self.tl_corner_x_y[0]
-        dirs_order = ["N", "E", "W", "S"]
+        dirs_order = ["E", "N", "W", "S"]
 
         rs, rw = self.calculateRowLocations()
 
@@ -725,10 +651,42 @@ class Table2:
         t_assem.setTiles(self.makeOutline())
         t_assem.setTiles(self.macrocell_tiles)
         t_assem.setTiles(self.makeLeftEdge())
-
-
-
         return t_assem, t_assem.returnTiles()
+
+
+class IU_System:
+    def __init__(self, name="Example", input_sys=exampleSystem):
+        self.name = name
+        self.input_system = input_sys
+        self.table = Table(self.input_system)
+        self.states = [northEastCorner, northWestCorner, southEastCorner, southWestCorner, border_state]
+        self.seed_states = [northEastCorner, northWestCorner, southEastCorner, southWestCorner, border_state]
+        self.initial_states =[]
+        self.macroblock_outile = None
+
+        self.vaffinities = []
+        self.haffinities = []
+        self.vtransitions = []
+        self.htransitions = []
+        self.seed_assembly = self.makeMacroTileOutline()
+
+    def makeMacroTileOutline(self):
+        macro_tile_outline = Assembly()
+        table_outline = self.table.calculateTableSize()
+        return macro_tile_outline
+    def returnIUsystem(self):
+        table_seed_assembly, table_seed_tiles = self.table.makeTable()
+        self.seed_assembly.setTiles(table_seed_tiles)
+        iuSys = System(1, self.states, [], self.seed_states, self.vaffinities, self.haffinities,
+                       self.vtransitions, self.htransitions, [], [], table_seed_assembly)
+        return iuSys
+
+
+if __name__ == "__main__":
+    Table(exampleSystem)
+    #iu_sys = IU_System(exampleSystem)
+
+
 # class Table:
 #     def __init__(self, inputSystem, start_x=0, start_y=0):
 #         self.input_system = inputSystem
@@ -837,7 +795,6 @@ class Table2:
 #         input_sys_states = self.input_system.returnStates()
 
 
-
 #         for i in range(len(input_sys_states)):
 
 #             print("X is: ", x)
@@ -885,36 +842,67 @@ class Table2:
 
 #         return input_states_dirs_to_rows, rows_to_input_states_dirs
 
-class IU_System:
-    def __init__(self, name="Example", input_sys=exampleSystem):
-        self.name = name
-        self.input_system = input_sys
-        self.table = Table2(self.input_system)
-        self.states = [northEastCorner, northWestCorner, southEastCorner, southWestCorner, border_state]
-        self.seed_states = [northEastCorner, northWestCorner, southEastCorner, southWestCorner, border_state]
-        self.initial_states =[]
-        self.macroblock_outile = None
+# class MacroCell:
+#     def __init__(self, col_start_x, col_end_x, row_wire_y, column_num, row_num, cell_len=6, transition_num=None, column_state_sim=None, row_state_sim=None, dir=None):
+#         # Starts at the neg door and ends at the pos door
+#         self.mc_start_x = col_start_x
+#         self.mc_start_y = row_wire_y + 1
+#         self.mc_end_x = col_end_x - 2
+#         self.mc_end_y = row_wire_y - 2
+#         self.mc_door_y = row_wire_y
+#         self.row_wire_y = row_wire_y
+#         self.column_state = column_num
+#         self.row_state = row_num
+#         self.simulated_column_state = column_state_sim
+#         self.simulated_row_state = row_state_sim
+#         self.dir = dir
+#         self.transition_num = transition_num
 
-        self.vaffinities = []
-        self.haffinities = []
-        self.vtransitions = []
-        self.htransitions = []
-        self.seed_assembly = self.makeMacroTileOutline()
+#         self.cell_len = cell_len
 
-    def makeMacroTileOutline(self):
-        macro_tile_outline = Assembly()
-        table_outline = self.table.calculateTableSize()
+#         self.mc_states = [punch_down_ds_neg_active, punch_down_ds_active, punch_down_ds_neg_inactive,
+#                           punch_down_ds_inactive, punch_down_ds_neg_end_found, punch_down_ds_end_found]
+#         self.mc_seed_states = [punch_down_ds_neg_active, punch_down_ds_active, eastWire, mc_door_east_negative_inactive,
+#                                mc_door_east_positive_inactive, mc_door_handle_east_negative_inactive, mc_door_handle_east_positive_inactive, trap_door_inactive]
+#         self.mc_seed_assembly, self.mc_seed_tiles = self.makeSeedAssembly()
+
+#         # self.mc_horizontal_affinities, self.mc_horizontal_transitions, self.mc_vertical_affinities, self.mc_vertical_transitions = self.makeHorizontalAffinitiesTransitions()
+#     #def __init__(self, col_start_x, col_end_x, row_wire_y, column_num, row_num, cell_len=6, transition_num=None, column_state_sim=None, row_state_sim=None, dir=None):
+
+#     def makeSeedAssembly(self):
+#         mc_tiles = []
+
+#         mc_tiles.append(Tile(punch_down_ds_neg_active, self.mc_start_x + 1, self.mc_door_y + 1))
+#         mc_tiles.append(Tile(punch_down_ds_active, self.mc_end_x - 2, self.mc_door_y + 1))
+#         mc_tiles.append(Tile(mc_door_east_negative_inactive, self.mc_start_x, self.mc_door_y))
+#         mc_tiles.append(Tile(mc_door_handle_east_negative_inactive, self.mc_start_x, self.mc_door_y + 1))
+#         mc_tiles.append(Tile(mc_door_east_positive_inactive, self.mc_end_x - 1, self.mc_door_y))
+#         mc_tiles.append(Tile(mc_door_handle_east_positive_inactive, self.mc_end_x - 1, self.mc_door_y + 1))
+#         mc_tiles.append(Tile(trap_door_inactive, self.mc_end_x, self.mc_door_y - 1))
+#         mc_tiles.append(Tile(signal_end_checks_inactive, self.mc_start_x, self.mc_door_y - 1))
+#         mc_tiles.append(Tile(signal_start_checks_inactive, self.mc_end_x - 1, self.mc_door_y - 1))
+#         for i in (range(self.mc_start_x, self.mc_end_x)):
+#             mc_tiles.append(Tile(signal_conditional_inactive, i, self.mc_door_y - 2))
 
 
+#         seed_assembly = Assembly()
+#         seed_assembly.setTiles(mc_tiles)
 
-        return macro_tile_outline
-    def returnIUsystem(self):
-        table_seed_assembly, table_seed_tiles = self.table.makeTable()
-        self.seed_assembly.setTiles(table_seed_tiles)
-        iuSys = System(1, self.states, [], self.seed_states, self.vaffinities, self.haffinities,
-                       self.vtransitions, self.htransitions, [], [], table_seed_assembly)
-        return iuSys
+#         return seed_assembly, mc_tiles
 
-if __name__ == "__main__":
-    Table2(exampleSystem)
-    #iu_sys = IU_System(exampleSystem)
+#     def returnSeedTiles(self):
+#         return self.mc_seed_tiles
+
+    # def makeHorizontalAffinitiesTransitions(self):
+    #     wire_aff_v, wire_tr_v = []
+    #     wire_aff_h, wire_tr_h = wireAffinities(self)
+    #     for i in wire_aff_h:
+    #         if i.dir == "v":
+    #             wire_aff_v.append(i)
+    #             wire_aff_h.remove(i)
+    #     for i in wire_tr_h:
+    #         if i.dir == "v":
+    #             wire_tr_v.append(i)
+    #             wire_tr_h.remove(i)
+
+    #     return wire_aff_h, wire_tr_h, wire_aff_v, wire_tr_v

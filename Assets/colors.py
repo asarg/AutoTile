@@ -60,8 +60,8 @@ Morning_Blue = "9EA9A4"  # Grey Blue
 Space_Cadet_Grey = "2D3142"  # Dark Blue Grey
 charcoal = "264653" # dark blue grey
 roman_silver = "8A8698"
-silver_metalic_grey = "AFACAF"
-silver_metalic_blue = "B4B2BD"
+silver_metallic_grey = "AFACAF"
+silver_metallic_blue = "B4B2BD"
 
 # Blues
 Light_Steel_Blue = "B0C4DE" # Light Blue Grey
@@ -176,7 +176,7 @@ inactive_waiting_color = dutch_white
 active_color = Middle_Blue_Green
 active_waiting_color = peach
 activate_next_color = pistachio
-border_color = silver_metalic_blue
+border_color = silver_metallic_blue
 complete_color = tea_green
 data_color = Papaya_Whip
 inactive_data_color = alabaster
