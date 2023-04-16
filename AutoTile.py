@@ -1147,15 +1147,16 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         #genS = IU2.IUGenerators()
         #genSystem = genS.EqualityGadgetGenerator()
         #gS = IUEC.IUGenerators_EC()
-        iuGenSystem = IU_Cleaned.IU_System()
-        #xdoorSys = xDoor.Door()
-        genSystem = iuGenSystem.returnSystem()
+        #iuGenSystem = IU_Cleaned.IU_System()
+
+        #genSystem = iuGenSystem.returnSystem()
         #genSystem = xdoorSys.makeSys()
 
         #genSystem = genS.basicWireGenerator2()
         #genSystem = genS.wireGeneratorWithEndcapDoorNoSignalGadget2()
         #genSystem = genS.equality_gadget_with_prefixes()
-
+        iuGenSystem = IntrinsticUniversality.IU_System()
+        genSystem = iuGenSystem.returnIUsystem()
 
         if type(genSystem) == System:
             #current system takes in an assembly,

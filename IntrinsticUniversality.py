@@ -1,9 +1,9 @@
-from Generators.IU_Generators.binaryStates import *
+from Generators.IU_Generators.iu_states import *
 from UniversalClasses import State, TransitionRule, AffinityRule, System, Tile, Assembly
 from Assets.colors import *
 import sys
 
-exSt = [State("A", active_color), State("B", inactive_color), State("C", wire_color)]
+exSt = [State("A", active_color), State("B", inactive_color), State("C", wire_color), State("D", wire_color)]
 xISt = [State("A", active_color), State("B", inactive_color), State("C", wire_color)]
 xSSt = [State("A", active_color)]
 vaff = [AffinityRule("A", "B", "v", 1), AffinityRule("C", "A", "v", 1), AffinityRule("C", "B", "v", 1)]
@@ -168,8 +168,7 @@ class MacroCell2:
 
     def makeDoorPunchdownTiles(self):
         mc_door_tiles = []
-        mc_door_tiles.append(Tile(mc_door_east_positive_inactive,
-                             self.mc_pos_door_x,  self.mc_door_y))
+        mc_door_tiles.append(Tile(mc_door_east_positive_inactive, self.mc_pos_door_x,  self.mc_door_y))
         mc_door_tiles.append(Tile(mc_door_east_negative_inactive, self.mc_neg_door_x, self.mc_door_y))
         mc_door_tiles.append(Tile(mc_door_handle_east_negative_inactive, self.mc_neg_door_x, self.mc_door_y + 1))
         mc_door_tiles.append(Tile(mc_door_handle_east_positive_inactive, self.mc_pos_door_x, self.mc_door_y + 1))
@@ -209,7 +208,7 @@ class MacroCell2:
 
         elif self.transition_col_change_num < 0:
             write_row_tiles.append(
-                Tile(writeEndStatePairInactive, self.mc_pos_door_x - 1, self.mc_door_y - 1))
+                Tile(end_state_inactive, self.mc_pos_door_x - 1, self.mc_door_y - 1))
             for i in range(self.mc_pos_door_x - 2, self.mc_neg_door_x, -1):
                 if dec > 0:
                     write_row_tiles.append(Tile(neg_ds_1_inactive_mc, i, self.mc_door_y - 1))
@@ -218,7 +217,7 @@ class MacroCell2:
                     write_row_tiles.append(Tile(inactive_blank_neg_data, i, self.mc_door_y - 1))
 
         elif self.transition_col_change_num > 0:
-            write_row_tiles.append(Tile(writeStartStatePairInactive, self.mc_neg_door_x + 1, self.mc_door_y - 1))
+            write_row_tiles.append(Tile(start_state_inactive, self.mc_neg_door_x + 1, self.mc_door_y - 1))
             for i in range(self.mc_neg_door_x + 2, self.mc_pos_door_x):
                 if dec > 0:
                     write_row_tiles.append(Tile(ds_1_inactive_mc, i, self.mc_door_y - 1))
@@ -258,56 +257,56 @@ class MacroCell2:
 
 
 
-class MacroCell:
-    def __init__(self, col_start_x, col_end_x, row_wire_y, column_num, row_num, cell_len=6, transition_num=None, column_state_sim=None, row_state_sim=None, dir=None):
-        # Starts at the neg door and ends at the pos door
-        self.mc_start_x = col_start_x
-        self.mc_start_y = row_wire_y + 1
-        self.mc_end_x = col_end_x - 2
-        self.mc_end_y = row_wire_y - 2
-        self.mc_door_y = row_wire_y
-        self.row_wire_y = row_wire_y
-        self.column_state = column_num
-        self.row_state = row_num
-        self.simulated_column_state = column_state_sim
-        self.simulated_row_state = row_state_sim
-        self.dir = dir
-        self.transition_num = transition_num
+# class MacroCell:
+#     def __init__(self, col_start_x, col_end_x, row_wire_y, column_num, row_num, cell_len=6, transition_num=None, column_state_sim=None, row_state_sim=None, dir=None):
+#         # Starts at the neg door and ends at the pos door
+#         self.mc_start_x = col_start_x
+#         self.mc_start_y = row_wire_y + 1
+#         self.mc_end_x = col_end_x - 2
+#         self.mc_end_y = row_wire_y - 2
+#         self.mc_door_y = row_wire_y
+#         self.row_wire_y = row_wire_y
+#         self.column_state = column_num
+#         self.row_state = row_num
+#         self.simulated_column_state = column_state_sim
+#         self.simulated_row_state = row_state_sim
+#         self.dir = dir
+#         self.transition_num = transition_num
 
-        self.cell_len = cell_len
+#         self.cell_len = cell_len
 
-        self.mc_states = [punch_down_ds_neg_active, punch_down_ds_active, punch_down_ds_neg_inactive,
-                          punch_down_ds_inactive, punch_down_ds_neg_end_found, punch_down_ds_end_found]
-        self.mc_seed_states = [punch_down_ds_neg_active, punch_down_ds_active, eastWire, mc_door_east_negative_inactive,
-                               mc_door_east_positive_inactive, mc_door_handle_east_negative_inactive, mc_door_handle_east_positive_inactive, trap_door_inactive]
-        self.mc_seed_assembly, self.mc_seed_tiles = self.makeSeedAssembly()
+#         self.mc_states = [punch_down_ds_neg_active, punch_down_ds_active, punch_down_ds_neg_inactive,
+#                           punch_down_ds_inactive, punch_down_ds_neg_end_found, punch_down_ds_end_found]
+#         self.mc_seed_states = [punch_down_ds_neg_active, punch_down_ds_active, eastWire, mc_door_east_negative_inactive,
+#                                mc_door_east_positive_inactive, mc_door_handle_east_negative_inactive, mc_door_handle_east_positive_inactive, trap_door_inactive]
+#         self.mc_seed_assembly, self.mc_seed_tiles = self.makeSeedAssembly()
 
-        # self.mc_horizontal_affinities, self.mc_horizontal_transitions, self.mc_vertical_affinities, self.mc_vertical_transitions = self.makeHorizontalAffinitiesTransitions()
-    #def __init__(self, col_start_x, col_end_x, row_wire_y, column_num, row_num, cell_len=6, transition_num=None, column_state_sim=None, row_state_sim=None, dir=None):
+#         # self.mc_horizontal_affinities, self.mc_horizontal_transitions, self.mc_vertical_affinities, self.mc_vertical_transitions = self.makeHorizontalAffinitiesTransitions()
+#     #def __init__(self, col_start_x, col_end_x, row_wire_y, column_num, row_num, cell_len=6, transition_num=None, column_state_sim=None, row_state_sim=None, dir=None):
 
-    def makeSeedAssembly(self):
-        mc_tiles = []
+#     def makeSeedAssembly(self):
+#         mc_tiles = []
 
-        mc_tiles.append(Tile(punch_down_ds_neg_active, self.mc_start_x + 1, self.mc_door_y + 1))
-        mc_tiles.append(Tile(punch_down_ds_active, self.mc_end_x - 2, self.mc_door_y + 1))
-        mc_tiles.append(Tile(mc_door_east_negative_inactive, self.mc_start_x, self.mc_door_y))
-        mc_tiles.append(Tile(mc_door_handle_east_negative_inactive, self.mc_start_x, self.mc_door_y + 1))
-        mc_tiles.append(Tile(mc_door_east_positive_inactive, self.mc_end_x - 1, self.mc_door_y))
-        mc_tiles.append(Tile(mc_door_handle_east_positive_inactive, self.mc_end_x - 1, self.mc_door_y + 1))
-        mc_tiles.append(Tile(trap_door_inactive, self.mc_end_x, self.mc_door_y - 1))
-        mc_tiles.append(Tile(signal_end_checks_inactive, self.mc_start_x, self.mc_door_y - 1))
-        mc_tiles.append(Tile(signal_start_checks_inactive, self.mc_end_x - 1, self.mc_door_y - 1))
-        for i in (range(self.mc_start_x, self.mc_end_x)):
-            mc_tiles.append(Tile(signal_conditional_inactive, i, self.mc_door_y - 2))
+#         mc_tiles.append(Tile(punch_down_ds_neg_active, self.mc_start_x + 1, self.mc_door_y + 1))
+#         mc_tiles.append(Tile(punch_down_ds_active, self.mc_end_x - 2, self.mc_door_y + 1))
+#         mc_tiles.append(Tile(mc_door_east_negative_inactive, self.mc_start_x, self.mc_door_y))
+#         mc_tiles.append(Tile(mc_door_handle_east_negative_inactive, self.mc_start_x, self.mc_door_y + 1))
+#         mc_tiles.append(Tile(mc_door_east_positive_inactive, self.mc_end_x - 1, self.mc_door_y))
+#         mc_tiles.append(Tile(mc_door_handle_east_positive_inactive, self.mc_end_x - 1, self.mc_door_y + 1))
+#         mc_tiles.append(Tile(trap_door_inactive, self.mc_end_x, self.mc_door_y - 1))
+#         mc_tiles.append(Tile(signal_end_checks_inactive, self.mc_start_x, self.mc_door_y - 1))
+#         mc_tiles.append(Tile(signal_start_checks_inactive, self.mc_end_x - 1, self.mc_door_y - 1))
+#         for i in (range(self.mc_start_x, self.mc_end_x)):
+#             mc_tiles.append(Tile(signal_conditional_inactive, i, self.mc_door_y - 2))
 
 
-        seed_assembly = Assembly()
-        seed_assembly.setTiles(mc_tiles)
+#         seed_assembly = Assembly()
+#         seed_assembly.setTiles(mc_tiles)
 
-        return seed_assembly, mc_tiles
+#         return seed_assembly, mc_tiles
 
-    def returnSeedTiles(self):
-        return self.mc_seed_tiles
+#     def returnSeedTiles(self):
+#         return self.mc_seed_tiles
 
     # def makeHorizontalAffinitiesTransitions(self):
     #     wire_aff_v, wire_tr_v = []
@@ -455,26 +454,40 @@ class Table2:
     def calculateColumnsLocations(self):
         mc_size = self.calculateMacroCellSize()
         begin_cols_x = self.tl_corner_x_y[0] + 3
-        end_cols_x = begin_cols_x + mc_size["unborderedMacroCellWidth"] * len(self.input_system_states)
         cols_size = mc_size["borderedMacroCellWidthWithTDAndWirePadding"]
+        #end_cols_x = begin_cols_x + mc_size["unborderedMacroCellWidth"] * len(self.input_system_states)
+        end_buffer = 3
+        end_cols_x = begin_cols_x + cols_size*len(self.input_system_states) - end_buffer
         end_col_corners = begin_cols_x + cols_size - 5
         begin_col_wires = begin_cols_x + cols_size - 4
 
         cols_start_x_list = []
         cols_wire_start_list = []
         cols_end_x_list = []
+        cols_start_placing_unary_nums = []
+        cplaceux = end_col_corners - 2
+        i = 0
         cx = begin_cols_x
         cw = begin_col_wires
         ce = end_col_corners
-        end_buffer = 3
+
         while cx < self.tr_corner_x_y[0] - end_buffer:
+
             cols_start_x_list.append(cx)
             cols_wire_start_list.append(cw)
             cols_end_x_list.append(ce)
+            cols_start_placing_unary_nums.append(cplaceux - i)
             cx += cols_size
             cw += cols_size
             ce += cols_size
-        return cols_start_x_list, cols_wire_start_list, cols_end_x_list
+
+            print("i: ", i, "cplaceux: ", cplaceux, "ce: ", ce)
+
+            cplaceux += cols_size
+            i += 1
+
+
+        return cols_start_x_list, cols_wire_start_list, cols_end_x_list, cols_start_placing_unary_nums
 
     def calculateRowLocations(self):
         mc_size = self.calculateMacroCellSize()
@@ -493,7 +506,7 @@ class Table2:
         return rows_start_y_list, rows_wires_y_list
 
     def calcIntersections(self):
-        cols_start_x_list, cols_wire_start_list, col_end_x_list = self.calculateColumnsLocations()
+        cols_start_x_list = self.calculateColumnsLocations()[0]
         rows_start_y_list, rows_wires_y_list = self.calculateRowLocations()
         row_col_intersections_dict = {}
         start_intersections = []
@@ -638,7 +651,7 @@ class Table2:
         row_counter = 0
         for y in range(self.tl_corner_x_y[1] - 1, self.bl_corner_x_y[1], -1):
             if y in rs:
-                left_edge_tiles.append(Tile(rowStartMarker, left_x, y))
+                left_edge_tiles.append(Tile(rowMarkerStartTop, left_x, y))
                 rn = row_counter
                 #rdst = dirs_order[]
 
@@ -659,22 +672,49 @@ class Table2:
 
 
     def makeOutline(self):
-        cs, cw, ce = self.calculateColumnsLocations()
+
+        col_start_x, col_wire_x, col_end_x, col_unary_label_start_x = self.calculateColumnsLocations()
         outline_tiles = [Tile(northWestCorner, self.tl_corner_x_y[0], self.tl_corner_x_y[1]),
                          Tile(southWestCorner, self.bl_corner_x_y[0], self.bl_corner_x_y[1]),
                          Tile(northEastCorner, self.tr_corner_x_y[0], self.tr_corner_x_y[1]),
                          Tile(southEastCorner, self.br_corner_x_y[0], self.br_corner_x_y[1])
                          ]
+        i = 0
+        j = col_unary_label_start_x[0]
+        cex = col_end_x[0]
         for x in range(self.tl_corner_x_y[0] + 1, self.tr_corner_x_y[0]):
-            if x in cs:
-                outline_tiles.append(Tile(columnStartMarkerTop, x, self.tl_corner_x_y[1]))
+            if x in col_start_x:
 
-            elif x in ce:
-                outline_tiles.append(Tile(columnEndMarkerTop, x, self.tl_corner_x_y[1]))
+                outline_tiles.append(
+                    Tile(columnMarkerTopStart, x, self.tl_corner_x_y[1]))
+
+            elif x in col_end_x:
+
+                print("col_num: ", i,"col_end_x", x)
+                outline_tiles.append(
+                    Tile(columnMarkerTopEnd, x, self.tl_corner_x_y[1]))
+                i += 1
+
+
+            elif x + 1 in col_end_x:
+                outline_tiles.append(Tile(end_state, x, self.tl_corner_x_y[1]))
+
+
+            elif x in col_unary_label_start_x:
+                print("col_num: ", i,"col_unary_label_start_x", x)
+                outline_tiles.append(Tile(ds_1_inactive, x, self.tl_corner_x_y[1]))
+
+            elif i < len(col_end_x):
+                if x > col_unary_label_start_x[i] and x < col_end_x[i] - 1:
+                    outline_tiles.append(Tile(ds_1_inactive, x, self.tl_corner_x_y[1]))
+                else:
+                    outline_tiles.append(Tile(border_state, x, self.tl_corner_x_y[1]))
+
+
             else:
                 outline_tiles.append(Tile(border_state, x, self.tl_corner_x_y[1]))
 
-            outline_tiles.append(Tile(border_state, x, self.bl_corner_x_y[1]))
+
         for y in range(self.tl_corner_x_y[1] - 1, self.bl_corner_x_y[1], -1):
             outline_tiles.append(Tile(border_state, self.tr_corner_x_y[0], y))
         outline_tiles = outline_tiles + self.makeLeftEdge()
@@ -689,147 +729,161 @@ class Table2:
 
 
         return t_assem, t_assem.returnTiles()
-class Table:
-    def __init__(self, inputSystem, start_x=0, start_y=0):
-        self.input_system = inputSystem
-        self.input_states_to_cols_dict, self.cols_to_input_states_dict = self.map_input_states_to_cols()
-        self.input_states_dirs_to_rows_dict, self.rows_to_input_states_dirs_dict = self.map_input_states_to_rows()
-        self.num_input_states = len(self.input_system.returnStates())
-        self.start_x = start_x
-        self.start_y = start_y
-        self.row_size = 5
-        self.column_size = len(self.input_system.returnStates()) + 2 + 2
+# class Table:
+#     def __init__(self, inputSystem, start_x=0, start_y=0):
+#         self.input_system = inputSystem
+#         self.input_states_to_cols_dict, self.cols_to_input_states_dict = self.map_input_states_to_cols()
+#         self.input_states_dirs_to_rows_dict, self.rows_to_input_states_dirs_dict = self.map_input_states_to_rows()
+#         self.num_input_states = len(self.input_system.returnStates())
+#         self.start_x = start_x
+#         self.start_y = start_y
+#         self.row_size = 5
+#         self.column_size = len(self.input_system.returnStates()) + 2 + 2
 
-        self.coords = {}
-        self.num_rows = self.num_input_states * 4
-        self.num_cols = self.num_input_states
-        self.width = (self.column_size * self.num_cols) + 2
-        self.height = (self.row_size * self.num_rows)
-        self.rows = self.createRows()
-        self.columns = self.createColumns()
+#         self.coords = {}
+#         self.num_rows = self.num_input_states * 4
+#         self.num_cols = self.num_input_states
+#         self.width = (self.column_size * self.num_cols) + 2
+#         self.height = (self.row_size * self.num_rows)
+#         self.rows = self.createRows()
+#         self.columns = self.createColumns()
 
-        self.end_x = start_x + self.width
-        self.end_y = start_y - self.height
-        self.outline = self.createOutline(self.start_x, self.start_y, self.end_x, self.end_y)
-        self.TableAssembly, self.table_tiles = self.createTable()
+#         self.end_x = start_x + self.width
+#         self.end_y = start_y - self.height
+#         self.outline = self.createOutline(self.start_x, self.start_y, self.end_x, self.end_y)
+#         self.TableAssembly, self.table_tiles = self.createTable()
 
-    def createTable(self):
-        outlineTiles = self.outline.returnTiles()
-        r = self.rows
-        c = self.columns
-        row_tiles = []
-        col_tiles = []
-        m = []
-        m_tiles = []
-
-
-        mc_wire_y_rows_list = []
-        mc_cols_x_start_end_pairs_list = []
-
-        for i in r:
-            mc_wire_y_rows_list.append(i.wire_y)
-            row_tiles = row_tiles + i.returnTiles()
-        for i in c:
-            xs = i.start_x
-            xe = i.end_x
-            mc_cols_x_start_end_pairs_list.append((xs, xe))
-            col_tiles = col_tiles + i.returnColTiles()
-
-        for i in range(len(mc_wire_y_rows_list)):
-            for j in range(len(mc_cols_x_start_end_pairs_list)):
-                macrocell = MacroCell(mc_cols_x_start_end_pairs_list[j][0], mc_cols_x_start_end_pairs_list[j]
-                               [1], mc_wire_y_rows_list[i], j, i, self.num_input_states + 2)
-                m.append(macrocell)
-                m_tiles = m_tiles + macrocell.returnSeedTiles()
-
-        self.macrocells = m
-        #self.columns = self.create_columns()
-        tableAssem = Assembly()
-        table_tiles = outlineTiles + row_tiles + col_tiles
-        tableAssem.setTiles(outlineTiles)
-        tableAssem.setTiles(row_tiles)
-        tableAssem.setTiles(col_tiles)
-        tableAssem.setTiles(m_tiles)
-        return tableAssem, table_tiles
-
-    def returnSeedAssemblyTableTiles(self):
-        return self.TableAssembly, self.table_tiles
+#     def createTable(self):
+#         outlineTiles = self.outline.returnTiles()
+#         r = self.rows
+#         c = self.columns
+#         row_tiles = []
+#         col_tiles = []
+#         m = []
+#         m_tiles = []
 
 
-    def createOutline(self,n_x, n_y, e_x, e_y):
-        tiles = []
-        end_x = e_x
-        end_y = e_y - 1
-        start_x = n_x
-        start_y = n_y
-        outline = Assembly()
-        tiles.append(Tile(northWestCorner, start_x, start_y))
-        tiles.append(Tile(northEastCorner, end_x, start_y))
-        tiles.append(Tile(southWestCorner, start_x, end_y))
-        tiles.append(Tile(southEastCorner, end_x, end_y))
+#         mc_wire_y_rows_list = []
+#         mc_cols_x_start_end_pairs_list = []
 
-        for i in range(start_x + 1, end_x):
-            tiles.append(Tile(border_state, i, start_y))
-            tiles.append(Tile(border_state, i, end_y))
+#         for i in r:
+#             mc_wire_y_rows_list.append(i.wire_y)
+#             row_tiles = row_tiles + i.returnTiles()
+#         for i in c:
+#             xs = i.start_x
+#             xe = i.end_x
+#             mc_cols_x_start_end_pairs_list.append((xs, xe))
+#             col_tiles = col_tiles + i.returnColTiles()
 
-        for i in range(start_y -1, end_y, -1):
-            tiles.append(Tile(border_state, end_x, i))
+#         for i in range(len(mc_wire_y_rows_list)):
+#             for j in range(len(mc_cols_x_start_end_pairs_list)):
+#                 macrocell = MacroCell(mc_cols_x_start_end_pairs_list[j][0], mc_cols_x_start_end_pairs_list[j]
+#                                [1], mc_wire_y_rows_list[i], j, i, self.num_input_states + 2)
+#                 m.append(macrocell)
+#                 m_tiles = m_tiles + macrocell.returnSeedTiles()
 
-        outline.setTiles(tiles)
-        return outline
+#         self.macrocells = m
+#         #self.columns = self.create_columns()
+#         tableAssem = Assembly()
+#         table_tiles = outlineTiles + row_tiles + col_tiles
+#         tableAssem.setTiles(outlineTiles)
+#         tableAssem.setTiles(row_tiles)
+#         tableAssem.setTiles(col_tiles)
+#         tableAssem.setTiles(m_tiles)
+#         return tableAssem, table_tiles
 
-    def createRows(self):
-        r = []
-        s = self.input_system.returnStates()
-        row_num = 0
-        x = self.start_x
-        y = self.start_y - 1
-        for i in s:
-            for j in ["n", "s", "e", "w"]:
-                r.append(Row(i, j, x, y, self.width))
-                row_num += 1
-                y -= 5
-        return r
-    def createColumns(self):
-        cols = []
-        x = self.start_x + 1
-        y = self.start_y
-        input_sys_states = self.input_system.returnStates()
+#     def returnSeedAssemblyTableTiles(self):
+#         return self.TableAssembly, self.table_tiles
 
 
+#     def createOutline(self,n_x, n_y, e_x, e_y):
+#         tiles = []
+#         end_x = e_x
+#         end_y = e_y - 1
+#         start_x = n_x
+#         start_y = n_y
+#         outline = Assembly()
+#         tiles.append(Tile(northWestCorner, start_x, start_y))
+#         tiles.append(Tile(northEastCorner, end_x, start_y))
+#         tiles.append(Tile(southWestCorner, start_x, end_y))
+#         tiles.append(Tile(southEastCorner, end_x, end_y))
 
-        for i in range(len(input_sys_states)):
+#         for i in range(start_x + 1, end_x):
+#             tiles.append(Tile(border_state, i, start_y))
+#             tiles.append(Tile(border_state, i, end_y))
 
-            print("X is: ", x)
-            cols.append(Column(input_sys_states[i], x, y, self.row_size, self.input_system, self.input_states_to_cols_dict, column_height=self.height))
-            x = x + self.column_size
+#         for i in range(start_y -1, end_y, -1):
+#             tiles.append(Tile(border_state, end_x, i))
 
-        return cols
+#         outline.setTiles(tiles)
+#         return outline
 
-    def createMacroCells(self):
-        pass
+#     def createRows(self):
+#         r = []
+#         s = self.input_system.returnStates()
+#         row_num = 0
+#         x = self.start_x
+#         y = self.start_y - 1
+#         for i in s:
+#             for j in ["n", "s", "e", "w"]:
+#                 r.append(Row(i, j, x, y, self.width))
+#                 row_num += 1
+#                 y -= 5
+#         return r
+#     def createColumns(self):
+#         cols = []
+#         x = self.start_x + 1
+#         y = self.start_y
+#         input_sys_states = self.input_system.returnStates()
 
 
-    def map_input_states_to_cols(self):
-        col_num = 0
-        input_states_to_cols = {}
-        cols_to_input_states = {}
-        for state in self.input_system.states:
-            input_states_to_cols[state.label] = col_num
-            cols_to_input_states[col_num] = state.label
-            col_num += 1
-        return input_states_to_cols, cols_to_input_states
 
-    def map_input_states_to_rows(self):
-        row_num = 0
-        input_states_dirs_to_rows = {}
-        rows_to_input_states_dirs = {}
-        for state in self.input_system.states:
-            for direction in ["n", "e", "s", "w"]:
-                input_states_dirs_to_rows[(state.label, direction)] = row_num
-                rows_to_input_states_dirs[row_num] = (state.label, direction)
-                row_num += 1
-        return input_states_dirs_to_rows, rows_to_input_states_dirs
+#         for i in range(len(input_sys_states)):
+
+#             print("X is: ", x)
+#             cols.append(Column(input_sys_states[i], x, y, self.row_size, self.input_system, self.input_states_to_cols_dict, column_height=self.height))
+#             x = x + self.column_size
+
+#         return cols
+
+#     def createMacroCells(self):
+#         pass
+
+
+#     def map_input_states_to_cols(self):
+#         col_num = 0
+#         input_states_to_cols = {}
+#         cols_to_input_states = {}
+#         for state in self.input_system.states:
+#             input_states_to_cols[state.label] = col_num
+#             cols_to_input_states[col_num] = state
+#             col_num += 1
+#         return input_states_to_cols, cols_to_input_states
+
+#     def map_input_states_to_rows(self):
+#         row_num = 0
+#         input_states_dirs_to_rows = {}
+#         rows_to_input_states_dirs = {}
+#         len_to_south = len(self.input_system.states)*3
+#         len_to_west = len(self.input_system.states) # Because row counter will already have iterated though the east states
+#         whole_table_len = len(self.input_system.states)*4
+
+#         for state in self.input_system.states.reverse():
+#             input_states_dirs_to_rows[(state.label, "e")] = row_num
+#             rows_to_input_states_dirs[row_num] = (state.label, "e")
+#             input_states_dirs_to_rows[(state.label, "s")] = row_num + len_to_south
+#             rows_to_input_states_dirs[row_num + len_to_south] = (state.label, "s")
+#             row_num += 1
+
+
+#         for state in self.input_system.states:
+#             input_states_dirs_to_rows[(state.label, "n")] = row_num
+#             rows_to_input_states_dirs[row_num] = (state.label, "n")
+#             input_states_dirs_to_rows[(state.label, "w")] = row_num + len_to_west
+#             rows_to_input_states_dirs[row_num + len_to_west] = (state.label, "w")
+#             row_num += 1
+
+#         return input_states_dirs_to_rows, rows_to_input_states_dirs
 
 class IU_System:
     def __init__(self, name="Example", input_sys=exampleSystem):

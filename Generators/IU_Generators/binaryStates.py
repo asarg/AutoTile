@@ -255,6 +255,7 @@ tile_south_edge_door_out_wire_inactive = State("TileSouthEdgeDoorOutWireInactive
 
 tile_east_edge_door_out_wire_active = State("TileEastEdgeDoorOutWireActive", block_edge_door_color, "╠ ⬓")
 tile_east_edge_door_in_wire_active = State("TileEastEdgeDoorInWireActive", block_edge_door_color, "╠ ⬓")
+
 ## Wire Copy Tile States
 
 ## Copy Doors
@@ -329,12 +330,9 @@ endcap_doors_east_list = [endcap_door_east_inactive, endcap_door_east_handle_ina
 
 
 ### Signal Doors
-signal_door_inactive = State(
-    "LockedSignalDoorInactive", inactive_color, "🔒🚪")  # 🚪 ◨
-signal_door_inactive_east = State(
-    "LockedSignalDoorInactiveEast", inactive_color, "🚪⇉")  # ◨⇉
-signal_door_intermediate_accept = State(
-    "SignalDoorIntermediateAccept", intermediate_accept_color, "🚪↯")  # ◨↯
+signal_door_inactive = State("LockedSignalDoorInactive", inactive_color, "🔒🚪")  # 🚪 ◨
+signal_door_inactive_east = State("LockedSignalDoorInactiveEast", inactive_color, "🚪⇉")  # ◨⇉
+signal_door_intermediate_accept = State("SignalDoorIntermediateAccept", intermediate_accept_color, "🚪↯")  # ◨↯
 signal_door_open = State("SignalDoorOpen", full_accept_color, "🔓◨") # 🔓◨
 signal_door_transmit = State("SignalDoorTransmit", waiting_color, "◨↯") # ◨↯
 signal_door_active_waiting_east = State("SignalDoorActiveWaitingEast", waiting_color, "◨⇉⏱") # ◨⇉⏱

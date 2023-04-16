@@ -8,15 +8,26 @@ jasmine = "FCDE73"  # Yellow
 peach_yellow = "FBDE9E"  # Yellowish
 champaign_pink = "F9DEC9"
 eggshell = "F0EAD6"
+seasalt = "F9F8F8"
+columbia_blue = "CFDEE7"  # Light Blue Grey
 light_blue_2 = "B1CECF"  # Light Blue Grey
 powder_blue = "99B8C8" # Light Blue Pastel
 air_superiority_blue_2 = "7995AC"  # Mid Light Blue
-paynes_grey = "59728F"  # Dark Blue Grey
+paynes_grey_blue = "59728F"  # Dark Blue Grey
 yinmn_blue = "2F4C74"  # Dark Blue
 dark_cyan = "328683"  # Dark Blue Green
 mint = "70C2A3" # Light Green
 zomp = "519E8A" # Mid Green
+dark_cyan2 = "328683"
+teal = "1A787E"  # Dark Green Blue
+french_grey = "ACAEB5"
+slate_grey = "76818E"  # Dark Grey
+paynes_grey_grey = "56616C"  # Dark Grey
+charcoal2 = "35414A"  # Dark Grey
 
+## Inactive Versions
+zomp_inactive = "648C81" # veridian grey green
+carmine_inactive = "841F28"
 # Whites
 
 gainsboro = "DFE0E2"  # Greyish
