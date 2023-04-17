@@ -357,6 +357,7 @@ signal_door_handle_pass_find_corner_south = State("SignalDoorHandlePassFindCorne
 signal_door_handle_accept_north = State("SignalDoorHandleAcceptNorth", full_accept_color, "🗝~↥↯")
 signal_door_handle_accept_south = State("SignalDoorHandleAcceptSouth", full_accept_color, "🗝~↧↯")
 
+signal_door_west_inactive = State("LockedSignalDoorWestInactive", inactive_color, "🔒⇇")
 signal_door_pass_accept_south = State("SignalDoorPassAcceptSouth", intermediate_accept_color, "◨↧↯")
 signal_door_pass_accept_north = State("SignalDoorPassAcceptNorth", intermediate_accept_color, "◨↥↯")
 signal_door_pass_find_corner_north = State("SignalDoorPassFindCornerNorth", waiting_color, "◨↥↯")

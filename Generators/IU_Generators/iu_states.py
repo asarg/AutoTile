@@ -120,6 +120,7 @@ signal_door_handle_inactive = State("LockedSignalDoorHandleInactive", signal_doo
 signal_door_handle_reset = State("SignalDoorHandleReset", reset_color, "↺🗝~") # ↺🗝~
 signal_door_inactive_east = State("LockedSignalDoorInactiveEast", signal_door_inactive_color, "🚪⇉")  # ◨⇉
 
+signal_door_inactive_west = State("LockedSignalDoorInactiveWest", signal_door_inactive_color, "🚪⇇")  # ◨⇇
 signal_door_north_handle_inactive = State("LockedSignalDoorNorthHandleInactive", signal_door_inactive_color, "🗝~⇈")
 signal_door_handle_open = State("SignalDoorHandleOpen", signal_door_color, "🗝~")
 signal_door_handle_active_waiting = State("SignalDoorHandleActiveWaiting", signal_door_waiting_color, "⏱🗝~")

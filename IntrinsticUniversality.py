@@ -600,6 +600,7 @@ class Table:
         row_start_top_y = [i[1]["start_y"] for i in row_loc_items]
         row_wire_y = [i[1]["in_wire_y"] for i in row_loc_items]
         row_out_wire_y_list = [i[1]["out_wire_y"] for i in row_loc_items]
+        row_end_y = [i[1]["end_y"] for i in row_loc_items]
 
         left_edge_tiles = []
         row_counter = 0
@@ -622,6 +623,8 @@ class Table:
                 left_edge_tiles.append(Tile(eastWire, left_x - 1, y))
                 left_edge_tiles.append(Tile(eastWire, left_x - 2, y))
             elif y in row_out_wire_y_list:
+                left_edge_tiles.append(Tile(signal_door_inactive_west, left_x, y))
+                left_edge_tiles.append(Tile(signal_door_handle_inactive, left_x, y - 1))
 
 
                 left_edge_tiles.append(Tile(westWire, left_x + 1, y))
