@@ -33,7 +33,8 @@ end_state_pair_marker_sym = "]*"
 nd_selector_color = mango_tango
 
 ####### Wire Colors
-signal_wire_color = jasmine
+signal_wire_color = peach_yellow
+signal_wire_inactive_color = peach_yellow
 wire_color = Blue_Sapphire
 ######################## Door Colors
 ## Trap Door Colors

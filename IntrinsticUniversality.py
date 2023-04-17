@@ -152,8 +152,10 @@ class MacroCell:
             self.mc_size_dimensions["unborderedMacrocellHeight"] = unborderedMacrocellHeight
             self.mc_size_dimensions["borderedMacroCellHeight"] = borderedMacroCellHeight
 
+
     def addMcCoords(self, mc_neg_door_x, mc_door_y):
         self.mc_door_y = mc_door_y
+        self.out_wire_y = int(self.mc_size_dimensions["unborderedMacroCellWidth"])
         self.mc_neg_door_x = mc_neg_door_x
 
         self.mc_pos_door_x = mc_neg_door_x + \
@@ -163,6 +165,7 @@ class MacroCell:
         self.mc_southmost_y = mc_door_y - 3
         self.mc_westmost_x = mc_neg_door_x
         self.mc_eastmost_x = self.mc_trap_door_x + 1
+
 
     def makeDoorPunchdownTiles(self):
         mc_door_tiles = []
@@ -239,9 +242,11 @@ class MacroCell:
 
 
     def makeBorderTiles(self):
-        pass
+        border_tiles = []
+        for i in range(self.mc_neg_door_x, self.mc_pos_door_x):
+            border_tiles.append(Tile(row_border, i, self.mc_size_dimensions[""]))
 
-    def makeMacroCell(self, mc_neg_door_x, mc_door_y, tr_change_num):
+    def makeMacroCell_MC(self, mc_neg_door_x, mc_door_y, tr_change_num):
         self.transition_col_change_num = tr_change_num
         mc_a = Assembly()
         self.addMcCoords(mc_neg_door_x, mc_door_y)
@@ -257,7 +262,8 @@ class MacroCell:
 
 
 class Column:
-    def __init__(self, input_state, start_x, start_y, row_height, input_system, rows_mapped_to_input_states_dirs={1:("A", "N"), 2:"B", 3:"C"}, macro_cells_in_column=None, column_height=-1):
+    def __init__(self, input_state, start_x, start_y, row_height, input_system, rows_mapped_to_input_states_dirs={1:("A", "N"), 2:"B", 3:"C"},
+                 macro_cells_in_column=None, column_height=-1):
         self.input_state = input_state
         self.input_system_states = input_system.returnStates()
         self.column_num = input_system.returnStates().index(input_state)
@@ -324,15 +330,11 @@ class Table:
         self.macrocell_size = self.calculateMacroCellSize()
         self.width, self.height, self.tr_corner_x_y, self.bl_corner_x_y, self.br_corner_x_y = self.calculateTableSize()
         self.start_intersections, self.cols_wires_intersections, self.macro_row_col_intersection_dict = self.calcIntersections()
-        self.macrocells, self.macrocell_tiles = self.makeMacroCells() # macrocells
-        # start intersections
-
-        #self.columns = self.makeColumns() # columns
-
-        #self.columns = self.makeColumns() # columns
+        self.macrocells, self.macrocell_tiles = self.makeMacroCells_Table() # macrocells
 
 
-        # First we need to map the input states to the columns
+
+
     def mapInputStates(self):
         cols_to_states = {}
         rows_to_states_dirs = {}
@@ -355,7 +357,7 @@ class Table:
 
         return cols_to_states, rows_to_states_dirs, input_states_to_rows_cols
     def calculateTableSize(self):
-        mc_size = self.calculateMacroCellSize()
+        mc_size = self.macrocell_size
         rows_num = len(self.input_system_states)*4
         cols_num = len(self.input_system_states)
         # 2 for the border, 3 for the starting wire padding
@@ -405,38 +407,59 @@ class Table:
         return cols_start_x_list, cols_wire_start_list, cols_end_x_list, cols_start_placing_unary_nums
 
     def calculateRowLocations(self):
+        row_locations_dict = {}
         mc_size = self.calculateMacroCellSize()
         mc_top_size_with_border = 2
         begin_rows_y = self.tl_corner_x_y[1] - 1
         begin_rows_wires = begin_rows_y - mc_top_size_with_border - 1
         begin_rows_out_wires = begin_rows_wires - 3
+        begin_row_end = begin_rows_out_wires - 2
+
         rows_start_y_list = []
         rows_wires_y_list = []
         row_out_wire_y_list = []
+        row_end_y_list = []
         rs = begin_rows_y
         rw = begin_rows_wires
         rw_out = begin_rows_out_wires
+        re = begin_row_end
+        i = 0
         while rs > self.bl_corner_x_y[1]:
+            row_locations_dict[i] = {"start_y": rs, "in_wire_y": rw, "out_wire_y": rw_out, "end_y": re}
             rows_start_y_list.append(rs)
             rows_wires_y_list.append(rw)
             row_out_wire_y_list.append(rw_out)
+            row_end_y_list.append(re)
+
+
             rs -= mc_size["borderedMacroCellHeight"]
             rw -= mc_size["borderedMacroCellHeight"]
-        return rows_start_y_list, rows_wires_y_list
+            rw_out -= mc_size["borderedMacroCellHeight"]
+            re -= mc_size["borderedMacroCellHeight"]
+            i += 1
+
+        return row_locations_dict
 
     def calcIntersections(self):
+        intersections_dict = {}
         cols_start_x_list = self.calculateColumnsLocations()[0]
-        rows_start_y_list, rows_wires_y_list = self.calculateRowLocations()
+        row_locations_dict = self.calculateRowLocations()
         row_col_intersections_dict = {}
         start_intersections = []
         wires_cols_start_intersections = []
-        for e, i in enumerate(cols_start_x_list):
-            for j in rows_start_y_list:
-                start_intersections.append((i, j))
+        col_counter = 0
+        row_counter = 0
 
-            for f, k in enumerate(rows_wires_y_list):
-                wires_cols_start_intersections.append((i, k))
-                row_col_intersections_dict[(f, e)] = (i, k)
+        for e, i in enumerate(cols_start_x_list):
+            for k, v in row_locations_dict.items():
+                intersections_dict[(k, e)] = {}
+                intersections_dict[(k, e)]["start_xy"] = (i, v["start_y"])
+                intersections_dict[(k, e)]["in_wire_xy"] = (i, v["in_wire_y"])
+                intersections_dict[(k, e)]["out_wire_xy"] = (i, v["out_wire_y"])
+                intersections_dict[(k, e)]["end_xy"] = (i, v["end_y"])
+                start_intersections.append((i, v["start_y"]))
+                wires_cols_start_intersections.append((i, v["in_wire_y"]))
+                row_col_intersections_dict[(k, e)] = (i, v["in_wire_y"])
 
 
         return start_intersections, wires_cols_start_intersections, row_col_intersections_dict
@@ -472,7 +495,7 @@ class Table:
         print(aff_tr_di)
         return aff_tr_di
 
-    def makeMacroCell(self, row_st, col_st, dir, mc_size):
+    def makeMacroCell_Table(self, row_st, col_st, dir, mc_size):
 
         row = row_st
         col = col_st
@@ -482,6 +505,7 @@ class Table:
               " Column num:", col_num, " Column St:", col_st.label)
         transition_col_lookup = None
         tr_col_change_num = 0
+
         if dir == "N":
             aff = self.aff_tr_dict["VerticalAffinities"].get((row.label, col.label), None)
             tr = self.aff_tr_dict["VerticalTransitions"].get((row.label, col.label), None)
@@ -523,27 +547,27 @@ class Table:
             elif tr_col_num < col_num:
                 tr_col_change_num = -1 * (col_num - tr_col_num)
 
-            print("Transition pair:", pair_label, "Transition:", tr, "Transition col lookup:", transition_col_lookup, "tr_col_change_num:", tr_col_change_num)
+            #print("Transition pair:", pair_label, "Transition:", tr, "Transition col lookup:", transition_col_lookup, "tr_col_change_num:", tr_col_change_num)
 
 
         mc = MacroCell(row_st, col_st, dir, aff, tr, mc_size)
 
         row_wire_col = self.macro_row_col_intersection_dict[(row_num, col_num)]
-        print("row_wire_col", row_wire_col)
 
-        mc_tiles = mc.makeMacroCell(row_wire_col[0], row_wire_col[1], tr_col_change_num)
+
+        mc_tiles = mc.makeMacroCell_MC(row_wire_col[0], row_wire_col[1], tr_col_change_num)
         #mc.makeTiles(row_wire_col[0], row_wire_col[1])
 
         return mc, mc_tiles
 
-    def makeMacroCells(self):
+    def makeMacroCells_Table(self):
         mc_size = self.calculateMacroCellSize()
         mcs = {}
         mc_tiles = []
         for i in self.input_system_states:
             for dir in ["N", "E", "W", "S" ]:
                 for j in self.input_system_states:
-                    mc, mc_t = self.makeMacroCell(i, j, dir, mc_size)
+                    mc, mc_t = self.makeMacroCell_Table(i, j, dir, mc_size)
                     mcs[(i.label, j.label, dir)] = mc
                     mc_tiles += mc_t
         return mcs, mc_tiles
@@ -571,17 +595,21 @@ class Table:
         left_x = self.tl_corner_x_y[0]
         dirs_order = ["E", "N", "W", "S"]
 
-        rs, rw = self.calculateRowLocations()
+        row_locations_dict = self.calculateRowLocations()
+        row_loc_items = row_locations_dict.items()
+        row_start_top_y = [i[1]["start_y"] for i in row_loc_items]
+        row_wire_y = [i[1]["in_wire_y"] for i in row_loc_items]
+        row_out_wire_y_list = [i[1]["out_wire_y"] for i in row_loc_items]
 
         left_edge_tiles = []
         row_counter = 0
         for y in range(self.tl_corner_x_y[1] - 1, self.bl_corner_x_y[1], -1):
-            if y in rs:
+            if y in row_start_top_y:
                 left_edge_tiles.append(Tile(rowMarkerStartTop, left_x, y))
                 rn = row_counter
                 #rdst = dirs_order[]
 
-            elif y in rw:
+            elif y in row_wire_y:
 
                 left_edge_tiles.append(Tile(signal_door_inactive_east, left_x, y))
                 left_edge_tiles.append(Tile(signal_door_handle_inactive, left_x, y + 1))
@@ -593,9 +621,31 @@ class Table:
                 left_edge_tiles.append(Tile(eastWire, left_x + 2, y))
                 left_edge_tiles.append(Tile(eastWire, left_x - 1, y))
                 left_edge_tiles.append(Tile(eastWire, left_x - 2, y))
+            elif y in row_out_wire_y_list:
+
+
+                left_edge_tiles.append(Tile(westWire, left_x + 1, y))
+                left_edge_tiles.append(Tile(westWire, left_x + 2, y))
+                left_edge_tiles.append(Tile(westWire, left_x - 1, y))
+                left_edge_tiles.append(Tile(westWire, left_x - 2, y))
 
         return left_edge_tiles
 
+
+    #### Pepe ####
+    def makeRowLabels(self):
+        """_summary_: This function creates the row labels and returns a list of tiles.
+        Each row label is the start state, unary label, end state and the direction of the neighboring tile (E/N/W/S) then a border tile
+        before the door to the table in that order.
+
+        The states from (iu_states.py) to be used are ds_1_inactive, N/S/E/W, start_state_inactive, end_state_inactive, border.
+
+        The row labels are placed on the left side of the table (west) right above the output wire.
+
+        This should return a list of tiles. Test by calling this function in makeTable like the other there (at the bottom
+        before the return statement)
+        """
+        pass
 
     def makeOutline(self):
 
@@ -662,20 +712,62 @@ class IU_System:
         self.states = [northEastCorner, northWestCorner, southEastCorner, southWestCorner, border_state]
         self.seed_states = [northEastCorner, northWestCorner, southEastCorner, southWestCorner, border_state]
         self.initial_states =[]
-        self.macroblock_outile = None
+        self.supertile_outline = None
 
         self.vaffinities = []
         self.haffinities = []
         self.vtransitions = []
         self.htransitions = []
-        self.seed_assembly = self.makeMacroTileOutline()
+        self.seed_assembly = self.makeSuperTileOutline()
 
-    def makeMacroTileOutline(self):
-        macro_tile_outline = Assembly()
+    def makeEdgeDoors(self):
+        """_summary_: This function creates the supertile edge doors and returns a list of tiles.
+        Each edge door has an in and out edge door tile, a handle, maybe some signal passing between them and
+        a store selected supertile state under construction. You can make an additional function to make a single edge door then call
+        it repeatedly with whatever parameters you need to make the edge doors.
+
+        This should return a list of tiles. Test by calling this function in makeTable like the other there (at the bottom
+        before the return statement)
+        """
+
+        pass
+    def makeSuperTileOutline(self):
+        """_summary_: This function creates the super tile outline based on the size of the table, the number of states and
+        how big the wires must be. This should also call the make edge doors function.
+        Returns a list of tiles.
+        """
+        super_tile_outline = Assembly()
         table_outline = self.table.calculateTableSize()
-        return macro_tile_outline
+        return super_tile_outline
+
+    ######## Asher ########
+    def calculateWires(self):
+        """_summary_: This function calculates the in and out wire locations and returns a list of tiles.
+        Each wire must run from the edge of the table to the edge of the super tile outline. The wires must
+        be placed so when the supertiles are next to one another the wires will connect.
+        If I were you I would start by making a dictionary[(state.label, direction)] = {"in_wire_edge": (x,y, WD),
+                                                                                        "out_wire_edge": (x,y, WD),
+                                                                                        in_wire_table_edge": (x,y, WD),
+                                                                                        out_wire_table_edge": (x,y, WD),
+                                                                                        "in_wire_corner_1": (x,y, WD),
+                                                                                        ect...}
+
+
+        """
+
+
+    def makeWires(self):
+        """_summary_: This function takes the output of calculateWires and returns a list of tiles. The states you need are
+        in iu_states.py. northWire, southWire, eastWire, westWire, northEastWire, northWestWire, southEastWire, southWestWire
+
+        """
+
+        pass
+
+
     def returnIUsystem(self):
         table_seed_assembly, table_seed_tiles = self.table.makeTable()
+        # table_seed_assembly.setTiles(self.makeWires())
         self.seed_assembly.setTiles(table_seed_tiles)
         iuSys = System(1, self.states, [], self.seed_states, self.vaffinities, self.haffinities,
                        self.vtransitions, self.htransitions, [], [], table_seed_assembly)

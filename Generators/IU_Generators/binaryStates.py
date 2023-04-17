@@ -242,7 +242,7 @@ mc_check_transition_affinity_inactive_neg = State("MCDoorCheckTransitionAffinity
 mc_door_neg_signal_transmitter = State("MCDoorNegSignalTransmitter", neg_punch_down_color, "✑")
 # Doors
 
-## Macrotile Edge Doors
+## Supertile Edge Doors
 tile_edge_center_handle_east_inactive = State("TileEdgeCenterHandleEastInactive", block_edge_handle_color, "╠ ⍨")  # ₑ
 tile_edge_center_handle_west_inactive = State("TileEdgeCenterHandleWestInactive", block_edge_handle_color, "⍨ ╣")  # ʷ ⬓
 tile_edge_center_handle_south_inactive = State("TileEdgeCenterHandleSouthInactive", block_edge_handle_color, "⍨ ╦")
@@ -326,9 +326,6 @@ endcap_door_east_reset_waiting = State("EndcapDoorEastResetWaiting", waiting_col
 endcap_doors_east_list = [endcap_door_east_inactive, endcap_door_east_handle_inactive, endcap_door_east_active, endcap_door_east_handle_active, endcap_door_east_stop, endcap_door_east_handle_stop, endcap_door_east_reset, endcap_door_east_handle_reset, endcap_door_east_handle_reset_waiting, endcap_door_east_reset_waiting]
 
 
-
-
-
 ### Signal Doors
 signal_door_inactive = State("LockedSignalDoorInactive", inactive_color, "🔒🚪")  # 🚪 ◨
 signal_door_inactive_east = State("LockedSignalDoorInactiveEast", inactive_color, "🚪⇉")  # ◨⇉
@@ -338,8 +335,6 @@ signal_door_transmit = State("SignalDoorTransmit", waiting_color, "◨↯") # �
 signal_door_active_waiting_east = State("SignalDoorActiveWaitingEast", waiting_color, "◨⇉⏱") # ◨⇉⏱
 signal_door_handle_inactive = State("LockedSignalDoorHandleInactive", inactive_color, "🗝~") # 🗝~
 signal_door_handle_reset = State("SignalDoorHandleReset", reset_color, "↺🗝~") # ↺🗝~
-
-
 
 signal_door_north_inactive = State("LockedSignalDoorNorthInactive", inactive_color, "🔒⇈")
 signal_door_north_handle_inactive = State("LockedSignalDoorNorthHandleInactive", inactive_color, "🗝~⇈")
@@ -443,8 +438,7 @@ signal_wire_inactive = State("SignalWireInactive", inactive_color, "⇇")
 signal_wire_ns = State("SignalWireNS", yellow_orange, "⭥⟥")
 signal_wire_active = State("SignalWireActive", full_accept_color, "⇉")
 
-signal_start_checks_inactive = State(
-    "SignalStartChecksInactive", inactive_color, "⏯↧↯")
+signal_start_checks_inactive = State("SignalStartChecksInactive", inactive_color, "⏯↧↯")
 
 signal_start_checks_active = State("SignalStartChecksActive", full_accept_color, "⏯")
 signal_end_checks_inactive = State("SignalEndChecksInactive", inactive_color, "⏱")

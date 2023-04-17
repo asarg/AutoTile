@@ -52,6 +52,11 @@ neg_ds_1 = State("-1", neg_data_color, "-1")
 neg_ds_1_inactive_mc = State("-1InactiveMC", neg_inactive_data_color, "-1")
 inactive_blank_neg_data = State("InactiveBlankNegData", neg_inactive_data_color, " ")
 
+north_prefix = State("NorthPrefix", data_color, "𝗡")
+south_prefix = State("SouthPrefix", data_color, "𝗦")
+east_prefix = State("EastPrefix", data_color, "𝗘")
+west_prefix = State("WestPrefix", data_color, "𝗪")
+
 # Wire States
 westWire = State("WestWire", wire_color, "🡸")
 eastWire = State("EastWire", wire_color, "🡺")
@@ -63,12 +68,12 @@ northWestWire = State("NorthWestWire", wire_color, "🡼")
 southEastWire = State("SouthEastWire", wire_color, "🡾")
 southWestWire = State("SouthWestWire", wire_color, "🡿")
 
-signal_wire_inactive = State("SignalWireInactive", signal_wire_color, "⇇")
+signal_wire_inactive = State("SignalWireInactive", signal_wire_inactive_color, "🗲")
 signal_wire_ns = State("SignalWireNS", signal_wire_color, "⭥⟥")
-signal_wire_active = State("SignalWireActive", signal_wire_color, "⇉")
+signal_wire_active = State("SignalWireActive", signal_wire_color, "🗲")
 ######## Doors ########
 
-## Macrotile Edge Doors
+## Super Edge Doors
 tile_edge_center_handle_east_inactive = State("TileEdgeCenterHandleEastInactive", block_edge_handle_color, "╠ ⍨")  # ₑ
 tile_edge_center_handle_west_inactive = State("TileEdgeCenterHandleWestInactive", block_edge_handle_color, "⍨ ╣")  # ʷ ⬓
 tile_edge_center_handle_south_inactive = State("TileEdgeCenterHandleSouthInactive", block_edge_handle_color, "⍨ ╦")
@@ -81,10 +86,29 @@ tile_south_edge_door_out_wire_inactive = State("TileSouthEdgeDoorOutWireInactive
 
 tile_east_edge_door_out_wire_active = State("TileEastEdgeDoorOutWireActive", block_edge_door_color, "╠ ⬓")
 tile_east_edge_door_in_wire_active = State("TileEastEdgeDoorInWireActive", block_edge_door_color, "╠ ⬓")
+
 ## Trap Doors
 trap_door_inactive = State("TrapDoorInactive", trap_door_inactive_color, "⬓")  # 🚪 ▩
 trap_door_active = State("TrapDoorActive", trap_door_color, "⬓")
 trap_door_used = State("TrapDoorUsed", reset_color, "⬓")
+
+## Column Doors
+
+column_wire_access_door_north_inactive = State("ColumnWireAccessDoorNorthInactive", trap_door_inactive_color, "◎N")  # 🚪 ▩
+column_wire_access_door_north_active = State("ColumnWireAccessDoorNorthActive", trap_door_color, "◎N")
+
+column_wire_access_door_south_inactive = State("ColumnWireAccessDoorSouthInactive", trap_door_inactive_color, "◎S")  # 🚪 ▩
+column_wire_access_door_south_active = State("ColumnWireAccessDoorSouthActive", trap_door_color, "◎S")
+
+intersection_door_east_inactive = State("IntersectionDoorEastInactive", trap_door_inactive_color, "⍟E")  # 🚪 ▩
+intersection_door_west_inactive = State("IntersectionDoorWestInactive", trap_door_inactive_color, "⍟W")  # 🚪 ▩
+intersection_door_north_inactive = State("IntersectionDoorNorthInactive", trap_door_inactive_color, "⍟N")  # 🚪 ▩
+intersection_door_south_inactive = State("IntersectionDoorSouthInactive", trap_door_inactive_color, "⍟S")  # 🚪 ▩
+
+intersection_door_east_active = State("IntersectionDoorEastActive", trap_door_color, "⍟E")
+intersection_door_west_active = State("IntersectionDoorWestActive", trap_door_color, "⍟W")
+intersection_door_north_active = State("IntersectionDoorNorthActive", trap_door_color, "⍟N")
+intersection_door_south_active = State("IntersectionDoorSouthActive", trap_door_color, "⍟S")
 
 ### Signal Doors
 signal_door_inactive = State("LockedSignalDoorInactive", signal_door_inactive_color, "🔒🚪")  # 🚪 ◨
