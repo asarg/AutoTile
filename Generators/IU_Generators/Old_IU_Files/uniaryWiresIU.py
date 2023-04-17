@@ -10,7 +10,7 @@ from Assets.colors import waiting_color, inactive_color, inactive_waiting_color,
 from Assets.colors import reset_color, intermediate_accept_color, reject_color, complete_color
 from Assets.colors import door_color, wire_color, writing_color, writing_inactive_color, border_color
 import Generators.IU_Generators.binary_symbols_colors as symbols
-from Generators.IU_Generators.load_edit import writeToFile, makeColorsList
+from Generators.IU_Generators.Old_IU_Files.load_edit import writeToFile, makeColorsList
 
 
 
