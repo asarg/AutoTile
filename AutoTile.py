@@ -19,7 +19,7 @@ import TAMainWindow, EditorWindow16, LoadFile, SaveFile, QuickCombine, QuickRota
 #from Generators.IU_Generators import IUSampleGen
 #import uninaryIUSprint as IUSprint
 import IntrinsticUniversality
-import IU_Cleaned
+import Generators.IU_Generators.IU_Cleaned as IU_Cleaned
 import Generators.GadgetGenerators.xtremeDoorGenerator as xDoor
 from util.loaders import assemblyLoader
 
