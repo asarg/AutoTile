@@ -183,6 +183,9 @@ mc_check_transition_affinity_inactive = State("MCDoorCheckTransitionAffinityInac
 mc_check_transition_affinity_inactive_neg = State("MCDoorCheckTransitionAffinityInactiveNeg", inactive_neg_punch_down_color, "✑?")
 mc_door_neg_signal_transmitter = State("MCDoorNegSignalTransmitter", neg_punch_down_color, "✑")
 
+mc_door_west_positive_inactive = State("MCDoorWest+Inactive", inactive_punch_down_color, "+⬔")
+mc_door_west_negative_inactive = State("MCDoorWest-Inactive", inactive_neg_punch_down_color, "-⬔")
+
 
 ####### Table lookup states
 columnOutputRowNorthMarker = State("columnOutputRowNorthMarker", col_output_row_marker_color, "𝗡⎋")

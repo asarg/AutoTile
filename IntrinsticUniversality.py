@@ -155,16 +155,17 @@ class MacroCell:
 
     def addMcCoords(self, mc_neg_door_x, mc_door_y):
         self.mc_door_y = mc_door_y
-        self.out_wire_y = int(self.mc_size_dimensions["unborderedMacroCellWidth"])
+        self.out_wire_y = mc_door_y - int(self.mc_size_dimensions["rowsBetweenInAndOutWire"]) - 1
         self.mc_neg_door_x = mc_neg_door_x
 
-        self.mc_pos_door_x = mc_neg_door_x + \
-            int(self.mc_size_dimensions["unborderedMacroCellWidth"]) - 1
+        self.mc_pos_door_x = mc_neg_door_x + int(self.mc_size_dimensions["unborderedMacroCellWidth"]) - 1
         self.mc_trap_door_x = self.mc_pos_door_x + 1
         self.mc_northmost_y = mc_door_y + 2
-        self.mc_southmost_y = mc_door_y - 3
+        self.mc_southmost_y = self.mc_size_dimensions["borderedMacroCellHeight"]
         self.mc_westmost_x = mc_neg_door_x
         self.mc_eastmost_x = self.mc_trap_door_x + 1
+
+
 
 
     def makeDoorPunchdownTiles(self):
@@ -175,6 +176,12 @@ class MacroCell:
         mc_door_tiles.append(Tile(mc_door_handle_east_positive_inactive, self.mc_pos_door_x, self.mc_door_y + 1))
         mc_door_tiles.append(Tile(punch_down_ds_neg_active, self.mc_neg_door_x + 1, self.mc_door_y + 1))
         mc_door_tiles.append(Tile(punch_down_ds_active, self.mc_pos_door_x - 1, self.mc_door_y + 1))
+        mc_door_tiles.append(Tile(punch_down_ds_neg_active, self.mc_neg_door_x + 1, self.mc_door_y))
+
+        mc_door_tiles.append(Tile(punch_down_ds_active, self.mc_pos_door_x - 1, self.out_wire_y + 1))
+        mc_door_tiles.append(Tile(punch_down_ds_neg_active, self.mc_neg_door_x + 1, self.out_wire_y + 1))
+        mc_door_tiles.append(Tile(mc_door_west_positive_inactive, self.mc_pos_door_x,  self.out_wire_y))
+        mc_door_tiles.append(Tile(mc_door_west_negative_inactive, self.mc_neg_door_x, self.out_wire_y))
 
 
         return mc_door_tiles
@@ -194,6 +201,13 @@ class MacroCell:
         for i in range(self.mc_neg_door_x + 1, self.mc_trap_door_x + 4):
             if i != self.mc_pos_door_x:
                 mc_wire_tiles.append(Tile(eastWire, i, self.mc_door_y))
+        return mc_wire_tiles
+
+    def makeWestWireTiles(self):
+        mc_wire_tiles = []
+        for i in range(self.mc_neg_door_x + 1, self.mc_trap_door_x + 4):
+            if i != self.mc_pos_door_x:
+                mc_wire_tiles.append(Tile(westWire, i, self.out_wire_y))
         return mc_wire_tiles
 
     def makeWriteRowTiles(self,  tr_change_num=None):
@@ -232,6 +246,7 @@ class MacroCell:
 
     def addTrapDoorTiles(self):
         trap_door_tiles = [Tile(trap_door_inactive, self.mc_trap_door_x, self.mc_door_y - 1),
+                           Tile(column_wire_access_door_north_inactive, self.mc_trap_door_x, self.mc_door_y + 1),
                            Tile(southWire, self.mc_trap_door_x, self.mc_door_y - 2),
                            Tile(southWire, self.mc_trap_door_x, self.mc_door_y + 2),
                            Tile(southWire, self.mc_trap_door_x, self.mc_door_y + 1),
@@ -252,6 +267,7 @@ class MacroCell:
         self.addMcCoords(mc_neg_door_x, mc_door_y)
         mc_a.setTiles(self.makeDoorPunchdownTiles())
         mc_a.setTiles(self.makeMcEastWireTiles())
+        mc_a.setTiles(self.makeWestWireTiles())
         mc_a.setTiles(self.makeWriteRowTiles(tr_change_num))
         mc_a.setTiles(self.addTrapDoorTiles())
         mc_a.setTiles(self.mc_signal_tiles())
@@ -329,11 +345,8 @@ class Table:
         self.cols_to_input_states_map, self.rows_to_input_states_dirs_map, self.input_states_to_rows_cols_map = self.mapInputStates()
         self.macrocell_size = self.calculateMacroCellSize()
         self.width, self.height, self.tr_corner_x_y, self.bl_corner_x_y, self.br_corner_x_y = self.calculateTableSize()
-        self.start_intersections, self.cols_wires_intersections, self.macro_row_col_intersection_dict = self.calcIntersections()
+        self.start_intersections, self.cols_wires_intersections, self.macro_row_col_intersection_dict, self.intersection_dict = self.calcIntersections()
         self.macrocells, self.macrocell_tiles = self.makeMacroCells_Table() # macrocells
-
-
-
 
     def mapInputStates(self):
         cols_to_states = {}
@@ -412,7 +425,7 @@ class Table:
         mc_top_size_with_border = 2
         begin_rows_y = self.tl_corner_x_y[1] - 1
         begin_rows_wires = begin_rows_y - mc_top_size_with_border - 1
-        begin_rows_out_wires = begin_rows_wires - 3
+        begin_rows_out_wires = begin_rows_wires - 4
         begin_row_end = begin_rows_out_wires - 2
 
         rows_start_y_list = []
@@ -462,7 +475,7 @@ class Table:
                 row_col_intersections_dict[(k, e)] = (i, v["in_wire_y"])
 
 
-        return start_intersections, wires_cols_start_intersections, row_col_intersections_dict
+        return start_intersections, wires_cols_start_intersections, row_col_intersections_dict, intersections_dict
     def calculateMacroCellSize(self):
         unaryNumLen = len(self.input_system.returnStates())
         writeRowSize = unaryNumLen + 2  # 2 for the left and right write brackets
@@ -475,7 +488,6 @@ class Table:
         rowsSouthOfOutWire = 2
 
         # wire & doors, data action row north,
-
         unborderedMacrocellHeight = int(rowsNorthOfInWire) + int(rowsBetweenInAndOutWire) + rowsSouthOfOutWire + 2  # 1 for the wire
         borderedMacroCellHeight = unborderedMacrocellHeight + 2 # 2 for the border
         mc_size = {"unborderedMacroCellWidth": unBorderedMacroCellWidth, "borderedMacroCellWidth": borderedMacroCellWidth,
@@ -555,6 +567,7 @@ class Table:
         row_wire_col = self.macro_row_col_intersection_dict[(row_num, col_num)]
 
 
+
         mc_tiles = mc.makeMacroCell_MC(row_wire_col[0], row_wire_col[1], tr_col_change_num)
         #mc.makeTiles(row_wire_col[0], row_wire_col[1])
 
@@ -623,14 +636,17 @@ class Table:
                 left_edge_tiles.append(Tile(eastWire, left_x - 1, y))
                 left_edge_tiles.append(Tile(eastWire, left_x - 2, y))
             elif y in row_out_wire_y_list:
+                left_edge_tiles.append(Tile(signal_door_handle_inactive, left_x, y + 1))
                 left_edge_tiles.append(Tile(signal_door_inactive_west, left_x, y))
-                left_edge_tiles.append(Tile(signal_door_handle_inactive, left_x, y - 1))
-
+                left_edge_tiles.append(Tile(signal_receiver_inactive, left_x, y - 1))
+                left_edge_tiles.append(Tile(signal_transmitter_inactive, left_x, y - 2))
+                left_edge_tiles.append(Tile(signal_transmitter_inactive, left_x, y - 2))
 
                 left_edge_tiles.append(Tile(westWire, left_x + 1, y))
                 left_edge_tiles.append(Tile(westWire, left_x + 2, y))
                 left_edge_tiles.append(Tile(westWire, left_x - 1, y))
                 left_edge_tiles.append(Tile(westWire, left_x - 2, y))
+
 
         return left_edge_tiles
 
@@ -647,6 +663,7 @@ class Table:
 
         This should return a list of tiles. Test by calling this function in makeTable like the other there (at the bottom
         before the return statement)
+        self.rows_to_input_states_dirs_map[r] = (st, dir)
         """
         pass
 
