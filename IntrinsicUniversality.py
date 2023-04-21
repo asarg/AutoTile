@@ -771,8 +771,6 @@ class IU_System:
                                                                                         out_wire_table_edge": (x,y, WD),
                                                                                         "in_wire_corner_1": (x,y, WD),
                                                                                         ect...}
-
-
         """
 
 
@@ -784,7 +782,9 @@ class IU_System:
 
         pass
 
+    def makeSysTest(self):
 
+        pass
     def returnIUsystem(self):
         table_seed_assembly, table_seed_tiles = self.table.makeTable()
         # table_seed_assembly.setTiles(self.makeWires())
