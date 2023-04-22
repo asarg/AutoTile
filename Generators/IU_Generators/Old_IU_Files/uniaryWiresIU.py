@@ -1,4 +1,4 @@
-from UniversalClasses import State, AffinityRule, TransitionRule, System, Tile, Assembly
+from .UniversalClasses import State, AffinityRule, TransitionRule, System, Tile, Assembly
 from Generators.IU_Generators.binaryStates import eastWire, end_data_string, ds_1, endcap_doors_west_list, endcap_doors_east_list, endcap_door_east_inactive
 import SaveFile
 import LoadFile

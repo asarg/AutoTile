@@ -1,6 +1,6 @@
 import sys
 sys.path.insert(0, '.../..')
-from UniversalClasses import *
+from .UniversalClasses import *
 
 from util.loaders.assemblyLoader import returnSystemLoadXML_load_edit_py_file
 from Assets.colors import waiting_color, inactive_color, inactive_waiting_color, active_color, active_waiting_color

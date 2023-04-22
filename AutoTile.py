@@ -13,13 +13,9 @@ from Historian import Historian
 from assemblyEngine import Engine
 from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
 import TAMainWindow, EditorWindow16, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen, sCRNEditorWindow, EditorWindow
-#import Generators.IU_Generators.IntrinsicUniversality as IU
-#import Generators.IU_Generators.IU2 as IU2
-#import Generators.IU_Generators.IUEqualityChanges as IUEC
-#from Generators.IU_Generators import IUSampleGen
-#import uninaryIUSprint as IUSprint
-import IntrinsticUniversality
-import Generators.IU_Generators.Old_IU_Files.IU_Cleaned as IU_Cleaned
+
+import IntrinsicUniversality
+
 import Generators.GadgetGenerators.xtremeDoorGenerator as xDoor
 from util.loaders import assemblyLoader
 
@@ -1155,7 +1151,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         #genSystem = genS.basicWireGenerator2()
         #genSystem = genS.wireGeneratorWithEndcapDoorNoSignalGadget2()
         #genSystem = genS.equality_gadget_with_prefixes()
-        iuGenSystem = IntrinsticUniversality.IU_System()
+        iuGenSystem = IntrinsicUniversality.IU_System()
         genSystem = iuGenSystem.returnIUsystem()
 
         if type(genSystem) == System:

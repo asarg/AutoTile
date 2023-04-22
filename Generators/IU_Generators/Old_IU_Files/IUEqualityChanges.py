@@ -1,5 +1,5 @@
-import UniversalClasses as uc
-from UniversalClasses import State, Tile, Assembly, AffinityRule, TransitionRule, System
+
+from .UniversalClasses import State, Tile, Assembly, AffinityRule, TransitionRule, System
 from Assets.colors import *
 import sys
 from Generators.IU_Generators.Old_IU_Files.states import GeneratedStates, ds_2, ds_3, ds_4, ds_5, ds_6, ds_7, ds_8, ds_9

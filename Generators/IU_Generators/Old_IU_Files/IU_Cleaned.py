@@ -1,7 +1,7 @@
 from cProfile import label
 from tracemalloc import start
 from Generators.IU_Generators.binaryStates import *
-from UniversalClasses import State, TransitionRule, AffinityRule, System, Tile, Assembly
+from UniversalClasses import *
 from Assets.colors import *
 from Generators.IU_Generators.binaryStates import *
 import sys

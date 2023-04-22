@@ -1,5 +1,5 @@
 from components import *
-from UniversalClasses import State
+from .UniversalClasses import State
 from Assets.colors import *
 
 class GeneratedStates:

@@ -1,5 +1,5 @@
 import Generators.IU_Generators.Old_IU_Files.activeStateRegion as asr
-import UniversalClasses as uc
+from .UniversalClasses import *
 import Generators.IU_Generators.Old_IU_Files.IUEqualityChanges as iuec
 
 

@@ -1,6 +1,6 @@
 from components import *
-from UniversalClasses import *
-from UniversalClasses import AffinityRule, State
+from .UniversalClasses import *
+
 from states import *
 
 def add_affinities_vertical(state1, state2):

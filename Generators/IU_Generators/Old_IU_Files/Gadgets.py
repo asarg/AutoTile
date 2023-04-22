@@ -1,5 +1,5 @@
 from Generators.IU_Generators.Old_IU_Files.GadgetComponents import add_affinities_vertical
-from UniversalClasses import State, AffinityRule, System, TransitionRule, Tile, Assembly
+from .UniversalClasses import State, AffinityRule, System, TransitionRule, Tile, Assembly
 from Assets.colors import *
 from binaryStates import *
 from gadget_states import *
