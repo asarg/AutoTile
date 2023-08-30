@@ -1506,13 +1506,18 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
             label_cell.setTextAlignment(Qt.AlignCenter)
             self.tableWidget.setItem(r, 1, label_cell)
 
+            display_label_cell = QTableWidgetItem()
+            display_label_cell.setText(s.returnDisplayLabel())
+            display_label_cell.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget.setItem(r, 2, display_label_cell)
+
             seedWidget = QtWidgets.QWidget()
             seedCheckbox = QCheckBox()
             seedChkLayout = QtWidgets.QHBoxLayout(seedWidget)
             seedChkLayout.addWidget(seedCheckbox)
             seedChkLayout.setAlignment(Qt.AlignCenter)
             seedChkLayout.setContentsMargins(0, 0, 0, 0)
-            self.tableWidget.setCellWidget(r, 2, seedWidget)
+            self.tableWidget.setCellWidget(r, 3, seedWidget)
             for sstate in self.system.seed_states:
                 if sstate.returnLabel() == s.returnLabel():
                     seedCheckbox.setChecked(True)
@@ -1523,7 +1528,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
             initialChkLayout.addWidget(initialCheckbox)
             initialChkLayout.setAlignment(Qt.AlignCenter)
             initialChkLayout.setContentsMargins(0, 0, 0, 0)
-            self.tableWidget.setCellWidget(r, 3, initialWidget)
+            self.tableWidget.setCellWidget(r, 4, initialWidget)
             for istate in self.system.initial_states:
                 if istate.returnLabel() == s.returnLabel():
                     initialCheckbox.setChecked(True)
@@ -1596,13 +1601,17 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         label_cell.setTextAlignment(Qt.AlignCenter)
         self.tableWidget.setItem(newrow, 1, label_cell)
 
+        display_label_cell = QTableWidgetItem()
+        display_label_cell.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget.setItem(newrow, 2, display_label_cell)
+
         seedWidget = QtWidgets.QWidget()
         seedCheckbox = QCheckBox()
         seedChkLayout = QtWidgets.QHBoxLayout(seedWidget)
         seedChkLayout.addWidget(seedCheckbox)
         seedChkLayout.setAlignment(Qt.AlignCenter)
         seedChkLayout.setContentsMargins(0, 0, 0, 0)
-        self.tableWidget.setCellWidget(newrow, 2, seedWidget)
+        self.tableWidget.setCellWidget(newrow, 3, seedWidget)
 
         initialWidget = QtWidgets.QWidget()
         initialCheckbox = QCheckBox()
@@ -1610,7 +1619,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         initialChkLayout.addWidget(initialCheckbox)
         initialChkLayout.setAlignment(Qt.AlignCenter)
         initialChkLayout.setContentsMargins(0, 0, 0, 0)
-        self.tableWidget.setCellWidget(newrow, 3, initialWidget)
+        self.tableWidget.setCellWidget(newrow, 4, initialWidget)
 
      # To add new row entered by user as a rule
     def Click_AddRowAff(self):
@@ -1779,16 +1788,20 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         for row in range(0, self.tableWidget.rowCount()):
             color_cell = self.tableWidget.item(row, 0)
             label_cell = self.tableWidget.item(row, 1)
-            initialCheckbox = self.tableWidget.cellWidget(row, 3)
-            seedCheckbox = self.tableWidget.cellWidget(row, 2)
+            display_label_cell = self.tableWidget.item(row, 2)
+            seedCheckbox = self.tableWidget.cellWidget(row, 3)
+            initialCheckbox = self.tableWidget.cellWidget(row, 4)
             color = color_cell.text()
             label = label_cell.text()
+            display_label = display_label_cell.text()
+            if display_label_cell.text() == "":
+                display_label = label
 
             # print(initialCheckbox)
             # 'apply as' works now
             initial = initialCheckbox.layout().itemAt(0).widget().isChecked()
             seed = seedCheckbox.layout().itemAt(0).widget().isChecked()
-            s = State(label, color)
+            s = State(label, color, display_label)
 
             self.system.addState(s)
 
@@ -2035,6 +2048,11 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
             label_cell.setTextAlignment(Qt.AlignCenter)
             self.tableWidget.setItem(r, 1, label_cell)
 
+            display_label_cell = QTableWidgetItem()
+            display_label_cell.setText(s.returnDisplayLabel())
+            display_label_cell.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget.setItem(r, 2, display_label_cell)
+
             r += 1
 
      # action for 'apply' the changes made to the side edit window to the view states side
@@ -2099,6 +2117,10 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         label_cell = QTableWidgetItem()
         label_cell.setTextAlignment(Qt.AlignCenter)
         self.tableWidget.setItem(newrow, 1, label_cell)
+
+        display_label_cell = QTableWidgetItem()
+        display_label_cell.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget.setItem(newrow, 2, display_label_cell)
 
     def Click_AddRowTrans(self):
         print("Add Row in Transitions clicked")
@@ -2394,9 +2416,17 @@ class Move(QWidget):
             return
 
         if self.move["type"] == "a":
-            moveText = "Attach\n" + self.move["state1"].returnLabel() + " at " + str(
-                self.move["x"]) + " , " + str(self.move["y"])
+            if self.move["state1"].returnDisplayLabel() == self.move["state1"].returnLabel():
+                label_move_text = self.move["state1"].returnLabel()
+
+            else:
+                label_move_text = self.move["state1"].returnLabel() + "|" + self.move["state1"].returnDisplayLabel() + "|"
+
+            moveText = "Attach\n" + label_move_text + " at " + str(self.move["x"]) + " , " + str(self.move["y"])
+
+
         elif self.move["type"] == "t":
+
             if self.move["dir"] == "s":
                 moveText = "Single Transition\n" + self.move["state1"].returnLabel() + " to " + self.move["state1Final"].returnLabel()
             else:
@@ -2421,6 +2451,10 @@ class Move(QWidget):
             return
 
         self.mw.do_move(self.move)
+
+    #To Do See Display Label on Hover
+    """ def mouseHoverEvent(self, event):
+        print("Hovering") """
 
 
 if __name__ == "__main__":
