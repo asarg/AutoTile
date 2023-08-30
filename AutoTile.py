@@ -11,7 +11,7 @@ from Player import ComputeLast, Player
 from SeedEditor import SeedScene, TableScene
 from Historian import Historian
 from assemblyEngine import Engine
-from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule
+from UniversalClasses import AffinityRule, System, Assembly, Tile, State, TransitionRule, SingleTransitionRule
 import TAMainWindow, EditorWindow, sCRNEditorWindow, LoadFile, SaveFile, QuickCombine, QuickRotate, QuickReflect, FreezingCheck, sampleGen
 #import Generators.IU_Generators.IntrinsicUniversality as IU
 #import Generators.IU_Generators.IU2 as IU2
@@ -586,7 +586,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             # showing transition on screen
             # (type, x, y, dir, state1, state2, state1Final, state2Final)
             elif move['type'] == 't' and forward == 1:
-                self.transition_draw_function(move, move['state1Final'], move['state2Final'], painter, brush)
+                if move['dir'] == "s":
+                    self.transition_draw_function(move, move['state1Final'], None, painter, brush)
+                else:
+                    self.transition_draw_function(move, move['state1Final'], move['state2Final'], painter, brush)
 
             # getting rid of attachment on screen
             elif move['type'] == 'a' and forward == 0:  # (type, x, y, state1)
@@ -634,8 +637,10 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             # reversing transition on screen
             # (type, x, y, dir, state1, state2, state1Final, state2Final)
             elif move['type'] == 't' and forward == 0:
-                self.transition_draw_function(
-                    move, move['state1'], move['state2'], painter, brush)
+                if move['dir'] == "s":
+                    self.transition_draw_function(move, move['state1'], None, painter, brush)
+                else:
+                    self.transition_draw_function(move, move['state1'], move['state2'], painter, brush)
         except:
             print("There are no valid attachments.")
 
@@ -783,14 +788,19 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
         elif move['type'] == 't' and color_flag == 1:
             pen.setColor(QtGui.QColor("blue"))
             painter.setPen(pen)
-            self.transition_draw_function(move, move['state1Final'], move['state2Final'], painter, brush)
+            if move["dir"] == "s":
+                self.transition_draw_function(move, move['state1Final'], None, painter, brush)
+            else:
+                self.transition_draw_function(move, move['state1Final'], move['state2Final'], painter, brush)
 
         # (type, x, y, dir, state1, state2, state1Final, state2Final)
         elif move['type'] == 't' and color_flag == 0:
             pen.setColor(QtGui.QColor("red"))
             painter.setPen(pen)
-            self.transition_draw_function(
-                move, move['state1'], move['state2'], painter, brush)
+            if move["dir"] == "s":
+                self.transition_draw_function(move, move['state1'], None, painter, brush)
+            else:
+                self.transition_draw_function(move, move['state1'], move['state2'], painter, brush)
 
     def display_tile_list(self):
         curr = self.Engine.getCurrentAssembly()
@@ -845,7 +855,7 @@ class Ui_MainWindow(QMainWindow, TAMainWindow.Ui_MainWindow):
             brush.setColor(QtGui.QColor("#" + state1.returnColor()))
             self.draw_to_screen(move['x'], move['y'], state1, painter, brush)
 
-        if self.onScreen_check(move['x'] + horizontal, move['y'] + vertical) != 1:
+        if self.onScreen_check(move['x'] + horizontal, move['y'] + vertical) != 1 and move["dir"] != "s":
             brush.setColor(QtGui.QColor("white"))
             self.draw_to_screen(move['x'] + horizontal, move['y'] + vertical, "", painter, brush)
             brush.setColor(QtGui.QColor("#" + state2.returnColor()))
@@ -1562,9 +1572,7 @@ class Ui_EditorWindow(QMainWindow, EditorWindow.Ui_EditorWindow): #the editor wi
         self.tableGraphicsView.centerOn(0, 0)
         self.graphicsView.setScene(self.s)
 
-
     # just need to fix this function
-
     def Click_freezingCheck(self):
         global currentSystem
         self.label2.setText(str(FreezingCheck.main(currentSystem)))
@@ -1966,7 +1974,7 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         print(len(self.system.states))
 
         # set row count transition table
-        self.tableWidget_3.setRowCount(len(self.system.horizontal_transitions_list) // 2)
+        self.tableWidget_3.setRowCount((len(self.system.horizontal_transitions_list) // 2) + len(self.system.single_transition_list))
 
         self.tableWidget_3.setColumnWidth(0, 124)
         self.tableWidget_3.setColumnWidth(1, 125)
@@ -2002,6 +2010,27 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
             self.tableWidget_3.setItem(r, 4, finalHT2)
 
             prevTR = trH
+            r += 1
+
+        #if single transitions exist add them
+        for tr in self.system.single_transition_list:
+            stateHT1 = QTableWidgetItem()
+            stateHT1.setText(tr.returnLabel1())
+            stateHT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 0, stateHT1)
+            stateHT2 = QTableWidgetItem()
+            stateHT2.setText("")
+            stateHT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 1, stateHT2)
+            finalHT1 = QTableWidgetItem()
+            finalHT1.setText(tr.returnLabel1Final())
+            finalHT1.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 3, finalHT1)
+            finalHT2 = QTableWidgetItem()
+            finalHT2.setText("")
+            finalHT2.setTextAlignment(Qt.AlignCenter)
+            self.tableWidget_3.setItem(r, 4, finalHT2)
+
             r += 1
 
         # filling in table 1 with states
@@ -2057,7 +2086,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         self.tableGraphicsView.setScene(self.t)
         self.tableGraphicsView.centerOn(0, 0)
         self.graphicsView.setScene(self.s)
-
 
     # for 'add state'
     def cellchanged(self, row, col):
@@ -2115,12 +2143,8 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         tFinal2.setTextAlignment(Qt.AlignCenter)
         self.tableWidget_3.setItem(newrow, 4, tFinal2)
 
-
     # remove/delete rows from state table
     def click_removeRowState(self):
-
-        print("remove row button clicked")
-
         # only delete if there is something in the table, and if there is something selected
         if self.tableWidget.rowCount() > 0 and len(self.tableWidget.selectedIndexes()) > 0:
             self.tableWidget.removeRow(
@@ -2130,7 +2154,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
         if self.tableWidget_3.rowCount() > 0 and len(self.tableWidget_3.selectedIndexes()) > 0:
             self.tableWidget_3.removeRow(
                 self.tableWidget_3.selectedIndexes()[0].row())
-
 
     def copy_widget(self, w):
         if isinstance(w, QtWidgets.QWidget):
@@ -2163,7 +2186,6 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
             self.tableWidget_3.setItem(r, i, it)
 
     def click_duplicateRowState(self):
-
         currentRow = self.tableWidget.currentRow()
 
         if self.tableWidget.rowCount() > 0 and len(self.tableWidget.selectedIndexes()) > 0:
@@ -2223,28 +2245,52 @@ class Ui_sCRNEditorWindow(QMainWindow, sCRNEditorWindow.Ui_EditorWindow): #the s
 
         # transitions
         for row in range(0, self.tableWidget_3.rowCount()):
-            tLabel1 = self.tableWidget_3.item(row, 0)
-            tLabel2 = self.tableWidget_3.item(row, 1)
-            tFinal1 = self.tableWidget_3.item(row, 3)
-            tFinal2 = self.tableWidget_3.item(row, 4)
+            if ((self.tableWidget_3.item(row, 0).text() == "" and self.tableWidget_3.item(row, 1).text() == "") or (self.tableWidget_3.item(row, 3).text() == "" and self.tableWidget_3.item(row, 4).text() == "")):
+                continue
 
-            tLab1 = tLabel1.text()
-            tLab2 = tLabel2.text()
-            tFin1 = tFinal1.text()
-            tFin2 = tFinal2.text()
+            if self.tableWidget_3.item(row, 0).text() == "" and self.tableWidget_3.item(row, 1).text() != "":
+                self.tableWidget_3.item(row, 0).setText(self.tableWidget_3.item(row, 1).text())
+                self.tableWidget_3.item(row, 1).setText("")
 
-            states_used.append(tFin1)
-            states_used.append(tFin2)
+            if self.tableWidget_3.item(row, 0).text() != "" and self.tableWidget_3.item(row, 1).text() == "":
+                if self.tableWidget_3.item(row, 3).text() == "" and self.tableWidget_3.item(row, 4).text() != "":
+                    self.tableWidget_3.item(row, 3).setText(self.tableWidget_3.item(row, 4).text())
+                    self.tableWidget_3.item(row, 4).setText("")
 
-            trRule1 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "h")
-            trRule2 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "h")
-            trRule3 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "v")
-            trRule4 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "v")
+                if self.tableWidget_3.item(row, 3).text() != "" and self.tableWidget_3.item(row, 4).text() == "":
+                    tLabel1 = self.tableWidget_3.item(row, 0)
+                    tFinal1 = self.tableWidget_3.item(row, 3)
 
-            self.system.addTransitionRule(trRule1)
-            self.system.addTransitionRule(trRule2)
-            self.system.addTransitionRule(trRule3)
-            self.system.addTransitionRule(trRule4)
+                    tLab1 = tLabel1.text()
+                    tFin1 = tFinal1.text()
+                    
+                    states_used.append(tFin1)
+
+                    trRule = SingleTransitionRule(tLab1, tFin1)
+                    self.system.addSingleTransitionRule(trRule)
+            else:
+                tLabel1 = self.tableWidget_3.item(row, 0)
+                tLabel2 = self.tableWidget_3.item(row, 1)
+                tFinal1 = self.tableWidget_3.item(row, 3)
+                tFinal2 = self.tableWidget_3.item(row, 4)
+
+                tLab1 = tLabel1.text()
+                tLab2 = tLabel2.text()
+                tFin1 = tFinal1.text()
+                tFin2 = tFinal2.text()
+
+                states_used.append(tFin1)
+                states_used.append(tFin2)
+
+                trRule1 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "h")
+                trRule2 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "h")
+                trRule3 = TransitionRule(tLab1, tLab2, tFin1, tFin2, "v")
+                trRule4 = TransitionRule(tLab2, tLab1, tFin2, tFin1, "v")
+
+                self.system.addTransitionRule(trRule1)
+                self.system.addTransitionRule(trRule2)
+                self.system.addTransitionRule(trRule3)
+                self.system.addTransitionRule(trRule4)
 
         # Check here to see if states used in transitions exist
         states_not_used = self.StatesUsed_Exist(available_states, states_used)
@@ -2380,18 +2426,20 @@ class Move(QWidget):
 
 
         elif self.move["type"] == "t":
-            if self.move["state1Final"] != None and self.move["state2Final"] != None:
-                # Add Transition Direction
-                if self.move["dir"] == "v":
-                    moveText = "V "
-                else:
-                    moveText = "H "
-                moveText += "Transition\n" + self.move["state1"].returnLabel() + ", " + self.move["state2"].returnLabel(
-                ) + " to " + self.move["state1Final"].returnLabel() + ", " + self.move["state2Final"].returnLabel()
 
-
+            if self.move["dir"] == "s":
+                moveText = "Single Transition\n" + self.move["state1"].returnLabel() + " to " + self.move["state1Final"].returnLabel()
             else:
-                moveText = "Error:\n state doesn't exist"
+                if self.move["state1Final"] != None and self.move["state2Final"] != None:
+                    # Add Transition Direction
+                    if self.move["dir"] == "v":
+                        moveText = "V "
+                    else:
+                        moveText = "H "
+                    moveText += "Transition\n" + self.move["state1"].returnLabel() + ", " + self.move["state2"].returnLabel(
+                    ) + " to " + self.move["state1Final"].returnLabel() + ", " + self.move["state2Final"].returnLabel()
+                else:
+                    moveText = "Error:\n state doesn't exist"
 
         pen = QApplication.palette().text().color()
         qp.setPen(pen)
